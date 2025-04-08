@@ -3,24 +3,51 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
 
-public class ResourceManager : MonoBehaviour
+public class ResourceManager : SingleTon<ResourceManager>
 {
-    //public Dictionary<string, BaseUI> UIList = new();
+    public Dictionary<string, BaseUI> UIList = new();
+    public Dictionary<string, AudioClip> BgmList = new();
+    public Dictionary<string, AudioClip> SfxList = new();
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+    public T LoadUI<T>(string name) where T : BaseUI
+    {
+        if (UIList.TryGetValue(name, out var cacheUi))
+        {
+            return cacheUi as T;
+        }
 
-    //public T LoadUI<T>() where T : BaseUI
-    //{
-    //    if (UIList.ContainsKey(typeof(T).Name))
-    //    {
-    //        return UIList[typeof(T).Name] as T;
-    //    }
+        var ui = Resources.Load<BaseUI>($"UI/{name}") as T;
+        if(ui == null)
+        {
+            Debug.Log("UI not found");
+            return null;
+        }
+        UIList[name] = ui;
+        return ui;
+    }
 
-    //    var ui = Resources.Load<BaseUI>($"UI/{typeof(T).Name}") as T;
-    //    UIList.Add(ui.name, ui);
-    //    return ui;
-    //}
+    public void LoadAudio()
+    {
+        var bgms = Resources.LoadAll<AudioClip>("Sounds/BGM");
+        foreach(var clip in bgms)
+        {
+            if (!BgmList.ContainsKey(clip.name))
+            {
+                BgmList[clip.name] = clip;
+            }
+        }
 
-    //public void Clear()
-    //{
-    //    UIList.Clear();
-    //}
+        var sfxs = Resources.LoadAll<AudioClip>("Sounds/SFX");
+        foreach(var clip in sfxs)
+        {
+            if (!SfxList.ContainsKey(clip.name))
+            {
+                SfxList[clip.name] = clip;
+            }
+        }
+    }
+
 }
