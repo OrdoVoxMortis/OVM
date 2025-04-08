@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
     //    }
     //}
 
-    //public void RemoveAllUI()
+    //public void ClearUI()
     //{
     //    foreach(BaseUI ui in ResourceManager.instance.UIList)
     //    {
@@ -32,8 +32,4 @@ public class UIManager : MonoBehaviour
     //    activeUIs.Clear();
     //}
 
-    //public void Clear()
-    //{
-    //    RemoveAllUI();
-    //}
 }

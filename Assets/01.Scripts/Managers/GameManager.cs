@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     
     //public void LoadScene(string sceneName)
     //{
-    //    //UIManager.Instance.Clear();
+    //    //UIManager.Instance.ClearUI();
     //    SceneManager.LoadScene(sceneName);
     //}
 }
