@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class ResourceManager : SingleTon<ResourceManager>
 {
     public Dictionary<string, BaseUI> UIList = new();
     public Dictionary<string, AudioClip> BgmList = new();
     public Dictionary<string, AudioClip> SfxList = new();
+    public AudioMixer audioMixer;
     protected override void Awake()
     {
         base.Awake();
@@ -48,6 +50,9 @@ public class ResourceManager : SingleTon<ResourceManager>
                 SfxList[clip.name] = clip;
             }
         }
+
+        audioMixer = Resources.Load<AudioMixer>("Sounds/AudioMixer");
+
     }
 
 }

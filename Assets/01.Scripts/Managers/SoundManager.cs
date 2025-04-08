@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UIElements;
 
 public class SoundManager : SingleTon<SoundManager>
@@ -13,6 +14,12 @@ public class SoundManager : SingleTon<SoundManager>
 
     private int maxPoolSize = 10;
     private Transform sfxPlayerGroup;
+
+    [SerializeField] private AudioMixer audioMixer;
+    string Master_Mixer = "Master";
+    string Bgm_Mixer = "BGM";
+    string Sfx_Mixer = "SFX";
+
     protected override void Awake()
     {
         base.Awake();
@@ -25,8 +32,15 @@ public class SoundManager : SingleTon<SoundManager>
         {
             sfxDict[clip.name] = clip;
         }
-    }
 
+        audioMixer = ResourceManager.Instance.audioMixer;
+
+        InitPlayers();
+    }
+    private void Start()
+    {
+        LoadVolume();
+    }
     void InitPlayers()
     {
         foreach(Transform child in transform)
@@ -39,6 +53,7 @@ public class SoundManager : SingleTon<SoundManager>
         bgmPlayer = bgmObject.AddComponent<AudioSource>();
         bgmPlayer.playOnAwake = false;
         bgmPlayer.loop = true;
+        bgmPlayer.outputAudioMixerGroup = audioMixer.FindMatchingGroups(Bgm_Mixer)[0];
 
         sfxPlayerGroup = new GameObject("SfxPlayerGroup").transform;
         sfxPlayerGroup.SetParent(transform);
@@ -48,6 +63,7 @@ public class SoundManager : SingleTon<SoundManager>
             GameObject sfxObject = new GameObject("SFXPlayer");
             sfxObject.transform.SetParent(sfxPlayerGroup);
             AudioSource sfxPlayer = sfxObject.AddComponent<AudioSource>();
+            sfxPlayer.outputAudioMixerGroup = audioMixer.FindMatchingGroups(Sfx_Mixer)[0];
             sfxPlayer.playOnAwake = false;
             sfxPlayer.loop = false;
 
@@ -119,5 +135,53 @@ public class SoundManager : SingleTon<SoundManager>
     {
         StopAllSfx();
         StopBGM();
+    }
+
+    public float GetMasterVolume()
+    {
+        audioMixer.GetFloat(Master_Mixer, out float volume);
+        return Mathf.Pow(10, volume / 20);
+    }
+
+    public void SetMasterVolume(float volume)
+    {
+        volume = Mathf.Max(0, 0.00001f);
+        audioMixer.SetFloat(Master_Mixer, Mathf.Log10(volume) * 20);
+
+        PlayerPrefs.SetFloat("MasterVolume", GetMasterVolume());
+    }
+
+    public float GetBGMVolume()
+    {
+        audioMixer.GetFloat(Bgm_Mixer, out float volume);
+        return Mathf.Pow(10, volume / 20);
+    }
+
+    public void SetBGMVolume(float volume)
+    {
+        volume = Mathf.Max(0, 0.00001f);
+        audioMixer.SetFloat(Bgm_Mixer, Mathf.Log10(volume) * 20);
+
+        PlayerPrefs.SetFloat("BgmVolume", GetBGMVolume());
+    }
+    public float GetSFXVolume()
+    {
+        audioMixer.GetFloat(Sfx_Mixer, out float volume);
+        return Mathf.Pow(10, volume / 20);
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        volume = Mathf.Max(0, 0.00001f);
+        audioMixer.SetFloat(Sfx_Mixer, Mathf.Log10(volume) * 20);
+
+        PlayerPrefs.SetFloat("SfxVolume", GetSFXVolume());
+    }
+
+    public void LoadVolume()
+    {
+        SetMasterVolume(PlayerPrefs.GetFloat("MasterVolume", 1f));
+        SetMasterVolume(PlayerPrefs.GetFloat("BgmVolume", 1f));
+        SetMasterVolume(PlayerPrefs.GetFloat("SfxVolume", 1f));
     }
 }
