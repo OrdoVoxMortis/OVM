@@ -84,9 +84,9 @@ public class PlayerBaseState : IState
     {
         Vector3 movementDirection = GetMovementDirection();
 
+        Rotate(movementDirection);
         Move(movementDirection);
 
-        Rotate(movementDirection);
     }
 
     private Vector3 GetMovementDirection()
@@ -125,23 +125,40 @@ public class PlayerBaseState : IState
 
             if (Mathf.Approximately(stateMachine.MovementInput.x, 0f) && stateMachine.MovementInput.y > 0.0f)
             {
-                // 즉시 카메라 기준 방향으로 회전
-                playerTransform.rotation = targetRotation;
+                if (stateMachine.Player.CameraLookPoint != null)
+                {
+                    Vector3 desiredDir = playerTransform.position - stateMachine.MainCamTransform.position;
+                    desiredDir.y = 0f;  // 평면상의 회전만 계산
+
+                    if (desiredDir != Vector3.zero)
+                    {
+                        targetRotation = Quaternion.LookRotation(desiredDir.normalized);
+                        playerTransform.rotation = Quaternion.RotateTowards(
+                        playerTransform.rotation,
+                        targetRotation,
+                        stateMachine.MaxRotationSpeed * Time.deltaTime);
+                    }
+                    
+                }
+                else
+                {
+                    targetRotation = Quaternion.LookRotation(direction);
+                    playerTransform.rotation = Quaternion.RotateTowards(
+                    playerTransform.rotation,
+                    targetRotation,
+                    stateMachine.MaxRotationSpeed * Time.deltaTime);
+                }
             }
             else
             {
-                playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
+                playerTransform.rotation = Quaternion.Slerp(
+                    playerTransform.rotation, 
+                    targetRotation, 
+                    stateMachine.RotationDamping * Time.deltaTime);
 
             }
 
         }
     }
-
-    //private void SynchronizeCameraFollowTarget()
-    //{
-    //    Vector3 desiredPosition = stateMachine.Player.transform.position;
-
-        
-    //}
 
 }
