@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QTE : MonoBehaviour
 {
     public float outerLineSize;
     public RectTransform outerLine;
+    public Image innerImage;
+
+    public Gradient gradient;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +35,7 @@ public class QTE : MonoBehaviour
         }
 
         outerLine.localScale = new Vector2(outerLineSize, outerLineSize);
+        innerImage.color = gradient.Evaluate(1 - Mathf.Abs(1 - outerLineSize));
     }
 
     public void CheckJudge()

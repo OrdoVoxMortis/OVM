@@ -38,7 +38,7 @@ public class QTEManager : MonoBehaviour
 
         qteList = new List<QTE>();
         StartCoroutine(MakeQTE());
-        InvokeRepeating(nameof(PlayBeep), 0f, 60f / bpm);
+        //InvokeRepeating(nameof(PlayBeep), 0f, 60f / bpm);
     }
 
     // Update is called once per frame

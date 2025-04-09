@@ -6,9 +6,20 @@ using UnityEngine;
 public class Ghost : MonoBehaviour
 {
     Transform target;
+    Renderer _renderer;
+
+    bool isChecked = false;
+
+    private void Awake()
+    {
+        _renderer = GetComponent<Renderer>();
+    }
 
     private void Update()
     {
+        if (isChecked)
+            return;
+
         if (target == null)
             return;
 
@@ -16,6 +27,10 @@ public class Ghost : MonoBehaviour
         {
             CheckJudge();
         }
+
+        Color color = _renderer.material.color;
+        color.a = Mathf.Clamp(1 - (transform.position - target.position).magnitude / 3f, 0.5f, 1f);
+        _renderer.material.color = color;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -47,7 +62,7 @@ public class Ghost : MonoBehaviour
         {
             Debug.Log("실패!");
         }
-
-        Destroy(gameObject);
+        isChecked = true;
+        //Destroy(gameObject);
     }
 }
