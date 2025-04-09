@@ -26,10 +26,12 @@ public class SoundManager : SingleTon<SoundManager>
         ResourceManager.Instance.LoadAudio();
         foreach (AudioClip clip in ResourceManager.Instance.BgmList.Values)
         {
+            Debug.Log("음악추가됨!");
             bgmDict[clip.name] = clip;
         }
         foreach (AudioClip clip in ResourceManager.Instance.SfxList.Values)
         {
+            Debug.Log("효과음추가됨!");
             sfxDict[clip.name] = clip;
         }
 
