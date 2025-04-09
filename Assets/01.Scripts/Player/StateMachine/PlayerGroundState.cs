@@ -49,8 +49,12 @@ public class PlayerGroundState : PlayerBaseState
 
     protected override void OnJumpStarted(InputAction.CallbackContext context)
     {
-        base.OnJumpStarted(context);
-        stateMachine.ChangeState(stateMachine.JumpState); 
+        if (stateMachine.Player.Controller.isGrounded)
+        {
+
+            base.OnJumpStarted(context);
+            stateMachine.ChangeState(stateMachine.JumpState);
+        }
     }
 
 }

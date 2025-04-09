@@ -32,6 +32,8 @@ public class PlayerBaseState : IState
         input.playerActions.Movement.canceled += OnMovementCanceled;
         input.playerActions.Run.started += OnRunStarted;
         input.playerActions.Run.canceled += OnRunCanceled;
+        input.playerActions.Sit.started += OnSitStarted;
+        input.playerActions.Sit.canceled += OnSitCanceled;
         input.playerActions.Jump.started += OnJumpStarted;
     }
 
@@ -41,6 +43,8 @@ public class PlayerBaseState : IState
         input.playerActions.Movement.canceled -= OnMovementCanceled;
         input.playerActions.Run.started -= OnRunStarted;
         input.playerActions.Run.canceled -= OnRunCanceled;
+        input.playerActions.Sit.started -= OnSitStarted;
+        input.playerActions.Sit.canceled -= OnSitCanceled;
         input.playerActions.Jump.started -= OnJumpStarted;
     }
 
@@ -60,6 +64,16 @@ public class PlayerBaseState : IState
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
+    {
+
+    }
+
+    protected virtual void OnSitStarted(InputAction.CallbackContext context)
+    {
+        
+    }
+
+    protected virtual void OnSitCanceled(InputAction.CallbackContext context)
     {
 
     }
