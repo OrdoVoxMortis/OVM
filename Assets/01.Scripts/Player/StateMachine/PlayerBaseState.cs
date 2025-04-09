@@ -31,6 +31,8 @@ public class PlayerBaseState : IState
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.canceled += OnMovementCanceled;
         input.playerActions.Run.started += OnRunStarted;
+        input.playerActions.Run.canceled += OnRunCanceled;
+        input.playerActions.Jump.started += OnJumpStarted;
     }
 
     protected virtual void RemoveInputActionCallbacks()
@@ -38,6 +40,8 @@ public class PlayerBaseState : IState
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.canceled -= OnMovementCanceled;
         input.playerActions.Run.started -= OnRunStarted;
+        input.playerActions.Run.canceled -= OnRunCanceled;
+        input.playerActions.Jump.started -= OnJumpStarted;
     }
 
     public virtual void HandleInput()
@@ -61,6 +65,21 @@ public class PlayerBaseState : IState
     }
 
     protected virtual void OnRunStarted(InputAction.CallbackContext context)
+    {
+        stateMachine.IsRunKeyHeld = true;
+    }
+
+    protected virtual void OnRunCanceled(InputAction.CallbackContext cntext)
+    {
+        stateMachine.IsRunKeyHeld = false;
+        // 만약 현재 상태가 RunState라면, 움직임 값에 따라 WalkState 또는 IdleState로 전이
+        if (stateMachine.MovementInput != Vector2.zero)
+            stateMachine.ChangeState(stateMachine.WalkState);
+        else
+            stateMachine.ChangeState(stateMachine.IdleState);
+    }
+
+    protected virtual void OnJumpStarted(InputAction.CallbackContext context)
     {
 
     }
@@ -107,7 +126,7 @@ public class PlayerBaseState : IState
     private void Move(Vector3 direction)
     {
         float movementSpeed = GetMovementSpeed();
-        stateMachine.Player.Controller.Move((direction * movementSpeed) * Time.deltaTime);
+        stateMachine.Player.Controller.Move(((direction * movementSpeed) + stateMachine.Player.ForceReceiver.Movement) * Time.deltaTime);
     }
 
     private float GetMovementSpeed()
@@ -122,41 +141,7 @@ public class PlayerBaseState : IState
         {
             Transform playerTransform = stateMachine.Player.transform;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-
-            if (Mathf.Approximately(stateMachine.MovementInput.x, 0f) && stateMachine.MovementInput.y > 0.0f)
-            {
-                if (stateMachine.Player.CameraLookPoint != null)
-                {
-                    Vector3 desiredDir = playerTransform.position - stateMachine.MainCamTransform.position;
-                    desiredDir.y = 0f;  // 평면상의 회전만 계산
-
-                    if (desiredDir != Vector3.zero)
-                    {
-                        targetRotation = Quaternion.LookRotation(desiredDir.normalized);
-                        playerTransform.rotation = Quaternion.RotateTowards(
-                        playerTransform.rotation,
-                        targetRotation,
-                        stateMachine.MaxRotationSpeed * Time.deltaTime);
-                    }
-                    
-                }
-                else
-                {
-                    targetRotation = Quaternion.LookRotation(direction);
-                    playerTransform.rotation = Quaternion.RotateTowards(
-                    playerTransform.rotation,
-                    targetRotation,
-                    stateMachine.MaxRotationSpeed * Time.deltaTime);
-                }
-            }
-            else
-            {
-                playerTransform.rotation = Quaternion.Slerp(
-                    playerTransform.rotation, 
-                    targetRotation, 
-                    stateMachine.RotationDamping * Time.deltaTime);
-
-            }
+            playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
 
         }
     }
