@@ -64,27 +64,27 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Inventory"",
+                    ""name"": ""Sit"",
                     ""type"": ""Button"",
-                    ""id"": ""5a7aeaf3-86a4-48ad-9ce6-92304b5acbf6"",
+                    ""id"": ""2628fed5-caa8-41fb-99da-4c3c5e48ef93"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""Interection"",
                     ""type"": ""Button"",
-                    ""id"": ""e08fdcc9-fe63-4edf-8c69-1ffbde9e146d"",
+                    ""id"": ""0f242b9f-0c2e-48bf-95e0-b2ff15750e03"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Interaction"",
+                    ""name"": ""SimulationModeToggle"",
                     ""type"": ""Button"",
-                    ""id"": ""52c08be4-27eb-4e7a-8b6d-17a6368243ca"",
+                    ""id"": ""ae640096-4539-43b2-9c82-e812616b8e89"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -160,28 +160,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9f3efba7-d4aa-4add-844b-8e737b87805d"",
-                    ""path"": ""<Keyboard>/tab"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Inventory"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b05439f6-9485-40d9-8067-e84c95d5620d"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""145a1036-4114-4e93-a841-0cca7e61f088"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
@@ -193,23 +171,73 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""73eca231-8319-4cd4-9ef9-77fd1fff098b"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interaction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""623835f1-6a33-4aa3-a638-169dc620e334"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a4df08a-de63-461e-a645-2dd771ac6a56"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""73b7cefa-c12a-4e7c-ae8b-766399a4c9f5"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b773539c-7150-4ec4-95ba-df680b1fc6bc"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SimulationModeToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""RhythmMode"",
+            ""id"": ""d5eecc6d-9063-4eb4-9d70-fcc8fd1574e3"",
+            ""actions"": [
+                {
+                    ""name"": ""RhythmInput"",
+                    ""type"": ""Button"",
+                    ""id"": ""66c0fcaf-b53f-4aa8-823d-8a8b5f3f55b6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7a6f2c4c-1b3b-4ce9-b842-577b3e0206c6"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RhythmInput"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -224,9 +252,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
-        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
-        m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
+        m_Player_Sit = m_Player.FindAction("Sit", throwIfNotFound: true);
+        m_Player_Interection = m_Player.FindAction("Interection", throwIfNotFound: true);
+        m_Player_SimulationModeToggle = m_Player.FindAction("SimulationModeToggle", throwIfNotFound: true);
+        // RhythmMode
+        m_RhythmMode = asset.FindActionMap("RhythmMode", throwIfNotFound: true);
+        m_RhythmMode_RhythmInput = m_RhythmMode.FindAction("RhythmInput", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -292,9 +323,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Inventory;
-    private readonly InputAction m_Player_Attack;
-    private readonly InputAction m_Player_Interaction;
+    private readonly InputAction m_Player_Sit;
+    private readonly InputAction m_Player_Interection;
+    private readonly InputAction m_Player_SimulationModeToggle;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -303,9 +334,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
-        public InputAction @Attack => m_Wrapper.m_Player_Attack;
-        public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
+        public InputAction @Sit => m_Wrapper.m_Player_Sit;
+        public InputAction @Interection => m_Wrapper.m_Player_Interection;
+        public InputAction @SimulationModeToggle => m_Wrapper.m_Player_SimulationModeToggle;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -327,15 +358,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Inventory.started += instance.OnInventory;
-            @Inventory.performed += instance.OnInventory;
-            @Inventory.canceled += instance.OnInventory;
-            @Attack.started += instance.OnAttack;
-            @Attack.performed += instance.OnAttack;
-            @Attack.canceled += instance.OnAttack;
-            @Interaction.started += instance.OnInteraction;
-            @Interaction.performed += instance.OnInteraction;
-            @Interaction.canceled += instance.OnInteraction;
+            @Sit.started += instance.OnSit;
+            @Sit.performed += instance.OnSit;
+            @Sit.canceled += instance.OnSit;
+            @Interection.started += instance.OnInterection;
+            @Interection.performed += instance.OnInterection;
+            @Interection.canceled += instance.OnInterection;
+            @SimulationModeToggle.started += instance.OnSimulationModeToggle;
+            @SimulationModeToggle.performed += instance.OnSimulationModeToggle;
+            @SimulationModeToggle.canceled += instance.OnSimulationModeToggle;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -352,15 +383,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Inventory.started -= instance.OnInventory;
-            @Inventory.performed -= instance.OnInventory;
-            @Inventory.canceled -= instance.OnInventory;
-            @Attack.started -= instance.OnAttack;
-            @Attack.performed -= instance.OnAttack;
-            @Attack.canceled -= instance.OnAttack;
-            @Interaction.started -= instance.OnInteraction;
-            @Interaction.performed -= instance.OnInteraction;
-            @Interaction.canceled -= instance.OnInteraction;
+            @Sit.started -= instance.OnSit;
+            @Sit.performed -= instance.OnSit;
+            @Sit.canceled -= instance.OnSit;
+            @Interection.started -= instance.OnInterection;
+            @Interection.performed -= instance.OnInterection;
+            @Interection.canceled -= instance.OnInterection;
+            @SimulationModeToggle.started -= instance.OnSimulationModeToggle;
+            @SimulationModeToggle.performed -= instance.OnSimulationModeToggle;
+            @SimulationModeToggle.canceled -= instance.OnSimulationModeToggle;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -378,14 +409,64 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // RhythmMode
+    private readonly InputActionMap m_RhythmMode;
+    private List<IRhythmModeActions> m_RhythmModeActionsCallbackInterfaces = new List<IRhythmModeActions>();
+    private readonly InputAction m_RhythmMode_RhythmInput;
+    public struct RhythmModeActions
+    {
+        private @PlayerInputs m_Wrapper;
+        public RhythmModeActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @RhythmInput => m_Wrapper.m_RhythmMode_RhythmInput;
+        public InputActionMap Get() { return m_Wrapper.m_RhythmMode; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(RhythmModeActions set) { return set.Get(); }
+        public void AddCallbacks(IRhythmModeActions instance)
+        {
+            if (instance == null || m_Wrapper.m_RhythmModeActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_RhythmModeActionsCallbackInterfaces.Add(instance);
+            @RhythmInput.started += instance.OnRhythmInput;
+            @RhythmInput.performed += instance.OnRhythmInput;
+            @RhythmInput.canceled += instance.OnRhythmInput;
+        }
+
+        private void UnregisterCallbacks(IRhythmModeActions instance)
+        {
+            @RhythmInput.started -= instance.OnRhythmInput;
+            @RhythmInput.performed -= instance.OnRhythmInput;
+            @RhythmInput.canceled -= instance.OnRhythmInput;
+        }
+
+        public void RemoveCallbacks(IRhythmModeActions instance)
+        {
+            if (m_Wrapper.m_RhythmModeActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IRhythmModeActions instance)
+        {
+            foreach (var item in m_Wrapper.m_RhythmModeActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_RhythmModeActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public RhythmModeActions @RhythmMode => new RhythmModeActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnInventory(InputAction.CallbackContext context);
-        void OnAttack(InputAction.CallbackContext context);
-        void OnInteraction(InputAction.CallbackContext context);
+        void OnSit(InputAction.CallbackContext context);
+        void OnInterection(InputAction.CallbackContext context);
+        void OnSimulationModeToggle(InputAction.CallbackContext context);
+    }
+    public interface IRhythmModeActions
+    {
+        void OnRhythmInput(InputAction.CallbackContext context);
     }
 }

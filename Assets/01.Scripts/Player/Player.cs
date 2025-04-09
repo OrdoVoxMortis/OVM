@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class Player : MonoBehaviour
     public CharacterController Controller { get; private set; }
 
     private PlayerStateMachine stateMachine;
+    public CinemachineComposer composer;
 
 
     private void Awake()
@@ -23,6 +25,7 @@ public class Player : MonoBehaviour
         Input = GetComponent<PlayerController>();
         Controller = GetComponent<CharacterController>();
 
+        stateMachine = new PlayerStateMachine(this);
        
     }
 
@@ -30,7 +33,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        stateMachine = new PlayerStateMachine(this);
         stateMachine.ChangeState(stateMachine.IdleState);
     }
 

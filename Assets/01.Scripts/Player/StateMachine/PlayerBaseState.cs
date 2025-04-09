@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -121,8 +122,26 @@ public class PlayerBaseState : IState
         {
             Transform playerTransform = stateMachine.Player.transform;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-            playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
+
+            if (Mathf.Approximately(stateMachine.MovementInput.x, 0f) && stateMachine.MovementInput.y > 0.0f)
+            {
+                // 즉시 카메라 기준 방향으로 회전
+                playerTransform.rotation = targetRotation;
+            }
+            else
+            {
+                playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
+
+            }
+
         }
     }
+
+    //private void SynchronizeCameraFollowTarget()
+    //{
+    //    Vector3 desiredPosition = stateMachine.Player.transform.position;
+
+        
+    //}
 
 }

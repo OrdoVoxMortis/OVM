@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,11 +19,25 @@ public class PlayerStateMachine : StateMachine
     public PlayerWalkState WalkState { get; private set; }
     public PlayerRunState RunState { get; private set; }
 
+    // 카메라
+    public Transform CameraLookPoint;
+    public Vector3 CameraFollowOffset = new Vector3(0, 1.6f, 0);
+    public CinemachineFreeLook FreeLookCamera;
+
     public PlayerStateMachine(Player player)
     {
         this.Player = player;
 
         MainCamTransform = Camera.main.transform;
+        
+        if (CameraLookPoint == null)
+        {
+            CameraLookPoint = Player.transform.Find("CameraLookPoint");
+        }
+
+        
+
+        
 
         IdleState = new PlayerIdleState(this);
         WalkState = new PlayerWalkState(this);

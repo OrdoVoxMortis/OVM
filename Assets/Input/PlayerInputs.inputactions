@@ -42,27 +42,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Inventory",
+                    "name": "Sit",
                     "type": "Button",
-                    "id": "5a7aeaf3-86a4-48ad-9ce6-92304b5acbf6",
+                    "id": "2628fed5-caa8-41fb-99da-4c3c5e48ef93",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
+                    "name": "Interection",
                     "type": "Button",
-                    "id": "e08fdcc9-fe63-4edf-8c69-1ffbde9e146d",
+                    "id": "0f242b9f-0c2e-48bf-95e0-b2ff15750e03",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Interaction",
+                    "name": "SimulationModeToggle",
                     "type": "Button",
-                    "id": "52c08be4-27eb-4e7a-8b6d-17a6368243ca",
+                    "id": "ae640096-4539-43b2-9c82-e812616b8e89",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -138,28 +138,6 @@
                 },
                 {
                     "name": "",
-                    "id": "9f3efba7-d4aa-4add-844b-8e737b87805d",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Inventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b05439f6-9485-40d9-8067-e84c95d5620d",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "145a1036-4114-4e93-a841-0cca7e61f088",
                     "path": "<Mouse>/delta",
                     "interactions": "",
@@ -171,23 +149,73 @@
                 },
                 {
                     "name": "",
-                    "id": "73eca231-8319-4cd4-9ef9-77fd1fff098b",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Interaction",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "623835f1-6a33-4aa3-a638-169dc620e334",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7a4df08a-de63-461e-a645-2dd771ac6a56",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "73b7cefa-c12a-4e7c-ae8b-766399a4c9f5",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b773539c-7150-4ec4-95ba-df680b1fc6bc",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SimulationModeToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "RhythmMode",
+            "id": "d5eecc6d-9063-4eb4-9d70-fcc8fd1574e3",
+            "actions": [
+                {
+                    "name": "RhythmInput",
+                    "type": "Button",
+                    "id": "66c0fcaf-b53f-4aa8-823d-8a8b5f3f55b6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7a6f2c4c-1b3b-4ce9-b842-577b3e0206c6",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RhythmInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
