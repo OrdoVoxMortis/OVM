@@ -4,8 +4,11 @@ public class UI_Music : BaseUI
 {
     [SerializeField] private Button backBtn;
     [SerializeField] private Music_Button musicBtn;
-    [SerializeField] private Sprite musicImage;
     [SerializeField] private Transform buttonParent;
+    [SerializeField] private Music_Image musicImage;
+    [SerializeField] private Transform imageParent;
+
+    private Music_Image currentImage;
     protected override void Awake()
     {
         base.Awake();
@@ -31,8 +34,9 @@ public class UI_Music : BaseUI
         {
             string bgmName = bgmEntry.Key;
 
+           
             Music_Button newButton = Instantiate(musicBtn, buttonParent);
-            newButton.SetMusicButton(bgmName, musicImage, ( ) => OnClickMusicButton(bgmName));
+            newButton.SetMusicButton(bgmName,( ) => OnClickMusicButton(bgmName));
         }
     }
 
@@ -41,10 +45,21 @@ public class UI_Music : BaseUI
         SoundManager.Instance.PlayBGM(bgmName);
         Debug.Log($"Playing BGM: {bgmName}");
 
-        Sprite newSprite = Resources.Load<Sprite>("MusicImages/" + bgmName);
-        if (newSprite != null && musicImage != null)
+        if(currentImage!=null)
+            currentImage.gameObject.SetActive(false);
+
+        currentImage = Instantiate(musicImage, imageParent);
+
+        string imagePath = $"MusicImages/{bgmName}";
+        Sprite musicSprite = Resources.Load<Sprite>(imagePath);
+
+        if (musicSprite == null)
         {
-            musicImage = newSprite;
+            Debug.LogWarning($"[Warning] Sprite not found for {bgmName} at {imagePath}");
+        }
+        else
+        {
+            currentImage.SetImage(musicSprite);
         }
     }
 
