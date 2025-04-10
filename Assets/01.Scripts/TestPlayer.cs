@@ -6,6 +6,6 @@ public class TestPlayer : MonoBehaviour
 {
     void Update()
     {
-        transform.position = transform.position + Vector3.right * Time.deltaTime;
+        transform.position = transform.position + Vector3.right * Time.deltaTime * 10f;
     }
 }

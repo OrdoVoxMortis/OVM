@@ -13,6 +13,8 @@ public class QTE : MonoBehaviour
 
     public GameObject particle;
 
+    private bool isChecked = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,9 @@ public class QTE : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isChecked)
+            return;
+        
         outerLineSize -= Time.deltaTime;
 
         if(outerLineSize <= 0.6f)
@@ -50,12 +55,13 @@ public class QTE : MonoBehaviour
         {
             Debug.Log("이런!");
         }
+        isChecked = true;
 
         particle.SetActive(true);
         innerImage.gameObject.SetActive(false);
         outerLine.gameObject.SetActive(false);
 
-        Invoke("DestroyObject", 0.4f);
+        Invoke("DestroyObject", 0.5f);
         
     }
 

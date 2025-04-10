@@ -7,7 +7,7 @@ public class QTEManager : MonoBehaviour
     public static QTEManager Instance;
 
     public float bpm = 120.0f; //120 bpm
-    public List<int> beats;    //입력 받을 패턴 리스트
+    public List<float> beats;    //입력 받을 패턴 리스트
     //beat로 들어오는 값 1 = 4분음표
 
     public List<QTE> qteList; //처리할 QTE
@@ -45,7 +45,7 @@ public class QTEManager : MonoBehaviour
         }
     }
 
-    public void SetBeatList(List<int> beats, float bpm)
+    public void SetBeatList(List<float> beats, float bpm)
     {
         this.beats = beats;
         this.bpm = bpm;
@@ -55,21 +55,17 @@ public class QTEManager : MonoBehaviour
 
     IEnumerator MakeQTE()
     {
-        int i = 0;
-        while(true)
+        for (int i = 0; i < beats.Count; i++)
         {
-            if (beats == null || beats.Count == i) break;
-
             QTE qte = Instantiate(qtePrefabs, canvas.transform).GetComponent<QTE>();
             qteList.Add(qte);
             float nextBeat = beats[i];
-            if(nextBeat <= 0)
+            if (nextBeat <= 0)
             {
                 nextBeat = 1;
             }
-            i++;
 
-            yield return new WaitForSeconds((60f/bpm) / nextBeat);
+            yield return new WaitForSeconds((60f / bpm) / nextBeat);
         }
     }
 
