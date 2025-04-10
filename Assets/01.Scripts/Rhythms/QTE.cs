@@ -11,6 +11,8 @@ public class QTE : MonoBehaviour
 
     public Gradient gradient;
 
+    public GameObject particle;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +51,16 @@ public class QTE : MonoBehaviour
             Debug.Log("이런!");
         }
 
+        particle.SetActive(true);
+        innerImage.gameObject.SetActive(false);
+        outerLine.gameObject.SetActive(false);
+
+        Invoke("DestroyObject", 0.4f);
+        
+    }
+
+    private void DestroyObject()
+    {
         Destroy(gameObject);
     }
 }
