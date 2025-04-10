@@ -24,8 +24,7 @@ public class UI_Music : BaseUI
     private void OnClickBack()
     {
         gameObject.SetActive(false);
-        SoundManager.Instance.StopBGM();
-        
+        SoundManager.Instance.StopBGM();  
     }
 
     private void CreateMusicButtons()
