@@ -13,7 +13,7 @@ public class UIManager : SingleTon<UIManager>
     public T ShowUI<T>(string name) where T : BaseUI
     {
         var ui = ResourceManager.Instance.LoadUI<T>(name);
-        if (ui != null) return null;
+        if (ui == null) return null;
 
         var inst = Instantiate(ui);
         activeUIs[typeof(T).Name] = inst;
