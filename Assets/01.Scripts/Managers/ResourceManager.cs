@@ -38,6 +38,7 @@ public class ResourceManager : SingleTon<ResourceManager>
         {
             if (!BgmList.ContainsKey(clip.name))
             {
+              
                 BgmList[clip.name] = clip;
             }
         }
