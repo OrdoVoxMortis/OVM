@@ -1,76 +1,80 @@
-
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using GoogleSheet.Type;
 
-public class CombineRule
+namespace Hamster.ZG.Type
 {
-    public CombineType RuleType;
-    public BlockType AllowedType; // 유형 허용
-    public List<int> AllowedBlocksIds = new(); // 특정 블럭 허용
-}
-
-[Type(typeof(CombineRule))]
-public class CombineRuleType : IType
-{
-    public object DefaultValue => null;
-    /// <summary>
-    /// value는 스프레드 시트에 적혀있는 값
-    /// </summary> 
-
-    public object Read(string value)
+    public class CombineRule
     {
-        string[] split = value.Split(',');
-        List<int> idList = new List<int>();
-        for (int i = 2; i < split.Length; i++)
+        public CombineType RuleType;
+        public BlockType AllowedType; // 유형 허용
+        public List<int> AllowedBlocksIds = new(); // 특정 블럭 허용
+    }
+
+    [Type(typeof(CombineRule), new string[] {"CombineRule"})]
+    public class CombineRuleType : IType
+    {
+        public object DefaultValue => null;
+        /// <summary>
+        /// value는 스프레드 시트에 적혀있는 값
+        /// </summary> 
+
+        public object Read(string value)
         {
-            if (int.TryParse(split[i].Trim(), out int id))
+            string[] split = value.Split(',');
+            List<int> idList = new List<int>();
+            for (int i = 2; i < split.Length; i++)
             {
-                idList.Add(id);
+                split[i].Replace("[", string.Empty);
+                split[i].Replace("]", string.Empty);
+
+                if (int.TryParse(split[i].Trim(), out int id))
+                {
+                    idList.Add(id);
+                }
+                else Debug.Log($"{i} empty");
             }
-            else Debug.Log("error");
+
+            return new CombineRule()
+            {
+                RuleType = (CombineType)Enum.Parse(typeof(CombineType), split[0]),
+                AllowedType = (BlockType)Enum.Parse(typeof(BlockType), split[1]),
+                AllowedBlocksIds = idList
+
+            };
         }
 
-        return new CombineRule()
+        /// <summary>
+        /// value write to google sheet
+        /// </summary> 
+        public string Write(object value)
         {
-            RuleType = (CombineType)Enum.Parse(typeof(CombineType), split[0]),
-            AllowedType = (BlockType)Enum.Parse(typeof(BlockType), split[1]),
-            AllowedBlocksIds = idList
-            
-        };
+            return null;
+        }
     }
 
-    /// <summary>
-    /// value write to google sheet
-    /// </summary> 
-    public string Write(object value)
+    [Type(typeof(bool), new string[] { "bool", "Bool" })]
+    public class BoolType : IType
     {
-        return null;
-    }
-}
+        public object DefaultValue => false;
 
-[Type(typeof(bool), new string[] { "bool", "Bool" })]
-public class BoolType : IType
-{
-    public object DefaultValue => false;
-
-    public object Read(string value)
-    {
-        return value.Trim().ToLower() switch
+        public object Read(string value)
         {
-            "true" => true,
-            "false" => false,
-            "1" => true,
-            "0" => false,
-            _ => throw new FormatException($"BoolType: Invalid bool value '{value}'")
-        };
-    }
+            return value.Trim().ToLower() switch
+            {
+                "true" => true,
+                "false" => false,
+                "1" => true,
+                "0" => false,
+                _ => throw new FormatException($"BoolType: Invalid bool value '{value}'")
+            };
+        }
 
-    public string Write(object value)
-    {
-        return null;
+        public string Write(object value)
+        {
+            return null;
+        }
     }
 }
 
