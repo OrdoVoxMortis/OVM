@@ -183,7 +183,7 @@ public class SoundManager : SingleTon<SoundManager>
     public void LoadVolume()
     {
         SetMasterVolume(PlayerPrefs.GetFloat("MasterVolume", 1f));
-        SetMasterVolume(PlayerPrefs.GetFloat("BgmVolume", 1f));
-        SetMasterVolume(PlayerPrefs.GetFloat("SfxVolume", 1f));
+        SetBGMVolume(PlayerPrefs.GetFloat("BgmVolume", 1f));
+        SetSFXVolume(PlayerPrefs.GetFloat("SfxVolume", 1f));
     }
 }
