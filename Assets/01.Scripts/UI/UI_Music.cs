@@ -4,7 +4,7 @@ public class UI_Music : BaseUI
 {
     [SerializeField] private Button backBtn;
     [SerializeField] private Music_Button musicBtn;
-    [SerializeField] private Image musicImage;
+    [SerializeField] private Sprite musicImage;
     [SerializeField] private Transform buttonParent;
     protected override void Awake()
     {
@@ -32,7 +32,7 @@ public class UI_Music : BaseUI
             string bgmName = bgmEntry.Key;
 
             Music_Button newButton = Instantiate(musicBtn, buttonParent);
-            newButton.SetMusicButton(bgmName, ( ) => OnClickMusicButton(bgmName));
+            newButton.SetMusicButton(bgmName, musicImage, ( ) => OnClickMusicButton(bgmName));
         }
     }
 
@@ -40,6 +40,12 @@ public class UI_Music : BaseUI
     {
         SoundManager.Instance.PlayBGM(bgmName);
         Debug.Log($"Playing BGM: {bgmName}");
+
+        Sprite newSprite = Resources.Load<Sprite>("MusicImages/" + bgmName);
+        if (newSprite != null && musicImage != null)
+        {
+            musicImage = newSprite;
+        }
     }
 
 }
