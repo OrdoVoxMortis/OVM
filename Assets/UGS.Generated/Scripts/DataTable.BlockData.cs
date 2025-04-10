@@ -17,39 +17,39 @@ using UnityEngine;
 namespace DataTable
 {
     [GoogleSheet.Attribute.TableStruct]
-    public partial class NPC : ITable
+    public partial class BlockData : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<NPC> loadedList, Dictionary<int, NPC> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<BlockData> loadedList, Dictionary<int, BlockData> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1bYLkGCQlm6YZeaVqFQ97hwpNjzjzLIdVvqCNYFtR3ug"; // it is file id
-        static string sheetID = "0"; // it is sheet id
+        static string sheetID = "1617348015"; // it is sheet id
         static UnityFileReader reader = new UnityFileReader();
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<int, NPC> NPCMap = new Dictionary<int, NPC>();  
-        public static List<NPC> NPCList = new List<NPC>();   
+        public static Dictionary<int, BlockData> BlockDataMap = new Dictionary<int, BlockData>();  
+        public static List<BlockData> BlockDataList = new List<BlockData>();   
 
         /// <summary>
-        /// Get NPC List 
+        /// Get BlockData List 
         /// Auto Load
         /// </summary>
-        public static List<NPC> GetList()
+        public static List<BlockData> GetList()
         {{
            if (isLoaded == false) Load();
-           return NPCList;
+           return BlockDataList;
         }}
 
         /// <summary>
-        /// Get NPC Dictionary, keyType is your sheet A1 field type.
+        /// Get BlockData Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<int, NPC>  GetDictionary()
+        public static Dictionary<int, BlockData>  GetDictionary()
         {{
            if (isLoaded == false) Load();
-           return NPCMap;
+           return BlockDataMap;
         }}
 
     
@@ -57,8 +57,14 @@ namespace DataTable
 /* Fields. */
 
 		public System.Int32 id;
-		public System.String npcName;
-		public System.String strValue;
+		public BlockType Type;
+		public BlockAction Action;
+		public System.String BlockName;
+		public CombineRule NextCombineRule;
+		public CombineRule PrevCombineRule;
+		public System.Single FixedTime;
+		public System.Single FlexibleMarginTime;
+		public System.Boolean IsDeathTrigger;
   
 
 #region fuctions
@@ -69,7 +75,7 @@ namespace DataTable
             if(isLoaded && forceReload == false)
             {
 #if UGS_DEBUG
-                 Debug.Log("NPC is already loaded! if you want reload then, forceReload parameter set true");
+                 Debug.Log("BlockData is already loaded! if you want reload then, forceReload parameter set true");
 #endif
                  return;
             }
@@ -85,7 +91,7 @@ namespace DataTable
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<NPC>, Dictionary<int, NPC>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<BlockData>, Dictionary<int, BlockData>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -113,14 +119,14 @@ namespace DataTable
                
 
 
-    public static (List<NPC> list, Dictionary<int, NPC> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<int, NPC> Map = new Dictionary<int, NPC>();
-            List<NPC> List = new List<NPC>();     
+    public static (List<BlockData> list, Dictionary<int, BlockData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<int, BlockData> Map = new Dictionary<int, BlockData>();
+            List<BlockData> List = new List<BlockData>();     
             TypeMap.Init();
-            FieldInfo[] fields = typeof(NPC).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(BlockData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string, string, string)>(); 
             List<List<string>> rows = new List<List<string>>();
-            var sheet = jsonObject["NPC"];
+            var sheet = jsonObject["BlockData"];
 
             foreach (var column in sheet.Keys)
             {
@@ -139,7 +145,7 @@ namespace DataTable
                         int rowCount = rows[0].Count;
                         for (int i = 0; i < rowCount; i++)
                         {
-                            NPC instance = new NPC();
+                            BlockData instance = new BlockData();
                             for (int j = 0; j < typeInfos.Count; j++)
                             {
                                 try
@@ -180,8 +186,8 @@ namespace DataTable
                         }
                         if(isLoaded == false || forceReload)
                         { 
-                            NPCList = List;
-                            NPCMap = Map;
+                            BlockDataList = List;
+                            BlockDataMap = Map;
                             isLoaded = true;
                         }
                     } 
@@ -191,10 +197,10 @@ namespace DataTable
 
  
 
-        public static void Write(NPC data, System.Action<WriteObjectResult> onWriteCallback = null)
+        public static void Write(BlockData data, System.Action<WriteObjectResult> onWriteCallback = null)
         { 
             TypeMap.Init();
-            FieldInfo[] fields = typeof(NPC).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(BlockData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var datas = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {
