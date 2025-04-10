@@ -19,6 +19,5 @@ public class DataManager : SingleTon<DataManager>
     {
         npcDict = NpcData.GetDictionary();
         blockDict = BlockData.GetDictionary();
-
     }
 }
