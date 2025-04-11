@@ -82,7 +82,8 @@ public class Block : MonoBehaviour
         BeforeFlexibleMarginTime = data.beforeFlexibleMarginTime;
         AfterFlexibleMarginTime = data.afterFlexibleMarginTime;
         IsDeathTrigger = data.isDeathTrigger;
-
+        CurrentAfterFlexTime = AfterFlexibleMarginTime;
+        CurrentBeforeFlexTime = BeforeFlexibleMarginTime;
         for(int i = 0; i < data.beforeFlexSequence.Count; i++)
         {
             int id = data.beforeFlexSequence[i];

@@ -14,13 +14,12 @@ public class UIManager : SingleTon<UIManager>
     {
         var ui = ResourceManager.Instance.LoadUI<T>(name);
         if (ui == null) return null;
-
         var inst = Instantiate(ui);
         activeUIs[typeof(T).Name] = inst;
         return inst;
     }
 
-    public void HideUI<T>() where T : BaseUI
+    public void HideUI<T>() 
     {
         string name = typeof(T).Name;
         if (activeUIs.TryGetValue(name, out var ui))
