@@ -73,39 +73,39 @@ public class Block : MonoBehaviour
     {
         var data = DataManager.Instance.blockDict[id];
 
-        Type = data.Type;
-        Action = data.Action;
-        BlockName = data.BlockName;
-        PreCombineRule = data.PrevCombineRule;
-        NextCombineRule = data.NextCombineRule;
-        FixedTime = data.FixedTime;
-        BeforeFlexibleMarginTime = data.BeforeFlexibleMarginTime;
-        AfterFlexibleMarginTime = data.AfterFlexibleMarginTime;
-        IsDeathTrigger = data.IsDeathTrigger;
+        Type = data.type;
+        Action = data.action;
+        BlockName = data.blockName;
+        PreCombineRule = data.prevCombineRule;
+        NextCombineRule = data.nextCombineRule;
+        FixedTime = data.fixedTime;
+        BeforeFlexibleMarginTime = data.beforeFlexibleMarginTime;
+        AfterFlexibleMarginTime = data.afterFlexibleMarginTime;
+        IsDeathTrigger = data.isDeathTrigger;
 
-        for(int i = 0; i < data.BeforeFlexSequence.Count; i++)
+        for(int i = 0; i < data.beforeFlexSequence.Count; i++)
         {
-            int id = data.BeforeFlexSequence[i];
+            int id = data.beforeFlexSequence[i];
             //BeforeFlexSequence[i] = 고스트[i]
         }
-        for(int i = 0; i < data.AfterFlexSequence.Count; i++)
+        for(int i = 0; i < data.afterFlexSequence.Count; i++)
         {
-            int id = data.AfterFlexSequence[i];
+            int id = data.afterFlexSequence[i];
             //AfterFlexSequnece[i] = 고스트[i];
         }
-        for(int i = 0; i < data.FixedSequence.Count; i++)
+        for(int i = 0; i < data.fixedSequence.Count; i++)
         {
-            int id = data.FixedSequence[i];
+            int id = data.fixedSequence[i];
             //FixedSequence[i] = 고스트[i];
         }
-        for (int i = 0; i < data.SuccessSequence.Count; i++)
+        for (int i = 0; i < data.successSequence.Count; i++)
         {
-            int id = data.SuccessSequence[i];
+            int id = data.successSequence[i];
             //SuccessSequence[i] = 고스트[i];
         }
-        for(int i = 0; i < data.FailSequence.Count; i++)
+        for(int i = 0; i < data.failSequence.Count; i++)
         {
-            int id = data.FailSequence[i];
+            int id = data.failSequence[i];
             //FailSequence[i] = 고스트[i];
         }
     }

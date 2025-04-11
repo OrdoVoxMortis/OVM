@@ -57,21 +57,21 @@ namespace DataTable
 /* Fields. */
 
 		public System.Int32 id;
-		public BlockType Type;
-		public BlockAction Action;
-		public System.String BlockName;
-		public Hamster.ZG.Type.CombineRule NextCombineRule;
-		public Hamster.ZG.Type.CombineRule PrevCombineRule;
-		public System.Single FixedTime;
-		public System.Single BeforeFlexibleMarginTime;
-		public System.Single AfterFlexibleMarginTime;
-		public System.Boolean IsDeathTrigger;
-		public System.Boolean IsTarget;
-		public System.Collections.Generic.List<Int32> SuccessSequence;
-		public System.Collections.Generic.List<Int32> FailSequence;
-		public System.Collections.Generic.List<Int32> FixedSequence;
-		public System.Collections.Generic.List<Int32> BeforeFlexSequence;
-		public System.Collections.Generic.List<Int32> AfterFlexSequence;
+		public BlockType type;
+		public BlockAction action;
+		public System.String blockName;
+		public Hamster.ZG.Type.CombineRule nextCombineRule;
+		public Hamster.ZG.Type.CombineRule prevCombineRule;
+		public System.Single fixedTime;
+		public System.Single beforeFlexibleMarginTime;
+		public System.Single afterFlexibleMarginTime;
+		public System.Boolean isDeathTrigger;
+		public System.Boolean isTarget;
+		public System.Collections.Generic.List<Int32> successSequence;
+		public System.Collections.Generic.List<Int32> failSequence;
+		public System.Collections.Generic.List<Int32> fixedSequence;
+		public System.Collections.Generic.List<Int32> beforeFlexSequence;
+		public System.Collections.Generic.List<Int32> afterFlexSequence;
   
 
 #region fuctions
