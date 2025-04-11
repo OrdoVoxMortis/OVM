@@ -23,7 +23,7 @@ public class UI_Music : BaseUI
 
     private void OnClickBack()
     {
-        gameObject.SetActive(false);
+        Hide();
         SoundManager.Instance.StopBGM();  
     }
 
