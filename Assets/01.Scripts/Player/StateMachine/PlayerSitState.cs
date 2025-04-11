@@ -32,10 +32,6 @@ public class PlayerSitState : PlayerGroundState
     public override void Update()
     {
         base.Update();
-        if (stateMachine.Player.Input.playerActions.Sit.phase != InputActionPhase.Performed)
-        {
-            stateMachine.ChangeState(stateMachine.IdleState);
-        }
     }
 
 
