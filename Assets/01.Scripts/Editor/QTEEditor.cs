@@ -46,3 +46,30 @@ public class GhostEditor : Editor
         }
     }
 }
+
+[CustomEditor(typeof(RhythmManager))]
+public class RhythmEditor : Editor
+{
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        RhythmManager manager = (RhythmManager)target;
+
+        if (GUILayout.Button("Start Music"))
+        {
+            manager.StartMusic();
+        }
+
+        if (GUILayout.Button("Start Beep"))
+        {
+            manager.StartBeep();
+        }
+
+        if (GUILayout.Button("Start QTE"))
+        {
+            manager.RhythmAction();
+        }
+    }
+}

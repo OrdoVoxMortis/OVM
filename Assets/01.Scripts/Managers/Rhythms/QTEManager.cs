@@ -16,7 +16,7 @@ public class QTEManager : MonoBehaviour
     public Canvas canvas;
 
     private AudioSource audioSource;
-    private AudioClip beepClip;
+    public AudioClip beepClip;
 
     private void Awake()
     {
@@ -28,6 +28,8 @@ public class QTEManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
@@ -39,8 +41,9 @@ public class QTEManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !(qteList.Count <= 0))
         {
+            audioSource.PlayOneShot(beepClip);
             CheckQTE();
         }
     }
@@ -75,7 +78,6 @@ public class QTEManager : MonoBehaviour
         {
             return;
         }
-
         qteList[0].CheckJudge();
         qteList.RemoveAt(0);
     }
