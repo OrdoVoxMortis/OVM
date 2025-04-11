@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeLine : MonoBehaviour
+public static class TimeLineValidator
 {
     //TODO. 타임라인 배치 변경될 때마다 업데이트
-    public List<Block> placedBlocks = new();
-    public void ValidateCombinations()
+    public static List<Block> placedBlocks = new();
+
+    public static void ValidateCombinations()
     {
         for (int i = 0; i < placedBlocks.Count; i++)
         {
@@ -34,11 +35,14 @@ public class TimeLine : MonoBehaviour
                 }
             }
 
+            //검사 결과에 따라 시퀀스 출력
+            BlockManager.Instance.ShowSequenceByResult(current, isSuccess);
+
             Debug.Log($"[{current.BlockName}] 조합 결과: {(isSuccess ? "성공" : "실패")}");
         }
     }
 
-    private bool HasValidPreviousBlock(Block block, int index)
+    private static bool HasValidPreviousBlock(Block block, int index)
     {
         for (int i = 0; i < index; i++)
         {
@@ -47,7 +51,7 @@ public class TimeLine : MonoBehaviour
         }
         return false;
     }
-    private bool HasValidNextBlock(Block block, int index)
+    private static bool HasValidNextBlock(Block block, int index)
     {
         for (int i = index + 1; i < placedBlocks.Count; i++)
         {
