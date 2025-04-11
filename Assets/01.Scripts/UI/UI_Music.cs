@@ -1,60 +1,65 @@
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class UI_Music : BaseUI
 {
     [SerializeField] private Button backBtn;
-    [SerializeField] private Button musicBtn;
-    [SerializeField] private TextMeshProUGUI musicName;
-    [SerializeField] private Image musicImage;
+    [SerializeField] private Music_Button musicBtn;
     [SerializeField] private Transform buttonParent;
-    // [SerializeField] private List<ButtonSoundData> buttonSoundList = new List<ButtonSoundData>();
-    public int sfxIndex;
-    private int currentIndex = 0;
-    private List<Button> createdButtons = new List<Button>();
+    [SerializeField] private Music_Image musicImage;
+    [SerializeField] private Transform imageParent;
+
+    private Music_Image currentImage;
     protected override void Awake()
     {
         base.Awake();
         if (backBtn != null)
-            backBtn.onClick.AddListener(OnclickBack);
-        if (musicBtn != null)
-            musicBtn.onClick.AddListener(() => SpawnMusicButton(musicBtn));
-
-        //for(int i = 0; i < buttonSoundList.Count; i++)
-        //{
-        //    ButtonSoundData data = buttonSoundList[i];
-        //    if (data.musicBtn != null)
-        //    {
-        //        int index = data.sfxIndex;
-        //        data.musicBtn.onClick.AddLisner(() => PlaySound());
-        //    }               
-        //}
+            backBtn.onClick.AddListener(OnClickBack);
     }
 
-    private void PlaySoundByIndex(int index)
+    private void Start()
     {
-        //if (SoundManager.Instance != null && index >= 0 && index < SoundManager.Instance.sfxList.Count)
-        //{
-        //    AudioClip clip = SoundManager.Instance.sfxList[index];
-        //    SoundManager.Instance.PlaySFX(clip);
-        //}
+        CreateMusicButtons();
     }
 
-    private void OnclickBack()
+    private void OnClickBack()
     {
         gameObject.SetActive(false);
+        SoundManager.Instance.StopBGM();  
     }
 
-    private void SpawnMusicButton(Button sourceButton)
+    private void CreateMusicButtons()
     {
-        // 원본 버튼(sourceButton)을 복제
-        Button newButton = Instantiate(sourceButton, buttonParent);
-        newButton.gameObject.SetActive(true); // 복제본 활성화
+        foreach (var bgmEntry in ResourceManager.Instance.BgmList) // 리소스 매니저에 있는 딕셔너리 에서 키값을 참조해서 bgmName으로 저장
+        {
+            string bgmName = bgmEntry.Key;
 
-        // 새로 생성된 버튼에도 자신을 복제하는 기능 추가
-        newButton.onClick.RemoveAllListeners();
-        newButton.onClick.AddListener(() => SpawnMusicButton(newButton));
+           
+            Music_Button newButton = Instantiate(musicBtn, buttonParent);
+            newButton.SetMusicButton(bgmName,( ) => OnClickMusicButton(bgmName));
+        }
+    }
+
+    private void OnClickMusicButton(string bgmName)
+    {
+        SoundManager.Instance.PlayBGM(bgmName);
+        Debug.Log($"Playing BGM: {bgmName}");
+
+        if(currentImage!=null)
+            currentImage.gameObject.SetActive(false);
+
+        currentImage = Instantiate(musicImage, imageParent);
+
+        string imagePath = $"MusicImages/{bgmName}";
+        Sprite musicSprite = Resources.Load<Sprite>(imagePath);
+
+        if (musicSprite == null)
+        {
+            Debug.LogWarning($"[Warning] Sprite not found for {bgmName} at {imagePath}");
+        }
+        else
+        {
+            currentImage.SetImage(musicSprite);
+        }
     }
 
 }
