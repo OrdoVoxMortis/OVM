@@ -17,39 +17,39 @@ using UnityEngine;
 namespace DataTable
 {
     [GoogleSheet.Attribute.TableStruct]
-    public partial class NpcData : ITable
+    public partial class MusicData : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<NpcData> loadedList, Dictionary<string, NpcData> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<MusicData> loadedList, Dictionary<string, MusicData> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1bYLkGCQlm6YZeaVqFQ97hwpNjzjzLIdVvqCNYFtR3ug"; // it is file id
-        static string sheetID = "0"; // it is sheet id
+        static string sheetID = "1581809193"; // it is sheet id
         static UnityFileReader reader = new UnityFileReader();
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<string, NpcData> NpcDataMap = new Dictionary<string, NpcData>();  
-        public static List<NpcData> NpcDataList = new List<NpcData>();   
+        public static Dictionary<string, MusicData> MusicDataMap = new Dictionary<string, MusicData>();  
+        public static List<MusicData> MusicDataList = new List<MusicData>();   
 
         /// <summary>
-        /// Get NpcData List 
+        /// Get MusicData List 
         /// Auto Load
         /// </summary>
-        public static List<NpcData> GetList()
+        public static List<MusicData> GetList()
         {{
            if (isLoaded == false) Load();
-           return NpcDataList;
+           return MusicDataList;
         }}
 
         /// <summary>
-        /// Get NpcData Dictionary, keyType is your sheet A1 field type.
+        /// Get MusicData Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<string, NpcData>  GetDictionary()
+        public static Dictionary<string, MusicData>  GetDictionary()
         {{
            if (isLoaded == false) Load();
-           return NpcDataMap;
+           return MusicDataMap;
         }}
 
     
@@ -58,9 +58,10 @@ namespace DataTable
 
 		public System.String id;
 		public System.String name;
-		public System.Single viewAngle;
-		public System.Single viewDistance;
-		public System.String suspicionParams;
+		public System.Int32 BPM;
+		public System.String Genre;
+		public System.String FilePath;
+		public System.Single Duration;
   
 
 #region fuctions
@@ -71,7 +72,7 @@ namespace DataTable
             if(isLoaded && forceReload == false)
             {
 #if UGS_DEBUG
-                 Debug.Log("NpcData is already loaded! if you want reload then, forceReload parameter set true");
+                 Debug.Log("MusicData is already loaded! if you want reload then, forceReload parameter set true");
 #endif
                  return;
             }
@@ -87,7 +88,7 @@ namespace DataTable
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<NpcData>, Dictionary<string, NpcData>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<MusicData>, Dictionary<string, MusicData>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -115,14 +116,14 @@ namespace DataTable
                
 
 
-    public static (List<NpcData> list, Dictionary<string, NpcData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<string, NpcData> Map = new Dictionary<string, NpcData>();
-            List<NpcData> List = new List<NpcData>();     
+    public static (List<MusicData> list, Dictionary<string, MusicData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<string, MusicData> Map = new Dictionary<string, MusicData>();
+            List<MusicData> List = new List<MusicData>();     
             TypeMap.Init();
-            FieldInfo[] fields = typeof(NpcData).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(MusicData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string, string, string)>(); 
             List<List<string>> rows = new List<List<string>>();
-            var sheet = jsonObject["NpcData"];
+            var sheet = jsonObject["MusicData"];
 
             foreach (var column in sheet.Keys)
             {
@@ -141,7 +142,7 @@ namespace DataTable
                         int rowCount = rows[0].Count;
                         for (int i = 0; i < rowCount; i++)
                         {
-                            NpcData instance = new NpcData();
+                            MusicData instance = new MusicData();
                             for (int j = 0; j < typeInfos.Count; j++)
                             {
                                 try
@@ -182,8 +183,8 @@ namespace DataTable
                         }
                         if(isLoaded == false || forceReload)
                         { 
-                            NpcDataList = List;
-                            NpcDataMap = Map;
+                            MusicDataList = List;
+                            MusicDataMap = Map;
                             isLoaded = true;
                         }
                     } 
@@ -193,10 +194,10 @@ namespace DataTable
 
  
 
-        public static void Write(NpcData data, System.Action<WriteObjectResult> onWriteCallback = null)
+        public static void Write(MusicData data, System.Action<WriteObjectResult> onWriteCallback = null)
         { 
             TypeMap.Init();
-            FieldInfo[] fields = typeof(NpcData).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(MusicData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var datas = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {

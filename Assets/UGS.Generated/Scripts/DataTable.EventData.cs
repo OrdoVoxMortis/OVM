@@ -17,39 +17,39 @@ using UnityEngine;
 namespace DataTable
 {
     [GoogleSheet.Attribute.TableStruct]
-    public partial class NpcData : ITable
+    public partial class EventData : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<NpcData> loadedList, Dictionary<string, NpcData> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<EventData> loadedList, Dictionary<string, EventData> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1bYLkGCQlm6YZeaVqFQ97hwpNjzjzLIdVvqCNYFtR3ug"; // it is file id
-        static string sheetID = "0"; // it is sheet id
+        static string sheetID = "1217333321"; // it is sheet id
         static UnityFileReader reader = new UnityFileReader();
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<string, NpcData> NpcDataMap = new Dictionary<string, NpcData>();  
-        public static List<NpcData> NpcDataList = new List<NpcData>();   
+        public static Dictionary<string, EventData> EventDataMap = new Dictionary<string, EventData>();  
+        public static List<EventData> EventDataList = new List<EventData>();   
 
         /// <summary>
-        /// Get NpcData List 
+        /// Get EventData List 
         /// Auto Load
         /// </summary>
-        public static List<NpcData> GetList()
+        public static List<EventData> GetList()
         {{
            if (isLoaded == false) Load();
-           return NpcDataList;
+           return EventDataList;
         }}
 
         /// <summary>
-        /// Get NpcData Dictionary, keyType is your sheet A1 field type.
+        /// Get EventData Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<string, NpcData>  GetDictionary()
+        public static Dictionary<string, EventData>  GetDictionary()
         {{
            if (isLoaded == false) Load();
-           return NpcDataMap;
+           return EventDataMap;
         }}
 
     
@@ -58,9 +58,7 @@ namespace DataTable
 
 		public System.String id;
 		public System.String name;
-		public System.Single viewAngle;
-		public System.Single viewDistance;
-		public System.String suspicionParams;
+		public System.String description;
   
 
 #region fuctions
@@ -71,7 +69,7 @@ namespace DataTable
             if(isLoaded && forceReload == false)
             {
 #if UGS_DEBUG
-                 Debug.Log("NpcData is already loaded! if you want reload then, forceReload parameter set true");
+                 Debug.Log("EventData is already loaded! if you want reload then, forceReload parameter set true");
 #endif
                  return;
             }
@@ -87,7 +85,7 @@ namespace DataTable
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<NpcData>, Dictionary<string, NpcData>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<EventData>, Dictionary<string, EventData>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -115,14 +113,14 @@ namespace DataTable
                
 
 
-    public static (List<NpcData> list, Dictionary<string, NpcData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<string, NpcData> Map = new Dictionary<string, NpcData>();
-            List<NpcData> List = new List<NpcData>();     
+    public static (List<EventData> list, Dictionary<string, EventData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<string, EventData> Map = new Dictionary<string, EventData>();
+            List<EventData> List = new List<EventData>();     
             TypeMap.Init();
-            FieldInfo[] fields = typeof(NpcData).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(EventData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string, string, string)>(); 
             List<List<string>> rows = new List<List<string>>();
-            var sheet = jsonObject["NpcData"];
+            var sheet = jsonObject["EventData"];
 
             foreach (var column in sheet.Keys)
             {
@@ -141,7 +139,7 @@ namespace DataTable
                         int rowCount = rows[0].Count;
                         for (int i = 0; i < rowCount; i++)
                         {
-                            NpcData instance = new NpcData();
+                            EventData instance = new EventData();
                             for (int j = 0; j < typeInfos.Count; j++)
                             {
                                 try
@@ -182,8 +180,8 @@ namespace DataTable
                         }
                         if(isLoaded == false || forceReload)
                         { 
-                            NpcDataList = List;
-                            NpcDataMap = Map;
+                            EventDataList = List;
+                            EventDataMap = Map;
                             isLoaded = true;
                         }
                     } 
@@ -193,10 +191,10 @@ namespace DataTable
 
  
 
-        public static void Write(NpcData data, System.Action<WriteObjectResult> onWriteCallback = null)
+        public static void Write(EventData data, System.Action<WriteObjectResult> onWriteCallback = null)
         { 
             TypeMap.Init();
-            FieldInfo[] fields = typeof(NpcData).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(EventData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var datas = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {

@@ -17,39 +17,39 @@ using UnityEngine;
 namespace DataTable
 {
     [GoogleSheet.Attribute.TableStruct]
-    public partial class NpcData : ITable
+    public partial class MapData : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<NpcData> loadedList, Dictionary<string, NpcData> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<MapData> loadedList, Dictionary<string, MapData> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1bYLkGCQlm6YZeaVqFQ97hwpNjzjzLIdVvqCNYFtR3ug"; // it is file id
-        static string sheetID = "0"; // it is sheet id
+        static string sheetID = "777293240"; // it is sheet id
         static UnityFileReader reader = new UnityFileReader();
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<string, NpcData> NpcDataMap = new Dictionary<string, NpcData>();  
-        public static List<NpcData> NpcDataList = new List<NpcData>();   
+        public static Dictionary<string, MapData> MapDataMap = new Dictionary<string, MapData>();  
+        public static List<MapData> MapDataList = new List<MapData>();   
 
         /// <summary>
-        /// Get NpcData List 
+        /// Get MapData List 
         /// Auto Load
         /// </summary>
-        public static List<NpcData> GetList()
+        public static List<MapData> GetList()
         {{
            if (isLoaded == false) Load();
-           return NpcDataList;
+           return MapDataList;
         }}
 
         /// <summary>
-        /// Get NpcData Dictionary, keyType is your sheet A1 field type.
+        /// Get MapData Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<string, NpcData>  GetDictionary()
+        public static Dictionary<string, MapData>  GetDictionary()
         {{
            if (isLoaded == false) Load();
-           return NpcDataMap;
+           return MapDataMap;
         }}
 
     
@@ -58,9 +58,6 @@ namespace DataTable
 
 		public System.String id;
 		public System.String name;
-		public System.Single viewAngle;
-		public System.Single viewDistance;
-		public System.String suspicionParams;
   
 
 #region fuctions
@@ -71,7 +68,7 @@ namespace DataTable
             if(isLoaded && forceReload == false)
             {
 #if UGS_DEBUG
-                 Debug.Log("NpcData is already loaded! if you want reload then, forceReload parameter set true");
+                 Debug.Log("MapData is already loaded! if you want reload then, forceReload parameter set true");
 #endif
                  return;
             }
@@ -87,7 +84,7 @@ namespace DataTable
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<NpcData>, Dictionary<string, NpcData>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<MapData>, Dictionary<string, MapData>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -115,14 +112,14 @@ namespace DataTable
                
 
 
-    public static (List<NpcData> list, Dictionary<string, NpcData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<string, NpcData> Map = new Dictionary<string, NpcData>();
-            List<NpcData> List = new List<NpcData>();     
+    public static (List<MapData> list, Dictionary<string, MapData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<string, MapData> Map = new Dictionary<string, MapData>();
+            List<MapData> List = new List<MapData>();     
             TypeMap.Init();
-            FieldInfo[] fields = typeof(NpcData).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(MapData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string, string, string)>(); 
             List<List<string>> rows = new List<List<string>>();
-            var sheet = jsonObject["NpcData"];
+            var sheet = jsonObject["MapData"];
 
             foreach (var column in sheet.Keys)
             {
@@ -141,7 +138,7 @@ namespace DataTable
                         int rowCount = rows[0].Count;
                         for (int i = 0; i < rowCount; i++)
                         {
-                            NpcData instance = new NpcData();
+                            MapData instance = new MapData();
                             for (int j = 0; j < typeInfos.Count; j++)
                             {
                                 try
@@ -182,8 +179,8 @@ namespace DataTable
                         }
                         if(isLoaded == false || forceReload)
                         { 
-                            NpcDataList = List;
-                            NpcDataMap = Map;
+                            MapDataList = List;
+                            MapDataMap = Map;
                             isLoaded = true;
                         }
                     } 
@@ -193,10 +190,10 @@ namespace DataTable
 
  
 
-        public static void Write(NpcData data, System.Action<WriteObjectResult> onWriteCallback = null)
+        public static void Write(MapData data, System.Action<WriteObjectResult> onWriteCallback = null)
         { 
             TypeMap.Init();
-            FieldInfo[] fields = typeof(NpcData).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(MapData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var datas = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {
