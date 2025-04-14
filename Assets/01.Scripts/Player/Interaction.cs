@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -18,7 +19,7 @@ public class Interaction : MonoBehaviour
     [SerializeField] private TextMeshProUGUI interactText;
 
     private Camera camera;
-    private CinemachineFreeLook playerCamera;
+    public CinemachineFreeLook playerCamera;
 
     // Start is called before the first frame update
     void Start()
@@ -27,11 +28,7 @@ public class Interaction : MonoBehaviour
         PlayerController input = GameManager.Instance.Player.Input;
         input.playerActions.Interection.started += OnInteractInput;
         SceneManager.sceneLoaded += OnInteract;
-    }
-
-    private void Awake()
-    {
-        playerCamera = FindObjectOfType<CinemachineFreeLook>();
+        playerCamera = GameManager.Instance.Player.Input.playerCamera;
 
     }
 
