@@ -8,11 +8,11 @@ public class UI_Start: BaseUI
     protected override void Awake()
     {
         base.Awake();
-        
-        if (closeBtn != null)
-         closeBtn.onClick.AddListener(Hide);
-    }
 
+        if(closeBtn != null)
+            closeBtn.onClick.AddListener(Hide);
+
+    }
     private void Start()
     {
         UIManager.Instance.UIActive();

@@ -21,7 +21,7 @@ public class UI_Quest : BaseUI
     }
     private void Start()
     {
-        Hide();
+        gameObject.SetActive(false);
     }
     private void OnClickAccept()
     {

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Scene : MonoBehaviour
+public class BaseScene : MonoBehaviour
 {
     protected void Awake()
     {

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,16 +11,32 @@ public class GameManager : SingleTon<GameManager>
     {
         base.Awake();
         Player = FindObjectOfType<Player>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Player = FindObjectOfType<Player>();
+
+    }
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    public void SetSelectedBGM(AudioClip clip)
+    {
+        SelectedBGM = clip;
     }
     public void LoadScene(string sceneName)
     {
         UIManager.Instance.ClearUI();
         SceneManager.LoadScene(sceneName);
     }
-
-    public void SetSelectedBGM(AudioClip clip)
+    private IEnumerator LoadSceneCo(string scene)
     {
-        SelectedBGM = clip;
+        SceneManager.LoadScene(scene);
+        yield return null;
+
+        Player = FindObjectOfType<Player>();
     }
 }
