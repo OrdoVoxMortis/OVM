@@ -11,18 +11,27 @@ public class GameManager : SingleTon<GameManager>
     {
         base.Awake();
         Player = FindObjectOfType<Player>();
-    }
-    public void LoadScene(string sceneName)
-    {
-        UIManager.Instance.ClearUI();
-        StartCoroutine(LoadSceneCo(sceneName));
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Player = FindObjectOfType<Player>();
+
+    }
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
     public void SetSelectedBGM(AudioClip clip)
     {
         SelectedBGM = clip;
     }
-
+    public void LoadScene(string sceneName)
+    {
+        UIManager.Instance.ClearUI();
+        SceneManager.LoadScene(sceneName);
+    }
     private IEnumerator LoadSceneCo(string scene)
     {
         SceneManager.LoadScene(scene);
