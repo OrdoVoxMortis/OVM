@@ -185,4 +185,12 @@ public class SoundManager : SingleTon<SoundManager>
         SetBGMVolume(PlayerPrefs.GetFloat("BGM", 1f));
         SetSFXVolume(PlayerPrefs.GetFloat("SFX", 1f));
     }
+
+    public void SetSelectedBGM(string bgmName)
+    {
+        if (bgmDict.TryGetValue(bgmName, out AudioClip clip))
+        {
+            GameManager.Instance.SetSelectedBGM(clip);
+        }
+    }
 }

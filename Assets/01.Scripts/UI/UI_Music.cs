@@ -43,7 +43,7 @@ public class UI_Music : BaseUI
     {
         SoundManager.Instance.PlayBGM(bgmName);
         Debug.Log($"Playing BGM: {bgmName}");
-
+        SoundManager.Instance.SetSelectedBGM(bgmName);
         if(currentImage!=null)
             currentImage.gameObject.SetActive(false);
 

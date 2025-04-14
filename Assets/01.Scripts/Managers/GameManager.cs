@@ -5,16 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : SingleTon<GameManager>
 {
-    //private Player player;
-    //public Player Player {  get { return player; } }
-
+    //public Player Player { get; private set; }
+    public int Bpm { get; private set; }
+    public AudioClip SelectedBGM {  get; private set; }
     protected override void Awake()
     {
         base.Awake();
+
     }
     public void LoadScene(string sceneName)
     {
         UIManager.Instance.ClearUI();
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void SetSelectedBGM(AudioClip clip)
+    {
+        SelectedBGM = clip;
     }
 }
