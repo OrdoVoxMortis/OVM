@@ -18,6 +18,7 @@ public class UI_Music : BaseUI
 
     private void Start()
     {
+        Hide();
         CreateMusicButtons();
     }
 

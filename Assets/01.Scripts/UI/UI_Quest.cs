@@ -27,6 +27,7 @@ public class UI_Quest : BaseUI
     {
         Debug.Log("퀘스트 수락!"); // TODO 실제로 넘어가는 암살의뢰 UI 연결해주기
         Hide();
+        GameManager.Instance.LoadScene("Stage_Scene");
     }
 
     public void SetQuest(string questDescription, Sprite targetSprite, string dialog)
