@@ -12,7 +12,6 @@ public class UI_Start: BaseUI
         if(closeBtn != null)
          closeBtn.onClick.AddListener(Hide);
     }
-
     private void Start()
     {
         GameManager.Instance.Player.Input.UIActive();
