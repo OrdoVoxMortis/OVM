@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class LobbyScene : Scene
+public class LobbyScene : BaseScene
 {
     protected override void Init()
     {

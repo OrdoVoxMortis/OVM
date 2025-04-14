@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Interaction : MonoBehaviour
 {
@@ -25,11 +26,13 @@ public class Interaction : MonoBehaviour
         camera = Camera.main;
         PlayerController input = GameManager.Instance.Player.Input;
         input.playerActions.Interection.started += OnInteractInput;
+        SceneManager.sceneLoaded += OnInteract;
     }
 
     private void Awake()
     {
         playerCamera = FindObjectOfType<CinemachineFreeLook>();
+
     }
 
     // Update is called once per frame
@@ -79,4 +82,19 @@ public class Interaction : MonoBehaviour
             curInteractable = null;
         }
     }
+
+    private void OnInteract(Scene scene, LoadSceneMode mode)
+    {
+        PlayerController input = GameManager.Instance.Player.Input;
+        input.playerActions.Interection.started += OnInteractInput;
+    }
+    private void OnDestroy()
+    {
+        if (GameManager.Instance.Player != null)
+        {
+            GameManager.Instance.Player.Input.playerActions.Interection.started -= OnInteractInput;
+        }
+        SceneManager.sceneLoaded -= OnInteract;
+    }
+
 }
