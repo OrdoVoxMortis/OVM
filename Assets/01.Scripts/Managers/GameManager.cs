@@ -32,11 +32,5 @@ public class GameManager : SingleTon<GameManager>
         UIManager.Instance.ClearUI();
         SceneManager.LoadScene(sceneName);
     }
-    private IEnumerator LoadSceneCo(string scene)
-    {
-        SceneManager.LoadScene(scene);
-        yield return null;
 
-        Player = FindObjectOfType<Player>();
-    }
 }

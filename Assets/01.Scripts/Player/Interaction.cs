@@ -76,8 +76,8 @@ public class Interaction : MonoBehaviour
     {
         if(context.phase == InputActionPhase.Started && curInteractable != null)
         {
-            interactText.gameObject.SetActive(false);
             curInteractable.OnInteract();
+            interactText.gameObject.SetActive(false);
             curInteractGameObject = null;
             curInteractable = null;
         }
@@ -88,13 +88,6 @@ public class Interaction : MonoBehaviour
         PlayerController input = GameManager.Instance.Player.Input;
         input.playerActions.Interection.started += OnInteractInput;
     }
-    private void OnDestroy()
-    {
-        if (GameManager.Instance.Player != null)
-        {
-            GameManager.Instance.Player.Input.playerActions.Interection.started -= OnInteractInput;
-        }
-        SceneManager.sceneLoaded -= OnInteract;
-    }
+
 
 }
