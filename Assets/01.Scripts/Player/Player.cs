@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Input.UIDeactive();
         stateMachine.ChangeState(stateMachine.IdleState);
     }
 

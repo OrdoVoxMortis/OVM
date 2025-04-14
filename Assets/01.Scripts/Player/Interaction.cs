@@ -23,6 +23,8 @@ public class Interaction : MonoBehaviour
     void Start()
     {
         camera = Camera.main;
+        PlayerController input = GameManager.Instance.Player.Input;
+        input.playerActions.Interection.started += OnInteractInput;
     }
 
     private void Awake()

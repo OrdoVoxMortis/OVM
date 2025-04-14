@@ -13,10 +13,14 @@ public class MissionNote : MonoBehaviour, IInteractable
     public string ImageName {  get; private set; } // 의뢰 이미지
     private UI_Quest questUI;
 
+    private void Awake()
+    {
+        questUI = FindObjectOfType<UI_Quest>();
+    }
     private void Start()
     {
         LoadData();
-        questUI = FindObjectOfType<UI_Quest>();
+
     }
 
     public void LoadData()
@@ -28,8 +32,7 @@ public class MissionNote : MonoBehaviour, IInteractable
     }
 
     public void OnInteract()
-    {
-        
+    {  
         if(questUI != null)
         {
             Sprite image = null;
