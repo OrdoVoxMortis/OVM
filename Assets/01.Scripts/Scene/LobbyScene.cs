@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class LobbyScene : Scene
@@ -6,6 +5,6 @@ public class LobbyScene : Scene
     protected override void Init()
     {
         base.Init();
-        //UIManager.Instance.ShowUI<LobbyUI>("Lobby_UI");
+        //UIManager.Instance.ShowUI<>("Lobby_UI");
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7587357815152552312}
   - component: {fileID: 6119243052981654699}
   - component: {fileID: 5884649483244592191}
+  - component: {fileID: 870558036507243206}
   m_Layer: 0
   m_Name: Letter
   m_TagString: Untagged
@@ -104,7 +105,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &5884649483244592191
@@ -134,3 +135,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &870558036507243206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4374498027258802714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18d996a9a5c2c2458d839e207ea0961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetUI: {fileID: 5459514283688805542, guid: 240659a95c022c548bed737bd116c740,
+    type: 3}
