@@ -35,7 +35,7 @@ public class Interaction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.Instance.Player.Input.isUIActive && Time.time - lastCheckTime > checkRate)
+        if (!UIManager.Instance.isUIActive && Time.time - lastCheckTime > checkRate)
         {
             lastCheckTime = Time.time;
 

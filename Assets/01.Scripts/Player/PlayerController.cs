@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     public CinemachineFreeLook playerCamera;
     public Vector3 CameraFollowOffset { get; private set; }
 
-    public bool isUIActive = false;
 
 
     // Start is called before the first frame update
@@ -69,21 +68,4 @@ public class PlayerController : MonoBehaviour
     {
         playerInputs.Disable();
     }
-
-    public void UIActive()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        playerCamera.enabled = false;
-        isUIActive = true;
-    }
-
-    public void UIDeactive()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        playerCamera.enabled = true;
-        isUIActive = false;
-    }
-
-
-
 }

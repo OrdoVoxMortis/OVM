@@ -60,9 +60,8 @@ public class PlayerBaseState : IState
 
     public virtual void Update()
     {
-        if (!stateMachine.Player.Input.isUIActive)
+        if (!UIManager.Instance.isUIActive)
         {
-
             Move();
         }
     }

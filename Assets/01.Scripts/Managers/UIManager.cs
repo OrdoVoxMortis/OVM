@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class UIManager : SingleTon<UIManager>
 {
     private Dictionary<string, BaseUI> activeUIs = new(); // 활성화된 UI
+    public bool isUIActive = false;
+    public CinemachineFreeLook playerCamera;
 
     protected override void Awake()
     {
@@ -37,6 +40,28 @@ public class UIManager : SingleTon<UIManager>
         }
         ResourceManager.Instance.UIList.Clear();
         activeUIs.Clear();
+    }
+
+    public void UIActive()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (playerCamera != null)
+            playerCamera.enabled = false;
+
+        isUIActive = true;
+    }
+
+    public void UIDeactive()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        if (playerCamera != null)
+            playerCamera.enabled = true;
+
+        isUIActive = false;
     }
 
 }
