@@ -39,7 +39,10 @@ public class UI_SaveLoad : BaseUI
         if (eventBtn != null)
             eventBtn.onClick.AddListener(SetEventData);
     }
-
+    private void Start()
+    {
+        Hide();
+    }
     private void SetNormalStage()
     {
         ShowStageData(normalStagePrefab);

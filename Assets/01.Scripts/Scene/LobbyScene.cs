@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class LobbyScene : Scene
@@ -6,5 +7,6 @@ public class LobbyScene : Scene
     {
         base.Init();
         //UIManager.Instance.ShowUI<>("Lobby_UI");
+
     }
 }

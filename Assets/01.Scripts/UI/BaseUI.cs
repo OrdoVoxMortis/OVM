@@ -13,11 +13,13 @@ public class BaseUI : MonoBehaviour
     public virtual void Show() // ui 보여주기
     {
         gameObject.SetActive(true);
+        GameManager.Instance.Player.Input.UIActive();
     }
 
     public virtual void Hide() // ui 숨겨주기
     {
         gameObject.SetActive(false);
+        GameManager.Instance.Player.Input.UIDeactive();
     }
     public virtual void Close()
     {

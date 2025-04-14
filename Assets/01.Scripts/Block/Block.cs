@@ -57,11 +57,11 @@ public class Block : MonoBehaviour
     public Transform afterFlexSequenceRoot;
     public Transform beforeFlexSequenceRoot;
 
-    //public List<Ghost> SuccessSequence {  get; private set; } // 성공 노트 시퀀스
-    //public List<Ghost> FailSequence {  get; private set; } // 실패 노트 시퀀스
-    //public List<Ghost> FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
-    //public List<Ghost> BeforeFlexSequence {get; private set;} // 앞 유동 시간 노트 시퀀스
-    //public List<Ghost> AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
+    public List<Ghost> SuccessSequence {  get; private set; } // 성공 노트 시퀀스
+    public List<Ghost> FailSequence {  get; private set; } // 실패 노트 시퀀스
+    public List<Ghost> FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
+    public List<Ghost> BeforeFlexSequence {get; private set;} // 앞 유동 시간 노트 시퀀스
+    public List<Ghost> AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
 
     private void Awake()
     {
@@ -87,7 +87,7 @@ public class Block : MonoBehaviour
         for(int i = 0; i < data.beforeFlexSequence.Count; i++)
         {
             int id = data.beforeFlexSequence[i];
-            //BeforeFlexSequence[i] = 고스트[i]
+           // BeforeFlexSequence[i] = 고스트[i];
         }
         for(int i = 0; i < data.afterFlexSequence.Count; i++)
         {

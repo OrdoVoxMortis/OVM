@@ -41,7 +41,7 @@ public class BlockManager : SingleTon<BlockManager>
         //}
     }
 
-    public void ShowSequenceByResult(Block block, bool success)
+    public void ShowSequenceByResult(Block block, bool success) // 결과에 따라 고스트 생성
     {
         if (block.successSequenceRoot == null || block.failSequenceRoot == null) return;
 
@@ -66,11 +66,4 @@ public class BlockManager : SingleTon<BlockManager>
         //}
     }
 
-    private void ClearFlexibleGhosts(Block block)
-    {
-        foreach(var ghost in block.beforeFlexSequenceRoot)
-        {
-
-        }
-    }
 }

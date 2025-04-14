@@ -20,7 +20,7 @@ namespace DataTable
     public partial class NpcData : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<NpcData> loadedList, Dictionary<int, NpcData> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<NpcData> loadedList, Dictionary<string, NpcData> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1bYLkGCQlm6YZeaVqFQ97hwpNjzjzLIdVvqCNYFtR3ug"; // it is file id
@@ -29,7 +29,7 @@ namespace DataTable
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<int, NpcData> NpcDataMap = new Dictionary<int, NpcData>();  
+        public static Dictionary<string, NpcData> NpcDataMap = new Dictionary<string, NpcData>();  
         public static List<NpcData> NpcDataList = new List<NpcData>();   
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace DataTable
         /// Get NpcData Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<int, NpcData>  GetDictionary()
+        public static Dictionary<string, NpcData>  GetDictionary()
         {{
            if (isLoaded == false) Load();
            return NpcDataMap;
@@ -56,9 +56,11 @@ namespace DataTable
 
 /* Fields. */
 
-		public System.Int32 id;
-		public System.String npcName;
-		public System.String strValue;
+		public System.String id;
+		public System.String name;
+		public System.Single viewAngle;
+		public System.Single viewDistance;
+		public System.String suspicionParams;
   
 
 #region fuctions
@@ -85,7 +87,7 @@ namespace DataTable
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<NpcData>, Dictionary<int, NpcData>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<NpcData>, Dictionary<string, NpcData>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -113,8 +115,8 @@ namespace DataTable
                
 
 
-    public static (List<NpcData> list, Dictionary<int, NpcData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<int, NpcData> Map = new Dictionary<int, NpcData>();
+    public static (List<NpcData> list, Dictionary<string, NpcData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<string, NpcData> Map = new Dictionary<string, NpcData>();
             List<NpcData> List = new List<NpcData>();     
             TypeMap.Init();
             FieldInfo[] fields = typeof(NpcData).GetFields(BindingFlags.Public | BindingFlags.Instance);

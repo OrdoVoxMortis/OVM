@@ -1,14 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
+
 
 public class ResourceManager : SingleTon<ResourceManager>
 {
     public Dictionary<string, BaseUI> UIList = new();
     public Dictionary<string, AudioClip> BgmList = new();
     public Dictionary<string, AudioClip> SfxList = new();
+    public Dictionary<string, Sprite> ImageList = new(); 
     public AudioMixer audioMixer;
     protected override void Awake()
     {
@@ -60,6 +61,18 @@ public class ResourceManager : SingleTon<ResourceManager>
     {
         GameObject prefab = Resources.Load<GameObject>(name);
         Instantiate(prefab);
+    }
+
+    public Sprite LoadImage(string name)
+    {
+        if (ImageList.TryGetValue(name, out var cacheImage))
+        {
+            return cacheImage as Sprite;
+        }
+        
+        var image = Resources.Load<Sprite>($"Image/{name}");
+        ImageList[name] = image;
+        return image;
     }
 
 }
