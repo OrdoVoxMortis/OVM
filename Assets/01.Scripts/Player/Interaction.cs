@@ -1,7 +1,9 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Interaction : MonoBehaviour
 {
@@ -10,7 +12,10 @@ public class Interaction : MonoBehaviour
     public float maxCheckDistance;
     public LayerMask layerMask;
 
-    public GameObject curIntercactGameObject;
+    private GameObject curInteractGameObject;
+    private IClickable curInteractable;
+    [SerializeField] private TextMeshProUGUI interactText;
+
     private Camera camera;
     private CinemachineFreeLook playerCamera;
 
@@ -28,7 +33,7 @@ public class Interaction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time - lastCheckTime > checkRate)
+        if (!GameManager.Instance.Player.Input.isUIActive && Time.time - lastCheckTime > checkRate)
         {
             lastCheckTime = Time.time;
 
@@ -39,18 +44,37 @@ public class Interaction : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
             {
-                if (hit.collider.gameObject != curIntercactGameObject)
+                if (hit.collider.gameObject != curInteractGameObject)
                 {
-                    curIntercactGameObject = hit.collider.gameObject;
+                    curInteractGameObject = hit.collider.gameObject;
+                    curInteractable = hit.collider.GetComponent<IClickable>();
                     //TODO 텍스트를 출력시켜 줘야함
+                    SetText();
                 }
             }
             else
             {
-                curIntercactGameObject = null;
+                curInteractGameObject = null;
+                curInteractable = null;
                 //TODO 텍스트 출력을 없애 줘야함
+                interactText.gameObject.SetActive(false);
             }
         }
         
+    }
+    private void SetText()
+    {
+        interactText.gameObject.SetActive(true);
+        interactText.text = curInteractable.GetInteractComponent();
+    }
+    public void OnInteractInput(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Started && curInteractable != null)
+        {
+            interactText.gameObject.SetActive(false);
+            curInteractable.OnClick();
+            curInteractGameObject = null;
+            curInteractable = null;
+        }
     }
 }

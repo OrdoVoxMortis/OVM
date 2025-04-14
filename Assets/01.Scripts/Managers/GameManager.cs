@@ -5,12 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : SingleTon<GameManager>
 {
-    //public Player Player { get; private set; }
+    public Player Player { get; private set; }
     public int Bpm { get; private set; }
     public AudioClip SelectedBGM {  get; private set; }
     protected override void Awake()
     {
         base.Awake();
+        Player = FindObjectOfType<Player>();
 
     }
     public void LoadScene(string sceneName)

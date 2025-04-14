@@ -19,7 +19,10 @@ public class UI_Quest : BaseUI
         if (acceptBtn != null)
             acceptBtn.onClick.AddListener(OnClickAccept); // 퀘스트 수락 하는 버튼 할당해주기
     }
-
+    private void Start()
+    {
+        Hide();
+    }
     private void OnClickAccept()
     {
         Debug.Log("퀘스트 수락!"); // TODO 실제로 넘어가는 암살의뢰 UI 연결해주기
