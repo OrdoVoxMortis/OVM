@@ -41,7 +41,7 @@ public class UI_SaveLoad : BaseUI
     }
     private void Start()
     {
-        Hide();
+        gameObject.SetActive(false);
     }
     private void SetNormalStage()
     {

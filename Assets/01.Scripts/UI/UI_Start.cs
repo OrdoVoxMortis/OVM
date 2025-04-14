@@ -10,7 +10,8 @@ public class UI_Start: BaseUI
         base.Awake();
 
         if(closeBtn != null)
-         closeBtn.onClick.AddListener(Hide);
+            closeBtn.onClick.AddListener(Hide);
+
     }
     private void Start()
     {
