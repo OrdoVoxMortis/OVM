@@ -15,6 +15,6 @@ public class UI_Start: BaseUI
     }
     private void Start()
     {
-        GameManager.Instance.Player.Input.UIActive();
+        UIManager.Instance.UIActive();
     }
 }

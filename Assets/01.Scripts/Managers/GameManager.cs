@@ -12,12 +12,6 @@ public class GameManager : SingleTon<GameManager>
         base.Awake();
         Player = FindObjectOfType<Player>();
     }
-    private void Update()
-    {
-        if(Player.Input.isUIActive)
-            Cursor.lockState = CursorLockMode.None;
-        
-    }
     public void LoadScene(string sceneName)
     {
         UIManager.Instance.ClearUI();
