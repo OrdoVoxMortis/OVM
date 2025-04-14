@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!Input.isUIActive)
+        if (!UIManager.Instance.isUIActive)
         {
 
             stateMachine.HandleInput();
