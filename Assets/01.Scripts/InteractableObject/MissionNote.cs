@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public interface IClickable
+public interface IInteractable
 {
-    public void OnClick();
+    public void OnInteract();
     public string GetInteractComponent();
 }
-public class MissionNote : MonoBehaviour, IClickable
+public class MissionNote : MonoBehaviour, IInteractable
 {
     [SerializeField] private string id; // 의뢰서 고유 id
     public string StageId {  get; private set; } // 스테이지 id
@@ -27,7 +27,7 @@ public class MissionNote : MonoBehaviour, IClickable
         ImageName = data.filePath;
     }
 
-    public void OnClick()
+    public void OnInteract()
     {
         
         if(questUI != null)

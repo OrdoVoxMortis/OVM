@@ -13,7 +13,7 @@ public class Interaction : MonoBehaviour
     public LayerMask layerMask;
 
     private GameObject curInteractGameObject;
-    private IClickable curInteractable;
+    private IInteractable curInteractable;
     [SerializeField] private TextMeshProUGUI interactText;
 
     private Camera camera;
@@ -47,7 +47,7 @@ public class Interaction : MonoBehaviour
                 if (hit.collider.gameObject != curInteractGameObject)
                 {
                     curInteractGameObject = hit.collider.gameObject;
-                    curInteractable = hit.collider.GetComponent<IClickable>();
+                    curInteractable = hit.collider.GetComponent<IInteractable>();
                     //TODO 텍스트를 출력시켜 줘야함
                     SetText();
                 }
@@ -72,7 +72,7 @@ public class Interaction : MonoBehaviour
         if(context.phase == InputActionPhase.Started && curInteractable != null)
         {
             interactText.gameObject.SetActive(false);
-            curInteractable.OnClick();
+            curInteractable.OnInteract();
             curInteractGameObject = null;
             curInteractable = null;
         }
