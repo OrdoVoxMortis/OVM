@@ -16,7 +16,10 @@ public class Door : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        if(GameManager.Instance.SelectedBGM == null) musicUI.Show();
+        if (GameManager.Instance.SelectedBGM == null)
+        {
+            musicUI.Show();
+        }
         else
         {
             Debug.Log("게임 시작");

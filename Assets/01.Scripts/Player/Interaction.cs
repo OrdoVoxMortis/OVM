@@ -88,13 +88,4 @@ public class Interaction : MonoBehaviour
         PlayerController input = GameManager.Instance.Player.Input;
         input.playerActions.Interection.started += OnInteractInput;
     }
-    private void OnDestroy()
-    {
-        if (GameManager.Instance.Player != null)
-        {
-            GameManager.Instance.Player.Input.playerActions.Interection.started -= OnInteractInput;
-        }
-        SceneManager.sceneLoaded -= OnInteract;
-    }
-
 }
