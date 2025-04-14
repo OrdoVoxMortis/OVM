@@ -25,7 +25,6 @@ public class UI_Music : BaseUI
     private void OnClickBack()
     {
         Hide();
-        SoundManager.Instance.StopBGM();  
     }
 
     private void CreateMusicButtons()
