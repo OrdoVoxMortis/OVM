@@ -16,6 +16,7 @@ public class GhostManager : MonoBehaviour
     public List<Ghost> ghosts;
 
     public GameObject ghostPrefabs;
+    public AnimationClip ghostClip;
 
     private void Awake()
     {
@@ -60,6 +61,7 @@ public class GhostManager : MonoBehaviour
     void MakeGhost()
     {
         Vector3 createPos = startPos;
+        float time = 0f;
         for (int i = 0; i < beats.Count; i++)
         {
             float nextBeat = beats[i];
@@ -68,6 +70,12 @@ public class GhostManager : MonoBehaviour
             ghosts.Add(ghost);
             ghost.transform.position = createPos; 
             createPos += direction * 10f * (60f / bpm) / nextBeat; //중간의 상수는 물체나 플레이어의 움직임 속도
+
+            if (ghostClip != null)
+            {
+                time = ghostClip.length * 0.25f;
+                ghostClip.SampleAnimation(ghost.gameObject, time);
+            }
 
             if (nextBeat <= 0)
             {
