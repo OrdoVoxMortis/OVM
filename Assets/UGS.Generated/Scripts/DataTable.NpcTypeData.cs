@@ -17,48 +17,52 @@ using UnityEngine;
 namespace DataTable
 {
     [GoogleSheet.Attribute.TableStruct]
-    public partial class SuspicionData : ITable
+    public partial class NpcTypeData : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<SuspicionData> loadedList, Dictionary<string, SuspicionData> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<NpcTypeData> loadedList, Dictionary<string, NpcTypeData> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1bYLkGCQlm6YZeaVqFQ97hwpNjzjzLIdVvqCNYFtR3ug"; // it is file id
-        static string sheetID = "1104365541"; // it is sheet id
+        static string sheetID = "1257757669"; // it is sheet id
         static UnityFileReader reader = new UnityFileReader();
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<string, SuspicionData> SuspicionDataMap = new Dictionary<string, SuspicionData>();  
-        public static List<SuspicionData> SuspicionDataList = new List<SuspicionData>();   
+        public static Dictionary<string, NpcTypeData> NpcTypeDataMap = new Dictionary<string, NpcTypeData>();  
+        public static List<NpcTypeData> NpcTypeDataList = new List<NpcTypeData>();   
 
         /// <summary>
-        /// Get SuspicionData List 
+        /// Get NpcTypeData List 
         /// Auto Load
         /// </summary>
-        public static List<SuspicionData> GetList()
+        public static List<NpcTypeData> GetList()
         {{
            if (isLoaded == false) Load();
-           return SuspicionDataList;
+           return NpcTypeDataList;
         }}
 
         /// <summary>
-        /// Get SuspicionData Dictionary, keyType is your sheet A1 field type.
+        /// Get NpcTypeData Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<string, SuspicionData>  GetDictionary()
+        public static Dictionary<string, NpcTypeData>  GetDictionary()
         {{
            if (isLoaded == false) Load();
-           return SuspicionDataMap;
+           return NpcTypeDataMap;
         }}
 
     
 
 /* Fields. */
 
-		public System.String grade;
-		public System.Int32 increasePerSec;
-		public System.Int32 decreasePerSec;
+		public System.String type;
+		public System.Single viewAngle;
+		public System.Single viewDistance;
+		public System.String suspicionParams;
+		public System.Single minAlertTime;
+		public System.Single maxAlertTime;
+		public ActionType alertAction;
   
 
 #region fuctions
@@ -69,7 +73,7 @@ namespace DataTable
             if(isLoaded && forceReload == false)
             {
 #if UGS_DEBUG
-                 Debug.Log("SuspicionData is already loaded! if you want reload then, forceReload parameter set true");
+                 Debug.Log("NpcTypeData is already loaded! if you want reload then, forceReload parameter set true");
 #endif
                  return;
             }
@@ -85,7 +89,7 @@ namespace DataTable
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<SuspicionData>, Dictionary<string, SuspicionData>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<NpcTypeData>, Dictionary<string, NpcTypeData>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -113,14 +117,14 @@ namespace DataTable
                
 
 
-    public static (List<SuspicionData> list, Dictionary<string, SuspicionData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<string, SuspicionData> Map = new Dictionary<string, SuspicionData>();
-            List<SuspicionData> List = new List<SuspicionData>();     
+    public static (List<NpcTypeData> list, Dictionary<string, NpcTypeData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<string, NpcTypeData> Map = new Dictionary<string, NpcTypeData>();
+            List<NpcTypeData> List = new List<NpcTypeData>();     
             TypeMap.Init();
-            FieldInfo[] fields = typeof(SuspicionData).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(NpcTypeData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string, string, string)>(); 
             List<List<string>> rows = new List<List<string>>();
-            var sheet = jsonObject["SuspicionData"];
+            var sheet = jsonObject["NpcTypeData"];
 
             foreach (var column in sheet.Keys)
             {
@@ -139,7 +143,7 @@ namespace DataTable
                         int rowCount = rows[0].Count;
                         for (int i = 0; i < rowCount; i++)
                         {
-                            SuspicionData instance = new SuspicionData();
+                            NpcTypeData instance = new NpcTypeData();
                             for (int j = 0; j < typeInfos.Count; j++)
                             {
                                 try
@@ -176,12 +180,12 @@ namespace DataTable
                               
                             }
                             List.Add(instance); 
-                            Map.Add(instance.grade, instance);
+                            Map.Add(instance.type, instance);
                         }
                         if(isLoaded == false || forceReload)
                         { 
-                            SuspicionDataList = List;
-                            SuspicionDataMap = Map;
+                            NpcTypeDataList = List;
+                            NpcTypeDataMap = Map;
                             isLoaded = true;
                         }
                     } 
@@ -191,10 +195,10 @@ namespace DataTable
 
  
 
-        public static void Write(SuspicionData data, System.Action<WriteObjectResult> onWriteCallback = null)
+        public static void Write(NpcTypeData data, System.Action<WriteObjectResult> onWriteCallback = null)
         { 
             TypeMap.Init();
-            FieldInfo[] fields = typeof(SuspicionData).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(NpcTypeData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var datas = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {

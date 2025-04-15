@@ -59,9 +59,6 @@ namespace DataTable
 		public System.String id;
 		public System.String name;
 		public NpcType type;
-		public System.Single viewAngle;
-		public System.Single viewDistance;
-		public System.String suspicionParams;
   
 
 #region fuctions
