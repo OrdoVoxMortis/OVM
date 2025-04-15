@@ -21,9 +21,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        playerCamera = FindObjectOfType<CinemachineFreeLook>();
         playerInputs = new PlayerInputs();
         playerActions = playerInputs.Player;
+        playerCamera = transform.Find("CameraLookPoint/FollowPlayerCamera").GetComponent<CinemachineFreeLook>();
 
 
         if (playerCamera == null)

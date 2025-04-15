@@ -10,7 +10,7 @@ public class EnemyBaseState : IState
     public EnemyBaseState(EnemyStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
-        //groundData = stateMachine.Player.Data.GroundData;
+        groundData = stateMachine.Enemy.Data.GroundData;
     }
 
     public void Enter()

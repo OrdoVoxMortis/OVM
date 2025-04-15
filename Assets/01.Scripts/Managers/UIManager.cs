@@ -7,12 +7,12 @@ public class UIManager : SingleTon<UIManager>
 {
     private Dictionary<string, BaseUI> activeUIs = new(); // 활성화된 UI
     public bool isUIActive = false;
-    public CinemachineFreeLook playerCamera;
 
     protected override void Awake()
     {
         base.Awake();
     }
+
     public T ShowUI<T>(string name) where T : BaseUI
     {
         var ui = ResourceManager.Instance.LoadUI<T>(name);
@@ -47,8 +47,8 @@ public class UIManager : SingleTon<UIManager>
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        if (playerCamera != null)
-            playerCamera.enabled = false;
+        if (GameManager.Instance.Player.Input.playerCamera != null)
+            GameManager.Instance.Player.Input.playerCamera.enabled = false;
 
         isUIActive = true;
     }
@@ -58,8 +58,8 @@ public class UIManager : SingleTon<UIManager>
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        if (playerCamera != null)
-            playerCamera.enabled = true;
+        if (GameManager.Instance.Player.Input.playerCamera != null)
+            GameManager.Instance.Player.Input.playerCamera.enabled = true;
 
         isUIActive = false;
     }
