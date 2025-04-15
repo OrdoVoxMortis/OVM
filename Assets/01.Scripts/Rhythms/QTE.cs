@@ -38,7 +38,7 @@ public class QTE : MonoBehaviour
         if(outerLineSize <= 0.6f)
         {
             QTEManager.Instance.CheckQTE();
-            Destroy(gameObject);
+            Invoke("DestroyObject", 0.5f);
         }
 
         outerLine.localScale = new Vector2(outerLineSize, outerLineSize);
