@@ -68,13 +68,16 @@ public class GhostManager : MonoBehaviour
 
             Ghost ghost = Instantiate(ghostPrefabs).GetComponent<Ghost>();
             ghosts.Add(ghost);
-            ghost.transform.position = createPos; 
+            ghost.transform.position = createPos;
+            ghost.transform.forward = direction;
             createPos += direction * 10f * (60f / bpm) / nextBeat; //중간의 상수는 물체나 플레이어의 움직임 속도
 
             if (ghostClip != null)
             {
-                time = ghostClip.length * 0.25f;
                 ghostClip.SampleAnimation(ghost.gameObject, time);
+                time += ghostClip.length * (60f / bpm) / nextBeat;
+                if(time > ghostClip.length)
+                    time -= ghostClip.length;
             }
 
             if (nextBeat <= 0)
