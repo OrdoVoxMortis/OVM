@@ -13,6 +13,7 @@ public class DataManager : SingleTon<DataManager>
     public Dictionary<string, MissionData> missionDict { get; private set; } = new();
     public Dictionary<string, EventData> eventDict { get; private set; } = new();
     public Dictionary<string, MusicData> musicDict { get; private set; } = new();
+    public Dictionary<string, SuspicionData> suspicionDict { get; private set; } = new();
 
     protected override void Awake()
     {
@@ -29,12 +30,13 @@ public class DataManager : SingleTon<DataManager>
 
     private void InitData()
     {
-        //npcDict = NpcData.GetDictionary();
+        npcDict = NpcData.GetDictionary();
         blockDict = BlockData.GetDictionary();
         stageDict = StageData.GetDictionary();
         mapDict = MapData.GetDictionary();
         missionDict = MissionData.GetDictionary();
         eventDict = EventData.GetDictionary();
         musicDict = MusicData.GetDictionary();
+        suspicionDict = SuspicionData.GetDictionary();
     }
 }
