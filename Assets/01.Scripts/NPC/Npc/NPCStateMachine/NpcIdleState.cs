@@ -22,6 +22,7 @@ public class NpcIdleState : NpcBaseState
     public override void Update()
     {
         base.Update();
+
         if (stateMachine.npc.CurAlertTime > 0)
             stateMachine.npc.CurAlertTime -= Time.deltaTime;
         else DecreaseSuspicion();
@@ -32,16 +33,7 @@ public class NpcIdleState : NpcBaseState
         }
     }
 
-    private bool IsPlayerInSight() //true -> 경계
-    {
-        Transform player = GameManager.Instance.Player.transform;
-        Vector3 directionPlayer = (player.position - stateMachine.npc.transform.position).normalized;
-        float angle = Vector3.Angle(stateMachine.npc.transform.forward, directionPlayer);
 
-        if (angle > stateMachine.npc.ViewAngle / 2f || stateMachine.npc.Agent.remainingDistance > stateMachine.npc.ViewDistance) return false;
-
-        return true;
-    }
     private void DecreaseSuspicion()
     {
         suspicionTimer += Time.deltaTime;
@@ -51,6 +43,5 @@ public class NpcIdleState : NpcBaseState
             stateMachine.npc.CurSuspicion = Mathf.Max(0, stateMachine.npc.CurSuspicion -= stateMachine.npc.SuspicionParams.decreasePerSec);
         }
     }
-
 
 }

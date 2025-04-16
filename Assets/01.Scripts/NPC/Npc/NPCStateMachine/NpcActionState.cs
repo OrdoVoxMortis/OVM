@@ -1,6 +1,4 @@
 
-using System.Collections;
-using System.IO;
 using UnityEngine;
 
 public class NpcActionState : NpcBaseState
@@ -10,6 +8,9 @@ public class NpcActionState : NpcBaseState
     private float lookTime;
     private float lookTimer;
     private Quaternion targetRotation;
+    private bool isTriggered = false;
+    private bool isPlayerInSight = false;
+    private float lostSightTimer = 0f;
     public NpcActionState(NpcStateMachine stateMachine) : base(stateMachine)
     {
     }
@@ -25,42 +26,73 @@ public class NpcActionState : NpcBaseState
 
     public override void Update()
     {
-        base.Update();
-        ActionByType();
+        if (IsPlayerInSight()) // 시야 내
+        {
+            if (!isPlayerInSight)
+            {
+                isPlayerInSight = true;
+                lostSightTimer = 0f;
+                stateMachine.npc.CurAlertTime = 0f; // 경계 시간 초기화
+            }
+
+            stateMachine.npc.CurAlertTime += Time.deltaTime; // 경계 시간 카운트
+            ContiActionByType(); // 지속형 행동
+
+            if (stateMachine.npc.CurAlertTime >= stateMachine.npc.MaxAlertTime && !isTriggered)
+            {
+                TriggerActionByType(); // 최대 경계 시간 초과 시 발동형 행동
+            }
+        }
+        else // 시야 밖
+        {
+            if (isPlayerInSight)
+            {
+                isPlayerInSight = false;
+                lostSightTimer = 0f;
+            }
+
+            lostSightTimer += Time.deltaTime;
+            // 최소 경계 시간 동안 지속형 행동
+            if (lostSightTimer < stateMachine.npc.MinAlertTime) ContiActionByType();
+            else
+            {
+                isAlert = false;
+                stateMachine.ChangeState(stateMachine.AlertState); // 최소 경계 시간 지나면 중단
+            }
+        }
     }
 
-    private void ActionByType()
+    private void ContiActionByType() // 지속형
     {
         ActionType type = stateMachine.npc.AlertAction;
 
         switch (type)
         {
-            case ActionType.Notify:
-                //타겟에게 알림
-                NotifyTarget();
-                break;
             case ActionType.Chase:
                 stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
                 break;
             case ActionType.Watch:
                 LookAtTarget();
                 break;
-            case ActionType.RunAway:
-                //안전구역으로 이동
-                if (stateMachine.npc is Target target)
-                {
-                    //도망
-                    if (target.IsNotified)
-                    {
-                        RunAway();
-                    }
-                    else //두리번
-                    {
-                        LookAround();
-                    }
-                }
+            default:
                 break;
         }
+    }
+
+    private void TriggerActionByType() // 발동형
+    {
+        isTriggered = true;
+        ActionType type = stateMachine.npc.AlertAction;
+
+        switch (type)
+        {
+            case ActionType.Notify:
+                NotifyTarget();
+                break;
+            default:
+                break;
+        }
+        stateMachine.ChangeState(stateMachine.AlertState);
     }
 
     private void NotifyTarget()
@@ -81,35 +113,5 @@ public class NpcActionState : NpcBaseState
         stateMachine.npc.Agent.updateRotation = true;
     }
 
-    private void RunAway()
-    {
-        //TODO. 안전 구역 받아오기 -> SetDestination -> 구역 내 있으면 ChangeState
-    }
-
-
-    private void LookAround() // 두리번
-    {
-        lookTimer += Time.deltaTime;
-
-        stateMachine.npc.transform.rotation = Quaternion.Slerp(
-            stateMachine.npc.transform.rotation,
-            targetRotation,
-            Time.deltaTime * 2f
-        );
-
-        if (lookTimer >= lookTime)
-        {
-            lookTimer = 0f;
-            lookTime = Random.Range(1f, 2f);
-            PickNewDirection();
-        }
-    }
-
-    private void PickNewDirection()
-    {
-        float randomY = Random.Range(0f, 360f);
-        Vector3 newDir = new Vector3(0f, randomY, 0f);
-        targetRotation = Quaternion.Euler(newDir);
-    }
 
 }

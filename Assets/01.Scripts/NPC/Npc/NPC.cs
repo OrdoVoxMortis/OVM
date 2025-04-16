@@ -13,7 +13,9 @@ public enum NpcType
 [UGS(typeof(ActionType))]
 public enum ActionType
 {
-    RunAway, // 두리번 -> 도망
+    None,
+    LookAround, // 두리번
+    RunAway, // 도망
     Chase, // 추격
     Notify, // 타겟 알림
     Watch // 시선
@@ -42,9 +44,16 @@ public class NPC : MonoBehaviour
     public float CurAlertTime {  get; set; } // 현재 경계 시간
     public NavMeshAgent Agent { get; set; }
 
+    [field: SerializeField] public NPCSO Data { get; private set; }
+    [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
+
+    public Animator Animator { get; private set; }
+    public BoxCollider Area { get; set; }
+
     private void Init()
     {
         LoadData();
+        Animator = GetComponentInChildren<Animator>();
         Agent = GetComponent<NavMeshAgent>();
         CurSuspicion = 0;
     }

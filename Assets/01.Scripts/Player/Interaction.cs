@@ -87,6 +87,10 @@ public class Interaction : MonoBehaviour
     {
         PlayerController input = GameManager.Instance.Player.Input;
         input.playerActions.Interection.started += OnInteractInput;
+        
+        interactText = FindObjectOfType<TextMeshProUGUI>();
+        curInteractGameObject = null;
+        curInteractable = null;
     }
 
 
