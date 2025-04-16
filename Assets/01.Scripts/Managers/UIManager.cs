@@ -55,6 +55,7 @@ public class UIManager : SingleTon<UIManager>
     public void UIActive()
     {
         Cursor.lockState = CursorLockMode.None;
+        Debug.Log("UI Active: 커서 Unlock 처리됨");
         Cursor.visible = true;
 
         if (GameManager.Instance.Player.Input.playerCamera != null)
@@ -66,6 +67,7 @@ public class UIManager : SingleTon<UIManager>
     public void UIDeactive()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Debug.Log("UI DeActive: 커서 lock 처리됨");
         Cursor.visible = false;
 
         if (GameManager.Instance.Player.Input.playerCamera != null)
