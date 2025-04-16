@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TargetStateMachine : StateMachine
@@ -24,11 +25,15 @@ public class TargetStateMachine : StateMachine
     public TargetGuardState GuardState { get; }
     public TargetRunAwayState RunAwayState { get; }
 
+    // GuardState 진입 전 이전 상태와 해당 상태의 남은 시간을 저장
+    public IState PreviousState { get; set; }
+    public float PreviousStateRemainingTime { get; set; }
+
     public TargetStateMachine(Target target)
     {
         this.Target = target;
-        
-        //TODO 타겟의 이동 블럭들을 전부 가져온다
+
+        this.Blocks = target.blocks;
 
         IdleState = new TargetIdleState(this);
         ChasingState = new TargetChasingState(this);
@@ -38,6 +43,12 @@ public class TargetStateMachine : StateMachine
 
         MovementSpeed = Target.Data.GroundData.BaseSpeed;
         RotationDamping = Target.Data.GroundData.BaseRotationDamping;
+    }
+
+    public void SaveCurrentState(IState currentState, float remainingTime)
+    {
+        PreviousState = currentState;
+        PreviousStateRemainingTime = remainingTime;
     }
 
 

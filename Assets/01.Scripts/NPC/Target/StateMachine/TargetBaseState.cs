@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class TargetBaseState : IState
@@ -7,12 +8,14 @@ public class TargetBaseState : IState
     protected TargetStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
     protected GameObject player;
+    private Collider playerCollider;
 
     public TargetBaseState(TargetStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
         groundData = stateMachine.Target.Data.GroundData;
         player = GameManager.Instance.Player.gameObject;
+        playerCollider = player.GetComponent<Collider>();
     }
 
     public virtual void Enter()
@@ -38,6 +41,7 @@ public class TargetBaseState : IState
     public virtual void Update()
     {
         Move();
+        UpdateAlertValue();
     }
 
     protected virtual void UpdateAlertValue()
@@ -49,8 +53,30 @@ public class TargetBaseState : IState
             stateMachine.AlertValue = Mathf.Min(stateMachine.AlertValue, 100f);     //경계수치의 최댓값은 100(고정)
 
             // 경계수치가 최대(100)이 되면 GuardState로 전환
-            //if (stateMachine.AlertValue >= 100f && stateMachine.)
+            if (stateMachine.AlertValue >= 100f)
+            {
+                stateMachine.ChangeState(stateMachine.GuardState);
+                return;
+            }
         }
+        else
+        {
+            //  플레이어가 시야에 보이지 않을 경우 경계수치를 감소
+            //  0이면 작동 안하게, 경계모드일때도 작동 안하게 해야함
+            //TODO Target 경계수치 내려가는 값 필요
+            stateMachine.AlertValue -= 20f * Time.deltaTime;
+            stateMachine.AlertValue = Mathf.Max(stateMachine.AlertValue, 0f);
+        }
+    }
+
+    public virtual float GetRemainingActionTime()
+    {
+        return 0;
+    }
+
+    public virtual void ResumeState(float remainingTime)
+    {
+
     }
 
     protected void StartAnimation(int animatorHash)
@@ -67,24 +93,26 @@ public class TargetBaseState : IState
     {
         Vector3 movementDirection = GetMovementDirection();
 
-        Rotate(movementDirection);
-        Move(movementDirection);
+        stateMachine.Target.Agent.SetDestination(movementDirection);
 
+        Rotate(movementDirection - stateMachine.Target.transform.position);
+        
     }
 
     private Vector3 GetMovementDirection()
     {
+        if (stateMachine.Blocks == null || stateMachine.Blocks.Length == 0)
+        {
+            Debug.LogWarning("blocks가 등록되어있지 않습니다.");
+            return stateMachine.Target.transform.position;
+        }
+
         int blockNumber = stateMachine.Target.BlockNumber;
-        Vector3 dir = (stateMachine.Blocks[blockNumber].transform.position - stateMachine.Target.transform.position);
 
-        return dir;
+
+        return stateMachine.Blocks[blockNumber].transform.position;
     }
 
-    private void Move(Vector3 direction)
-    {
-        float movementSpeed = GetMovementSpeed();
-        stateMachine.Target.Controller.Move(((direction * movementSpeed)) * Time.deltaTime);
-    }
 
     private float GetMovementSpeed()
     {
@@ -112,14 +140,13 @@ public class TargetBaseState : IState
             return false;
         }
 
-        Collider playerCollider = player.GetComponent<Collider>();
         if (playerCollider == null)
         {
             Debug.LogError("Player Collider가 등록되있지 않습니다.");
             return false;
         }
 
-        Vector3 headPosition = stateMachine.Target.transform.position + new Vector3(0, 1.5f, 0); // 머리 위치
+        Vector3 headPosition = stateMachine.Target.transform.position + new Vector3(0, 1.5f, 0); // y값은 머리 위치
 
         Vector3 playerClosetPoint = playerCollider.ClosestPoint(headPosition); // Target의 머리위치에서 부터 플레이어 콜라이더의 가장 가까운 위치를 구합니다.
 
@@ -134,7 +161,7 @@ public class TargetBaseState : IState
         if (angle > 60f)
             return false;
 
-        //Raycast를 통해서 머리 위치에서 closetPoint 까지의 장애물을 체크합니다
+        //Raycast를 통해서 머리 위치에서 closetPoint 까지의 장애물을 확인합니다
         float distance = Mathf.Sqrt(sqrDistance);
         if (Physics.Raycast(headPosition, directionToPlayer, out RaycastHit hit, distance))
         {

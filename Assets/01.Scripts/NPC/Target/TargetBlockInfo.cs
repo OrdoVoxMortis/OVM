@@ -1,0 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum TargetBlockStateType
+{
+    None,       // 상태 전환 없이 다음 블럭위치로 이동
+    Idle,       // 도착 후 Idle 상태 실행
+    Interaction // 도착 후 상호작용 모션 실행
+}
+
+public class TargetBlockInfo : MonoBehaviour
+{
+    [Header("블럭 도착 시 행동할 타입")]
+    public TargetBlockStateType blockStateType = TargetBlockStateType.None;
+
+    [Header("행동 지속 시간(초)")]
+    public float stateDuration = 0f;
+}
