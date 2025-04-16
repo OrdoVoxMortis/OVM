@@ -67,6 +67,7 @@ public class NpcActionState : NpcBaseState
 
     private void ContiActionByType() // 지속형
     {
+        if (isTriggered) return;
         ActionType type = stateMachine.npc.ContiAlertAction;
 
         switch (type)
@@ -117,7 +118,7 @@ public class NpcActionState : NpcBaseState
 
         Quaternion lookRotation = Quaternion.LookRotation(dirToTarget.normalized);
         stateMachine.npc.transform.rotation = Quaternion.Slerp(stateMachine.npc.transform.rotation, lookRotation, Time.deltaTime * stateMachine.RotationDamping);
-        //stateMachine.npc.Agent.updateRotation = true;
+        stateMachine.npc.Agent.updateRotation = true;
     }
 
 
