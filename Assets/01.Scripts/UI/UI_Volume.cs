@@ -2,6 +2,7 @@
 using UnityEngine.Audio;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UI_Volume : BaseUI
 {
@@ -9,6 +10,9 @@ public class UI_Volume : BaseUI
     public Slider bgmSlider;
     public Slider sfxSlider;
     public AudioMixer audioMixer;
+    public Button backBtn;
+    public Button quitBtn;
+  
 
     protected override void Awake()
     {
@@ -20,6 +24,8 @@ public class UI_Volume : BaseUI
         masterSlider.onValueChanged.AddListener(SetMasterVolume);
         bgmSlider.onValueChanged.AddListener(SetBgmVolume);
         sfxSlider.onValueChanged.AddListener(SetSfxVolume);
+        quitBtn.onClick.AddListener(GameQuit);
+        backBtn.onClick.AddListener(Hide);
     }
 
     public void SetMasterVolume(float value)
@@ -36,4 +42,15 @@ public class UI_Volume : BaseUI
     {
         SoundManager.Instance.SetSFXVolume(value);
     }
+
+    public void GameQuit()
+    {
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+   
+
+   
 }
