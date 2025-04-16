@@ -38,7 +38,8 @@ public class NPC : MonoBehaviour
     public float ViewDistance {  get; private set; } // 시야 거리
     public float MinAlertTime {  get; private set; } // 최소 경계 시간 
     public float MaxAlertTime {  get; private set; } // 최대 경계 시간
-    public ActionType AlertAction {  get; private set; } // 행동 패턴
+    public ActionType ContiAlertAction {  get; private set; } // 지속형 행동 패턴
+    public ActionType TriggerAlertAction {  get; private set; } // 발동형 행동 패턴
     public Suspicion SuspicionParams { get; private set; } // 의심 수치
     public int CurSuspicion { get; set; } // 현재 의심 수치
     public float CurAlertTime {  get; set; } // 현재 경계 시간
@@ -69,7 +70,8 @@ public class NPC : MonoBehaviour
         ViewDistance = type.viewDistance;
         MinAlertTime = type.minAlertTime;
         MaxAlertTime = type.maxAlertTime;
-        AlertAction = type.alertAction;
+        ContiAlertAction = type.contiAlertAction;
+        TriggerAlertAction = type.triggerAlertAction;
         var grade = type.suspicionParams;
         SuspicionParams.grade = DataManager.Instance.suspicionDict[grade].grade;
         SuspicionParams.increasePerSec = DataManager.Instance.suspicionDict[grade].increasePerSec;

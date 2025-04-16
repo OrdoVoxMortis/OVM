@@ -64,7 +64,7 @@ public class NpcActionState : NpcBaseState
 
     private void ContiActionByType() // 지속형
     {
-        ActionType type = stateMachine.npc.AlertAction;
+        ActionType type = stateMachine.npc.ContiAlertAction;
 
         switch (type)
         {
@@ -82,7 +82,7 @@ public class NpcActionState : NpcBaseState
     private void TriggerActionByType() // 발동형
     {
         isTriggered = true;
-        ActionType type = stateMachine.npc.AlertAction;
+        ActionType type = stateMachine.npc.TriggerAlertAction;
 
         switch (type)
         {
