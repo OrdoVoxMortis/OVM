@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Target : MonoBehaviour
+public class Target : NPC
 {
     [field: SerializeField] public NPCSO Data { get; private set; }
 
@@ -12,6 +12,9 @@ public class Target : MonoBehaviour
     public Animator Animator { get; private set; }
     public CharacterController Controller { get; private set; }
     private TargetStateMachine stateMachine;
+
+    public bool IsNotified { get; set; } = false;
+
 
     public int BlockNumber { get; set; } = 1;
 
@@ -36,4 +39,5 @@ public class Target : MonoBehaviour
         stateMachine.HandleInput();
         stateMachine.Update();
     }
+
 }
