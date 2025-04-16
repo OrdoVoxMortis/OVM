@@ -50,13 +50,30 @@ public class NPC : MonoBehaviour
 
     public Animator Animator { get; private set; }
     public BoxCollider Area { get; set; }
+    public NpcStateMachine stateMachine;
 
+    private void Awake()
+    {
+    }
+    private void Start()
+    {
+        Init();
+        stateMachine = new NpcStateMachine(this);
+        stateMachine.ChangeState(stateMachine.IdleState);
+
+    }
     private void Init()
     {
         LoadData();
         Animator = GetComponentInChildren<Animator>();
         Agent = GetComponent<NavMeshAgent>();
+        Area = GameObject.FindWithTag("Area").GetComponent<BoxCollider>();
+
         CurSuspicion = 0;
+    }
+    private void Update()
+    {
+        stateMachine?.Update();
     }
 
     void LoadData()
@@ -73,11 +90,38 @@ public class NPC : MonoBehaviour
         ContiAlertAction = type.contiAlertAction;
         TriggerAlertAction = type.triggerAlertAction;
         var grade = type.suspicionParams;
+
+        SuspicionParams = new Suspicion();
         SuspicionParams.grade = DataManager.Instance.suspicionDict[grade].grade;
         SuspicionParams.increasePerSec = DataManager.Instance.suspicionDict[grade].increasePerSec;
         SuspicionParams.decreasePerSec = DataManager.Instance.suspicionDict[grade].decreasePerSec;
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        if (Agent == null)
+            return;
+
+        Gizmos.color = Color.yellow;
+
+        Vector3 position = transform.position;
+        Vector3 forward = transform.forward;
+
+        // ViewAngle 양쪽 방향 계산
+        Vector3 leftBoundary = Quaternion.Euler(0, -ViewAngle / 2f, 0) * forward;
+        Vector3 rightBoundary = Quaternion.Euler(0, ViewAngle / 2f, 0) * forward;
+
+        // 중심선
+        Gizmos.DrawLine(position, position + forward * ViewDistance);
+        // 왼쪽 시야선
+        Gizmos.DrawLine(position, position + leftBoundary * ViewDistance);
+        // 오른쪽 시야선
+        Gizmos.DrawLine(position, position + rightBoundary * ViewDistance);
+
+        // 시야 거리 원
+        Gizmos.color = new Color(1, 1, 0, 0.2f);
+        Gizmos.DrawWireSphere(position, ViewDistance);
+    }
 
 }
 

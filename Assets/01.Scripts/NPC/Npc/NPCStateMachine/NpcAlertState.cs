@@ -19,7 +19,7 @@ public class NpcAlertState : NpcBaseState
 
     public override void Update()
     {
-
+        //base.Update();
         if (IsPlayerInSight())
         {
             IncreaseSuspicion();
@@ -39,6 +39,7 @@ public class NpcAlertState : NpcBaseState
         if (suspicionTimer >= 1f)
         {
             suspicionTimer = 0f;
+            Debug.Log(stateMachine.npc.CurSuspicion);
             stateMachine.npc.CurSuspicion = Mathf.Min(stateMachine.npc.SuspicionParams.maxValue, stateMachine.npc.CurSuspicion + stateMachine.npc.SuspicionParams.increasePerSec);
         }
 

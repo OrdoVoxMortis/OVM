@@ -18,6 +18,7 @@ public class NpcActionState : NpcBaseState
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("action");
     }
     public override void Exit()
     {
@@ -36,6 +37,7 @@ public class NpcActionState : NpcBaseState
             }
 
             stateMachine.npc.CurAlertTime += Time.deltaTime; // 경계 시간 카운트
+            Debug.Log("지속형 시작");
             ContiActionByType(); // 지속형 행동
 
             if (stateMachine.npc.CurAlertTime >= stateMachine.npc.MaxAlertTime && !isTriggered)
@@ -57,6 +59,7 @@ public class NpcActionState : NpcBaseState
             else
             {
                 isAlert = false;
+                Debug.Log("지속형 끝");
                 stateMachine.ChangeState(stateMachine.AlertState); // 최소 경계 시간 지나면 중단
             }
         }
@@ -81,6 +84,7 @@ public class NpcActionState : NpcBaseState
 
     private void TriggerActionByType() // 발동형
     {
+        Debug.Log("발동형 시작");
         isTriggered = true;
         ActionType type = stateMachine.npc.TriggerAlertAction;
 
@@ -106,11 +110,14 @@ public class NpcActionState : NpcBaseState
     }
     private void LookAtTarget()
     {
-        stateMachine.npc.Agent.updateRotation = false;
         Vector3 dirToTarget = (stateMachine.Target.transform.position - stateMachine.npc.transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(dirToTarget);
+        if (dirToTarget.sqrMagnitude < 0.01f) return;
+
+        stateMachine.npc.Agent.updateRotation = false;
+
+        Quaternion lookRotation = Quaternion.LookRotation(dirToTarget.normalized);
         stateMachine.npc.transform.rotation = Quaternion.Slerp(stateMachine.npc.transform.rotation, lookRotation, Time.deltaTime * stateMachine.RotationDamping);
-        stateMachine.npc.Agent.updateRotation = true;
+        //stateMachine.npc.Agent.updateRotation = true;
     }
 
 

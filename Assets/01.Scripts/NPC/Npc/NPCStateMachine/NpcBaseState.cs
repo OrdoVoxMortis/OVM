@@ -7,10 +7,12 @@ public class NpcBaseState : IState
     protected NpcStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
     protected bool isAlert = true;
+    public float moveDelay = 2f;
+    private float moveTimer = 0f;
     public NpcBaseState(NpcStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
-        groundData = stateMachine.npc.Data.GroundData;
+        //groundData = stateMachine.npc.Data.GroundData;
     }
 
     public virtual void Enter()
@@ -35,7 +37,12 @@ public class NpcBaseState : IState
 
     public virtual void Update()
     {
-        stateMachine.npc.Agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
+        moveTimer += Time.deltaTime;
+        if (moveTimer >= moveDelay)
+        {
+            stateMachine.npc.Agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
+            moveTimer = 0f;
+        }
     }
     protected void StartAnimation(int animatorHash)
     {
