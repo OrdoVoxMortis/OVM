@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class TargetChasingState : TargetBaseState
 {
+    private const float ArrivalThreshold = 1f;
+
     public TargetChasingState(TargetStateMachine stateMachine) : base(stateMachine)
     {
     }
 
     public override void Enter()
     {
+        if (stateMachine.Target.BlockNumber >= stateMachine.Blocks.Length)
+            stateMachine.Target.BlockNumber = 0;
+        var blockInfo = stateMachine.Blocks[stateMachine.Target.BlockNumber].GetComponent<TargetBlockInfo>();
+        float speed = (blockInfo != null && blockInfo.moveSpeed > 0f)
+            ? blockInfo.moveSpeed : groundData.BaseSpeed;
+
+        stateMachine.Target.Agent.speed = speed;
         stateMachine.MovementSpeedModifier = groundData.WalkSpeedModifier;
         base.Enter();
         StartAnimation(stateMachine.Target.AnimationData.GroundParameterHash);
@@ -26,14 +35,45 @@ public class TargetChasingState : TargetBaseState
     public override void Update()
     {
         base.Update();
+        int idx = stateMachine.Target.BlockNumber;
+        if (idx < 0 || idx > stateMachine.Blocks.Length) return;
 
-        // 만약 시야 범위 안에 플레이어가 들어왔다면 경계수치를 증가시킨다.
-        // 경계수치가 100 이라면 경계모드로 변경+(경계모드 안에 플레이어가 시야에 보였다면 시간 갱신) (경계모드일 때 다음 블럭으로 이동하는 시간을 멈추기)
-        // 경계 모드일 때 플레이어가 다시 시야에 보였다면 시간 갱신
+        Vector3 dest = stateMachine.Blocks[idx].transform.position;
+        float distanceToBlock = Vector3.Distance(stateMachine.Target.transform.position, dest);
 
-        // 경계모드 시간이 지났다면 다시 행동 계시
+        if (distanceToBlock <= ArrivalThreshold)
+        {
+            TargetBlockInfo blockInfo = stateMachine.Blocks[idx].GetComponent<TargetBlockInfo>();
+            if (blockInfo != null)
+            {
+                switch (blockInfo.blockStateType)
+                {
+                    case TargetBlockStateType.Idle:
+                        var idle = stateMachine.IdleState;
+                        idle.SetDuration(blockInfo.stateDuration);
+                        stateMachine.ChangeState(idle);
+                        return;
+
+                    case TargetBlockStateType.Interaction:
+                        var inter = stateMachine.InteractionState;
+                        inter.SetDuration(blockInfo.stateDuration);
+                        stateMachine.ChangeState(inter);
+                        return;
+
+                    default:
+                        stateMachine.Target.BlockNumber++;
+                        stateMachine.ChangeState(stateMachine.ChasingState);
+                        return;
+                }
+            }
+            else
+            {
+                stateMachine.Target.BlockNumber++;
+                stateMachine.ChangeState(stateMachine.ChasingState);
+            }
+        }
+
+
     }
-
-
 
 }

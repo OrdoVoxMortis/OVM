@@ -4,34 +4,54 @@ using UnityEngine;
 
 public class TargetIdleState : TargetBaseState
 {
+    private float idleDuration = 5f;        //기본 대기 시간
+    private float timer;
+
     public TargetIdleState(TargetStateMachine stateMachine) : base(stateMachine)
     {
     }
 
     public override void Enter()
     {
-        stateMachine.MovementSpeedModifier = 0f;
+        stateMachine.Target.Agent.isStopped = true;
         base.Enter();
-        StartAnimation(stateMachine.Target.AnimationData.GroundParameterHash);
         StartAnimation(stateMachine.Target.AnimationData.IdleParameterHash);
+        timer = idleDuration;
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(stateMachine.Target.AnimationData.GroundParameterHash);
         StopAnimation(stateMachine.Target.AnimationData.IdleParameterHash);
     }
 
     public override void Update()
     {
-        base.Update();
-
-        if (stateMachine.MovementInput != Vector2.zero) // 시야 범위 안에 플레이어가 들어왔다면
+        UpdateAlertValue();
+        timer -= Time.deltaTime;
+        if (timer <= 0f)
         {
-            stateMachine.ChangeState(stateMachine.GuardState);
-            return;
+            stateMachine.Target.BlockNumber++;
+            stateMachine.Target.Agent.isStopped = false;
+            stateMachine.ChangeState(stateMachine.ChasingState);
         }
     }
+
+    public void SetDuration(float duration)
+    {
+        idleDuration = duration;
+    }
+
+    public override float GetRemainingActionTime()
+    {
+        return timer;
+    }
+
+    public override void ResumeState(float remainingTime)
+    {
+        timer = remainingTime;
+    }
+
+
 
 }

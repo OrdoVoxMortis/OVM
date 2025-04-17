@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Target : MonoBehaviour
 {
@@ -10,19 +11,42 @@ public class Target : MonoBehaviour
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
 
     public Animator Animator { get; private set; }
-    public CharacterController Controller { get; private set; }
+    public NavMeshAgent Agent { get; private set; }
     private TargetStateMachine stateMachine;
 
     public bool IsNotified { get; set; } = false;
 
-
-    public int BlockNumber { get; set; } = 1;
+    [Header("Route")]
+    public GameObject startBlock;
+    public GameObject[] blocks;
+    public GameObject turningBlock;
+    public GameObject safeZone;
+    public int BlockNumber { get; set; } = 0;
+    public GameObject[] route;
 
     private void Awake()
     {
         AnimationData.Initialize();
-        Animator = GetComponent<Animator>();
-        Controller = GetComponent<CharacterController>();
+        Animator = GetComponentInChildren<Animator>();
+        Agent = GetComponent<NavMeshAgent>();
+
+        List<GameObject> _route = new List<GameObject>();
+
+        if (startBlock != null)
+        {
+            _route.Add(startBlock);
+        }
+        if (blocks != null && blocks.Length > 0)
+        {
+            _route.AddRange(blocks);
+        }
+        if (turningBlock != null)
+        {
+            _route.Add(turningBlock);
+        }
+
+        route = _route.ToArray();
+
 
         stateMachine = new TargetStateMachine(this);
     }
@@ -31,6 +55,7 @@ public class Target : MonoBehaviour
     void Start()
     {
         stateMachine.ChangeState(stateMachine.IdleState);
+        stateMachine.Target.Agent.speed = stateMachine.MovementSpeed;
     }
 
     // Update is called once per frame
@@ -39,5 +64,7 @@ public class Target : MonoBehaviour
         stateMachine.HandleInput();
         stateMachine.Update();
     }
+
+    
 
 }
