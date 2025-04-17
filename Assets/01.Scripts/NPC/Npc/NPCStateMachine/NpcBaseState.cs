@@ -40,8 +40,10 @@ public class NpcBaseState : IState
         moveTimer += Time.deltaTime;
         if (moveTimer >= moveDelay)
         {
+            //stateMachine.npc.Animator.SetBool("Walk", true);
             stateMachine.npc.Agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
             moveTimer = 0f;
+            //stateMachine.npc.Animator.SetBool("Walk", false);
         }
     }
     protected void StartAnimation(int animatorHash)

@@ -104,9 +104,11 @@ public class NpcActionState : NpcBaseState
     {
         var target = GameObject.FindObjectOfType<Target>();
         stateMachine.npc.Agent.SetDestination(target.transform.position);
+        stateMachine.npc.Animator.SetBool("Walk", true);
         if (stateMachine.npc.Agent.remainingDistance == 0 && stateMachine.npc is Friend friend)
         {
             friend.NotifyTarget(target);
+            //stateMachine.npc.Animator.SetBool("Walk", false);
         }
     }
     private void LookAtTarget()
