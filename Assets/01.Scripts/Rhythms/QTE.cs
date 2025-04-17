@@ -14,6 +14,7 @@ public class QTE : MonoBehaviour
     public GameObject particle;
 
     private bool isChecked = false;
+    public bool isPointNotes = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +38,8 @@ public class QTE : MonoBehaviour
 
         if(outerLineSize <= 0.6f)
         {
-            QTEManager.Instance.CheckQTE();
+            RhythmManager.Instance.qteManager.CheckQTE();
+            CheckJudge();
             Invoke("DestroyObject", 0.5f);
         }
 
