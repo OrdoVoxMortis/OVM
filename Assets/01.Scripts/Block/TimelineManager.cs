@@ -11,8 +11,6 @@ public class TimelineManager : SingleTon<TimelineManager>
     private List<UI_Slot> slots = new();
     private int index = 0;
 
-    //PlacedBlocks에 원소 하나 추가될 때마다 -> index(상호작용된 블럭 수)++ (처음엔 0개니까 index 0에 생성됨)
-    //index에 맞는 slot자식으로 Sequence_UI 생성 
     private void Start()
     {
         InitSlots();
@@ -38,7 +36,7 @@ public class TimelineManager : SingleTon<TimelineManager>
         UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>();
         sequenceUI.block = block;
         sequence.transform.localPosition = Vector3.zero;
-
+        slots[index].slotIndex = index;
         slots[index].currentItem = sequence;
         index++;
     }

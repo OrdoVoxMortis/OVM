@@ -86,9 +86,10 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         {
             manager.PlacedBlocks.Add(null);
         }
-
+        Debug.Log($"스왑 전 : slot {slotIndex} = {manager.PlacedBlocks[slotIndex]?.BlockName}, slot {otherSlot.slotIndex} = {manager.PlacedBlocks[otherSlot.slotIndex]?.BlockName}");
         Block temp = manager.PlacedBlocks[slotIndex];
         manager.PlacedBlocks[slotIndex] = manager.PlacedBlocks[otherSlot.slotIndex];
         manager.PlacedBlocks[otherSlot.slotIndex] = temp;
+        Debug.Log($"스왑 후 : slot {slotIndex} = {manager.PlacedBlocks[slotIndex]?.BlockName}, slot {otherSlot.slotIndex} = {manager.PlacedBlocks[otherSlot.slotIndex]?.BlockName}");
     }
 }
