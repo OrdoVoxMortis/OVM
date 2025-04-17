@@ -15,7 +15,6 @@ public class TargetIdleState : TargetBaseState
     {
         stateMachine.Target.Agent.isStopped = true;
         base.Enter();
-        StartAnimation(stateMachine.Target.AnimationData.GroundParameterHash);
         StartAnimation(stateMachine.Target.AnimationData.IdleParameterHash);
         timer = idleDuration;
     }
@@ -23,7 +22,6 @@ public class TargetIdleState : TargetBaseState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(stateMachine.Target.AnimationData.GroundParameterHash);
         StopAnimation(stateMachine.Target.AnimationData.IdleParameterHash);
     }
 

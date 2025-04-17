@@ -33,7 +33,7 @@ public class TargetStateMachine : StateMachine
     {
         this.Target = target;
 
-        this.Blocks = target.blocks;
+        this.Blocks = target.route;
 
         IdleState = new TargetIdleState(this);
         ChasingState = new TargetChasingState(this);

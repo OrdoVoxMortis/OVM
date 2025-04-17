@@ -16,4 +16,7 @@ public class TargetBlockInfo : MonoBehaviour
 
     [Header("행동 지속 시간(초)")]
     public float stateDuration = 0f;
+
+    [Header("해당 블럭까지의 이동속도")]
+    public float moveSpeed = 0f;
 }

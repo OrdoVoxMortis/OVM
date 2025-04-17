@@ -16,11 +16,13 @@ public class Target : NPC
 
     public bool IsNotified { get; set; } = false;
 
+    [Header("Route")]
     public GameObject startBlock;
     public GameObject[] blocks;
     public GameObject turningBlock;
     public GameObject safeZone;
     public int BlockNumber { get; set; } = 0;
+    public GameObject[] route;
 
     private void Awake()
     {
@@ -28,22 +30,23 @@ public class Target : NPC
         Animator = GetComponentInChildren<Animator>();
         Agent = GetComponent<NavMeshAgent>();
 
-        List<GameObject> route = new List<GameObject>();
+        List<GameObject> _route = new List<GameObject>();
 
         if (startBlock != null)
         {
-            route.Add(startBlock);
+            _route.Add(startBlock);
         }
         if (blocks != null && blocks.Length > 0)
         {
-            route.AddRange(blocks);
+            _route.AddRange(blocks);
         }
         if (turningBlock != null)
         {
-            route.Add(turningBlock);
+            _route.Add(turningBlock);
         }
 
-        blocks = route.ToArray();
+        route = _route.ToArray();
+
 
         stateMachine = new TargetStateMachine(this);
     }
@@ -52,6 +55,7 @@ public class Target : NPC
     void Start()
     {
         stateMachine.ChangeState(stateMachine.IdleState);
+        stateMachine.Target.Agent.speed = stateMachine.MovementSpeed;
     }
 
     // Update is called once per frame
@@ -61,42 +65,6 @@ public class Target : NPC
         stateMachine.Update();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-
-        TargetBlockInfo blockInfo = other.GetComponent<TargetBlockInfo>();
-        if (blockInfo != null)
-        {
-            Debug.LogError($"Blocks{BlockNumber}, Type : {blockInfo.blockStateType}");
-
-            switch (blockInfo.blockStateType)
-            {
-                case TargetBlockStateType.Idle:
-                    {
-                        TargetIdleState idleState = stateMachine.IdleState;
-                        idleState.SetDuration(blockInfo.stateDuration);
-
-                        stateMachine.ChangeState(idleState);
-                    }
-                    break;
-
-                case TargetBlockStateType.Interaction:
-                    {
-                        TargetInteractionState interactionState = stateMachine.InteractionState;
-                        interactionState.SetDuration(blockInfo.stateDuration);
-                        stateMachine.ChangeState(interactionState);
-                    }
-                    break;
-
-                default:
-                    {
-                        stateMachine.Target.BlockNumber++;
-                        stateMachine.ChangeState(stateMachine.ChasingState);
-                    }
-                    break;
-            }
-        }
-
-    }
+    
 
 }

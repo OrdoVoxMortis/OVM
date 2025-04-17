@@ -114,12 +114,6 @@ public class TargetBaseState : IState
     }
 
 
-    private float GetMovementSpeed()
-    {
-        float moveSpeed = stateMachine.MovementSpeed * stateMachine.MovementSpeedModifier;
-        return moveSpeed;
-    }
-
     private void Rotate(Vector3 direction)
     {
         if (direction != Vector3.zero)
