@@ -13,7 +13,9 @@ public enum NpcType
 [UGS(typeof(ActionType))]
 public enum ActionType
 {
-    RunAway, // 두리번 -> 도망
+    None,
+    LookAround, // 두리번
+    RunAway, // 도망
     Chase, // 추격
     Notify, // 타겟 알림
     Watch // 시선
@@ -36,17 +38,42 @@ public class NPC : MonoBehaviour
     public float ViewDistance {  get; private set; } // 시야 거리
     public float MinAlertTime {  get; private set; } // 최소 경계 시간 
     public float MaxAlertTime {  get; private set; } // 최대 경계 시간
-    public ActionType AlertAction {  get; private set; } // 행동 패턴
+    public ActionType ContiAlertAction {  get; private set; } // 지속형 행동 패턴
+    public ActionType TriggerAlertAction {  get; private set; } // 발동형 행동 패턴
     public Suspicion SuspicionParams { get; private set; } // 의심 수치
     public int CurSuspicion { get; set; } // 현재 의심 수치
     public float CurAlertTime {  get; set; } // 현재 경계 시간
     public NavMeshAgent Agent { get; set; }
 
+    [field: SerializeField] public NPCSO Data { get; private set; }
+    [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
+
+    public Animator Animator { get; private set; }
+    public BoxCollider Area { get; set; }
+    public NpcStateMachine stateMachine;
+
+    private void Awake()
+    {
+    }
+    private void Start()
+    {
+        Init();
+        stateMachine = new NpcStateMachine(this);
+        stateMachine.ChangeState(stateMachine.IdleState);
+
+    }
     private void Init()
     {
         LoadData();
+        Animator = GetComponentInChildren<Animator>();
         Agent = GetComponent<NavMeshAgent>();
+        Area = GameObject.FindWithTag("Area").GetComponent<BoxCollider>();
+
         CurSuspicion = 0;
+    }
+    private void Update()
+    {
+        stateMachine?.Update();
     }
 
     void LoadData()
@@ -60,13 +87,41 @@ public class NPC : MonoBehaviour
         ViewDistance = type.viewDistance;
         MinAlertTime = type.minAlertTime;
         MaxAlertTime = type.maxAlertTime;
-        AlertAction = type.alertAction;
+        ContiAlertAction = type.contiAlertAction;
+        TriggerAlertAction = type.triggerAlertAction;
         var grade = type.suspicionParams;
+
+        SuspicionParams = new Suspicion();
         SuspicionParams.grade = DataManager.Instance.suspicionDict[grade].grade;
         SuspicionParams.increasePerSec = DataManager.Instance.suspicionDict[grade].increasePerSec;
         SuspicionParams.decreasePerSec = DataManager.Instance.suspicionDict[grade].decreasePerSec;
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        if (Agent == null)
+            return;
+
+        Gizmos.color = Color.yellow;
+
+        Vector3 position = transform.position;
+        Vector3 forward = transform.forward;
+
+        // ViewAngle 양쪽 방향 계산
+        Vector3 leftBoundary = Quaternion.Euler(0, -ViewAngle / 2f, 0) * forward;
+        Vector3 rightBoundary = Quaternion.Euler(0, ViewAngle / 2f, 0) * forward;
+
+        // 중심선
+        Gizmos.DrawLine(position, position + forward * ViewDistance);
+        // 왼쪽 시야선
+        Gizmos.DrawLine(position, position + leftBoundary * ViewDistance);
+        // 오른쪽 시야선
+        Gizmos.DrawLine(position, position + rightBoundary * ViewDistance);
+
+        // 시야 거리 원
+        Gizmos.color = new Color(1, 1, 0, 0.2f);
+        Gizmos.DrawWireSphere(position, ViewDistance);
+    }
 
 }
 

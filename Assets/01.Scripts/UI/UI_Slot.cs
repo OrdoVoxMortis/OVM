@@ -9,6 +9,8 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
     private Transform originalParent; // 드래그 시작할 때 아이템이 원래 어디에 있었는지, 기억하려고 사용
     private Canvas canvas; // 드래그 중에 아이템 따라다니게 할 때 필요
 
+    public int slotIndex; // 시퀀스가 어느 슬롯에 생성될 지 확인 시 필요
+
     private void Start()
     {
         canvas = GetComponentInParent<Canvas>(); // 자신의 부모중 canvas를 찾아서 저장한다
@@ -50,7 +52,10 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
             if (otherSlot != null)
             {
                 SwapItem(otherSlot);
+
+                SwapPlacedBlocks(otherSlot);
             }
+
         }
     }
 
@@ -70,5 +75,21 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
             otherSlot.currentItem.transform.SetParent(otherSlot.transform);
             otherSlot.currentItem.transform.localPosition = Vector3.zero;
         }
+    }
+
+    private void SwapPlacedBlocks(UI_Slot otherSlot)
+    {
+        var manager = TimelineManager.Instance;
+
+        int maxIndex = Mathf.Max(slotIndex, otherSlot.slotIndex);
+        while (manager.PlacedBlocks.Count <= maxIndex)
+        {
+            manager.PlacedBlocks.Add(null);
+        }
+        Debug.Log($"스왑 전 : slot {slotIndex} = {manager.PlacedBlocks[slotIndex]?.BlockName}, slot {otherSlot.slotIndex} = {manager.PlacedBlocks[otherSlot.slotIndex]?.BlockName}");
+        Block temp = manager.PlacedBlocks[slotIndex];
+        manager.PlacedBlocks[slotIndex] = manager.PlacedBlocks[otherSlot.slotIndex];
+        manager.PlacedBlocks[otherSlot.slotIndex] = temp;
+        Debug.Log($"스왑 후 : slot {slotIndex} = {manager.PlacedBlocks[slotIndex]?.BlockName}, slot {otherSlot.slotIndex} = {manager.PlacedBlocks[otherSlot.slotIndex]?.BlockName}");
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Target : NPC
+public class Target : MonoBehaviour
 {
     [field: SerializeField] public NPCSO Data { get; private set; }
 

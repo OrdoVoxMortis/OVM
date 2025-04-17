@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8730474530665121624}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BeforeFlexSequence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7318255412601981931}
   - component: {fileID: 1282677203295182360}
-  m_Layer: 0
+  - component: {fileID: 9094994942138661575}
+  m_Layer: 3
   m_Name: Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,6 +84,27 @@ MonoBehaviour:
   fixedSequenceRoot: {fileID: 8369399955365851715}
   afterFlexSequenceRoot: {fileID: 639684781713867432}
   beforeFlexSequenceRoot: {fileID: 8730474530665121624}
+--- !u!65 &9094994942138661575
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5381534610382193699}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5703182172750735396
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,8 +116,7 @@ GameObject:
   - component: {fileID: 6845415574282608299}
   - component: {fileID: 6692796512533094791}
   - component: {fileID: 8877986403051558803}
-  - component: {fileID: 4766142244499497668}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,27 +188,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4766142244499497668
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5703182172750735396}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5759253278975917342
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8369399955365851715}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FixedSequence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +228,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4014249323352688717}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sequences
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 639684781713867432}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AfterFlexSequence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8478077686629425315}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SuccessSequence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,7 +326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8973527211339520830}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FailSequence
   m_TagString: Untagged
   m_Icon: {fileID: 0}

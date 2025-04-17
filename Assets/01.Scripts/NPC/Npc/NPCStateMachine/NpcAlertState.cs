@@ -19,29 +19,30 @@ public class NpcAlertState : NpcBaseState
 
     public override void Update()
     {
-        stateMachine.npc.CurAlertTime += Time.deltaTime;
-        if (IncreaseSuspicion()) stateMachine.ChangeState(stateMachine.ActionState);
-        else
+        //base.Update();
+        if (IsPlayerInSight())
+        {
+            IncreaseSuspicion();
+            if (stateMachine.npc.CurSuspicion == stateMachine.npc.SuspicionParams.maxValue)
+                stateMachine.ChangeState(stateMachine.ActionState);
+        }
+        else if(!isAlert)
         {
             DecreaseSuspicion();
-            if(stateMachine.npc.CurSuspicion == 0) stateMachine.ChangeState(stateMachine.IdleState);
+            if (stateMachine.npc.CurSuspicion == 0) stateMachine.ChangeState(stateMachine.IdleState);
         }
     }
 
-    private bool IncreaseSuspicion() // true면 ActionState
+    private void IncreaseSuspicion() // true(max)면 ActionState
     {
         suspicionTimer += Time.deltaTime;
         if (suspicionTimer >= 1f)
         {
             suspicionTimer = 0f;
-            if (stateMachine.npc.CurSuspicion < stateMachine.npc.SuspicionParams.maxValue)
-            {
-                stateMachine.npc.CurSuspicion += stateMachine.npc.SuspicionParams.increasePerSec;
-                return false;
-            }
-            return true;
+            Debug.Log(stateMachine.npc.CurSuspicion);
+            stateMachine.npc.CurSuspicion = Mathf.Min(stateMachine.npc.SuspicionParams.maxValue, stateMachine.npc.CurSuspicion + stateMachine.npc.SuspicionParams.increasePerSec);
         }
-        return false;
+
     }
 
     private void DecreaseSuspicion()
@@ -50,7 +51,7 @@ public class NpcAlertState : NpcBaseState
         if (suspicionTimer >= 1f)
         {
             suspicionTimer = 0f;
-            stateMachine.npc.CurSuspicion = Mathf.Max(0, stateMachine.npc.CurSuspicion -= stateMachine.npc.SuspicionParams.decreasePerSec);
+            stateMachine.npc.CurSuspicion = Mathf.Max(0, stateMachine.npc.CurSuspicion - stateMachine.npc.SuspicionParams.decreasePerSec);
         }
     }
 }
