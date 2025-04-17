@@ -89,6 +89,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Setting"",
+                    ""type"": ""Button"",
+                    ""id"": ""68694467-81c9-406e-b220-d2f78eda49a5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -212,6 +221,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""SimulationModeToggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c745c948-982f-4a2a-8c22-57485525f8e5"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Setting"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -255,6 +275,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Sit = m_Player.FindAction("Sit", throwIfNotFound: true);
         m_Player_Interection = m_Player.FindAction("Interection", throwIfNotFound: true);
         m_Player_SimulationModeToggle = m_Player.FindAction("SimulationModeToggle", throwIfNotFound: true);
+        m_Player_Setting = m_Player.FindAction("Setting", throwIfNotFound: true);
         // RhythmMode
         m_RhythmMode = asset.FindActionMap("RhythmMode", throwIfNotFound: true);
         m_RhythmMode_RhythmInput = m_RhythmMode.FindAction("RhythmInput", throwIfNotFound: true);
@@ -326,6 +347,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sit;
     private readonly InputAction m_Player_Interection;
     private readonly InputAction m_Player_SimulationModeToggle;
+    private readonly InputAction m_Player_Setting;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -337,6 +359,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Sit => m_Wrapper.m_Player_Sit;
         public InputAction @Interection => m_Wrapper.m_Player_Interection;
         public InputAction @SimulationModeToggle => m_Wrapper.m_Player_SimulationModeToggle;
+        public InputAction @Setting => m_Wrapper.m_Player_Setting;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -367,6 +390,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @SimulationModeToggle.started += instance.OnSimulationModeToggle;
             @SimulationModeToggle.performed += instance.OnSimulationModeToggle;
             @SimulationModeToggle.canceled += instance.OnSimulationModeToggle;
+            @Setting.started += instance.OnSetting;
+            @Setting.performed += instance.OnSetting;
+            @Setting.canceled += instance.OnSetting;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -392,6 +418,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @SimulationModeToggle.started -= instance.OnSimulationModeToggle;
             @SimulationModeToggle.performed -= instance.OnSimulationModeToggle;
             @SimulationModeToggle.canceled -= instance.OnSimulationModeToggle;
+            @Setting.started -= instance.OnSetting;
+            @Setting.performed -= instance.OnSetting;
+            @Setting.canceled -= instance.OnSetting;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -464,6 +493,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnSit(InputAction.CallbackContext context);
         void OnInterection(InputAction.CallbackContext context);
         void OnSimulationModeToggle(InputAction.CallbackContext context);
+        void OnSetting(InputAction.CallbackContext context);
     }
     public interface IRhythmModeActions
     {

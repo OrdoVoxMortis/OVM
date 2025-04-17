@@ -26,11 +26,13 @@ public class PlayerIdleState : PlayerGroundState
     public override void Update()
     {
         base.Update();
-
-        if (stateMachine.MovementInput != Vector2.zero)
+        if (!UIManager.Instance.isUIActive)
         {
-            stateMachine.ChangeState(stateMachine.WalkState);
-            return;
+            if (stateMachine.MovementInput != Vector2.zero)
+            {
+                stateMachine.ChangeState(stateMachine.WalkState);
+                return;
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class StageScene : Scene
+public class StageScene : BaseScene
 {
     protected override void Init()
     {

@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,23 @@ using UnityEngine;
 public class UIManager : SingleTon<UIManager>
 {
     private Dictionary<string, BaseUI> activeUIs = new(); // 활성화된 UI
+    public bool isUIActive = false;
+    public static event System.Action OnEscPressed;
 
     protected override void Awake()
     {
         base.Awake();
     }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnEscPressed?.Invoke();
+            Debug.Log("메뉴출력");
+        }
+    }
+
     public T ShowUI<T>(string name) where T : BaseUI
     {
         var ui = ResourceManager.Instance.LoadUI<T>(name);
@@ -37,6 +50,30 @@ public class UIManager : SingleTon<UIManager>
         }
         ResourceManager.Instance.UIList.Clear();
         activeUIs.Clear();
+    }
+
+    public void UIActive()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Debug.Log("UI Active: 커서 Unlock 처리됨");
+        Cursor.visible = true;
+
+        if (GameManager.Instance.Player.Input.playerCamera != null)
+            GameManager.Instance.Player.Input.playerCamera.enabled = false;
+
+        isUIActive = true;
+    }
+
+    public void UIDeactive()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Debug.Log("UI DeActive: 커서 lock 처리됨");
+        Cursor.visible = false;
+
+        if (GameManager.Instance.Player.Input.playerCamera != null)
+            GameManager.Instance.Player.Input.playerCamera.enabled = true;
+
+        isUIActive = false;
     }
 
 }

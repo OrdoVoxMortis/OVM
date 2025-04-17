@@ -60,7 +60,10 @@ public class PlayerBaseState : IState
 
     public virtual void Update()
     {
-        Move();
+        if (!UIManager.Instance.isUIActive)
+        {
+            Move();
+        }
     }
 
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)

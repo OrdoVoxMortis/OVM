@@ -63,7 +63,9 @@ namespace Hamster.ZG.Type
         {
             return value.Trim().ToLower() switch
             {
+                "TRUE" => true,
                 "true" => true,
+                "FALSE" => false,
                 "false" => false,
                 "1" => true,
                 "0" => false,

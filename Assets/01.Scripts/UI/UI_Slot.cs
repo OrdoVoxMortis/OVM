@@ -1,34 +1,74 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_Slot : MonoBehaviour, IDropHandler
+
+public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
+    public GameObject currentItem; // 슬롯 안에 들어있는 아이템 (프리팹 인스턴스)
+
+    private Transform originalParent; // 드래그 시작할 때 아이템이 원래 어디에 있었는지, 기억하려고 사용
+    private Canvas canvas; // 드래그 중에 아이템 따라다니게 할 때 필요
+
+    private void Start()
+    {
+        canvas = GetComponentInParent<Canvas>(); // 자신의 부모중 canvas를 찾아서 저장한다
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (currentItem != null)
+        {
+            originalParent = currentItem.transform.parent; // 현재 부모 저장
+            currentItem.transform.SetParent(canvas.transform); // 캔버스 위로 올림
+            currentItem.GetComponent<CanvasGroup>().blocksRaycasts = false; // 드래그 중엔 Raycast 막기
+        }
+    }
+
+    public void OnDrag(PointerEventData eventData) 
+    {
+        if (currentItem != null)
+        {
+            currentItem.transform.position = eventData.position; // 마우스 따라다니게
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (currentItem != null)
+        {
+            currentItem.transform.SetParent(originalParent); // 원래 자리로 돌림
+            currentItem.transform.localPosition = Vector3.zero;
+            currentItem.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        }
+    }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (UI_Sequence.dragSequence != null)
+        if (eventData.pointerDrag != null)
         {
-            UI_Sequence draggedSequence = UI_Sequence.dragSequence.GetComponent<UI_Sequence>();
-
-
-            if (draggedSequence != null)
+            UI_Slot otherSlot = eventData.pointerDrag.GetComponentInParent<UI_Slot>();
+            if (otherSlot != null)
             {
-                if (transform.childCount > 0) // 현재 할당된 슬롯에 다른 블록이 있는지 검사함
-                {
-                    Transform exisitingSequence = transform.GetChild(0); // 슬롯에 이미 존재하는 아이템 가져오기
-
-                    exisitingSequence.SetParent(draggedSequence.startParent); // 기존 아이템을 드래그만 하면 원래 슬롯으로 이동
-
-                    exisitingSequence.position = draggedSequence.startParent.position; // 기존 아이템의 위치를 원래 슬롯으로 맞춰줌
-                }
-
-                draggedSequence.transform.SetParent(transform); // 드래그하던 아이템을 현재 슬롯으로 이동
-
-                draggedSequence.transform.position = transform.position; // 드래그하던 아이템의 위치를 슬롯의 위치로 맞춰줌
-
-                draggedSequence.startParent = transform; // 드래그앤 드랍 성공시 부모 슬롯 갱신 (드래그 실패시 새로운 슬롯으로 부터 복구)
+                SwapItem(otherSlot);
             }
+        }
+    }
 
+    private void SwapItem(UI_Slot otherSlot)
+    {
+        GameObject temp = currentItem;
+        currentItem = otherSlot.currentItem;
+        otherSlot.currentItem = temp;
+
+        if (currentItem != null)
+        {
+            currentItem.transform.SetParent(transform);
+            currentItem.transform.localPosition = Vector3.zero;
+        }
+        if (otherSlot.currentItem != null)
+        {
+            otherSlot.currentItem.transform.SetParent(otherSlot.transform);
+            otherSlot.currentItem.transform.localPosition = Vector3.zero;
         }
     }
 }

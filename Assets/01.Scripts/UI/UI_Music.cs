@@ -18,13 +18,13 @@ public class UI_Music : BaseUI
 
     private void Start()
     {
+        gameObject.SetActive(false);
         CreateMusicButtons();
     }
 
     private void OnClickBack()
     {
-        gameObject.SetActive(false);
-        SoundManager.Instance.StopBGM();  
+        Hide();
     }
 
     private void CreateMusicButtons()
@@ -43,7 +43,7 @@ public class UI_Music : BaseUI
     {
         SoundManager.Instance.PlayBGM(bgmName);
         Debug.Log($"Playing BGM: {bgmName}");
-
+        SoundManager.Instance.SetSelectedBGM(bgmName);
         if(currentImage!=null)
             currentImage.gameObject.SetActive(false);
 

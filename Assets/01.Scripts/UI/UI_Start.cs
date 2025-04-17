@@ -10,11 +10,11 @@ public class UI_Start: BaseUI
         base.Awake();
 
         if(closeBtn != null)
-         closeBtn.onClick.AddListener(CloseUI);
-    }
+            closeBtn.onClick.AddListener(Hide);
 
-    private void CloseUI()
+    }
+    private void Start()
     {
-        gameObject.SetActive(false);
+        UIManager.Instance.UIActive();
     }
 }

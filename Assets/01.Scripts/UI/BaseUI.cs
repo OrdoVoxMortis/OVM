@@ -2,22 +2,24 @@ using UnityEngine;
 
 public class BaseUI : MonoBehaviour
 {
-    GameObject panel;
+    
 
     protected virtual void Awake()
     {
-        panel = transform.GetChild(0).gameObject; // 패널 호출해주는데, 만약 패널이 호출되지 않았다면 첫 번째 자식을 패널이라고 설정해주기
+       
         Cursor.lockState = CursorLockMode.None;
     }
 
     public virtual void Show() // ui 보여주기
     {
-        panel.SetActive(true);
+        gameObject.SetActive(true);
+        UIManager.Instance.UIActive();
     }
 
     public virtual void Hide() // ui 숨겨주기
     {
-        panel.SetActive(false);
+        gameObject.SetActive(false);
+        UIManager.Instance.UIDeactive();
     }
     public virtual void Close()
     {

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ContactBlock : Block
 {
-    //NPC npc
+    Enemy enemy;
     public bool IsTarget {  get; private set; } // 타겟
 
     protected override void LoadData()
     {
         base.LoadData();
-        //IsTarget = DataManager.Instance.blockDict[id].IsTarget;
+        IsTarget = DataManager.Instance.blockDict[id].isTarget;
     }
 }
