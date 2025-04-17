@@ -29,7 +29,7 @@ public enum CombineType
     AllowSpecific // 특정 블럭 허용
 }
 
-public class Block : MonoBehaviour
+public class Block : MonoBehaviour, IInteractable
 {
     public int id;
     public string BlockName {  get; private set; } // 이름
@@ -92,4 +92,14 @@ public class Block : MonoBehaviour
         AfterFlexSequence = ResourceManager.Instance.LoadAnimation(data.afterFlexSequence);
     }
 
+    public void OnInteract()
+    {
+        TimelineManager.Instance.AddBlock(this);
+        BlockManager.Instance.OnBlockUpdate?.Invoke();
+    }
+
+    public string GetInteractComponent()
+    {
+        return "E키를 눌러 타임라인에 추가";
+    }
 }
