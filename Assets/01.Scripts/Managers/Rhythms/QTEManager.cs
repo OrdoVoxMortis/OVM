@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QTEManager : MonoBehaviour
 {
-    public static QTEManager Instance;
+    //public static QTEManager Instance;
 
     public float bpm = 120.0f; //120 bpm
     public List<float> beats;    //입력 받을 패턴 리스트
@@ -15,9 +15,10 @@ public class QTEManager : MonoBehaviour
     public GameObject qtePrefabs;
     public Canvas canvas;
 
-    private AudioSource audioSource;
-    public AudioClip beepClip;
+    public AudioClip[] hitSound = new AudioClip[2]; //0은 일반 노트 //1은 포인트 노트
+    public AudioSource audioSource;
 
+    /*
     private void Awake()
     {
         if (Instance == null)
@@ -29,13 +30,18 @@ public class QTEManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        audioSource = gameObject.AddComponent<AudioSource>();
     }
+    */
+
 
     // Start is called before the first frame update
     void Start()
     {
         qteList = new List<QTE>();
+        audioSource = gameObject.AddComponent<AudioSource>();
+
+        //오디오 클립가져오기
+        //구현
     }
 
     // Update is called once per frame
@@ -43,7 +49,6 @@ public class QTEManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && !(qteList.Count <= 0))
         {
-            audioSource.PlayOneShot(beepClip);
             CheckQTE();
         }
     }
@@ -78,7 +83,10 @@ public class QTEManager : MonoBehaviour
         {
             return;
         }
-        qteList[0].CheckJudge();
+
+        audioSource.PlayOneShot(qteList[0].isPointNotes ? hitSound[1] : hitSound[0]);
+
+        //qteList[0].CheckJudge();
         qteList.RemoveAt(0);
     }
 

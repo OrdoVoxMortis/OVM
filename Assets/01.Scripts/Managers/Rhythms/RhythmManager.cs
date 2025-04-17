@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RhythmManager : MonoBehaviour
+public class RhythmManager : SingleTon<RhythmManager>
 {
-    public AudioSource audioSource;
+    //public AudioSource audioSource;
+    public string bgmName;
     private double musicStartTime;
     private double musicNowTime;
     public double syncTime; //싱크 맞추는 용도
@@ -17,32 +18,38 @@ public class RhythmManager : MonoBehaviour
 
     private AudioClip beepClip;
 
-
     private AudioSource beepAudioSource;
 
-    public void Awake()
+    public AnimationCurve curve;
+
+    public void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        //audioSource = GetComponent<AudioSource>();
         measure = 60f / bpm * 4 * 4; //4박자가 한 마디 //4마디로 한 줄
 
         qteManager = GetComponent<QTEManager>();
         qteManager.bpm = bpm;
 
+        //테스트용 비프음
         beepClip = CreateBeepClip();
         beepAudioSource = gameObject.AddComponent<AudioSource>();
         beepAudioSource.clip = beepClip;
+
+        bgmName = "Song1";
     }
 
     public void StartMusic()
     {
         musicStartTime = AudioSettings.dspTime;
-        audioSource.Play();
+        //audioSource.Play();
+        SoundManager.Instance.PlayBGM(bgmName);
     }
 
     public void StartBeep()
     {
         musicStartTime = AudioSettings.dspTime;
-        audioSource.Play();
+        //audioSource.Play();
+        SoundManager.Instance.PlayBGM(bgmName);
         InvokeRepeating("PlayBeep", (float)syncTime, 60f / bpm);
     }
 
