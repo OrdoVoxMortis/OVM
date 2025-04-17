@@ -38,7 +38,7 @@ public class MissionNote : MonoBehaviour, IInteractable
             Sprite image = null;
             if (!string.IsNullOrEmpty(ImageName))
             {
-                image = Resources.Load<Sprite>(ImageName);
+                image = ResourceManager.Instance.LoadImage(ImageName);
             }
             questUI.SetQuest(Description, image, "");
             questUI.Show();
