@@ -14,6 +14,7 @@ public class Interaction : MonoBehaviour
     public LayerMask layerMask;
 
     private GameObject curInteractGameObject;
+    public GameObject settingMenu;
     private IInteractable curInteractable;
     [SerializeField] private TextMeshProUGUI interactText;
 
@@ -26,6 +27,7 @@ public class Interaction : MonoBehaviour
         camera = Camera.main;
         PlayerController input = GameManager.Instance.Player.Input;
         input.playerActions.Interection.started += OnInteractInput;
+        input.playerActions.Setting.started += OnSettingInput;
         SceneManager.sceneLoaded += OnInteract;
     }
 
@@ -83,15 +85,31 @@ public class Interaction : MonoBehaviour
         }
     }
 
+    public void OnSettingInput(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Started)
+        {
+            // UI가 비활성화 상태라면 → 세팅창 열기
+            if (!UIManager.Instance.isUIActive)
+            {
+                settingMenu.SetActive(true);
+                UIManager.Instance.UIActive(); // 커서 unlock, playerCamera 끄기 등
+            }
+            // UI가 이미 켜져 있으면 → 세팅창 닫기
+            else
+            {
+                settingMenu.SetActive(false);
+                UIManager.Instance.UIDeactive(); // 커서 lock, camera 다시 켜기
+            }
+        }
+    }
+
     private void OnInteract(Scene scene, LoadSceneMode mode)
     {
         PlayerController input = GameManager.Instance.Player.Input;
         input.playerActions.Interection.started += OnInteractInput;
-        
         interactText = FindObjectOfType<TextMeshProUGUI>();
         curInteractGameObject = null;
         curInteractable = null;
     }
-
-
 }
