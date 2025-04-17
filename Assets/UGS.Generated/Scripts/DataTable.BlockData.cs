@@ -67,11 +67,11 @@ namespace DataTable
 		public System.Single afterFlexibleMarginTime;
 		public System.Boolean isDeathTrigger;
 		public System.Boolean isTarget;
-		public System.Collections.Generic.List<Int32> successSequence;
-		public System.Collections.Generic.List<Int32> failSequence;
-		public System.Collections.Generic.List<Int32> fixedSequence;
-		public System.Collections.Generic.List<Int32> beforeFlexSequence;
-		public System.Collections.Generic.List<Int32> afterFlexSequence;
+		public System.String successSequence;
+		public System.String failSequence;
+		public System.String fixedSequence;
+		public System.String beforeFlexSequence;
+		public System.String afterFlexSequence;
   
 
 #region fuctions
