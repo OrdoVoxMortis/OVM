@@ -1,8 +1,12 @@
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class UI_Sequence : MonoBehaviour
 {
- ///summary
- 
- /// summary
+    public Block block;
+
+    public UI_Sequence(Block block)
+    {
+        this.block = block;
+    }
 }

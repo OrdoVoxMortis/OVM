@@ -29,7 +29,7 @@ public enum CombineType
     AllowSpecific // 특정 블럭 허용
 }
 
-public class Block : MonoBehaviour
+public class Block : MonoBehaviour, IInteractable
 {
     public int id;
     public string BlockName {  get; private set; } // 이름
@@ -57,11 +57,11 @@ public class Block : MonoBehaviour
     public Transform afterFlexSequenceRoot;
     public Transform beforeFlexSequenceRoot;
 
-    public List<Ghost> SuccessSequence {  get; private set; } // 성공 노트 시퀀스
-    public List<Ghost> FailSequence {  get; private set; } // 실패 노트 시퀀스
-    public List<Ghost> FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
-    public List<Ghost> BeforeFlexSequence {get; private set;} // 앞 유동 시간 노트 시퀀스
-    public List<Ghost> AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
+    public Animation SuccessSequence {  get; private set; } // 성공 노트 시퀀스
+    public Animation FailSequence {  get; private set; } // 실패 노트 시퀀스
+    public Animation FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
+    public Animation BeforeFlexSequence {get; private set;} // 앞 유동 시간 노트 시퀀스
+    public Animation AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
 
     private void Awake()
     {
@@ -84,37 +84,22 @@ public class Block : MonoBehaviour
         IsDeathTrigger = data.isDeathTrigger;
         CurrentAfterFlexTime = AfterFlexibleMarginTime;
         CurrentBeforeFlexTime = BeforeFlexibleMarginTime;
-        for(int i = 0; i < data.beforeFlexSequence.Count; i++)
-        {
-            int id = data.beforeFlexSequence[i];
-           // BeforeFlexSequence[i] = 고스트[i];
-        }
-        for(int i = 0; i < data.afterFlexSequence.Count; i++)
-        {
-            int id = data.afterFlexSequence[i];
-            //AfterFlexSequnece[i] = 고스트[i];
-        }
-        for(int i = 0; i < data.fixedSequence.Count; i++)
-        {
-            int id = data.fixedSequence[i];
-            //FixedSequence[i] = 고스트[i];
-        }
-        for (int i = 0; i < data.successSequence.Count; i++)
-        {
-            int id = data.successSequence[i];
-            //SuccessSequence[i] = 고스트[i];
-        }
-        for(int i = 0; i < data.failSequence.Count; i++)
-        {
-            int id = data.failSequence[i];
-            //FailSequence[i] = 고스트[i];
-        }
+
+        SuccessSequence = ResourceManager.Instance.LoadAnimation(data.successSequence);
+        FailSequence = ResourceManager.Instance.LoadAnimation(data.failSequence);
+        FixedSequence = ResourceManager.Instance.LoadAnimation(data.fixedSequence);
+        BeforeFlexSequence = ResourceManager.Instance.LoadAnimation(data.beforeFlexSequence);
+        AfterFlexSequence = ResourceManager.Instance.LoadAnimation(data.afterFlexSequence);
     }
 
-    private void InteractBlock()
+    public void OnInteract()
     {
-        BlockManager.Instance.SetGhostSequence(this);
+        TimelineManager.Instance.AddBlock(this);
+        BlockManager.Instance.OnBlockUpdate?.Invoke();
     }
 
-
+    public string GetInteractComponent()
+    {
+        return "E키를 눌러 타임라인에 추가";
+    }
 }

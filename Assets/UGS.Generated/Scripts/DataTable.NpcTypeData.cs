@@ -62,7 +62,8 @@ namespace DataTable
 		public System.String suspicionParams;
 		public System.Single minAlertTime;
 		public System.Single maxAlertTime;
-		public ActionType alertAction;
+		public ActionType contiAlertAction;
+		public ActionType triggerAlertAction;
   
 
 #region fuctions
