@@ -49,13 +49,26 @@ public class Target : MonoBehaviour
 
 
         stateMachine = new TargetStateMachine(this);
+        Agent.updateRotation = false;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        stateMachine.ChangeState(stateMachine.IdleState);
-        stateMachine.Target.Agent.speed = stateMachine.MovementSpeed;
+        if (startBlock != null)
+        {
+
+            Agent.Warp(startBlock.transform.position);
+        }
+
+        var idle = stateMachine.IdleState;
+        var startInfo = startBlock?.GetComponent<TargetBlockInfo>();
+        if (startInfo != null && startInfo.blockStateType == TargetBlockStateType.Idle)
+        {
+            idle.SetDuration(startInfo.stateDuration);
+        }
+        stateMachine.ChangeState(idle);
+       
     }
 
     // Update is called once per frame
