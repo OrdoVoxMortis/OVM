@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TargetBaseState : IState
 {
@@ -95,8 +96,9 @@ public class TargetBaseState : IState
 
         stateMachine.Target.Agent.SetDestination(movementDirection);
 
-        Rotate(movementDirection - stateMachine.Target.transform.position);
-        
+        RotateVelocity();
+        //Rotate(movementDirection - stateMachine.Target.transform.position);
+
     }
 
     private Vector3 GetMovementDirection()
@@ -113,17 +115,30 @@ public class TargetBaseState : IState
         return stateMachine.Blocks[blockNumber].transform.position;
     }
 
-
-    private void Rotate(Vector3 direction)
+    private void RotateVelocity()
     {
-        if (direction != Vector3.zero)
-        {
-            Transform playerTransform = stateMachine.Target.transform;
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
+        NavMeshAgent agent = stateMachine.Target.Agent;
+        Vector3 vel = agent.velocity;
 
-        }
+        if (vel.sqrMagnitude < 0.01f) return;
+
+        Quaternion targetRot = Quaternion.LookRotation(vel.normalized);
+        Transform tTrans = stateMachine.Target.transform;
+        tTrans.rotation = Quaternion.Slerp(tTrans.rotation, targetRot, stateMachine.RotationDamping * Time.deltaTime);
+
     }
+
+
+    //private void Rotate(Vector3 direction)
+    //{
+    //    if (direction != Vector3.zero)
+    //    {
+    //        Transform playerTransform = stateMachine.Target.transform;
+    //        Quaternion targetRotation = Quaternion.LookRotation(direction);
+    //        playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
+
+    //    }
+    //}
 
     // Target의 시야 범위를 구하기 
     protected bool IsPlayerInSight()

@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 
 public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    public GameObject currentItem; // 슬롯 안에 들어있는 아이템 (프리팹 인스턴스)
+    public UI_Sequence currentItem; // 슬롯 안에 들어있는 아이템 (프리팹 인스턴스)
 
     private Transform originalParent; // 드래그 시작할 때 아이템이 원래 어디에 있었는지, 기억하려고 사용
     private Canvas canvas; // 드래그 중에 아이템 따라다니게 할 때 필요
@@ -51,21 +52,24 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
             UI_Slot otherSlot = eventData.pointerDrag.GetComponentInParent<UI_Slot>();
             if (otherSlot != null)
             {
-                SwapItem(otherSlot);
            
                 TimelineManager.Instance.MoveBlockAndShift(otherSlot.slotIndex,slotIndex);
                 for (int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
                 {
                     Debug.Log($"[정렬후] slot {i} = {(TimelineManager.Instance.PlacedBlocks[i] != null ? TimelineManager.Instance.PlacedBlocks[i].BlockName : "null")}");
                 }
+                SwapBlocks(otherSlot);
+
             }
+
+            PullPlacedBlocks();
 
         }
     }
 
-    private void SwapItem(UI_Slot otherSlot)
+    private void SwapBlocks(UI_Slot otherSlot)
     {
-        GameObject temp = currentItem;
+        UI_Sequence temp = currentItem;
         currentItem = otherSlot.currentItem;
         otherSlot.currentItem = temp;
 
@@ -80,6 +84,29 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
             otherSlot.currentItem.transform.localPosition = Vector3.zero;
         }
     }
+    private void PullPlacedBlocks()
+    {
+        List<UI_Slot> slots = TimelineManager.Instance.slots; // TimelineManager에 있는 슬롯 가져오기
 
+        for (int i = 0; i<slots.Count; i++)
+        {
+            if (slots[i].currentItem == null)
+            {
+                for(int j = i+1; j < slots.Count; j++)
+                {
+                    if (slots[j].currentItem != null)
+                    {
+                        slots[i].currentItem = slots[j].currentItem;
+                        slots[i].currentItem.transform.SetParent(slots[i].transform);
+                        slots[i].currentItem.transform.localPosition = Vector3.zero;
+
+                        slots[j].currentItem = null;
+                        break;
+                    }
+                }
+            }
+        }
+       
+    }
 
 }
