@@ -93,9 +93,10 @@ MonoBehaviour:
   slotPrefab: {fileID: 7393357664073851479, guid: 5349adadbcde5114bbe36dcb24327367,
     type: 3}
   slotCount: 10
-  slotParent: {fileID: 0}
-  sequencePrefab: {fileID: 1596082473019703876, guid: b94400f1b7938334a8ef780140beb1ab,
+  slotParent: {fileID: 6243984218729371079}
+  sequencePrefab: {fileID: -4415699715661040624, guid: b94400f1b7938334a8ef780140beb1ab,
     type: 3}
+  slots: []
 --- !u!114 &2937819601873161802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +114,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1

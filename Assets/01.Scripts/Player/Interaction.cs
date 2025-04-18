@@ -104,6 +104,8 @@ public class Interaction : MonoBehaviour
         }
     }
 
+  
+
     private void OnInteract(Scene scene, LoadSceneMode mode)
     {
         PlayerController input = GameManager.Instance.Player.Input;

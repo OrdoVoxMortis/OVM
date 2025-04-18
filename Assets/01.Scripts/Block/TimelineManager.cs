@@ -18,6 +18,7 @@ public class TimelineManager : SingleTon<TimelineManager>
     {
         CreateSlots();
         InitSlots();
+        gameObject.SetActive(false);
     }
 
     public void InitSlots()

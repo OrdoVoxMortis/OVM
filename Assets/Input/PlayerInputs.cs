@@ -98,6 +98,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Simulate"",
+                    ""type"": ""Button"",
+                    ""id"": ""20f1bf21-4e2c-4966-bf23-6453a051d47b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Setting"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96e2c7e9-990a-4425-aa4c-cb7c8fc7a099"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Simulate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -276,6 +296,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Interection = m_Player.FindAction("Interection", throwIfNotFound: true);
         m_Player_SimulationModeToggle = m_Player.FindAction("SimulationModeToggle", throwIfNotFound: true);
         m_Player_Setting = m_Player.FindAction("Setting", throwIfNotFound: true);
+        m_Player_Simulate = m_Player.FindAction("Simulate", throwIfNotFound: true);
         // RhythmMode
         m_RhythmMode = asset.FindActionMap("RhythmMode", throwIfNotFound: true);
         m_RhythmMode_RhythmInput = m_RhythmMode.FindAction("RhythmInput", throwIfNotFound: true);
@@ -348,6 +369,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interection;
     private readonly InputAction m_Player_SimulationModeToggle;
     private readonly InputAction m_Player_Setting;
+    private readonly InputAction m_Player_Simulate;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -360,6 +382,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Interection => m_Wrapper.m_Player_Interection;
         public InputAction @SimulationModeToggle => m_Wrapper.m_Player_SimulationModeToggle;
         public InputAction @Setting => m_Wrapper.m_Player_Setting;
+        public InputAction @Simulate => m_Wrapper.m_Player_Simulate;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -393,6 +416,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Setting.started += instance.OnSetting;
             @Setting.performed += instance.OnSetting;
             @Setting.canceled += instance.OnSetting;
+            @Simulate.started += instance.OnSimulate;
+            @Simulate.performed += instance.OnSimulate;
+            @Simulate.canceled += instance.OnSimulate;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -421,6 +447,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Setting.started -= instance.OnSetting;
             @Setting.performed -= instance.OnSetting;
             @Setting.canceled -= instance.OnSetting;
+            @Simulate.started -= instance.OnSimulate;
+            @Simulate.performed -= instance.OnSimulate;
+            @Simulate.canceled -= instance.OnSimulate;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -494,6 +523,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnInterection(InputAction.CallbackContext context);
         void OnSimulationModeToggle(InputAction.CallbackContext context);
         void OnSetting(InputAction.CallbackContext context);
+        void OnSimulate(InputAction.CallbackContext context);
     }
     public interface IRhythmModeActions
     {
