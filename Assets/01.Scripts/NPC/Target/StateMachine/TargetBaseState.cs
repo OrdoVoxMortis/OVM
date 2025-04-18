@@ -8,15 +8,13 @@ public class TargetBaseState : IState
 {
     protected TargetStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
-    protected GameObject player;
-    private Collider playerCollider;
+    
 
     public TargetBaseState(TargetStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
         groundData = stateMachine.Target.Data.GroundData;
-        player = GameManager.Instance.Player.gameObject;
-        playerCollider = player.GetComponent<Collider>();
+        
     }
 
     public virtual void Enter()
@@ -143,13 +141,13 @@ public class TargetBaseState : IState
     // Target의 시야 범위를 구하기 
     protected bool IsPlayerInSight()
     {
-        if (player == null)
+        if (stateMachine.Target.player == null)
         {
             Debug.LogError("Player가 등록되있지 않습니다.");
             return false;
         }
 
-        if (playerCollider == null)
+        if (stateMachine.Target.playerCollider == null)
         {
             Debug.LogError("Player Collider가 등록되있지 않습니다.");
             return false;
@@ -157,7 +155,7 @@ public class TargetBaseState : IState
 
         Vector3 headPosition = stateMachine.Target.transform.position + new Vector3(0, 1.5f, 0); // y값은 머리 위치
 
-        Vector3 playerClosetPoint = playerCollider.ClosestPoint(headPosition); // Target의 머리위치에서 부터 플레이어 콜라이더의 가장 가까운 위치를 구합니다.
+        Vector3 playerClosetPoint = stateMachine.Target.playerCollider.ClosestPoint(headPosition); // Target의 머리위치에서 부터 플레이어 콜라이더의 가장 가까운 위치를 구합니다.
 
         float sqrDistance = (playerClosetPoint - headPosition).sqrMagnitude;
         const float maxDistance = 8f * 8f;      //TODO : 두개의 값 다 Target의 시야 길이를 넣어야 합니다.
@@ -175,7 +173,7 @@ public class TargetBaseState : IState
         if (Physics.Raycast(headPosition, directionToPlayer, out RaycastHit hit, distance))
         {
         // 시야 범위내에 물건이 있다면 확인 불가능
-            if (hit.collider.gameObject != player)
+            if (hit.collider.gameObject != stateMachine.Target.player)
                 return false;
         }
 

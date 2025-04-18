@@ -24,6 +24,9 @@ public class Target : MonoBehaviour
     public int BlockNumber { get; set; } = 0;
     public GameObject[] route;
 
+    public GameObject player;
+    public Collider playerCollider;
+
     private void Awake()
     {
         AnimationData.Initialize();
@@ -68,7 +71,10 @@ public class Target : MonoBehaviour
             idle.SetDuration(startInfo.stateDuration);
         }
         stateMachine.ChangeState(idle);
-       
+
+        player = GameManager.Instance.Player.gameObject;
+        playerCollider = player.GetComponent<Collider>();
+
     }
 
     // Update is called once per frame
