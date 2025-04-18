@@ -80,9 +80,7 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
 
     private void PullPlacedBlocks()
     {
-        List<UI_Slot> slots = TimelineManager.Instance.slots;
-
-        // 상위의 코드 Slot_Manager를 통해 작동하도록 수정필요
+        List<UI_Slot> slots = TimelineManager.Instance.slots; // TimelineManager에 있는 슬롯 가져오기
 
         for (int i = 0; i<slots.Count; i++)
         {

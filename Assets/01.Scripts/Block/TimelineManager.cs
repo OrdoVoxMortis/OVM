@@ -40,10 +40,8 @@ public class TimelineManager : SingleTon<TimelineManager>
 
             if(uiSlot != null)
             {
-                Slot_Manager.Instance.AddSlot(uiSlot);
+                AddSlot(uiSlot);
             }
-
-            Slot_Manager.Instance.RefreshSlots();
         }
     }
 
@@ -59,6 +57,14 @@ public class TimelineManager : SingleTon<TimelineManager>
         slots[index].slotIndex = index;
         slots[index].currentItem = sequenceUI;
         index++;
+    }
+
+    public void AddSlot(UI_Slot newslot)
+    {
+        if (!slots.Contains(newslot))
+        {
+            slots.Add(newslot);
+        }
     }
     public void ValidateCombinations()
     {
