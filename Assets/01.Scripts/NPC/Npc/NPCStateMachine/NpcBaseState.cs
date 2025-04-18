@@ -8,6 +8,7 @@ public class NpcBaseState : IState
     protected NpcStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
     protected bool isAlert = true;
+    protected bool isAction = false;
     public float moveDelay = 2f;
     private float moveTimer = 0f;
     public NpcBaseState(NpcStateMachine stateMachine)
