@@ -93,4 +93,17 @@ public class TimelineManager : SingleTon<TimelineManager>
         }
         return false;
     }
+
+    public void MoveBlockAndShift(int fromIndex, int toIndex)
+    {
+        if (fromIndex < 0 || fromIndex >= PlacedBlocks.Count) return;
+
+        if (toIndex < 0) toIndex = 0;
+        if (toIndex >= PlacedBlocks.Count) toIndex = PlacedBlocks.Count - 1;
+
+        Block blockToMove = PlacedBlocks[fromIndex];
+        PlacedBlocks.RemoveAt(fromIndex);
+
+        PlacedBlocks.Insert(toIndex, blockToMove );
+    }
 }

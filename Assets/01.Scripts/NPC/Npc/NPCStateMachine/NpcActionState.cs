@@ -23,6 +23,7 @@ public class NpcActionState : NpcBaseState
     public override void Exit()
     {
         base.Exit();
+        StopAnimation("Walk");
     }
 
     public override void Update()
@@ -73,6 +74,7 @@ public class NpcActionState : NpcBaseState
         switch (type)
         {
             case ActionType.Chase:
+                StartAnimation("Run");
                 stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
                 break;
             case ActionType.Watch:
@@ -92,6 +94,7 @@ public class NpcActionState : NpcBaseState
         switch (type)
         {
             case ActionType.Notify:
+                StartAnimation("Walk");
                 NotifyTarget();
                 break;
             default:
@@ -104,11 +107,11 @@ public class NpcActionState : NpcBaseState
     {
         var target = GameObject.FindObjectOfType<Target>();
         stateMachine.npc.Agent.SetDestination(target.transform.position);
-        stateMachine.npc.Animator.SetBool("Walk", true);
+        //stateMachine.npc.Animator.SetBool("Walk", true);
         if (stateMachine.npc.Agent.remainingDistance == 0 && stateMachine.npc is Friend friend)
         {
             friend.NotifyTarget(target);
-            //stateMachine.npc.Animator.SetBool("Walk", false);
+            StopAnimation("Walk");
         }
     }
     private void LookAtTarget()

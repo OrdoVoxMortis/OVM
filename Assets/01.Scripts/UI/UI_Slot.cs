@@ -52,8 +52,12 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
             if (otherSlot != null)
             {
                 SwapItem(otherSlot);
-
-                SwapPlacedBlocks(otherSlot);
+           
+                TimelineManager.Instance.MoveBlockAndShift(otherSlot.slotIndex,slotIndex);
+                for (int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
+                {
+                    Debug.Log($"[정렬후] slot {i} = {(TimelineManager.Instance.PlacedBlocks[i] != null ? TimelineManager.Instance.PlacedBlocks[i].BlockName : "null")}");
+                }
             }
 
         }
@@ -77,19 +81,5 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         }
     }
 
-    private void SwapPlacedBlocks(UI_Slot otherSlot)
-    {
-        var manager = TimelineManager.Instance;
 
-        int maxIndex = Mathf.Max(slotIndex, otherSlot.slotIndex);
-        while (manager.PlacedBlocks.Count <= maxIndex)
-        {
-            manager.PlacedBlocks.Add(null);
-        }
-        Debug.Log($"스왑 전 : slot {slotIndex} = {manager.PlacedBlocks[slotIndex]?.BlockName}, slot {otherSlot.slotIndex} = {manager.PlacedBlocks[otherSlot.slotIndex]?.BlockName}");
-        Block temp = manager.PlacedBlocks[slotIndex];
-        manager.PlacedBlocks[slotIndex] = manager.PlacedBlocks[otherSlot.slotIndex];
-        manager.PlacedBlocks[otherSlot.slotIndex] = temp;
-        Debug.Log($"스왑 후 : slot {slotIndex} = {manager.PlacedBlocks[slotIndex]?.BlockName}, slot {otherSlot.slotIndex} = {manager.PlacedBlocks[otherSlot.slotIndex]?.BlockName}");
-    }
 }

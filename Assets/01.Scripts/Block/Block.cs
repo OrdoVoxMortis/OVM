@@ -51,11 +51,11 @@ public class Block : MonoBehaviour, IInteractable
 
     public bool IsDeathTrigger {  get; private set; } // 사망 트리거
 
-    public Transform successSequenceRoot;
-    public Transform failSequenceRoot;
-    public Transform fixedSequenceRoot;
-    public Transform afterFlexSequenceRoot;
-    public Transform beforeFlexSequenceRoot;
+    //public Transform successSequenceRoot;
+    //public Transform failSequenceRoot;
+    //public Transform fixedSequenceRoot;
+    //public Transform afterFlexSequenceRoot;
+    //public Transform beforeFlexSequenceRoot;
 
     public Animation SuccessSequence {  get; private set; } // 성공 노트 시퀀스
     public Animation FailSequence {  get; private set; } // 실패 노트 시퀀스

@@ -12,6 +12,7 @@ public class NpcIdleState : NpcBaseState
     public override void Enter()
     {
         base.Enter();
+        StartAnimation("Walk");
         Debug.Log("idle");
     }
 

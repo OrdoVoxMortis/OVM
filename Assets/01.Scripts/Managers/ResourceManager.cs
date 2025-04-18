@@ -73,6 +73,8 @@ public class ResourceManager : SingleTon<ResourceManager>
         
         var image = Resources.Load<Sprite>($"Image/{name}");
         ImageList[name] = image;
+        Debug.Log(name);
+        Debug.Log(image);
         return image;
     }
 

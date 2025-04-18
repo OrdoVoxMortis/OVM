@@ -7,7 +7,7 @@ public class NpcStateMachine : StateMachine
     public NPC npc { get; }
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; private set; }
-    public float RotationDamping { get; private set; } = 2f;
+    public float RotationDamping { get; private set; } = 3f;
     public float MovementSpeedModifier { get; set; } = 1f;
 
     public GameObject Target { get; private set; }
