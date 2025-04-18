@@ -38,9 +38,7 @@ public class Block : MonoBehaviour, IInteractable
     public BlockAction Action { get; private set; } // 행동
 
     public float FixedTime {  get; private set; } // 필수 시간
-    public float BeforeFlexibleMarginTime {  get; private set; } // 최대 앞 유동 시간
     public float AfterFlexibleMarginTime {  get; private set; } // 최대 뒤 유동 시간
-    public float CurrentBeforeFlexTime { get; private set; } // 현재 앞 유동 시간
     public float CurrentAfterFlexTime { get; private set; } // 현재 뒤 유동 시간
 
     public CombineRule NextCombineRule { get; private set; } // 후속 조합 규칙
@@ -60,7 +58,6 @@ public class Block : MonoBehaviour, IInteractable
     public Animation SuccessSequence {  get; private set; } // 성공 노트 시퀀스
     public Animation FailSequence {  get; private set; } // 실패 노트 시퀀스
     public Animation FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
-    public Animation BeforeFlexSequence {get; private set;} // 앞 유동 시간 노트 시퀀스
     public Animation AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
 
     private void Awake()
@@ -79,16 +76,13 @@ public class Block : MonoBehaviour, IInteractable
         PreCombineRule = data.prevCombineRule;
         NextCombineRule = data.nextCombineRule;
         FixedTime = data.fixedTime;
-        BeforeFlexibleMarginTime = data.beforeFlexibleMarginTime;
         AfterFlexibleMarginTime = data.afterFlexibleMarginTime;
         IsDeathTrigger = data.isDeathTrigger;
         CurrentAfterFlexTime = AfterFlexibleMarginTime;
-        CurrentBeforeFlexTime = BeforeFlexibleMarginTime;
 
         SuccessSequence = ResourceManager.Instance.LoadAnimation(data.successSequence);
         FailSequence = ResourceManager.Instance.LoadAnimation(data.failSequence);
         FixedSequence = ResourceManager.Instance.LoadAnimation(data.fixedSequence);
-        BeforeFlexSequence = ResourceManager.Instance.LoadAnimation(data.beforeFlexSequence);
         AfterFlexSequence = ResourceManager.Instance.LoadAnimation(data.afterFlexSequence);
     }
 

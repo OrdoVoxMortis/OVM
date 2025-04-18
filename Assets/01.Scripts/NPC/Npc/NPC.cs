@@ -67,7 +67,7 @@ public class NPC : MonoBehaviour
         LoadData();
         Animator = GetComponentInChildren<Animator>();
         Agent = GetComponent<NavMeshAgent>();
-        Area = GameObject.FindWithTag("Area").GetComponent<BoxCollider>();
+        FindArea();
 
         CurSuspicion = 0;
     }
@@ -121,6 +121,29 @@ public class NPC : MonoBehaviour
         // 시야 거리 원
         Gizmos.color = new Color(1, 1, 0, 0.2f);
         Gizmos.DrawWireSphere(position, ViewDistance);
+    }
+
+    private void FindArea()
+    {
+        Area[] allAreas = GameObject.FindObjectsOfType<Area>();
+        float minDist = float.MaxValue;
+        Area nearnest = null;
+
+        foreach(var area in allAreas)
+        {
+            float dist = Vector3.Distance(transform.position, area.transform.position);
+            if(dist < minDist)
+            {
+                minDist = dist;
+                nearnest = area;
+            }
+        }
+
+        if (nearnest != null)
+        {
+            Area = nearnest.AreaBounds;
+            
+        }
     }
 
 }
