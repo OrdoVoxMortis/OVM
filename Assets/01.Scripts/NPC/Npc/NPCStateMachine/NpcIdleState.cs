@@ -24,7 +24,7 @@ public class NpcIdleState : NpcBaseState
     public override void Update()
     {
         base.Update();
-        if (!isAction)
+        if (!stateMachine.npc.IsAction)
         {
             if (stateMachine.npc.CurAlertTime > 0)
                 stateMachine.npc.CurAlertTime -= Time.deltaTime;

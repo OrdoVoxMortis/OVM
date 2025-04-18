@@ -81,8 +81,7 @@ public class NpcActionState : NpcBaseState
         switch (type)
         {
             case ActionType.Chase:
-                StartAnimation("Run");
-                stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
+                ChasePlayer();
                 break;
             case ActionType.Watch:
                 LookAtTarget();
@@ -96,7 +95,7 @@ public class NpcActionState : NpcBaseState
     {
         Debug.Log("발동형 시작");
         isTriggered = true;
-        isAction = true;
+        stateMachine.npc.IsAction = true;
         ActionType type = stateMachine.npc.TriggerAlertAction;
 
         switch (type)
@@ -154,5 +153,14 @@ public class NpcActionState : NpcBaseState
         stateMachine.npc.Agent.updateRotation = true;
     }
 
-
+    private void ChasePlayer()
+    {
+        StartAnimation("Run");
+        stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
+        if(stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
+        {
+            StopAnimation("Run");
+            stateMachine.ChangeState(stateMachine.IdleState);
+        }
+    }
 }

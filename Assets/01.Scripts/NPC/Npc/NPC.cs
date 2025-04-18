@@ -51,7 +51,7 @@ public class NPC : MonoBehaviour
     public Animator Animator { get; private set; }
     public BoxCollider Area { get; set; }
     public NpcStateMachine stateMachine;
-
+    public bool IsAction { get; set; }
     private void Awake()
     {
     }
