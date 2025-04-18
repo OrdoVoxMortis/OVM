@@ -6,6 +6,9 @@ using UnityEngine;
 public class TimelineManager : SingleTon<TimelineManager>
 {
     //TODO. 타임라인 배치 변경될 때마다 업데이트
+    public GameObject slotPrefab;
+    public int slotCount;
+    public Transform slotParent;
     public List<Block> PlacedBlocks { get; set; } = new();
     [SerializeField] private GameObject sequencePrefab;
     private List<UI_Slot> slots = new();
@@ -13,6 +16,7 @@ public class TimelineManager : SingleTon<TimelineManager>
 
     private void Start()
     {
+        CreateSlots();
         InitSlots();
     }
 
@@ -24,6 +28,22 @@ public class TimelineManager : SingleTon<TimelineManager>
         {
             UI_Slot slot = child.GetComponent<UI_Slot>();
             if(slot != null) slots.Add(slot);
+        }
+    }
+
+    private void CreateSlots()
+    {
+        for(int i = 0; i < slotCount; i++)
+        {
+            GameObject slotObj = Instantiate(slotPrefab, slotParent);
+            UI_Slot uiSlot = slotObj.GetComponent<UI_Slot>();
+
+            if(uiSlot != null)
+            {
+                Slot_Manager.Instance.AddSlot(uiSlot);
+            }
+
+            Slot_Manager.Instance.RefreshSlots();
         }
     }
 

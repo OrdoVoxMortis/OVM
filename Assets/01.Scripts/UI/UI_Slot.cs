@@ -51,15 +51,15 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
             UI_Slot otherSlot = eventData.pointerDrag.GetComponentInParent<UI_Slot>();
             if (otherSlot != null)
             {
-                SwapItem(otherSlot);
-
-                SwapPlacedBlocks(otherSlot);
+                SwapBlocks(otherSlot);
             }
+
+            PullPlacedBlocks();
 
         }
     }
 
-    private void SwapItem(UI_Slot otherSlot)
+    private void SwapBlocks(UI_Slot otherSlot)
     {
         GameObject temp = currentItem;
         currentItem = otherSlot.currentItem;
@@ -77,19 +77,40 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         }
     }
 
-    private void SwapPlacedBlocks(UI_Slot otherSlot)
+    private void PullPlacedBlocks()
     {
-        var manager = TimelineManager.Instance;
+        // 슬롯들의 상위객체 찾아주기
+        Transform slotsParent = transform.parent;
+        int childCount = slotsParent.childCount;
 
-        int maxIndex = Mathf.Max(slotIndex, otherSlot.slotIndex);
-        while (manager.PlacedBlocks.Count <= maxIndex)
+        // 슬롯들을 순서대로 가져오기
+        UI_Slot[] slots = new UI_Slot[childCount];
+        for (int i = 0; i < childCount; i++)
         {
-            manager.PlacedBlocks.Add(null);
+            slots[i] = slotsParent.GetChild(i).GetComponent<UI_Slot>();
         }
-        Debug.Log($"스왑 전 : slot {slotIndex} = {manager.PlacedBlocks[slotIndex]?.BlockName}, slot {otherSlot.slotIndex} = {manager.PlacedBlocks[otherSlot.slotIndex]?.BlockName}");
-        Block temp = manager.PlacedBlocks[slotIndex];
-        manager.PlacedBlocks[slotIndex] = manager.PlacedBlocks[otherSlot.slotIndex];
-        manager.PlacedBlocks[otherSlot.slotIndex] = temp;
-        Debug.Log($"스왑 후 : slot {slotIndex} = {manager.PlacedBlocks[slotIndex]?.BlockName}, slot {otherSlot.slotIndex} = {manager.PlacedBlocks[otherSlot.slotIndex]?.BlockName}");
+
+        // 상위의 코드 Slot_Manager를 통해 작동하도록 수정필요
+
+        for (int i = 0; i<slots.Length; i++)
+        {
+            if (slots[i].currentItem == null)
+            {
+                for(int j = i+1; j < slots.Length; j++)
+                {
+                    if (slots[j].currentItem != null)
+                    {
+                        slots[i].currentItem = slots[j].currentItem;
+                        slots[i].currentItem.transform.SetParent(slots[i].transform);
+                        slots[i].currentItem.transform.localPosition = Vector3.zero;
+
+                        slots[j].currentItem = null;
+                        break;
+
+                    }
+                }
+            }
+        }
+       
     }
 }
