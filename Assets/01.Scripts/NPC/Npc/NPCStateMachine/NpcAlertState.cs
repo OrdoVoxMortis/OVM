@@ -19,7 +19,7 @@ public class NpcAlertState : NpcBaseState
 
     public override void Update()
     {
-        //base.Update();
+        base.Update();
         if (IsPlayerInSight())
         {
             IncreaseSuspicion();

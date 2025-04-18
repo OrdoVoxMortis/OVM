@@ -12,6 +12,8 @@ public class NpcIdleState : NpcBaseState
     public override void Enter()
     {
         base.Enter();
+        stateMachine.npc.Agent.isStopped = false;
+
         Debug.Log("idle");
     }
 
@@ -22,14 +24,16 @@ public class NpcIdleState : NpcBaseState
     public override void Update()
     {
         base.Update();
-
-        if (stateMachine.npc.CurAlertTime > 0)
-            stateMachine.npc.CurAlertTime -= Time.deltaTime;
-        else DecreaseSuspicion();
-
-        if (IsPlayerInSight())
+        if (!isAction)
         {
-           stateMachine.ChangeState(stateMachine.AlertState);
+            if (stateMachine.npc.CurAlertTime > 0)
+                stateMachine.npc.CurAlertTime -= Time.deltaTime;
+            else DecreaseSuspicion();
+
+            if (IsPlayerInSight())
+            {
+                stateMachine.ChangeState(stateMachine.AlertState);
+            }
         }
     }
 

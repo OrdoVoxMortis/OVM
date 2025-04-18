@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Android;
 
 public class NpcBaseState : IState
 {
     protected NpcStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
     protected bool isAlert = true;
+    protected bool isAction = false;
     public float moveDelay = 2f;
     private float moveTimer = 0f;
     public NpcBaseState(NpcStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
-        //groundData = stateMachine.npc.Data.GroundData;
+        groundData = stateMachine.npc.Data.GroundData;
     }
 
     public virtual void Enter()
@@ -40,20 +42,23 @@ public class NpcBaseState : IState
         moveTimer += Time.deltaTime;
         if (moveTimer >= moveDelay)
         {
-            //stateMachine.npc.Animator.SetBool("Walk", true);
             stateMachine.npc.Agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
             moveTimer = 0f;
-            //stateMachine.npc.Animator.SetBool("Walk", false);
         }
+
+        var agent = stateMachine.npc.Agent;
+        bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
+        if (isMoving) StartAnimation("Walk");
+        else StopAnimation("Walk");
     }
-    protected void StartAnimation(int animatorHash)
+    protected void StartAnimation(string anim)
     {
-        stateMachine.npc.Animator.SetBool(animatorHash, true);
+        stateMachine.npc.Animator.SetBool(anim, true);
     }
 
-    protected void StopAnimation(int animatorHash)
+    protected void StopAnimation(string anim)
     {
-        stateMachine.npc.Animator.SetBool(animatorHash, false);
+        stateMachine.npc.Animator.SetBool(anim, false);
     }
 
     public Vector3 GetRandomPointInArea(BoxCollider collider)

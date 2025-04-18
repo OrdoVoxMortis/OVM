@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.AI;
 
 public class NpcActionState : NpcBaseState
 {
@@ -11,6 +12,8 @@ public class NpcActionState : NpcBaseState
     private bool isTriggered = false;
     private bool isPlayerInSight = false;
     private float lostSightTimer = 0f;
+
+    private bool isMovingToTarget = false;
     public NpcActionState(NpcStateMachine stateMachine) : base(stateMachine)
     {
     }
@@ -27,6 +30,11 @@ public class NpcActionState : NpcBaseState
 
     public override void Update()
     {
+        if (isMovingToTarget)
+        {
+            MoveToTarget();
+            return;
+        }
         if (IsPlayerInSight()) // 시야 내
         {
             if (!isPlayerInSight)
@@ -73,6 +81,7 @@ public class NpcActionState : NpcBaseState
         switch (type)
         {
             case ActionType.Chase:
+                StartAnimation("Run");
                 stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
                 break;
             case ActionType.Watch:
@@ -87,32 +96,54 @@ public class NpcActionState : NpcBaseState
     {
         Debug.Log("발동형 시작");
         isTriggered = true;
+        isAction = true;
         ActionType type = stateMachine.npc.TriggerAlertAction;
 
         switch (type)
         {
             case ActionType.Notify:
                 NotifyTarget();
+
                 break;
             default:
                 break;
         }
-        stateMachine.ChangeState(stateMachine.AlertState);
+        //stateMachine.ChangeState(stateMachine.AlertState);
     }
 
     private void NotifyTarget()
     {
         var target = GameObject.FindObjectOfType<Target>();
-        stateMachine.npc.Agent.SetDestination(target.transform.position);
-        stateMachine.npc.Animator.SetBool("Walk", true);
-        if (stateMachine.npc.Agent.remainingDistance == 0 && stateMachine.npc is Friend friend)
+        if(target != null)
         {
-            friend.NotifyTarget(target);
-            //stateMachine.npc.Animator.SetBool("Walk", false);
+            stateMachine.npc.Agent.isStopped = false;
+            stateMachine.npc.Agent.SetDestination(target.transform.position);
+            StartAnimation("Walk");
+            isMovingToTarget = true;
+        }
+    }
+
+    private void MoveToTarget()
+    {
+        var target = GameObject.FindObjectOfType<Target>();
+        var agent = stateMachine.npc.Agent;
+
+        if (agent.remainingDistance <= agent.stoppingDistance)
+        {
+            StopAnimation("Walk");
+            agent.isStopped = true;
+            isMovingToTarget = false;
+
+            if (stateMachine.npc is Friend friend)
+            {
+                friend.NotifyTarget(target);
+
+            }
         }
     }
     private void LookAtTarget()
     {
+        StopAnimation("Walk");
         Vector3 dirToTarget = (stateMachine.Target.transform.position - stateMachine.npc.transform.position).normalized;
         if (dirToTarget.sqrMagnitude < 0.01f) return;
 
