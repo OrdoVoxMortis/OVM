@@ -10,8 +10,8 @@ public class TimelineManager : SingleTon<TimelineManager>
     public int slotCount;
     public Transform slotParent;
     public List<Block> PlacedBlocks { get; set; } = new();
-    [SerializeField] private GameObject sequencePrefab;
-    private List<UI_Slot> slots = new();
+    [SerializeField] private UI_Sequence sequencePrefab;
+    public List<UI_Slot> slots = new();
     private int index = 0;
 
     private void Start()
@@ -36,7 +36,7 @@ public class TimelineManager : SingleTon<TimelineManager>
         for(int i = 0; i < slotCount; i++)
         {
             GameObject slotObj = Instantiate(slotPrefab, slotParent);
-            UI_Slot uiSlot = slotObj.GetComponent<UI_Slot>();
+            UI_Slot uiSlot = slotObj.GetComponent<UI_Slot>(); 
 
             if(uiSlot != null)
             {
@@ -52,12 +52,12 @@ public class TimelineManager : SingleTon<TimelineManager>
         PlacedBlocks.Add(block);
 
         //시퀀스 생성
-        GameObject sequence = Instantiate(sequencePrefab, slots[index].transform);
-        UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>();
+        UI_Sequence sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
+        //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
         sequenceUI.block = block;
-        sequence.transform.localPosition = Vector3.zero;
+        sequenceUI.transform.localPosition = Vector3.zero;
         slots[index].slotIndex = index;
-        slots[index].currentItem = sequence;
+        slots[index].currentItem = sequenceUI;
         index++;
     }
     public void ValidateCombinations()

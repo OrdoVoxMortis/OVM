@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 
 public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    public GameObject currentItem; // 슬롯 안에 들어있는 아이템 (프리팹 인스턴스)
+    public UI_Sequence currentItem; // 슬롯 안에 들어있는 아이템 (프리팹 인스턴스)
 
     private Transform originalParent; // 드래그 시작할 때 아이템이 원래 어디에 있었는지, 기억하려고 사용
     private Canvas canvas; // 드래그 중에 아이템 따라다니게 할 때 필요
@@ -61,7 +62,7 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
 
     private void SwapBlocks(UI_Slot otherSlot)
     {
-        GameObject temp = currentItem;
+        UI_Sequence temp = currentItem;
         currentItem = otherSlot.currentItem;
         otherSlot.currentItem = temp;
 
@@ -79,24 +80,15 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
 
     private void PullPlacedBlocks()
     {
-        // 슬롯들의 상위객체 찾아주기
-        Transform slotsParent = transform.parent;
-        int childCount = slotsParent.childCount;
-
-        // 슬롯들을 순서대로 가져오기
-        UI_Slot[] slots = new UI_Slot[childCount];
-        for (int i = 0; i < childCount; i++)
-        {
-            slots[i] = slotsParent.GetChild(i).GetComponent<UI_Slot>();
-        }
+        List<UI_Slot> slots = TimelineManager.Instance.slots;
 
         // 상위의 코드 Slot_Manager를 통해 작동하도록 수정필요
 
-        for (int i = 0; i<slots.Length; i++)
+        for (int i = 0; i<slots.Count; i++)
         {
             if (slots[i].currentItem == null)
             {
-                for(int j = i+1; j < slots.Length; j++)
+                for(int j = i+1; j < slots.Count; j++)
                 {
                     if (slots[j].currentItem != null)
                     {
@@ -106,7 +98,6 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
 
                         slots[j].currentItem = null;
                         break;
-
                     }
                 }
             }
