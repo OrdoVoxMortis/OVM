@@ -31,7 +31,7 @@ public class PostProcessingToggle : MonoBehaviour
     }
     private void OnSimulateInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
+        if (context.phase == InputActionPhase.Started && GameManager.Instance.SelectedBGM != null)
         {
             TogglePostProcessing();
         }
