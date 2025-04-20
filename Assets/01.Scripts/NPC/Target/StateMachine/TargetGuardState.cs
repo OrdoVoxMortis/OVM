@@ -70,7 +70,17 @@ public class TargetGuardState : TargetBaseState
         // GuardeState의 경계모드가 끝나면 복귀
         if (currentGuardTimer <= 0f)
         {
-            stateMachine.ChangeState(stateMachine.ChasingState);
+            TargetBaseState prev = stateMachine.PreviousState;
+            if (prev != null)
+            {
+                stateMachine.ChangeState(prev);
+                prev.ResumeState(stateMachine.PreviousStateRemainingTime);
+            }
+            else
+            {
+                // 이전 상태 정보가 없다면 Chasing으로
+                stateMachine.ChangeState(stateMachine.ChasingState);
+            }
             return;
         }
 
