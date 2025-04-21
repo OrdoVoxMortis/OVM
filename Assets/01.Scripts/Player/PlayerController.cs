@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     {
         playerInputs = new PlayerInputs();
         playerActions = playerInputs.Player;
+
+        //playerActions.Accept.performed += OnAcceptQuest;
+        playerActions.CancleUI.performed += OnCancleUI;
+
         playerCamera = transform.Find("CameraLookPoint/FollowPlayerCamera").GetComponent<CinemachineFreeLook>();
 
 
@@ -61,17 +65,28 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
+        //playerActions.Accept.performed += OnAcceptQuest;
+        playerActions.CancleUI.performed += OnCancleUI;
         playerInputs.Enable();
     }
 
     private void OnDisable()
     {
+        //playerActions.Accept.performed -= OnAcceptQuest;
+        playerActions.CancleUI.performed -= OnCancleUI;
         playerInputs.Disable();
     }
 
-    public void OnAcceptQuest(InputAction.CallbackContext context)
+    private void OnAcceptQuest(InputAction.CallbackContext context)
     {
         
+    }
+
+    private void OnCancleUI(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+         
     }
 
 }
