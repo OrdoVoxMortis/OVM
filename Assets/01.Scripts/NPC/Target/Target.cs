@@ -28,6 +28,11 @@ public class Target : MonoBehaviour
     public GameObject player;
     public Collider playerCollider;
 
+    //pause용 내부 상태
+    bool isPause = false;
+    bool prevAgentStopped;
+    float prevAnimSpeed;
+
     private void Awake()
     {
         AnimationData.Initialize();
@@ -81,6 +86,28 @@ public class Target : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.SimulationMode)
+        {
+            if (!isPause)
+            {
+                //일시정지 하기 전의 상태를 저장
+                prevAgentStopped = Agent.isStopped;
+                prevAnimSpeed = Animator.speed;
+
+                Agent.isStopped = true;
+                Animator.speed = 0f;
+                isPause = true;
+            }
+            return;
+        }
+
+        if (isPause)
+        {
+            Agent.isStopped = prevAgentStopped;
+            Animator.speed = prevAnimSpeed;
+            isPause = false;
+        }
+
         if (IsNotified)
         {
             stateMachine.ChangeState(stateMachine.NotifiedState);
@@ -92,6 +119,12 @@ public class Target : MonoBehaviour
         stateMachine.Update();
     }
 
-    
+    private void FixedUpdate()
+    {
+        if (GameManager.Instance.SimulationMode) return;
+        stateMachine.PhysicsUpdate();
+    }
+
+
 
 }
