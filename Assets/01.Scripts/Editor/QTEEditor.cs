@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [CustomEditor(typeof(QTEManager))]
-public class QTEEditor :  Editor
+public class QTEEditor : Editor
 {
     float bpm;
     List<float> beats;
@@ -40,9 +40,14 @@ public class GhostEditor : Editor
         beats = manager.beats;
         bpm = manager.bpm;
 
-        if (GUILayout.Button("QTE Test"))
+        if (GUILayout.Button("MakeGhost"))
         {
             manager.SetBeatList(beats, bpm);
+        }
+
+        if (GUILayout.Button("PlayGhost"))
+        {
+            manager.PlayGhost();
         }
     }
 }
@@ -73,3 +78,4 @@ public class RhythmEditor : Editor
         }
     }
 }
+

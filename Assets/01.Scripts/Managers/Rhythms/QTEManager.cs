@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class QTEManager : MonoBehaviour
 {
-    //public static QTEManager Instance;
 
     public float bpm = 120.0f; //120 bpm
     public List<float> beats;    //입력 받을 패턴 리스트
@@ -17,21 +16,6 @@ public class QTEManager : MonoBehaviour
 
     public AudioClip[] hitSound = new AudioClip[2]; //0은 일반 노트 //1은 포인트 노트
     public AudioSource audioSource;
-
-    /*
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else if (Instance != this)
-        {
-            Destroy(gameObject);
-        }
-
-    }
-    */
 
 
     // Start is called before the first frame update
