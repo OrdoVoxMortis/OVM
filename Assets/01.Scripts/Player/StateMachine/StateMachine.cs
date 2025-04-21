@@ -9,7 +9,6 @@ public interface IState
     public void HandleInput();
     public void Update();
     public void PhysicsUpdate();
-
 }
 
 public abstract class StateMachine

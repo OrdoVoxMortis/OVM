@@ -30,6 +30,14 @@ public class UI_Quest : BaseUI
         GameManager.Instance.LoadScene("Stage_Scene");
     }
 
+    private void QuestAcceptable() // 의뢰 대사 내용이 할당되어 있지 않으면 의뢰 씬으로 넘어가게 해줌
+    {
+        if(dialogText == null)
+        {
+            OnClickAccept();
+        }
+    }
+
     public void SetQuest(string questDescription, Sprite targetSprite, string dialog)
     {
         // 해당 함수를 통하여, 퀘스트 UI의 필드요소들을 동적으로 만들어준다

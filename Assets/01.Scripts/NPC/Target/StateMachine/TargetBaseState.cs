@@ -54,6 +54,9 @@ public class TargetBaseState : IState
             // 경계수치가 최대(100)이 되면 GuardState로 전환
             if (stateMachine.AlertValue >= 100f)
             {
+                // 현재 상태와 남은 시간을 저장
+                stateMachine.SaveCurrentState(this, GetRemainingActionTime());
+
                 stateMachine.ChangeState(stateMachine.GuardState);
                 return;
             }
@@ -68,15 +71,19 @@ public class TargetBaseState : IState
         }
     }
 
+    //남은 시간을 저장, 이어받기를 위한 부분
+
     public virtual float GetRemainingActionTime()
     {
-        return 0;
+        return 0f;
     }
 
     public virtual void ResumeState(float remainingTime)
     {
 
     }
+
+
 
     protected void StartAnimation(int animatorHash)
     {
@@ -113,7 +120,7 @@ public class TargetBaseState : IState
         return stateMachine.Blocks[blockNumber].transform.position;
     }
 
-    private void RotateVelocity()
+    protected void RotateVelocity()
     {
         NavMeshAgent agent = stateMachine.Target.Agent;
         Vector3 vel = agent.velocity;

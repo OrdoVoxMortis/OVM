@@ -22,7 +22,8 @@ public class PostProcessingToggle : MonoBehaviour
         {
             GameManager.Instance.SimulationMode = true;
             timeLine_UI.SetActive(true);
-            UIManager.Instance.UIActive();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else
         {

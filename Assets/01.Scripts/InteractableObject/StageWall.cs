@@ -19,7 +19,6 @@ public class StageWall : MonoBehaviour
         {
             WallDeactive();
         }
-        
     }
     private void WallDeactive()
     {
