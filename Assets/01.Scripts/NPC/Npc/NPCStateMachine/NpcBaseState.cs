@@ -61,6 +61,7 @@ public class NpcBaseState : IState
         }
         else
         {
+            StopAnimation("Walk");
             stateMachine.npc.Agent.isStopped = true;
         }
     }

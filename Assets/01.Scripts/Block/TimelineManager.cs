@@ -49,9 +49,9 @@ public class TimelineManager : SingleTon<TimelineManager>
 
     public void AddBlock(Block block)
     {
-        if (!block.IsInteracted)
+        if (!block.IsActive)
         {
-            block.IsInteracted = true;
+            block.IsActive = true;
             PlacedBlocks.Add(block);
 
             //시퀀스 생성

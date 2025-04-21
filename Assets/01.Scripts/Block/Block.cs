@@ -60,9 +60,10 @@ public class Block : MonoBehaviour, IInteractable
     public AnimationClip FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
     public AnimationClip AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
 
-    public bool IsInteracted { get; set; } // 타임라인 내 배치됐는지
+    public bool IsActive { get; set; } // 타임라인 내 활성화
     private GhostManager ghostManager;
     public bool IsSuccess { get; set; } // 조합 성공인지
+    private string promptText;
 
     private void Awake()
     {
@@ -103,7 +104,9 @@ public class Block : MonoBehaviour, IInteractable
 
     public string GetInteractComponent()
     {
-        return "E키를 눌러 타임라인에 추가";
+        if (!IsActive) promptText = "E키를 눌러 활성화";
+        else promptText = "X키를 눌러 비활성화";
+        return promptText;
     }
 
     public void DataToGhost()
