@@ -60,6 +60,8 @@ public class Block : MonoBehaviour, IInteractable
     public Animation FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
     public Animation AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
 
+    public bool IsInteracted { get; set; } // 타임라인 내 배치됐는지
+
     private void Awake()
     {
         LoadData();

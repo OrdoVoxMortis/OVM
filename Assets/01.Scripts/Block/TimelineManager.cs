@@ -48,16 +48,20 @@ public class TimelineManager : SingleTon<TimelineManager>
 
     public void AddBlock(Block block)
     {
-        PlacedBlocks.Add(block);
+        if (!block.IsInteracted)
+        {
+            block.IsInteracted = true;
+            PlacedBlocks.Add(block);
 
-        //시퀀스 생성
-        UI_Sequence sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
-        //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
-        sequenceUI.block = block;
-        sequenceUI.transform.localPosition = Vector3.zero;
-        slots[index].slotIndex = index;
-        slots[index].currentItem = sequenceUI;
-        index++;
+            //시퀀스 생성
+            UI_Sequence sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
+            //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
+            sequenceUI.block = block;
+            sequenceUI.transform.localPosition = Vector3.zero;
+            slots[index].slotIndex = index;
+            slots[index].currentItem = sequenceUI;
+            index++;
+        }
     }
 
     public void AddSlot(UI_Slot newslot)
