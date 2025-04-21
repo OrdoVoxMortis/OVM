@@ -17,7 +17,7 @@ public class UI_Quest : BaseUI
         if (backBtn != null)
             backBtn.onClick.AddListener(Hide); // 뒤로가는 버튼 할당해주기
         if (acceptBtn != null)
-            acceptBtn.onClick.AddListener(OnClickAccept); // 퀘스트 수락 하는 버튼 할당해주기
+            acceptBtn.onClick.AddListener(QuestAcceptable); // 퀘스트 수락 하는 버튼 할당해주기
     }
     private void Start()
     {
@@ -28,6 +28,14 @@ public class UI_Quest : BaseUI
         Debug.Log("퀘스트 수락!"); // TODO 실제로 넘어가는 암살의뢰 UI 연결해주기
         Hide();
         GameManager.Instance.LoadScene("Stage_Scene");
+    }
+
+    private void QuestAcceptable() // 의뢰 대사 내용이 할당되어 있지 않으면 의뢰 씬으로 넘어가게 해줌
+    {
+        if(dialogText == null)
+        {
+            OnClickAccept();
+        }
     }
 
     public void SetQuest(string questDescription, Sprite targetSprite, string dialog)

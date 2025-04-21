@@ -11,6 +11,7 @@ public class MissionNote : MonoBehaviour, IInteractable
     public string StageId {  get; private set; } // 스테이지 id
     public string Description {  get; private set; } // 의뢰 내용
     public string ImageName {  get; private set; } // 의뢰 이미지
+    public string DialogText { get; private set; } // 의로 대사 이미지
     private UI_Quest questUI;
 
     private void Awake()
@@ -20,7 +21,6 @@ public class MissionNote : MonoBehaviour, IInteractable
     private void Start()
     {
         LoadData();
-
     }
 
     public void LoadData()
@@ -29,6 +29,7 @@ public class MissionNote : MonoBehaviour, IInteractable
         StageId = data.stageId;
         Description = data.description;
         ImageName = data.filePath;
+        // DialogText = data.dialog;
     }
 
     public void OnInteract()
@@ -42,7 +43,7 @@ public class MissionNote : MonoBehaviour, IInteractable
                 image = ResourceManager.Instance.LoadImage(ImageName);
                 Debug.Log(image);
             }
-            questUI.SetQuest(Description, image, "");
+            questUI.SetQuest(Description, image, ""); // " " 제외하고 DialogText 추가
             questUI.Show();
             return;
         }
