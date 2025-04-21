@@ -10,7 +10,7 @@ public class ResourceManager : SingleTon<ResourceManager>
     public Dictionary<string, AudioClip> BgmList = new();
     public Dictionary<string, AudioClip> SfxList = new();
     public Dictionary<string, Sprite> ImageList = new(); 
-    public Dictionary<string, Animation> AnimationList = new(); 
+    public Dictionary<string, AnimationClip> AnimationClipList = new(); 
     public AudioMixer audioMixer;
     protected override void Awake()
     {
@@ -78,15 +78,15 @@ public class ResourceManager : SingleTon<ResourceManager>
         return image;
     }
 
-    public Animation LoadAnimation(string name)
+    public AnimationClip LoadAnimationClip(string name)
     {
-        if(AnimationList.TryGetValue(name, out var cacheAnim))
+        if(AnimationClipList.TryGetValue(name, out var cacheAnim))
         {
-            return cacheAnim as Animation;
+            return cacheAnim as AnimationClip;
         }
 
-        var anim = Resources.Load<Animation>($"Animation/{name}");
-        AnimationList[name] = anim;
+        var anim = Resources.Load<AnimationClip>($"Animation/{name}");
+        AnimationClipList[name] = anim;
         return anim;
     }
 }
