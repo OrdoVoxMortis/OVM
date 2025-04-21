@@ -21,7 +21,8 @@ public class PostProcessingToggle : MonoBehaviour
         if(isEnabled && timeLine_UI != null)
         {
             timeLine_UI.SetActive(true);
-            UIManager.Instance.UIActive();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else
         {
