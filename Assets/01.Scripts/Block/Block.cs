@@ -63,7 +63,6 @@ public class Block : MonoBehaviour, IInteractable
     public bool IsActive { get; set; } // 타임라인 내 활성화
     private GhostManager ghostManager;
     public bool IsSuccess { get; set; } // 조합 성공인지
-    private string promptText;
 
     private void Awake()
     {
@@ -104,9 +103,8 @@ public class Block : MonoBehaviour, IInteractable
 
     public string GetInteractComponent()
     {
-        if (!IsActive) promptText = "E키를 눌러 활성화";
-        else promptText = "X키를 눌러 비활성화";
-        return promptText;
+        if (!IsActive) return "E키를 눌러 활성화";
+        else return "X키를 눌러 비활성화";
     }
 
     public void DataToGhost()
