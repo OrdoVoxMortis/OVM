@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3024722988015531574}
   - component: {fileID: 5525995742994656697}
   - component: {fileID: 5609221207374742898}
+  - component: {fileID: 5495147305753673194}
   m_Layer: 5
   m_Name: PlayRhythm
   m_TagString: Untagged
@@ -121,6 +122,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5495147305753673194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241916288589789496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ebdea96bf27d70459ab7ab7ac5edc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playBtn: {fileID: 5609221207374742898}
 --- !u!1 &5974244403677069792
 GameObject:
   m_ObjectHideFlags: 0

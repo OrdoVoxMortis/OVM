@@ -41,7 +41,10 @@ public class UI_Volume : BaseUI
             if (quitBtn != null) quitBtn.gameObject.SetActive(false);
             if (lobbyBtn != null) lobbyBtn.gameObject.SetActive(true);
         }
-
+    }
+    public void Start()
+    {
+        Hide();
     }
     public void SetMasterVolume(float value)
     {
