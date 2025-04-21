@@ -11,6 +11,7 @@ public class TimelineManager : SingleTon<TimelineManager>
     public Transform slotParent;
     public List<Block> PlacedBlocks { get; set; } = new();
     [SerializeField] private UI_Sequence sequencePrefab;
+    [SerializeField] private UI_Event eventBlockPrefab;
     public List<UI_Slot> slots = new();
     private int index = 0;
 
@@ -57,6 +58,14 @@ public class TimelineManager : SingleTon<TimelineManager>
         sequenceUI.transform.localPosition = Vector3.zero;
         slots[index].slotIndex = index;
         slots[index].currentItem = sequenceUI;
+        index++;
+    }
+
+    public void AddEventSlot(Event eventblock)
+    {
+        UI_Event eventUI = Instantiate(eventBlockPrefab, slotParent);
+        eventUI.eventBlock = eventblock;
+        eventUI.transform.localPosition = Vector3.zero;
         index++;
     }
 
