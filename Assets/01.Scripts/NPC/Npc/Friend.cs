@@ -14,6 +14,7 @@ public class Friend : NPC
     private IEnumerator WaitCo(Target target)
     {
         target.IsNotified = true;
+        target.FriendPosition = transform.position;
         Debug.Log(target.IsNotified);
         yield return new WaitForSeconds(2f);
         stateMachine.ChangeState(stateMachine.IdleState);

@@ -15,6 +15,7 @@ public class Target : MonoBehaviour
     private TargetStateMachine stateMachine;
 
     public bool IsNotified { get; set; } = false;
+    public Vector3 FriendPosition { get; set;}
 
     [Header("Route")]
     public GameObject startBlock;
