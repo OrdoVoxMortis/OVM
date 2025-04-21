@@ -6,11 +6,17 @@ public class UI_Event : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private Transform originalParent;
     private Canvas canvas;
     private CanvasGroup canvasGroup;
+    public Event eventBlock;
 
     private void Start()
     {
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
+    }
+
+    public UI_Event(Event eventBlock)
+    {
+        this.eventBlock = eventBlock;
     }
 
     public void OnBeginDrag(PointerEventData eventData)

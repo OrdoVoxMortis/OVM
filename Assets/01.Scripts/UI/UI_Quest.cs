@@ -10,6 +10,9 @@ public class UI_Quest : BaseUI
     [SerializeField] private Image targetImage;
     [SerializeField] private TextMeshProUGUI dialogText;
 
+    private string fullDialog; // 실제 대사 저장
+    private bool isDialogShown = false; // 대사가 출력되었는지?
+
     protected override void Awake()
     {
         base.Awake();
@@ -32,9 +35,16 @@ public class UI_Quest : BaseUI
 
     private void QuestAcceptable() // 의뢰 대사 내용이 할당되어 있지 않으면 의뢰 씬으로 넘어가게 해줌
     {
-        if(dialogText == null)
+        if (string.IsNullOrEmpty(fullDialog))
         {
+            // 대사가 없으면 바로 씬 이동
             OnClickAccept();
+        }
+        else if (!isDialogShown)
+        {
+            // 대사가 아직 안 보여졌으면 보여주기
+            dialogText.text = fullDialog;
+            isDialogShown = true;
         }
     }
 
@@ -48,6 +58,10 @@ public class UI_Quest : BaseUI
             targetImage.sprite = targetSprite;
 
         if (dialogText != null)
-            dialogText.text = dialog;
+        {
+            fullDialog = dialog; // 대사를 저장만 하고
+            dialogText.text = ""; // 실제로는 비워둠 (처음에는 안 보여줘야 하니까)
+            isDialogShown = false; // 초기화
+        }
     }
 }

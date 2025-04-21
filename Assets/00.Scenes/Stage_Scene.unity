@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 5685283}
   - component: {fileID: 5685282}
   - component: {fileID: 5685281}
+  - component: {fileID: 5685285}
   m_Layer: 3
   m_Name: 'Event_Invitation '
   m_TagString: Untagged
@@ -229,6 +230,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1179319219}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5685285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5685280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30a29e9e60fdb33449acad8a1afa14a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &30780050
 GameObject:
   m_ObjectHideFlags: 0
@@ -3709,6 +3722,12 @@ PrefabInstance:
       propertyPath: sequencePrefab
       value: 
       objectReference: {fileID: -4415699715661040624, guid: b94400f1b7938334a8ef780140beb1ab,
+        type: 3}
+    - target: {fileID: 6506109010496286476, guid: 5a92e1a7d28ca874d916bd2ee7bd8c2e,
+        type: 3}
+      propertyPath: eventBlockPrefab
+      value: 
+      objectReference: {fileID: -6162350641952979043, guid: 453e2dc3ded39ac45974bbe0f197be04,
         type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
