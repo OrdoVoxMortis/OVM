@@ -24,9 +24,10 @@ public class TargetStateMachine : StateMachine
     public TargetInteractionState InteractionState { get; }
     public TargetGuardState GuardState { get; }
     public TargetRunAwayState RunAwayState { get; }
+    public TargetNotifiedState NotifiedState { get; }
 
     // GuardState 진입 전 이전 상태와 해당 상태의 남은 시간을 저장
-    public IState PreviousState { get; set; }
+    public TargetBaseState PreviousState { get; set; }
     public float PreviousStateRemainingTime { get; set; }
 
     public TargetStateMachine(Target target)
@@ -40,12 +41,13 @@ public class TargetStateMachine : StateMachine
         InteractionState = new TargetInteractionState(this);
         GuardState = new TargetGuardState(this);
         RunAwayState = new TargetRunAwayState(this);
+        NotifiedState = new TargetNotifiedState(this);
 
         MovementSpeed = Target.Data.GroundData.BaseSpeed;
         RotationDamping = Target.Data.GroundData.BaseRotationDamping;
     }
 
-    public void SaveCurrentState(IState currentState, float remainingTime)
+    public void SaveCurrentState(TargetBaseState currentState, float remainingTime)
     {
         PreviousState = currentState;
         PreviousStateRemainingTime = remainingTime;

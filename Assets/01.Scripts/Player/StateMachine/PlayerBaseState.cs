@@ -8,6 +8,7 @@ public class PlayerBaseState : IState
 {
     protected PlayerStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
+    private float timer;
 
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
@@ -23,7 +24,7 @@ public class PlayerBaseState : IState
 
     public virtual void Exit()
     {
-         
+        RemoveInputActionCallbacks();
     }
 
     protected virtual void AddInputActionCallbacks()
@@ -163,4 +164,13 @@ public class PlayerBaseState : IState
         }
     }
 
+    public virtual float GetReaminingActionTime()
+    {
+        return timer;
+    }
+
+    public virtual void ResumeState(float remainingTime)
+    {
+        timer = remainingTime;
+    }
 }
