@@ -23,18 +23,22 @@ public class NpcIdleState : NpcBaseState
 
     public override void Update()
     {
-        base.Update();
-        if (!stateMachine.npc.IsAction)
+        if (!GameManager.Instance.SimulationMode)
         {
-            if (stateMachine.npc.CurAlertTime > 0)
-                stateMachine.npc.CurAlertTime -= Time.deltaTime;
-            else DecreaseSuspicion();
-
-            if (IsPlayerInSight())
+            base.Update();
+            if (!stateMachine.npc.IsAction)
             {
-                stateMachine.ChangeState(stateMachine.AlertState);
+                if (stateMachine.npc.CurAlertTime > 0)
+                    stateMachine.npc.CurAlertTime -= Time.deltaTime;
+                else DecreaseSuspicion();
+
+                if (IsPlayerInSight())
+                {
+                    stateMachine.ChangeState(stateMachine.AlertState);
+                }
             }
         }
+        else base.Update();
     }
 
 
