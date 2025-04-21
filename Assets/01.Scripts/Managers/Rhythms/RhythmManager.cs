@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class RhythmManager : SingleTon<RhythmManager>
 {
@@ -34,6 +35,7 @@ public class RhythmManager : SingleTon<RhythmManager>
         beepClip = CreateBeepClip();
         beepAudioSource = gameObject.AddComponent<AudioSource>();
         beepAudioSource.clip = beepClip;
+
 
         bgmName = "Song1";
     }
