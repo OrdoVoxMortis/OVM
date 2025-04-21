@@ -12,6 +12,7 @@ public class TimelineManager : SingleTon<TimelineManager>
     public List<Block> PlacedBlocks { get; set; } = new();
     [SerializeField] private UI_Sequence sequencePrefab;
     [SerializeField] private UI_Event eventBlockPrefab;
+    [SerializeField] private UI_Sequence targetBlockPrefab;
     public List<UI_Slot> slots = new();
     private int index = 0;
 
@@ -54,15 +55,15 @@ public class TimelineManager : SingleTon<TimelineManager>
             block.IsActive = true;
             PlacedBlocks.Add(block);
 
-            //시퀀스 생성
-            UI_Sequence sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
-            //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
-            sequenceUI.block = block;
-            sequenceUI.transform.localPosition = Vector3.zero;
-            slots[index].slotIndex = index;
-            slots[index].currentItem = sequenceUI;
-            index++;
-        }
+        //시퀀스 생성
+        UI_Sequence sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
+        
+        //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
+        sequenceUI.block = block;
+        sequenceUI.transform.localPosition = Vector3.zero;
+        slots[index].slotIndex = index;
+        slots[index].currentItem = sequenceUI;
+        index++;
     }
 
     public void AddEventSlot(Event eventblock)
@@ -70,6 +71,16 @@ public class TimelineManager : SingleTon<TimelineManager>
         UI_Event eventUI = Instantiate(eventBlockPrefab, slotParent);
         eventUI.eventBlock = eventblock;
         eventUI.transform.localPosition = Vector3.zero;
+        index++;
+    }
+
+    public void AddContactBlock(ContactBlock block)
+    {
+        UI_Sequence targetUI = Instantiate(targetBlockPrefab, slots[index].transform);
+        targetUI.block = block;
+        targetUI.transform.localPosition = Vector3.zero;
+        slots[index].slotIndex = index;
+        slots[index].currentItem = targetUI;
         index++;
     }
 
