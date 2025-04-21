@@ -29,7 +29,7 @@ public class MissionNote : MonoBehaviour, IInteractable
         StageId = data.stageId;
         Description = data.description;
         ImageName = data.filePath;
-        // DialogText = data.dialog;
+        DialogText = data.dialog;
     }
 
     public void OnInteract()
@@ -43,7 +43,7 @@ public class MissionNote : MonoBehaviour, IInteractable
                 image = ResourceManager.Instance.LoadImage(ImageName);
                 Debug.Log(image);
             }
-            questUI.SetQuest(Description, image, ""); // " " 제외하고 DialogText 추가
+            questUI.SetQuest(Description, image, DialogText); 
             questUI.Show();
             return;
         }
