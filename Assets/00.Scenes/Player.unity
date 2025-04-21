@@ -153,9 +153,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f672d6621ae6b46839587e77b96f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockStateType: 1
+  blockStateType: 0
   stateDuration: 5
   moveSpeed: 1.2
+  radius: 1
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!135 &81120775
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -470,6 +472,8 @@ MonoBehaviour:
   blockStateType: 1
   stateDuration: 5
   moveSpeed: 1.2
+  radius: 1
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!135 &896347135
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1082,9 +1086,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f672d6621ae6b46839587e77b96f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockStateType: 1
+  blockStateType: 0
   stateDuration: 5
   moveSpeed: 1.2
+  radius: 1
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!135 &1503430314
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1324,9 +1330,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f672d6621ae6b46839587e77b96f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockStateType: 1
-  stateDuration: 5
-  moveSpeed: 1.2
+  blockStateType: 0
+  stateDuration: 8
+  moveSpeed: 1.5
+  radius: 1
+  color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!135 &1932282115
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1743,12 +1751,12 @@ PrefabInstance:
     - target: {fileID: 3926827062505038733, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000001593583
+      value: 0.00000001593583
       objectReference: {fileID: 0}
     - target: {fileID: 3926827062505038733, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000006489134
+      value: -0.000000006489134
       objectReference: {fileID: 0}
     - target: {fileID: 4707009565501842005, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
@@ -1898,6 +1906,11 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 112
       objectReference: {fileID: 0}
+    - target: {fileID: 6548723970553338474, guid: 8660d6c45300c094eb3ff106dc5bc251,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: cdb804dbb3e7de64b8f8ce31a18cee8e, type: 2}
     - target: {fileID: 8352095779118033657, guid: 8660d6c45300c094eb3ff106dc5bc251,
         type: 3}
       propertyPath: safeZone
@@ -1910,9 +1923,29 @@ PrefabInstance:
       objectReference: {fileID: 987544841}
     - target: {fileID: 8352095779118033657, guid: 8660d6c45300c094eb3ff106dc5bc251,
         type: 3}
+      propertyPath: lineColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352095779118033657, guid: 8660d6c45300c094eb3ff106dc5bc251,
+        type: 3}
+      propertyPath: lineColor.g
+      value: 0.53673553
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352095779118033657, guid: 8660d6c45300c094eb3ff106dc5bc251,
+        type: 3}
+      propertyPath: lineColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352095779118033657, guid: 8660d6c45300c094eb3ff106dc5bc251,
+        type: 3}
       propertyPath: turningBlock
       value: 
       objectReference: {fileID: 1044684282}
+    - target: {fileID: 8352095779118033657, guid: 8660d6c45300c094eb3ff106dc5bc251,
+        type: 3}
+      propertyPath: blocks.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8352095779118033657, guid: 8660d6c45300c094eb3ff106dc5bc251,
         type: 3}
       propertyPath: blocks.Array.data[0]
@@ -2029,21 +2062,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trunning
       objectReference: {fileID: 0}
-    - target: {fileID: 4958720586094945003, guid: aa429e2eebb82784da27ecf877b2ea17,
-        type: 3}
-      propertyPath: moveSpeed
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4958720586094945003, guid: aa429e2eebb82784da27ecf877b2ea17,
-        type: 3}
-      propertyPath: stateDuration
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4958720586094945003, guid: aa429e2eebb82784da27ecf877b2ea17,
-        type: 3}
-      propertyPath: blockStateType
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5481461318990388308, guid: aa429e2eebb82784da27ecf877b2ea17,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2107,21 +2125,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 665271111752149086, guid: 1f8f6094fda9d2a4fba32c80dfb12b08,
-        type: 3}
-      propertyPath: moveSpeed
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 665271111752149086, guid: 1f8f6094fda9d2a4fba32c80dfb12b08,
-        type: 3}
-      propertyPath: stateDuration
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 665271111752149086, guid: 1f8f6094fda9d2a4fba32c80dfb12b08,
-        type: 3}
-      propertyPath: blockStateType
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5826377049317038156, guid: 1f8f6094fda9d2a4fba32c80dfb12b08,
         type: 3}
       propertyPath: m_Name
@@ -2190,21 +2193,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1403093700755145166, guid: d3971cae4b1b1674ea09fe784d447afe,
-        type: 3}
-      propertyPath: moveSpeed
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1403093700755145166, guid: d3971cae4b1b1674ea09fe784d447afe,
-        type: 3}
-      propertyPath: stateDuration
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1403093700755145166, guid: d3971cae4b1b1674ea09fe784d447afe,
-        type: 3}
-      propertyPath: blockStateType
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8498352897690019831, guid: d3971cae4b1b1674ea09fe784d447afe,
         type: 3}
       propertyPath: m_LocalPosition.x

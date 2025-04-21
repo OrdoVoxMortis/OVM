@@ -21,8 +21,8 @@ public class TargetStateMachine : StateMachine
     public GameObject[] Blocks { get; private set; }
     public GameObject SafeZoneBlock { get; private set; }
     public TargetIdleState IdleState { get; }
-    public TargetChasingState ChasingState { get; }
     public TargetInteractionState InteractionState { get; }
+    public TargetChasingState ChasingState { get; }
     public TargetGuardState GuardState { get; }
     public TargetRunAwayState RunAwayState { get; }
     public TargetNotifiedState NotifiedState { get; }

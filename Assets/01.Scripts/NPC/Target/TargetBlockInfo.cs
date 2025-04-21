@@ -19,4 +19,17 @@ public class TargetBlockInfo : MonoBehaviour
 
     [Header("해당 블럭까지의 이동속도")]
     public float moveSpeed = 0f;
+
+    [Header("Gizmos 구 설정")]
+    [SerializeField] private float radius = 1f;
+    [SerializeField] private Color color = Color.red;
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = color;
+        Gizmos.DrawWireSphere(transform.position, radius);
+    }
+
+
 }
