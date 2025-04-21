@@ -19,6 +19,7 @@ public class TargetStateMachine : StateMachine
 
 
     public GameObject[] Blocks { get; private set; }
+    public GameObject SafeZoneBlock { get; private set; }
     public TargetIdleState IdleState { get; }
     public TargetChasingState ChasingState { get; }
     public TargetInteractionState InteractionState { get; }
@@ -35,6 +36,7 @@ public class TargetStateMachine : StateMachine
         this.Target = target;
 
         this.Blocks = target.route;
+        this.SafeZoneBlock = target.safeZone;
 
         IdleState = new TargetIdleState(this);
         ChasingState = new TargetChasingState(this);

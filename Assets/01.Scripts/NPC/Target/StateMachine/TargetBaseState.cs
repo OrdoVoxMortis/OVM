@@ -102,8 +102,6 @@ public class TargetBaseState : IState
         stateMachine.Target.Agent.SetDestination(movementDirection);
 
         RotateVelocity();
-        //Rotate(movementDirection - stateMachine.Target.transform.position);
-
     }
 
     private Vector3 GetMovementDirection()
@@ -132,18 +130,6 @@ public class TargetBaseState : IState
         tTrans.rotation = Quaternion.Slerp(tTrans.rotation, targetRot, stateMachine.RotationDamping * Time.deltaTime);
 
     }
-
-
-    //private void Rotate(Vector3 direction)
-    //{
-    //    if (direction != Vector3.zero)
-    //    {
-    //        Transform playerTransform = stateMachine.Target.transform;
-    //        Quaternion targetRotation = Quaternion.LookRotation(direction);
-    //        playerTransform.rotation = Quaternion.Slerp(playerTransform.rotation, targetRotation, stateMachine.RotationDamping * Time.deltaTime);
-
-    //    }
-    //}
 
     // Target의 시야 범위를 구하기 
     protected bool IsPlayerInSight()

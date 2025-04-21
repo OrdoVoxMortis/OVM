@@ -14,8 +14,16 @@ public class TargetNotifiedState : TargetBaseState
     {
         base.Enter();
         stateMachine.Target.Agent.isStopped = true;
+
+        Vector3 lookDir = (stateMachine.Target.FriendPosition - stateMachine.Target.transform.position);
+        lookDir.y = 0;
+        if (lookDir.sqrMagnitude > 0.01f)
+        {
+            stateMachine.Target.transform.rotation = Quaternion.LookRotation(lookDir);
+        }
+
         StartAnimation(stateMachine.Target.AnimationData.IdleParameterHash);
-        timer = 2f;
+        timer = 4f;
     }
 
     public override void Update()
