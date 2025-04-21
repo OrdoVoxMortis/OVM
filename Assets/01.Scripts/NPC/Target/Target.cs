@@ -33,6 +33,9 @@ public class Target : MonoBehaviour
     bool prevAgentStopped;
     float prevAnimSpeed;
 
+    [Header("Game Over UI")]
+    [SerializeField] private GameObject gameOverUI;
+
     private void Awake()
     {
         AnimationData.Initialize();
@@ -123,6 +126,17 @@ public class Target : MonoBehaviour
     {
         if (GameManager.Instance.SimulationMode) return;
         stateMachine.PhysicsUpdate();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == safeZone)
+        {
+            if (gameOverUI != null)
+            {
+                gameOverUI.SetActive(true);
+            }
+        }
     }
 
 
