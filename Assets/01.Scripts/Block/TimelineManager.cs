@@ -30,18 +30,18 @@ public class TimelineManager : SingleTon<TimelineManager>
         foreach (Transform child in gameObject.transform)
         {
             UI_Slot slot = child.GetComponent<UI_Slot>();
-            if(slot != null) slots.Add(slot);
+            if (slot != null) slots.Add(slot);
         }
     }
 
     private void CreateSlots()
     {
-        for(int i = 0; i < slotCount; i++)
+        for (int i = 0; i < slotCount; i++)
         {
             GameObject slotObj = Instantiate(slotPrefab, slotParent);
-            UI_Slot uiSlot = slotObj.GetComponent<UI_Slot>(); 
+            UI_Slot uiSlot = slotObj.GetComponent<UI_Slot>();
 
-            if(uiSlot != null)
+            if (uiSlot != null)
             {
                 AddSlot(uiSlot);
             }
@@ -55,15 +55,16 @@ public class TimelineManager : SingleTon<TimelineManager>
             block.IsActive = true;
             PlacedBlocks.Add(block);
 
-        //시퀀스 생성
-        UI_Sequence sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
-        
-        //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
-        sequenceUI.block = block;
-        sequenceUI.transform.localPosition = Vector3.zero;
-        slots[index].slotIndex = index;
-        slots[index].currentItem = sequenceUI;
-        index++;
+            //시퀀스 생성
+            UI_Sequence sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
+
+            //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
+            sequenceUI.block = block;
+            sequenceUI.transform.localPosition = Vector3.zero;
+            slots[index].slotIndex = index;
+            slots[index].currentItem = sequenceUI;
+            index++;
+        }
     }
 
     public void AddEventSlot(Event eventblock)
@@ -120,7 +121,7 @@ public class TimelineManager : SingleTon<TimelineManager>
             }
 
             //TODO. 검사 결과에 따라 시퀀스 출력
-            
+
             current.IsSuccess = isSuccess;
             Debug.Log($"[{current.BlockName}] 조합 결과: {(isSuccess ? "성공" : "실패")}");
         }
@@ -155,6 +156,6 @@ public class TimelineManager : SingleTon<TimelineManager>
         Block blockToMove = PlacedBlocks[fromIndex];
         PlacedBlocks.RemoveAt(fromIndex);
 
-        PlacedBlocks.Insert(toIndex, blockToMove );
+        PlacedBlocks.Insert(toIndex, blockToMove);
     }
 }
