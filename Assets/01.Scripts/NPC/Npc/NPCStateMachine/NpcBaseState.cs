@@ -44,7 +44,7 @@ public class NpcBaseState : IState
 
     public virtual void Update()
     {
-        if (!GameManager.Instance.SimulationMode)
+        if (!GameManager.Instance.SimulationMode && GameManager.Instance.SelectedBGM != null)
         {
             stateMachine.npc.Agent.isStopped = false;
             moveTimer += Time.deltaTime;
