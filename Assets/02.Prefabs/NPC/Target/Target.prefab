@@ -2528,7 +2528,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36596df0d52373541acca4beeadc8af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 
   <Data>k__BackingField: {fileID: 11400000, guid: 4f09a92c775b9534c94aed6da60abdc5,
     type: 2}
   <AnimationData>k__BackingField:
@@ -2550,6 +2549,8 @@ MonoBehaviour:
   turningBlock: {fileID: 0}
   safeZone: {fileID: 0}
   route: []
+  player: {fileID: 0}
+  playerCollider: {fileID: 0}
 --- !u!195 &4858419715585681064
 NavMeshAgent:
   m_ObjectHideFlags: 0
