@@ -15,5 +15,6 @@ public class UI_GameOver : BaseUI
     {
         Debug.Log("로비씬으로 돌아갑니다!");
         GameManager.Instance.LoadScene("Lobby_Scene");
+        Hide();
     }
 }
