@@ -96,9 +96,10 @@ public class Block : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        TimelineManager.Instance.AddBlock(this);
+        if (!IsActive) TimelineManager.Instance.AddBlock(this);
+        else TimelineManager.Instance.DestroyBlock(this);
+
         BlockManager.Instance.OnBlockUpdate?.Invoke();
-       
     }
 
     public string GetInteractComponent()
@@ -111,6 +112,7 @@ public class Block : MonoBehaviour, IInteractable
     {
         ghostManager.playerTrans = transform;
         ghostManager.ghostClip = FixedSequence;
+        ghostManager.ghostPrefabs = GetComponentInChildren<GameObject>();
     }
 
     public void SetGhost()

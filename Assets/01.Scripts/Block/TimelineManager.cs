@@ -67,6 +67,13 @@ public class TimelineManager : SingleTon<TimelineManager>
         }
     }
 
+    public void DestroyBlock(Block block)
+    {
+        if (block.IsActive)
+        {
+
+        }
+    }
     public void AddEventSlot(Event eventblock)
     {
         UI_Event eventUI = Instantiate(eventBlockPrefab, slotParent);
