@@ -17,7 +17,7 @@ public class UI_Quest : BaseUI
         if (backBtn != null)
             backBtn.onClick.AddListener(Hide); // 뒤로가는 버튼 할당해주기
         if (acceptBtn != null)
-            acceptBtn.onClick.AddListener(QuestAcceptable); // 퀘스트 수락 하는 버튼 할당해주기
+            acceptBtn.onClick.AddListener(OnClickAccept); // 퀘스트 수락 하는 버튼 할당해주기
     }
     private void Start()
     {
