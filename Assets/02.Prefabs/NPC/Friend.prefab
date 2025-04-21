@@ -1313,8 +1313,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1893186254092025319}
   - component: {fileID: 6871948475992435915}
-  - component: {fileID: 3484850147749329345}
-  - component: {fileID: 9044414916856713383}
+  - component: {fileID: 1132466661276898523}
+  - component: {fileID: 7451094408218396078}
   m_Layer: 0
   m_Name: Friend
   m_TagString: Untagged
@@ -1365,7 +1365,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.2, z: 0}
---- !u!114 &3484850147749329345
+--- !u!114 &1132466661276898523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1389,7 +1389,7 @@ MonoBehaviour:
     airParameterName: '@Air'
     jumpParameterName: Jump
     fallParameterName: Fall
---- !u!195 &9044414916856713383
+--- !u!195 &7451094408218396078
 NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1408,7 +1408,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: -0.22
+  m_BaseOffset: -0.3
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1 &3874036041182609823

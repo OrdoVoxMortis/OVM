@@ -92,6 +92,7 @@ public class Block : MonoBehaviour, IInteractable
     {
         TimelineManager.Instance.AddBlock(this);
         BlockManager.Instance.OnBlockUpdate?.Invoke();
+       
     }
 
     public string GetInteractComponent()

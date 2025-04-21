@@ -2107,7 +2107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5646993426207903811}
-  - component: {fileID: 6285326995122151065}
+  - component: {fileID: 5968987043271766783}
   - component: {fileID: 9085363090339406590}
   m_Layer: 0
   m_Name: Guard
@@ -2133,7 +2133,7 @@ Transform:
   - {fileID: 5535319729009948114}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6285326995122151065
+--- !u!114 &5968987043271766783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2142,7 +2142,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8107322300811292470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ad2553287282be4aa530b5b2536718e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0da0519587b7abc44bffab3b566aa4dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: NPC_G001
@@ -2157,6 +2157,7 @@ MonoBehaviour:
     airParameterName: '@Air'
     jumpParameterName: Jump
     fallParameterName: Fall
+  waitPositions: []
 --- !u!195 &9085363090339406590
 NavMeshAgent:
   m_ObjectHideFlags: 0

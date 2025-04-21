@@ -10,7 +10,12 @@ public class NpcBaseState : IState
     protected bool isAlert = true;
     protected bool isAction = false;
     public float moveDelay = 2f;
-    private float moveTimer = 0f;
+    protected float moveTimer = 0f;
+
+    //Guard
+    protected float waitTimer = 0f;
+    protected bool isWaiting = false;
+    protected float cooldownTimer = 0f;
     public NpcBaseState(NpcStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -85,8 +90,56 @@ public class NpcBaseState : IState
         Vector3 directionPlayer = (player.position - stateMachine.npc.transform.position).normalized;
         float angle = Vector3.Angle(stateMachine.npc.transform.forward, directionPlayer);
 
-        if (angle > stateMachine.npc.ViewAngle / 2f || stateMachine.npc.Agent.remainingDistance > stateMachine.npc.ViewDistance) return false;
+        float distance = Vector3.Distance(stateMachine.npc.transform.position, player.position);
+        if (angle > stateMachine.npc.ViewAngle / 2f || distance > stateMachine.npc.ViewDistance) return false;
 
         return true;
+    }
+
+    public void GuardWait()
+    {
+        var agent = stateMachine.npc.Agent;
+
+        if (!isWaiting)
+        {
+            waitTimer += Time.deltaTime;
+            moveTimer += Time.deltaTime;
+
+            if (moveTimer >= moveDelay)
+            {
+                agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
+                moveTimer = 0f;
+            }
+
+            bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
+            if (isMoving) StartAnimation("Walk");
+            else StopAnimation("Walk");
+
+            if (waitTimer >= 3f)
+            {
+                if (stateMachine.npc is Guard guard)
+                {
+                    agent.SetDestination(guard.GetWaitPosition().transform.position);
+                    isWaiting = true;
+                    waitTimer = 0f;
+                }
+            }
+        }
+        else // 대기중
+        {
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                StopAnimation("Walk");
+                cooldownTimer += Time.deltaTime;
+
+                if (cooldownTimer >= 5f)
+                {
+                    isWaiting = false;
+                    cooldownTimer = 0f;
+                    waitTimer = 0f;
+                    agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
+                }
+            }
+        }
     }
 }
