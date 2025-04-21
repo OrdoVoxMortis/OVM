@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7318255412601981931}
   - component: {fileID: 1282677203295182360}
-  - component: {fileID: 9094994942138661575}
+  - component: {fileID: 7494951459240024309}
   m_Layer: 3
   m_Name: Block
   m_TagString: Untagged
@@ -79,32 +79,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  successSequenceRoot: {fileID: 8478077686629425315}
-  failSequenceRoot: {fileID: 8973527211339520830}
-  fixedSequenceRoot: {fileID: 8369399955365851715}
-  afterFlexSequenceRoot: {fileID: 639684781713867432}
-  beforeFlexSequenceRoot: {fileID: 8730474530665121624}
---- !u!65 &9094994942138661575
-BoxCollider:
+--- !u!114 &7494951459240024309
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5381534610382193699}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff2b9aee9a56c25469453736f645fcca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTrans: {fileID: 0}
+  startPos: {x: 0, y: 0, z: 0}
+  direction: {x: 0, y: 0, z: 0}
+  bpm: 0
+  beats: []
+  ghosts: []
+  ghostPrefabs: {fileID: 0}
+  ghostClip: {fileID: 0}
 --- !u!1 &5703182172750735396
 GameObject:
   m_ObjectHideFlags: 0

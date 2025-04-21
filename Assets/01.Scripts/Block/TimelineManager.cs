@@ -101,7 +101,7 @@ public class TimelineManager : SingleTon<TimelineManager>
 
             //TODO. 검사 결과에 따라 시퀀스 출력
             
-
+            current.IsSuccess = isSuccess;
             Debug.Log($"[{current.BlockName}] 조합 결과: {(isSuccess ? "성공" : "실패")}");
         }
     }

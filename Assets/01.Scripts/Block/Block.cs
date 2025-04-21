@@ -55,18 +55,24 @@ public class Block : MonoBehaviour, IInteractable
     //public Transform afterFlexSequenceRoot;
     //public Transform beforeFlexSequenceRoot;
 
-    public Animation SuccessSequence {  get; private set; } // 성공 노트 시퀀스
-    public Animation FailSequence {  get; private set; } // 실패 노트 시퀀스
-    public Animation FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
-    public Animation AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
+    public AnimationClip SuccessSequence {  get; private set; } // 성공 노트 시퀀스
+    public AnimationClip FailSequence {  get; private set; } // 실패 노트 시퀀스
+    public AnimationClip FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
+    public AnimationClip AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
 
     public bool IsInteracted { get; set; } // 타임라인 내 배치됐는지
+    private GhostManager ghostManager;
+    public bool IsSuccess { get; set; } // 조합 성공인지
 
     private void Awake()
     {
         LoadData();
+        ghostManager = GetComponent<GhostManager>();
     }
-
+    private void Start()
+    {
+        BlockManager.Instance.OnBlockUpdate += SetGhost;   
+    }
 
     protected virtual void LoadData()
     {
@@ -82,10 +88,10 @@ public class Block : MonoBehaviour, IInteractable
         IsDeathTrigger = data.isDeathTrigger;
         CurrentAfterFlexTime = AfterFlexibleMarginTime;
 
-        SuccessSequence = ResourceManager.Instance.LoadAnimation(data.successSequence);
-        FailSequence = ResourceManager.Instance.LoadAnimation(data.failSequence);
-        FixedSequence = ResourceManager.Instance.LoadAnimation(data.fixedSequence);
-        AfterFlexSequence = ResourceManager.Instance.LoadAnimation(data.afterFlexSequence);
+        SuccessSequence = ResourceManager.Instance.LoadAnimationClip(data.successSequence);
+        FailSequence = ResourceManager.Instance.LoadAnimationClip(data.failSequence);
+        FixedSequence = ResourceManager.Instance.LoadAnimationClip(data.fixedSequence);
+        AfterFlexSequence = ResourceManager.Instance.LoadAnimationClip(data.afterFlexSequence);
     }
 
     public void OnInteract()
@@ -98,5 +104,17 @@ public class Block : MonoBehaviour, IInteractable
     public string GetInteractComponent()
     {
         return "E키를 눌러 타임라인에 추가";
+    }
+
+    public void DataToGhost()
+    {
+        ghostManager.playerTrans = transform;
+        ghostManager.ghostClip = FixedSequence;
+    }
+
+    public void SetGhost()
+    {
+        if(IsSuccess) ghostManager.ghostClip = SuccessSequence;
+        else ghostManager.ghostClip = FailSequence;
     }
 }
