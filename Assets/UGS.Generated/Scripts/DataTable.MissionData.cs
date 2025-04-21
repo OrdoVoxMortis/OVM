@@ -60,6 +60,7 @@ namespace DataTable
 		public System.String stageId;
 		public System.String description;
 		public System.String filePath;
+		public System.String dialog;
   
 
 #region fuctions

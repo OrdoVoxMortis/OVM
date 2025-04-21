@@ -60,10 +60,9 @@ namespace DataTable
 		public BlockType type;
 		public BlockAction action;
 		public System.String blockName;
-		public Hamster.ZG.Type.CombineRule nextCombineRule;
 		public Hamster.ZG.Type.CombineRule prevCombineRule;
+		public Hamster.ZG.Type.CombineRule nextCombineRule;
 		public System.Single fixedTime;
-		public System.Single beforeFlexibleMarginTime;
 		public System.Single afterFlexibleMarginTime;
 		public System.Boolean isDeathTrigger;
 		public System.Boolean isTarget;

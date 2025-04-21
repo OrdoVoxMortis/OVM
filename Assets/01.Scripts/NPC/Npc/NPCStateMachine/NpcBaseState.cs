@@ -39,17 +39,25 @@ public class NpcBaseState : IState
 
     public virtual void Update()
     {
-        moveTimer += Time.deltaTime;
-        if (moveTimer >= moveDelay)
+        if (!GameManager.Instance.SimulationMode)
         {
-            stateMachine.npc.Agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
-            moveTimer = 0f;
-        }
+            stateMachine.npc.Agent.isStopped = false;
+            moveTimer += Time.deltaTime;
+            if (moveTimer >= moveDelay)
+            {
+                stateMachine.npc.Agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
+                moveTimer = 0f;
+            }
 
-        var agent = stateMachine.npc.Agent;
-        bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
-        if (isMoving) StartAnimation("Walk");
-        else StopAnimation("Walk");
+            var agent = stateMachine.npc.Agent;
+            bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
+            if (isMoving) StartAnimation("Walk");
+            else StopAnimation("Walk");
+        }
+        else
+        {
+            stateMachine.npc.Agent.isStopped = true;
+        }
     }
     protected void StartAnimation(string anim)
     {

@@ -126,8 +126,8 @@ public class NpcActionState : NpcBaseState
     {
         var target = GameObject.FindObjectOfType<Target>();
         var agent = stateMachine.npc.Agent;
-
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        
+        if (agent.remainingDistance <= agent.stoppingDistance) //도착시
         {
             StopAnimation("Walk");
             agent.isStopped = true;
@@ -138,6 +138,10 @@ public class NpcActionState : NpcBaseState
                 friend.NotifyTarget(target);
 
             }
+        }
+        else
+        {
+            agent.SetDestination(target.transform.position);
         }
     }
     private void LookAtTarget()

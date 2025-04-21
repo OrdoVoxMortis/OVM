@@ -9,6 +9,8 @@ public class GameManager : SingleTon<GameManager>
     public int Bpm { get; private set; }
     public AudioClip SelectedBGM {  get; private set; }
     public static event Action OnSelectedBGMSet; // 추가
+    public bool SimulationMode { get; set; }
+
     protected override void Awake()
     {
         base.Awake();
