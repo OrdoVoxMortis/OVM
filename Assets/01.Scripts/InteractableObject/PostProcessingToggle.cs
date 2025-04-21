@@ -6,6 +6,7 @@ public class PostProcessingToggle : MonoBehaviour
 {
     public bool isEnabled = false; // 기본적으로 활성화 상태
     public GameObject timeLine_UI;
+    public GameObject playRhythm_UI;
 
     void Start()
     {
@@ -22,6 +23,7 @@ public class PostProcessingToggle : MonoBehaviour
         {
             GameManager.Instance.SimulationMode = true;
             timeLine_UI.SetActive(true);
+            playRhythm_UI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -29,6 +31,7 @@ public class PostProcessingToggle : MonoBehaviour
         {
             GameManager.Instance.SimulationMode = false;
             timeLine_UI.SetActive(false);
+            playRhythm_UI.SetActive(false);
             UIManager.Instance.UIDeactive();
         }
     }
