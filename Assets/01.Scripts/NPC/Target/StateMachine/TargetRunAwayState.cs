@@ -15,8 +15,14 @@ public class TargetRunAwayState : TargetBaseState
         base.Enter();
 
         stateMachine.Target.Agent.isStopped = false;
-        stateMachine.Target.Agent.speed = 2.5f;
         StartAnimation(stateMachine.Target.AnimationData.RunParameterHash);
+        var blockInfo = stateMachine.SafeZoneBlock.GetComponent<TargetBlockInfo>();
+        float speed = (blockInfo != null && blockInfo.moveSpeed > 0f)
+            ? blockInfo.moveSpeed : groundData.BaseSpeed;
+
+        stateMachine.Target.Agent.speed = speed;
+        stateMachine.MovementSpeedModifier = groundData.RunSpeedModifier;
+
 
         if (stateMachine.Target.safeZone != null)
         {

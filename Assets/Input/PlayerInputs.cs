@@ -107,6 +107,24 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Accept"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a468ef3-3dc6-4392-b76a-6fbd6e915fde"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CancleUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""c57b5392-46f6-4513-b1d6-c6fe193d42e5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -252,6 +270,28 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Simulate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""31175aec-60db-40dd-910b-0579b99012b5"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Accept"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c2607d03-cc67-417c-814c-be1d59b76d23"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CancleUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -297,6 +337,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_SimulationModeToggle = m_Player.FindAction("SimulationModeToggle", throwIfNotFound: true);
         m_Player_Setting = m_Player.FindAction("Setting", throwIfNotFound: true);
         m_Player_Simulate = m_Player.FindAction("Simulate", throwIfNotFound: true);
+        m_Player_Accept = m_Player.FindAction("Accept", throwIfNotFound: true);
+        m_Player_CancleUI = m_Player.FindAction("CancleUI", throwIfNotFound: true);
         // RhythmMode
         m_RhythmMode = asset.FindActionMap("RhythmMode", throwIfNotFound: true);
         m_RhythmMode_RhythmInput = m_RhythmMode.FindAction("RhythmInput", throwIfNotFound: true);
@@ -370,6 +412,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SimulationModeToggle;
     private readonly InputAction m_Player_Setting;
     private readonly InputAction m_Player_Simulate;
+    private readonly InputAction m_Player_Accept;
+    private readonly InputAction m_Player_CancleUI;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -383,6 +427,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @SimulationModeToggle => m_Wrapper.m_Player_SimulationModeToggle;
         public InputAction @Setting => m_Wrapper.m_Player_Setting;
         public InputAction @Simulate => m_Wrapper.m_Player_Simulate;
+        public InputAction @Accept => m_Wrapper.m_Player_Accept;
+        public InputAction @CancleUI => m_Wrapper.m_Player_CancleUI;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -419,6 +465,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Simulate.started += instance.OnSimulate;
             @Simulate.performed += instance.OnSimulate;
             @Simulate.canceled += instance.OnSimulate;
+            @Accept.started += instance.OnAccept;
+            @Accept.performed += instance.OnAccept;
+            @Accept.canceled += instance.OnAccept;
+            @CancleUI.started += instance.OnCancleUI;
+            @CancleUI.performed += instance.OnCancleUI;
+            @CancleUI.canceled += instance.OnCancleUI;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -450,6 +502,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Simulate.started -= instance.OnSimulate;
             @Simulate.performed -= instance.OnSimulate;
             @Simulate.canceled -= instance.OnSimulate;
+            @Accept.started -= instance.OnAccept;
+            @Accept.performed -= instance.OnAccept;
+            @Accept.canceled -= instance.OnAccept;
+            @CancleUI.started -= instance.OnCancleUI;
+            @CancleUI.performed -= instance.OnCancleUI;
+            @CancleUI.canceled -= instance.OnCancleUI;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -524,6 +582,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnSimulationModeToggle(InputAction.CallbackContext context);
         void OnSetting(InputAction.CallbackContext context);
         void OnSimulate(InputAction.CallbackContext context);
+        void OnAccept(InputAction.CallbackContext context);
+        void OnCancleUI(InputAction.CallbackContext context);
     }
     public interface IRhythmModeActions
     {

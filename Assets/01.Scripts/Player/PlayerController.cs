@@ -68,4 +68,10 @@ public class PlayerController : MonoBehaviour
     {
         playerInputs.Disable();
     }
+
+    public void OnAcceptQuest(InputAction.CallbackContext context)
+    {
+        
+    }
+
 }
