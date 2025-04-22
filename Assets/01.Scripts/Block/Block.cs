@@ -101,6 +101,7 @@ public class Block : MonoBehaviour, IInteractable
         else
         {
             TimelineManager.Instance.DestroyBlock(this);
+            ghostManager.RemoveGhost();
         }
 
         BlockManager.Instance.OnBlockUpdate?.Invoke();
@@ -115,16 +116,16 @@ public class Block : MonoBehaviour, IInteractable
     public void DataToGhost()
     {
         if (ghostManager == null) return;
-        ghostManager.playerTrans = transform;
+        ghostManager.playerTrans = transform.GetChild(1);
         ghostManager.ghostClip = FixedSequence;
         ghostManager.ghostPrefabs = transform.GetChild(0).gameObject;
+        ghostManager.bpm = GameManager.Instance.Bpm;
     }
 
     public void SetGhost()
     {
         if(IsSuccess) ghostManager.ghostClip = SuccessSequence;
         else ghostManager.ghostClip = FailSequence;
-        ghostManager.bpm = GameManager.Instance.Bpm;
         ghostManager.SetBeatList(ghostManager.beats, ghostManager.bpm);
     }
 }
