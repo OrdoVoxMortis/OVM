@@ -120,12 +120,12 @@ public class Block : MonoBehaviour, IInteractable
         ghostManager.ghostClip = FixedSequence;
         ghostManager.ghostPrefabs = transform.GetChild(0).gameObject;
         ghostManager.bpm = GameManager.Instance.Bpm;
+        ghostManager.SetBeatList(ghostManager.beats, ghostManager.bpm);
     }
 
     public void SetGhost()
     {
         if(IsSuccess) ghostManager.ghostClip = SuccessSequence;
         else ghostManager.ghostClip = FailSequence;
-        ghostManager.SetBeatList(ghostManager.beats, ghostManager.bpm);
     }
 }
