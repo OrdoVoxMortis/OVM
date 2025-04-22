@@ -82,11 +82,11 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private void OnCancleUI(InputAction.CallbackContext context)
+    public void OnCancleUI(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
 
-         
+        Debug.Log("Cancle 클릭");
     }
 
 }
