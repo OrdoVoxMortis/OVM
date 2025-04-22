@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController :MonoBehaviour
 {
     public PlayerInputs playerInputs { get; private set; }
     public PlayerInputs.PlayerActions playerActions { get; private set; }
@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
         playerActions = playerInputs.Player;
 
         //playerActions.Accept.performed += OnAcceptQuest;
-        playerActions.CancleUI.performed += OnCancleUI;
+        playerActions.CancleUI.started += OnCancleUI;
 
         playerCamera = transform.Find("CameraLookPoint/FollowPlayerCamera").GetComponent<CinemachineFreeLook>();
 
@@ -84,9 +84,12 @@ public class PlayerController : MonoBehaviour
 
     public void OnCancleUI(InputAction.CallbackContext context)
     {
-        if (!context.performed) return;
-
         Debug.Log("Cancle 클릭");
+        if (context.phase == InputActionPhase.Started)
+        {
+            Debug.Log("현재UI 숨긱기!");
+            UIManager.Instance.CurrentUIHide();
+        }
     }
 
 }
