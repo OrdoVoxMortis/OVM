@@ -24,11 +24,30 @@ public class TargetBlockInfo : MonoBehaviour
     [SerializeField] private float radius = 1f;
     [SerializeField] private Color color = Color.red;
 
+    public bool isSimationBlockCheck = false;
+    public GameObject isSimulationObject;
+
 
     private void OnDrawGizmos()
     {
         Gizmos.color = color;
         Gizmos.DrawWireSphere(transform.position, radius);
+    }
+
+    public void Start()
+    {
+        if (isSimationBlockCheck)
+        {
+            isSimulationObject = GetComponentInChildren<GameObject>();
+        }
+    }
+
+    public void Update()
+    {
+        if (isSimationBlockCheck && GameManager.Instance.SimulationMode)
+        {
+            isSimulationObject.SetActive(true);
+        }
     }
 
 
