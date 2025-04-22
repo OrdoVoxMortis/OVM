@@ -9,10 +9,11 @@ public class SoundManager : SingleTon<SoundManager>
     [SerializeField] private Dictionary<string, AudioClip> bgmDict = new();
     [SerializeField] private Dictionary<string, AudioClip> sfxDict = new();
 
-    private List<AudioSource> sfxPlayers = new();
+    private List<AudioSource> activeSfxPlayers = new();
     private AudioSource bgmPlayer = new();
 
     private int maxPoolSize = 10;
+    private Queue<AudioSource> sfxPool = new();
     private Transform sfxPlayerGroup;
 
     [SerializeField] private AudioMixer audioMixer;
@@ -62,19 +63,22 @@ public class SoundManager : SingleTon<SoundManager>
 
         for (int i = 0; i < maxPoolSize; i++)
         {
-            GameObject sfxObject = new GameObject("SFXPlayer");
-            sfxObject.transform.SetParent(sfxPlayerGroup);
-            AudioSource sfxPlayer = sfxObject.AddComponent<AudioSource>();
-            sfxPlayer.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Master/SFX")[0];
-            sfxPlayer.playOnAwake = false;
-            sfxPlayer.loop = false;
-
-            sfxPlayers.Add(sfxPlayer);
+            AudioSource source = CreateSfxSource();
+            sfxPool.Enqueue(source);
         }
-
-        sfxPlayers = new List<AudioSource>(sfxPlayerGroup.GetComponentsInChildren<AudioSource>());  
     }
 
+    AudioSource CreateSfxSource()
+    {
+        GameObject sfxObject = new GameObject("SfxPlayer");
+        sfxObject.transform.SetParent(sfxPlayerGroup);
+        AudioSource sfxPlayer = sfxObject.AddComponent<AudioSource>();
+        sfxPlayer.outputAudioMixerGroup = audioMixer.FindMatchingGroups("Master/SFX")[0];
+        sfxPlayer.loop = false;
+        sfxPlayer.playOnAwake = false;
+        return sfxPlayer;
+
+    }
     public void PlayBGM(string bgm)
     {
         if (bgmDict.TryGetValue(bgm, out AudioClip clip))
@@ -89,32 +93,32 @@ public class SoundManager : SingleTon<SoundManager>
     {
         if (sfxDict.TryGetValue(sfx, out AudioClip clip))
         {
-            for (int i = 0; i < sfxPlayers.Count; i++)
-            {
-                if (!sfxPlayers[i].isPlaying)
-                {
-                    sfxPlayers[i].clip = clip;
-                    sfxPlayers[i].Play();
-                    return;
-                }
-            }
-
-            GameObject sfxObject = new GameObject(name);
-            sfxObject.transform.SetParent(sfxPlayerGroup);
-            AudioSource newSource = sfxObject.AddComponent<AudioSource>();
-            newSource.clip = clip;
-            newSource.playOnAwake = false;
-            newSource.loop = false;
-            newSource.Play();
-            sfxPlayers.Add(newSource);
-            StartCoroutine(DestroyAudiosource(newSource));
+            AudioSource source = GetSfxSource();
+            source.clip = clip;
+            source.Play();
+            StartCoroutine(ReturnAudiosource(source));
         }
         else Debug.Log("sfx not found");
     }
 
+    private AudioSource GetSfxSource()
+    {
+        if(sfxPool.Count > 0)
+        {
+            AudioSource src = sfxPool.Dequeue();
+            activeSfxPlayers.Add(src);
+            return src;
+        }
+        else
+        {
+            AudioSource newSrc = CreateSfxSource();
+            activeSfxPlayers.Add(newSrc);
+            return newSrc;
+        }
+    }
     public void StopAllSfx()
     {
-        foreach(AudioSource a in sfxPlayers)
+        foreach(AudioSource a in activeSfxPlayers)
         {
             a.Stop();
         }
@@ -125,12 +129,15 @@ public class SoundManager : SingleTon<SoundManager>
         bgmPlayer.Stop();
     }
 
-    IEnumerator DestroyAudiosource(AudioSource source)
+    IEnumerator ReturnAudiosource(AudioSource source)
     {
         yield return new WaitWhile(() => source.isPlaying);
 
-        sfxPlayers.Remove(source);
-        Destroy(source.gameObject);
+        source.clip = null;
+        if(activeSfxPlayers.Contains(source)) activeSfxPlayers.Remove(source);
+
+        if(sfxPool.Count < maxPoolSize) sfxPool.Enqueue(source);
+        else Destroy(source.gameObject);
     }
 
     public void StopAll()

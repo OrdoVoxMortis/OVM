@@ -7,11 +7,14 @@ public class UIManager : SingleTon<UIManager>
 {
     private Dictionary<string, BaseUI> activeUIs = new(); // 활성화된 UI
     public bool isUIActive = false;
+    private BaseUI currentUI = null;
+    private Canvas canvas;
     public static event System.Action OnEscPressed;
 
     protected override void Awake()
     {
         base.Awake();
+        
     }
 
     private void Update()
@@ -25,11 +28,23 @@ public class UIManager : SingleTon<UIManager>
 
     public T ShowUI<T>(string name) where T : BaseUI
     {
-        var ui = ResourceManager.Instance.LoadUI<T>(name);
-        if (ui == null) return null;
-        var inst = Instantiate(ui);
-        activeUIs[typeof(T).Name] = inst;
-        return inst;
+        GetCanvas();
+        if(activeUIs.TryGetValue(name, out var ui))
+        {
+            ui.Show();
+            currentUI = ui;
+            return (T) ui;
+        }
+        else
+        {
+            ui = ResourceManager.Instance.LoadUI<T>(name);
+            if (ui == null) return null;
+            var inst = Instantiate(ui, canvas.transform);
+            activeUIs[typeof(T).Name] = inst;
+            currentUI = inst;
+            return (T)inst;
+        }
+  
     }
 
     public void HideUI<T>() 
@@ -38,8 +53,10 @@ public class UIManager : SingleTon<UIManager>
         if (activeUIs.TryGetValue(name, out var ui))
         {
             ui.Hide();
-            activeUIs.Remove(name);
+            currentUI = null;
+            //activeUIs.Remove(name);
         }
+
     }
 
     public void ClearUI()
@@ -74,6 +91,19 @@ public class UIManager : SingleTon<UIManager>
             GameManager.Instance.Player.Input.playerCamera.enabled = true;
 
         isUIActive = false;
+    }
+
+    public void CurrentUIHide()
+    {
+        currentUI.Hide();
+    }
+
+    private void GetCanvas()
+    {
+        if(canvas == null)
+        {
+            canvas = FindObjectOfType<Canvas>();
+        }
     }
 
 }

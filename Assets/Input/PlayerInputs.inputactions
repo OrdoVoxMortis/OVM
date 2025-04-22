@@ -60,15 +60,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SimulationModeToggle",
-                    "type": "Button",
-                    "id": "ae640096-4539-43b2-9c82-e812616b8e89",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Setting",
                     "type": "Button",
                     "id": "68694467-81c9-406e-b220-d2f78eda49a5",
@@ -99,6 +90,15 @@
                     "name": "CancleUI",
                     "type": "Button",
                     "id": "c57b5392-46f6-4513-b1d6-c6fe193d42e5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "329aff5c-8058-410e-9a6b-d7947da64763",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -218,17 +218,6 @@
                 },
                 {
                     "name": "",
-                    "id": "b773539c-7150-4ec4-95ba-df680b1fc6bc",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SimulationModeToggle",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c745c948-982f-4a2a-8c22-57485525f8e5",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
@@ -268,6 +257,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "CancleUI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d91990b7-0769-41ec-a97f-9223c66694ff",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -28,10 +28,19 @@ public class SingleTon<T> : MonoBehaviour where T : MonoBehaviour
     protected virtual void Awake()
     {
         //gameObject to rootObject
-        if (transform.root != null || transform.parent != null)
-            DontDestroyOnLoad(transform.root);
-        else if (_instance != null)
+        if(_instance == null)
+        {
+            _instance = this as T;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else if(_instance != this)
+        {
             Destroy(this.gameObject);
+        }
+        //if (transform.root != null || transform.parent != null)
+        //    DontDestroyOnLoad(transform.root);
+        //else if (_instance != null)
+        //    Destroy(this.gameObject);
     }
 
 }

@@ -36,6 +36,10 @@ public class Target : MonoBehaviour
     [Header("Game Over UI")]
     [SerializeField] private GameObject gameOverUI;
 
+    [Header("Target 동선 Gizmos 색상")]
+    public Color lineColor = Color.magenta;
+    public Color wrapLineColor = Color.green;
+
     private void Awake()
     {
         AnimationData.Initialize();
@@ -139,6 +143,34 @@ public class Target : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        if (route == null || route.Length == 0) return;
+
+        for (int i = 0; i < route.Length; i++)
+        {
+            GameObject gameObject = route[i];
+            if (gameObject == null) continue;
+            Vector3 pos = gameObject.transform.position;
+
+            Vector3 nextPos;
+            Color col;
+            if (i < route.Length - 1)
+            {
+                nextPos = route[i + 1]?.transform.position ?? pos;
+                col = lineColor;
+            }
+            else
+            {
+                nextPos = route[0]?.transform.position ?? pos;
+                col = wrapLineColor;
+            }
+
+            Gizmos.color = col;
+            Gizmos.DrawLine(pos, nextPos);
+        }
+
+    }
 
 
 }

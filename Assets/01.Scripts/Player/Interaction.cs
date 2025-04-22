@@ -92,19 +92,28 @@ public class Interaction : MonoBehaviour
             // UI가 비활성화 상태라면 → 세팅창 열기
             if (!UIManager.Instance.isUIActive)
             {
-                settingMenu.SetActive(true);
+                UIManager.Instance.ShowUI<UI_Volume>("UI_Volume");
                 UIManager.Instance.UIActive(); // 커서 unlock, playerCamera 끄기 등
             }
             // UI가 이미 켜져 있으면 → 세팅창 닫기
             else
             {
-                settingMenu.SetActive(false);
+                UIManager.Instance.HideUI<UI_Volume>();
                 UIManager.Instance.UIDeactive(); // 커서 lock, camera 다시 켜기
             }
         }
     }
 
-  
+    public void OnCancelInput(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started && curInteractable != null)
+        {
+            curInteractable.OnInteract();
+            interactText.gameObject.SetActive(false);
+            curInteractGameObject = null;
+            curInteractable = null;
+        }
+    }
 
     private void OnInteract(Scene scene, LoadSceneMode mode)
     {

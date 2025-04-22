@@ -55,16 +55,21 @@ public class Block : MonoBehaviour, IInteractable
     //public Transform afterFlexSequenceRoot;
     //public Transform beforeFlexSequenceRoot;
 
-    public Animation SuccessSequence {  get; private set; } // 성공 노트 시퀀스
-    public Animation FailSequence {  get; private set; } // 실패 노트 시퀀스
-    public Animation FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
-    public Animation AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
+    public AnimationClip SuccessSequence {  get; private set; } // 성공 노트 시퀀스
+    public AnimationClip FailSequence {  get; private set; } // 실패 노트 시퀀스
+    public AnimationClip FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
+    public AnimationClip AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
+
+    public bool IsActive { get; set; } // 타임라인 내 활성화
+    private GhostManager ghostManager;
+    public bool IsSuccess { get; set; } // 조합 성공인지
 
     private void Awake()
     {
         LoadData();
+        ghostManager = GetComponent<GhostManager>();
+        DataToGhost();
     }
-
 
     protected virtual void LoadData()
     {
@@ -80,20 +85,46 @@ public class Block : MonoBehaviour, IInteractable
         IsDeathTrigger = data.isDeathTrigger;
         CurrentAfterFlexTime = AfterFlexibleMarginTime;
 
-        SuccessSequence = ResourceManager.Instance.LoadAnimation(data.successSequence);
-        FailSequence = ResourceManager.Instance.LoadAnimation(data.failSequence);
-        FixedSequence = ResourceManager.Instance.LoadAnimation(data.fixedSequence);
-        AfterFlexSequence = ResourceManager.Instance.LoadAnimation(data.afterFlexSequence);
+        SuccessSequence = ResourceManager.Instance.LoadAnimationClip(data.successSequence);
+        FailSequence = ResourceManager.Instance.LoadAnimationClip(data.failSequence);
+        FixedSequence = ResourceManager.Instance.LoadAnimationClip(data.fixedSequence);
+        AfterFlexSequence = ResourceManager.Instance.LoadAnimationClip(data.afterFlexSequence);
     }
 
     public void OnInteract()
     {
-        TimelineManager.Instance.AddBlock(this);
+        if (!IsActive)
+        {
+            TimelineManager.Instance.AddBlock(this);
+            SetGhost();
+        }
+        else
+        {
+            TimelineManager.Instance.DestroyBlock(this);
+        }
+
         BlockManager.Instance.OnBlockUpdate?.Invoke();
     }
 
     public string GetInteractComponent()
     {
-        return "E키를 눌러 타임라인에 추가";
+        if (!IsActive) return "E키를 눌러 활성화";
+        else return "X키를 눌러 비활성화";
+    }
+
+    public void DataToGhost()
+    {
+        if (ghostManager == null) return;
+        ghostManager.playerTrans = transform;
+        ghostManager.ghostClip = FixedSequence;
+        ghostManager.ghostPrefabs = transform.GetChild(0).gameObject;
+    }
+
+    public void SetGhost()
+    {
+        if(IsSuccess) ghostManager.ghostClip = SuccessSequence;
+        else ghostManager.ghostClip = FailSequence;
+        ghostManager.bpm = GameManager.Instance.Bpm;
+        ghostManager.SetBeatList(ghostManager.beats, ghostManager.bpm);
     }
 }
