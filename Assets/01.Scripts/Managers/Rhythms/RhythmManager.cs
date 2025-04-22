@@ -23,6 +23,10 @@ public class RhythmManager : SingleTon<RhythmManager>
 
     public AnimationCurve curve;
 
+    public List<IRhythmActions> rhythmActions;
+
+    public bool isPlaying; //qte, ghost매니저가 끝날 때, false로 변경
+
     public void Start()
     {
         //audioSource = GetComponent<AudioSource>();
