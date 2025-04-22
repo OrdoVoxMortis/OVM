@@ -68,10 +68,12 @@ public class Block : MonoBehaviour, IInteractable
     {
         LoadData();
         ghostManager = GetComponent<GhostManager>();
+        DataToGhost();
     }
     private void Start()
     {
-        BlockManager.Instance.OnBlockUpdate += SetGhost;   
+        BlockManager.Instance.OnBlockUpdate += SetGhost;
+
     }
 
     protected virtual void LoadData()
@@ -96,8 +98,14 @@ public class Block : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        if (!IsActive) TimelineManager.Instance.AddBlock(this);
-        else TimelineManager.Instance.DestroyBlock(this);
+        if (!IsActive)
+        {
+            TimelineManager.Instance.AddBlock(this);
+        }
+        else
+        {
+            TimelineManager.Instance.DestroyBlock(this);
+        }
 
         BlockManager.Instance.OnBlockUpdate?.Invoke();
     }
@@ -110,14 +118,17 @@ public class Block : MonoBehaviour, IInteractable
 
     public void DataToGhost()
     {
+        if (ghostManager == null) return;
         ghostManager.playerTrans = transform;
         ghostManager.ghostClip = FixedSequence;
-        ghostManager.ghostPrefabs = GetComponentInChildren<GameObject>();
+        ghostManager.ghostPrefabs = transform.GetChild(0).gameObject;
     }
 
     public void SetGhost()
     {
         if(IsSuccess) ghostManager.ghostClip = SuccessSequence;
         else ghostManager.ghostClip = FailSequence;
+        ghostManager.bpm = GameManager.Instance.Bpm;
+        ghostManager.SetBeatList(ghostManager.beats, ghostManager.bpm);
     }
 }

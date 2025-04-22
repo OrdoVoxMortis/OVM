@@ -30,6 +30,10 @@ public class GameManager : SingleTon<GameManager>
     public void SetSelectedBGM(AudioClip clip)
     {
         SelectedBGM = clip;
+        if(DataManager.Instance.musicDict.TryGetValue(clip.name, out var bgm))
+        {
+            Bpm = bgm.BPM;
+        }
         Debug.Log("스테이지 음악 할당됨!");
         OnSelectedBGMSet?.Invoke(); // 이벤트 발동!!
     }

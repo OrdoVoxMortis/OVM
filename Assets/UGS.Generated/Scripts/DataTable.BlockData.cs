@@ -69,7 +69,6 @@ namespace DataTable
 		public System.String successSequence;
 		public System.String failSequence;
 		public System.String fixedSequence;
-		public System.String beforeFlexSequence;
 		public System.String afterFlexSequence;
   
 
