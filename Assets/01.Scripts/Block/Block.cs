@@ -96,7 +96,7 @@ public class Block : MonoBehaviour, IInteractable
         if (!IsActive)
         {
             TimelineManager.Instance.AddBlock(this);
-            //SetGhost();
+            SetGhost();
         }
         else
         {
