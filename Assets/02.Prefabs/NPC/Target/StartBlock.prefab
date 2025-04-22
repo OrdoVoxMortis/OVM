@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8051614203740673230}
   - component: {fileID: 665271111752149086}
   - component: {fileID: 3677699654096321095}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: StartBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f672d6621ae6b46839587e77b96f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockStateType: 0
-  stateDuration: 8
+  blockStateType: 1
+  stateDuration: 3
   moveSpeed: 1.2
   radius: 1
   color: {r: 1, g: 0, b: 0, a: 1}
@@ -65,7 +65,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
