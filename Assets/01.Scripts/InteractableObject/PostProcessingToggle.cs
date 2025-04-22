@@ -25,8 +25,7 @@ public class PostProcessingToggle : MonoBehaviour
             GameManager.Instance.SimulationMode = true;
 
             //TODO 시뮬레이션 전용 Cancle 구독
-            input.playerActions.CancleUI.started -= input.OnCancleUI;
-
+            GameManager.Instance.Player.Input.UnsubscribeCancleUI();
             timeLine_UI.SetActive(true);
             playRhythm_UI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
@@ -35,13 +34,27 @@ public class PostProcessingToggle : MonoBehaviour
         else
         {
             GameManager.Instance.SimulationMode = false;
-            
-            //TODO 시뮬레이션 전용 Cancle 구독 해제
-            input.playerActions.CancleUI.performed += input.OnCancleUI;
 
+            //TODO 시뮬레이션 전용 Cancle 구독 해제
+            GameManager.Instance.Player.Input.SubscribeCancleUI();
             timeLine_UI.SetActive(false);
             playRhythm_UI.SetActive(false);
             UIManager.Instance.UIDeactive();
+        }
+    }
+    public void EnablePostProcessing()
+    {
+        isEnabled = true;
+        Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
+
+        if (timeLine_UI != null)
+        {
+            GameManager.Instance.SimulationMode = true;
+            GameManager.Instance.Player.Input.UnsubscribeCancleUI();
+            timeLine_UI.SetActive(true);
+            playRhythm_UI.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
     private void OnSimulateInput(InputAction.CallbackContext context)

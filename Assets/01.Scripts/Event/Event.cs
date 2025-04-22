@@ -26,7 +26,10 @@ public class Event : MonoBehaviour, IInteractable
        TimelineManager.Instance.AddEventSlot(this);
     }
 
-
+    public void Deactive()
+    {
+        throw new System.NotImplementedException();
+    }
 }
 
    

@@ -28,4 +28,8 @@ public class Door : MonoBehaviour, IInteractable
         Camera camera = Camera.main;
     }
 
+    public void Deactive()
+    {
+        throw new System.NotImplementedException();
+    }
 }

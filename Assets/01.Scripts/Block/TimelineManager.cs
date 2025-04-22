@@ -175,6 +175,12 @@ public class TimelineManager : SingleTon<TimelineManager>
     {
         if (removeIndex < 0 || removeIndex >= PlacedBlocks.Count) return;
 
+        // 먼저 삭제할 GameObject를 파괴한다
+        if (slots[removeIndex].currentItem != null)
+        {
+            Destroy(slots[removeIndex].currentItem.gameObject);
+            slots[removeIndex].currentItem = null;
+        }
         PlacedBlocks.RemoveAt(removeIndex);
 
         for(int i = removeIndex; i < slots.Count -1; i++)
