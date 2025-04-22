@@ -45,6 +45,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
     public void StartRhythmAction()
     {
+        RhythmManager.Instance.qteManager = this;
         StartCoroutine(MakeQTE());
     }
 
