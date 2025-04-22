@@ -32,8 +32,8 @@ public class RhythmManager : SingleTon<RhythmManager>
         //audioSource = GetComponent<AudioSource>();
         measure = 60f / bpm * 4 * 4; //4박자가 한 마디 //4마디로 한 줄
 
-        qteManager = GetComponent<QTEManager>();
-        qteManager.bpm = bpm;
+        //qteManager = GetComponent<QTEManager>();
+        //qteManager.bpm = bpm;
 
         //테스트용 비프음
         beepClip = CreateBeepClip();

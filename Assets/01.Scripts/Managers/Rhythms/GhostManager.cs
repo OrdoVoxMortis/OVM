@@ -62,6 +62,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
         ghostPrefabs.AddComponent<GhostAnimation>().PlayAnimation();
         ghostPrefabs.GetComponent<GhostAnimation>().moving = direction.normalized * ghostGaps;
+        ghostPrefabs.transform.position = playerTrans.position;
         curIndex = 0;
         isPlaying = true;
         curTime = Time.time;
