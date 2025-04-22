@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028373, g: 0.22571398, b: 0.30692294, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5011,7 +5011,7 @@ PrefabInstance:
     - target: {fileID: 1895128238875548512, guid: 769bbd288abf0c1439d3fc870618d84e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.3280001
+      value: 1.359
       objectReference: {fileID: 0}
     - target: {fileID: 1895128238875548512, guid: 769bbd288abf0c1439d3fc870618d84e,
         type: 3}
@@ -5221,21 +5221,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Block_Poison
-      objectReference: {fileID: 0}
-    - target: {fileID: 2907068949842211335, guid: 0d545705a04210748b60e5a4c09791be,
-        type: 3}
-      propertyPath: beats.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2907068949842211335, guid: 0d545705a04210748b60e5a4c09791be,
-        type: 3}
-      propertyPath: beats.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2907068949842211335, guid: 0d545705a04210748b60e5a4c09791be,
-        type: 3}
-      propertyPath: beats.Array.data[1]
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8475852505633144270, guid: 0d545705a04210748b60e5a4c09791be,
         type: 3}
@@ -6054,70 +6039,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1529943025077456471, guid: de066dbf0ff20fe478a7f99da0845487,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1529943025077456471, guid: de066dbf0ff20fe478a7f99da0845487,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.142565
-      objectReference: {fileID: 0}
-    - target: {fileID: 1529943025077456471, guid: de066dbf0ff20fe478a7f99da0845487,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.000000008515315
-      objectReference: {fileID: 0}
-    - target: {fileID: 1529943025077456471, guid: de066dbf0ff20fe478a7f99da0845487,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.0000000012265141
-      objectReference: {fileID: 0}
-    - target: {fileID: 1808456314308436546, guid: de066dbf0ff20fe478a7f99da0845487,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1808456314308436546, guid: de066dbf0ff20fe478a7f99da0845487,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
     - target: {fileID: 3700428566161269553, guid: de066dbf0ff20fe478a7f99da0845487,
         type: 3}
       propertyPath: m_Name
       value: Block_Backdoor
-      objectReference: {fileID: 0}
-    - target: {fileID: 4225715329560397603, guid: de066dbf0ff20fe478a7f99da0845487,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4809099494073245775, guid: de066dbf0ff20fe478a7f99da0845487,
-        type: 3}
-      propertyPath: beats.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4809099494073245775, guid: de066dbf0ff20fe478a7f99da0845487,
-        type: 3}
-      propertyPath: beats.Array.data[2]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4809099494073245775, guid: de066dbf0ff20fe478a7f99da0845487,
-        type: 3}
-      propertyPath: beats.Array.data[3]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5586871050672817915, guid: de066dbf0ff20fe478a7f99da0845487,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.00000000849166
-      objectReference: {fileID: 0}
-    - target: {fileID: 5586871050672817915, guid: de066dbf0ff20fe478a7f99da0845487,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.000000001380792
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

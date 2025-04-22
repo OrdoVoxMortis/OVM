@@ -26,6 +26,7 @@ public class Interaction : MonoBehaviour
     {
         camera = Camera.main;
         PlayerController input = GameManager.Instance.Player.Input;
+        input.playerActions.Interection.started -= OnInteractInput;
         input.playerActions.Interection.started += OnInteractInput;
         input.playerActions.Setting.started += OnSettingInput;
         input.playerActions.Cancel.started += OnCancelInput;
@@ -119,6 +120,7 @@ public class Interaction : MonoBehaviour
     private void OnInteract(Scene scene, LoadSceneMode mode)
     {
         PlayerController input = GameManager.Instance.Player.Input;
+        input.playerActions.Interection.started -= OnInteractInput;
         input.playerActions.Interection.started += OnInteractInput;
         interactText = FindObjectOfType<TextMeshProUGUI>();
         curInteractGameObject = null;

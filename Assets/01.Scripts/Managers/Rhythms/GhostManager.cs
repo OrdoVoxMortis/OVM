@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class GhostManager : MonoBehaviour
+public class GhostManager : MonoBehaviour, IRhythmActions
 {
     public Transform playerTrans; //고스트 시작 위치
     public Vector3 direction; //고스트가 생성되는 방향
@@ -54,7 +54,7 @@ public class GhostManager : MonoBehaviour
         }
     }
 
-    public void PlayGhost()
+    public void StartRhythmAction()
     {
         if (isPlaying) return;
 
@@ -115,6 +115,11 @@ public class GhostManager : MonoBehaviour
                 nextBeat = 1;
             }
             
+            if(bpm <= 0)
+            {
+                bpm = 120f; //default
+            }
+
 
             GameObject go = Instantiate(ghostPrefabs, playerTrans);
             Ghost ghost = go.AddComponent<Ghost>();
