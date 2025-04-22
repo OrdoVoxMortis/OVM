@@ -17,6 +17,7 @@ public class MissionNote : MonoBehaviour, IInteractable
 
     private void Start()
     {
+        questUI = FindObjectOfType<UI_Quest>();
         LoadData();
     }
 
@@ -33,7 +34,7 @@ public class MissionNote : MonoBehaviour, IInteractable
     {  
         if(!UIManager.Instance.isUIActive)
         {
-            questUI = FindObjectOfType<UI_Quest>();
+            
             Sprite image = null;
             if (!string.IsNullOrEmpty(ImageName))
             {
@@ -43,6 +44,7 @@ public class MissionNote : MonoBehaviour, IInteractable
             }
             questUI.SetQuest(Description, image, DialogText);
             UIManager.Instance.UIActive();
+            UIManager.Instance.ShowUI<UI_Quest>("UI_Quest");
             return;
         }
         Debug.Log("null");
