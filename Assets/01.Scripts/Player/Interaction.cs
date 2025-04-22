@@ -28,6 +28,7 @@ public class Interaction : MonoBehaviour
         PlayerController input = GameManager.Instance.Player.Input;
         input.playerActions.Interection.started += OnInteractInput;
         input.playerActions.Setting.started += OnSettingInput;
+        input.playerActions.Cancel.started += OnCancelInput;
         SceneManager.sceneLoaded += OnInteract;
     }
 

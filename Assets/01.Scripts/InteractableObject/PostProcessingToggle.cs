@@ -25,7 +25,7 @@ public class PostProcessingToggle : MonoBehaviour
             GameManager.Instance.SimulationMode = true;
 
             //TODO 시뮬레이션 전용 Cancle 구독
-            input.playerActions.CancleUI.performed -= input.OnCancleUI;
+            input.playerActions.CancleUI.started -= input.OnCancleUI;
 
             timeLine_UI.SetActive(true);
             playRhythm_UI.SetActive(true);
