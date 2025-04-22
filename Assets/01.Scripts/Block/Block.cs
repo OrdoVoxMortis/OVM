@@ -70,11 +70,6 @@ public class Block : MonoBehaviour, IInteractable
         ghostManager = GetComponent<GhostManager>();
         DataToGhost();
     }
-    private void Start()
-    {
-        //Instance.OnBlockUpdate += SetGhost;
-
-    }
 
     protected virtual void LoadData()
     {
