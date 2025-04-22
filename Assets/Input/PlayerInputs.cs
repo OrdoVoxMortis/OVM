@@ -82,15 +82,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SimulationModeToggle"",
-                    ""type"": ""Button"",
-                    ""id"": ""ae640096-4539-43b2-9c82-e812616b8e89"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Setting"",
                     ""type"": ""Button"",
                     ""id"": ""68694467-81c9-406e-b220-d2f78eda49a5"",
@@ -249,17 +240,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b773539c-7150-4ec4-95ba-df680b1fc6bc"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SimulationModeToggle"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""c745c948-982f-4a2a-8c22-57485525f8e5"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -354,7 +334,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Sit = m_Player.FindAction("Sit", throwIfNotFound: true);
         m_Player_Interection = m_Player.FindAction("Interection", throwIfNotFound: true);
-        m_Player_SimulationModeToggle = m_Player.FindAction("SimulationModeToggle", throwIfNotFound: true);
         m_Player_Setting = m_Player.FindAction("Setting", throwIfNotFound: true);
         m_Player_Simulate = m_Player.FindAction("Simulate", throwIfNotFound: true);
         m_Player_Accept = m_Player.FindAction("Accept", throwIfNotFound: true);
@@ -430,7 +409,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Sit;
     private readonly InputAction m_Player_Interection;
-    private readonly InputAction m_Player_SimulationModeToggle;
     private readonly InputAction m_Player_Setting;
     private readonly InputAction m_Player_Simulate;
     private readonly InputAction m_Player_Accept;
@@ -446,7 +424,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Sit => m_Wrapper.m_Player_Sit;
         public InputAction @Interection => m_Wrapper.m_Player_Interection;
-        public InputAction @SimulationModeToggle => m_Wrapper.m_Player_SimulationModeToggle;
         public InputAction @Setting => m_Wrapper.m_Player_Setting;
         public InputAction @Simulate => m_Wrapper.m_Player_Simulate;
         public InputAction @Accept => m_Wrapper.m_Player_Accept;
@@ -479,9 +456,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Interection.started += instance.OnInterection;
             @Interection.performed += instance.OnInterection;
             @Interection.canceled += instance.OnInterection;
-            @SimulationModeToggle.started += instance.OnSimulationModeToggle;
-            @SimulationModeToggle.performed += instance.OnSimulationModeToggle;
-            @SimulationModeToggle.canceled += instance.OnSimulationModeToggle;
             @Setting.started += instance.OnSetting;
             @Setting.performed += instance.OnSetting;
             @Setting.canceled += instance.OnSetting;
@@ -519,9 +493,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Interection.started -= instance.OnInterection;
             @Interection.performed -= instance.OnInterection;
             @Interection.canceled -= instance.OnInterection;
-            @SimulationModeToggle.started -= instance.OnSimulationModeToggle;
-            @SimulationModeToggle.performed -= instance.OnSimulationModeToggle;
-            @SimulationModeToggle.canceled -= instance.OnSimulationModeToggle;
             @Setting.started -= instance.OnSetting;
             @Setting.performed -= instance.OnSetting;
             @Setting.canceled -= instance.OnSetting;
@@ -608,7 +579,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSit(InputAction.CallbackContext context);
         void OnInterection(InputAction.CallbackContext context);
-        void OnSimulationModeToggle(InputAction.CallbackContext context);
         void OnSetting(InputAction.CallbackContext context);
         void OnSimulate(InputAction.CallbackContext context);
         void OnAccept(InputAction.CallbackContext context);

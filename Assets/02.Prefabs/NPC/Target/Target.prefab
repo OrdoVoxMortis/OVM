@@ -1762,7 +1762,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8142364356972054714}
   - component: {fileID: 6548723970553338474}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: PlayerArmature
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2492,6 +2492,7 @@ GameObject:
   - component: {fileID: 8352095779118033657}
   - component: {fileID: 4858419715585681064}
   - component: {fileID: 5746926448594768558}
+  - component: {fileID: 5625395432350497759}
   m_Layer: 0
   m_Name: Target
   m_TagString: Player
@@ -2542,15 +2543,12 @@ MonoBehaviour:
   startBlock: {fileID: 0}
   blocks:
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   turningBlock: {fileID: 0}
   safeZone: {fileID: 0}
   route: []
   player: {fileID: 0}
   playerCollider: {fileID: 0}
+  gameOverUI: {fileID: 0}
 --- !u!195 &4858419715585681064
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2600,6 +2598,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &5625395432350497759
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8845577502820898831}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.32
+  m_Height: 1.92
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.2, z: 0}
 --- !u!1 &8911944062063270975
 GameObject:
   m_ObjectHideFlags: 0

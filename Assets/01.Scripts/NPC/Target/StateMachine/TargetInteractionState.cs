@@ -17,14 +17,15 @@ public class TargetInteractionState : TargetBaseState
         stateMachine.Target.Agent.isStopped = true;
 
         timer = interactionDuration;
-        //TODO : Interaction 애니메이션 넣기
+        StartAnimation(stateMachine.Target.AnimationData.GroundParameterHash);
+        StartAnimation(stateMachine.Target.AnimationData.InteractionParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-
-        //TODO : Interaction 애니메이션 중지
+        StopAnimation(stateMachine.Target.AnimationData.GroundParameterHash);
+        StopAnimation(stateMachine.Target.AnimationData.InteractionParameterHash);
     }
 
     public override void Update()

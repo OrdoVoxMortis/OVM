@@ -16,6 +16,11 @@ public class Trashcan : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        saveUI.Show();
+        if (!UIManager.Instance.isUIActive)
+        {
+            UIManager.Instance.ShowUI<UI_SaveLoad>("UI_SaveLoad");
+            UIManager.Instance.UIActive();
+        }
     }
+       
 }

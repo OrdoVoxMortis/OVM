@@ -6,7 +6,8 @@ public class LobbyScene : BaseScene
     protected override void Init()
     {
         base.Init();
-        //UIManager.Instance.ShowUI<>("Lobby_UI");
+        UIManager.Instance.ShowUI<UI_Quest>("UI_Quest");
+
 
     }
 }
