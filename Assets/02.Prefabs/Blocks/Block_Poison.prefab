@@ -92,8 +92,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1406447
-  m_Height: 0.32965344
+  m_Radius: 0.1694817
+  m_Height: 0.3389634
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4565321484116113448
@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 3241449945305537362}
   - component: {fileID: 3049622209217239601}
   - component: {fileID: 3174457006815436492}
+  - component: {fileID: 1011772026572962348}
   m_Layer: 3
   m_Name: Block_Apple
   m_TagString: Untagged
@@ -293,3 +294,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &1011772026572962348
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5677041066798911112}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a67b3b4cde19e0f44be2090f05ff1d46, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
