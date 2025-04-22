@@ -42,6 +42,10 @@ public class UI_Volume : BaseUI
             if (lobbyBtn != null) lobbyBtn.gameObject.SetActive(true);
         }
     }
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
     public void SetMasterVolume(float value)
     {
         SoundManager.Instance.SetMasterVolume(value);
