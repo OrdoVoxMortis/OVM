@@ -4,6 +4,7 @@ using UnityEngine;
 public interface IInteractable
 {
     public void OnInteract();
+    public void Deactive();
     public string GetInteractComponent();
 }
 public class MissionNote : MonoBehaviour, IInteractable
@@ -54,5 +55,10 @@ public class MissionNote : MonoBehaviour, IInteractable
     public string GetInteractComponent()
     {
         return "E키를 눌러 상호작용";
+    }
+
+    public void Deactive()
+    {
+        gameObject.SetActive(false);
     }
 }

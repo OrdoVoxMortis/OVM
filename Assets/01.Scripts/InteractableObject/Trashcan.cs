@@ -22,5 +22,9 @@ public class Trashcan : MonoBehaviour, IInteractable
             UIManager.Instance.UIActive();
         }
     }
-       
+
+    public void Deactive()
+    {
+        throw new System.NotImplementedException();
+    }
 }

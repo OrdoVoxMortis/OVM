@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QTEManager : MonoBehaviour
+public class QTEManager : MonoBehaviour, IRhythmActions
 {
 
     public float bpm = 120.0f; //120 bpm
@@ -41,7 +41,10 @@ public class QTEManager : MonoBehaviour
     {
         this.beats = beats;
         this.bpm = bpm;
+    }
 
+    public void StartRhythmAction()
+    {
         StartCoroutine(MakeQTE());
     }
 
@@ -57,8 +60,14 @@ public class QTEManager : MonoBehaviour
                 nextBeat = 1;
             }
 
+            if (bpm <= 0)
+            {
+                bpm = 120f; //default
+            }
+
             yield return new WaitForSeconds((60f / bpm) / nextBeat);
         }
+        RhythmManager.Instance.isPlaying = false;
     }
 
     public void CheckQTE()
@@ -68,9 +77,12 @@ public class QTEManager : MonoBehaviour
             return;
         }
 
-        audioSource.PlayOneShot(qteList[0].isPointNotes ? hitSound[1] : hitSound[0]);
+        if (hitSound[0] == null || hitSound[1] == null)
+        {
+            audioSource.PlayOneShot(qteList[0].isPointNotes ? hitSound[1] : hitSound[0]);
+        }
 
-        //qteList[0].CheckJudge();
+        qteList[0].CheckJudge();
         qteList.RemoveAt(0);
     }
 

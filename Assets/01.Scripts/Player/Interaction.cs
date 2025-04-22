@@ -29,6 +29,7 @@ public class Interaction : MonoBehaviour
         input.playerActions.Interection.started -= OnInteractInput;
         input.playerActions.Interection.started += OnInteractInput;
         input.playerActions.Setting.started += OnSettingInput;
+        input.playerActions.Cancel.started += OnCancelInput;
         SceneManager.sceneLoaded += OnInteract;
     }
 

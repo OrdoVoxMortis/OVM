@@ -21,6 +21,7 @@ public class QTEEditor : Editor
         if (GUILayout.Button("QTE Test"))
         {
             manager.SetBeatList(beats, bpm);
+            manager.StartRhythmAction();
         }
     }
 }
@@ -47,7 +48,7 @@ public class GhostEditor : Editor
 
         if (GUILayout.Button("PlayGhost"))
         {
-            manager.PlayGhost();
+            manager.StartRhythmAction();
         }
     }
 }

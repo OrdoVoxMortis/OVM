@@ -92,4 +92,13 @@ public class PlayerController :MonoBehaviour
         }
     }
 
+    public void SubscribeCancleUI()
+    {
+        playerActions.CancleUI.started += OnCancleUI;
+    }
+
+    public void UnsubscribeCancleUI()
+    {
+        playerActions.CancleUI.started -= OnCancleUI;
+    }
 }

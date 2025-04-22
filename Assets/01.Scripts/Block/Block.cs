@@ -63,12 +63,15 @@ public class Block : MonoBehaviour, IInteractable
     public bool IsActive { get; set; } // 타임라인 내 활성화
     private GhostManager ghostManager;
     public bool IsSuccess { get; set; } // 조합 성공인지
+    private PostProcessingToggle postProcessingToggle; // 추후 수정
+
 
     private void Awake()
     {
         LoadData();
         ghostManager = GetComponent<GhostManager>();
         DataToGhost();
+        postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
     }
 
     protected virtual void LoadData()
@@ -95,16 +98,19 @@ public class Block : MonoBehaviour, IInteractable
     {
         if (!IsActive)
         {
+            FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
             TimelineManager.Instance.AddBlock(this);
-            SetGhost();
+            //SetGhost();
         }
         else
         {
             TimelineManager.Instance.DestroyBlock(this);
             ghostManager.RemoveGhost();
+            Debug.Log("블럭 데이터 삭제!");
         }
 
         BlockManager.Instance.OnBlockUpdate?.Invoke();
+      
     }
 
     public string GetInteractComponent()
@@ -127,5 +133,10 @@ public class Block : MonoBehaviour, IInteractable
         if(IsSuccess) ghostManager.ghostClip = SuccessSequence;
         else ghostManager.ghostClip = FailSequence;
         ghostManager.SetBeatList(ghostManager.beats, ghostManager.bpm);
+    }
+
+    public void Deactive()
+    {
+        gameObject.SetActive(false);
     }
 }
