@@ -71,7 +71,12 @@ public class TimelineManager : SingleTon<TimelineManager>
     {
         if (block.IsActive)
         {
-
+            int index = PlacedBlocks.IndexOf(block);
+            if (index >= 0)
+            {
+                block.IsActive = false;
+                RemoveAndShiftLeft(index);
+            }
         }
     }
     public void AddEventSlot(Event eventblock)
@@ -164,5 +169,29 @@ public class TimelineManager : SingleTon<TimelineManager>
         PlacedBlocks.RemoveAt(fromIndex);
 
         PlacedBlocks.Insert(toIndex, blockToMove);
+    }
+    
+    public void RemoveAndShiftLeft(int removeIndex)
+    {
+        if (removeIndex < 0 || removeIndex >= PlacedBlocks.Count) return;
+
+        PlacedBlocks.RemoveAt(removeIndex);
+
+        for(int i = removeIndex; i < slots.Count -1; i++)
+        {
+            slots[i].currentItem = slots[i + 1].currentItem;
+            if (slots[i].currentItem != null)
+            {
+                slots[i].currentItem.transform.SetParent(slots[i].transform);
+                slots[i].currentItem.transform.localPosition = Vector3.zero;
+            }
+        }
+
+        if(slots.Count > 0)
+        {
+            int lastIndex = PlacedBlocks.Count;
+            if (lastIndex < slots.Count) slots[lastIndex].currentItem = null;
+        }
+        index = PlacedBlocks.Count;
     }
 }
