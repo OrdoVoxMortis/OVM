@@ -72,7 +72,7 @@ public class Block : MonoBehaviour, IInteractable
     }
     private void Start()
     {
-        BlockManager.Instance.OnBlockUpdate += SetGhost;
+        //Instance.OnBlockUpdate += SetGhost;
 
     }
 
@@ -101,6 +101,7 @@ public class Block : MonoBehaviour, IInteractable
         if (!IsActive)
         {
             TimelineManager.Instance.AddBlock(this);
+            SetGhost();
         }
         else
         {
