@@ -36,10 +36,7 @@ public class TargetBlockInfo : MonoBehaviour
 
     public void Start()
     {
-        if (isSimationBlockCheck)
-        {
-            isSimulationObject = GetComponentInChildren<GameObject>();
-        }
+    
     }
 
     public void Update()
