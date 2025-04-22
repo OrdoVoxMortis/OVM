@@ -39,7 +39,7 @@ public class GameManager : SingleTon<GameManager>
     }
     public void LoadScene(string sceneName)
     {
-        UIManager.Instance.ClearUI();
+        //UIManager.Instance.ClearUI();
         SceneManager.LoadScene(sceneName);
     }
 

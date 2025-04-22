@@ -100,7 +100,7 @@ public class Block : MonoBehaviour, IInteractable
         {
             FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
             TimelineManager.Instance.AddBlock(this);
-            //SetGhost();
+            SetGhost();
         }
         else
         {

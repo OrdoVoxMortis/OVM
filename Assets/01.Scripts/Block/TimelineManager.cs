@@ -79,6 +79,48 @@ public class TimelineManager : SingleTon<TimelineManager>
             }
         }
     }
+
+    public void DestroyEvent(Event eventblock)
+    {
+        if (eventblock.IsActive)
+        {
+            for (int i = 0; i < slots.Count; i++)
+            {
+                if (slots[i].currentItem != null)
+                {
+                    UI_Event uiEvent = slots[i].currentItem.GetComponent<UI_Event>();
+                    if (uiEvent != null && uiEvent.eventBlock == eventblock)
+                    {
+                        // 찾았으면 삭제
+                        eventblock.IsActive = false;
+                        Destroy(slots[i].currentItem.gameObject);
+                        slots[i].currentItem = null;
+
+                        // 슬롯 왼쪽으로 밀기
+                        for (int j = i; j < slots.Count - 1; j++)
+                        {
+                            slots[j].currentItem = slots[j + 1].currentItem;
+                            if (slots[j].currentItem != null)
+                            {
+                                slots[j].currentItem.transform.SetParent(slots[j].transform);
+                                slots[j].currentItem.transform.localPosition = Vector3.zero;
+                            }
+                        }
+
+                        // 마지막 슬롯 정리
+                        if (slots.Count > 0)
+                        {
+                            int lastIndex = slots.Count - 1;
+                            slots[lastIndex].currentItem = null;
+                        }
+
+                        index--;
+                        break;
+                    }
+                }
+            }
+        }
+    }
     public void AddEventSlot(Event eventblock)
     {
         UI_Event eventUI = Instantiate(eventBlockPrefab, slotParent);
