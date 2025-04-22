@@ -104,7 +104,16 @@ public class Interaction : MonoBehaviour
         }
     }
 
-  
+    public void OnCancelInput(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started && curInteractable != null)
+        {
+            curInteractable.OnInteract();
+            interactText.gameObject.SetActive(false);
+            curInteractGameObject = null;
+            curInteractable = null;
+        }
+    }
 
     private void OnInteract(Scene scene, LoadSceneMode mode)
     {
