@@ -42,7 +42,7 @@ public class MissionNote : MonoBehaviour, IInteractable
                 Debug.Log(image);
             }
             questUI.SetQuest(Description, image, DialogText);
-            UIManager.Instance.UIActive();
+            questUI.Show();
             return;
         }
         Debug.Log("null");
