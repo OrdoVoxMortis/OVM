@@ -39,10 +39,6 @@ public class UI_SaveLoad : BaseUI
         if (eventBtn != null)
             eventBtn.onClick.AddListener(SetEventData);
     }
-    private void Start()
-    {
-        gameObject.SetActive(false);
-    }
     private void SetNormalStage()
     {
         ShowStageData(normalStagePrefab);

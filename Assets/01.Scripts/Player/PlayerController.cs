@@ -87,7 +87,7 @@ public class PlayerController :MonoBehaviour
         Debug.Log("Cancle 클릭");
         if (context.phase == InputActionPhase.Started)
         {
-            Debug.Log("현재UI 숨긱기!");
+            Debug.Log("현재UI 숨기기!");
             UIManager.Instance.CurrentUIHide();
         }
     }

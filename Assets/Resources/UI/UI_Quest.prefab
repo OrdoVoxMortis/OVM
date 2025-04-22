@@ -449,7 +449,7 @@ GameObject:
   - component: {fileID: 5892553184356859274}
   - component: {fileID: 8588786042461388057}
   m_Layer: 5
-  m_Name: Quest_UI
+  m_Name: UI_Quest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -528,7 +528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ebaf7ab0d135e04187b46c35010cc05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backBtn: {fileID: 0}
+  backBtn: {fileID: 8084032997467830224}
   acceptBtn: {fileID: 7524520900841772623}
   questText: {fileID: 3456491080871832766}
   targetImage: {fileID: 5191999630418216394}
@@ -931,3 +931,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8171323309838493270}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8084032997467830224 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 96297906898850182, guid: fe67740d0a0e78946a37a68f52c60e1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8171323309838493270}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

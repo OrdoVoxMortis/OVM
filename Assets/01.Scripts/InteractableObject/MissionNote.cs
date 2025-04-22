@@ -1,3 +1,4 @@
+using UnityEditor.Search;
 using UnityEngine;
 
 public interface IInteractable
@@ -14,10 +15,6 @@ public class MissionNote : MonoBehaviour, IInteractable
     public string DialogText { get; private set; } // 의로 대사 이미지
     private UI_Quest questUI;
 
-    private void Awake()
-    {
-        questUI = FindObjectOfType<UI_Quest>();
-    }
     private void Start()
     {
         LoadData();
@@ -34,8 +31,9 @@ public class MissionNote : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {  
-        if(questUI != null)
+        if(!UIManager.Instance.isUIActive)
         {
+            questUI = FindObjectOfType<UI_Quest>();
             Sprite image = null;
             if (!string.IsNullOrEmpty(ImageName))
             {
@@ -43,11 +41,12 @@ public class MissionNote : MonoBehaviour, IInteractable
                 image = ResourceManager.Instance.LoadImage(ImageName);
                 Debug.Log(image);
             }
-            questUI.SetQuest(Description, image, DialogText); 
-            questUI.Show();
+            questUI.SetQuest(Description, image, DialogText);
+            UIManager.Instance.UIActive();
             return;
         }
         Debug.Log("null");
+        
     }
 
     public string GetInteractComponent()
