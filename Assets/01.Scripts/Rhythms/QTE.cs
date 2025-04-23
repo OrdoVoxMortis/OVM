@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class QTE : MonoBehaviour
 {
+    public QTEManager manager;
     public float outerLineSize;
     public RectTransform outerLine;
     public Image innerImage;
@@ -15,6 +16,8 @@ public class QTE : MonoBehaviour
 
     private bool isChecked = false;
     public bool isPointNotes = false;
+
+    private float[] judges = new float[3] { 0.2f, 0.3f, 0.4f }; //perfect, good, miss, 0.4이후론 fail
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +39,9 @@ public class QTE : MonoBehaviour
         
         outerLineSize -= Time.deltaTime;
 
-        if(outerLineSize <= 0.6f)
+        if(outerLineSize <= 1 - judges[2])
         {
-            RhythmManager.Instance.qteManager.CheckQTE();
+            manager.CheckQTE();
             CheckJudge();
             Invoke("DestroyObject", 0.5f);
         }
@@ -49,17 +52,28 @@ public class QTE : MonoBehaviour
 
     public void CheckJudge()
     {
-        if (outerLineSize < 1.2f && 0.8f < outerLineSize)
+        float timing = Mathf.Abs(1f - outerLineSize);
+        if (timing < judges[0])
         {
-            Debug.Log("완벽!");
+            Debug.Log("Perfect!");
         }
+        else if (timing < judges[1])
+        {
+            Debug.Log("Good!");
+        }
+        else if (timing < judges[2])
+        {
+            Debug.Log("Miss!");
+        } 
         else
         {
-            Debug.Log("이런!");
+            Debug.Log("Fail!");
         }
         isChecked = true;
 
-        particle.SetActive(true);
+        if (timing < judges[1]) //Good 이상인 경우 파티클
+            particle.SetActive(true);
+
         innerImage.gameObject.SetActive(false);
         outerLine.gameObject.SetActive(false);
 
