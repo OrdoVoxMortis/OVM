@@ -11,11 +11,10 @@ public class RhythmManager : SingleTon<RhythmManager>
     private double musicNowTime;
     public double syncTime; //싱크 맞추는 용도
     public float bpm;
-    public List<float> beats;
     private double measure; //한 마디 
     //private double timeInMeasure; //한 마디마다 실행 될 수 있게 조절해줄 역할
 
-    public QTEManager qteManager;
+    //public QTEManager qteManager;
 
     private AudioClip beepClip;
 
@@ -24,8 +23,16 @@ public class RhythmManager : SingleTon<RhythmManager>
     public AnimationCurve curve;
 
     public List<IRhythmActions> rhythmActions;
+    private int index = 0;
 
     public bool isPlaying; //qte, ghost매니저가 끝날 때, false로 변경
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        rhythmActions = new List<IRhythmActions>();
+    }
 
     public void Start()
     {
@@ -40,14 +47,23 @@ public class RhythmManager : SingleTon<RhythmManager>
         beepAudioSource = gameObject.AddComponent<AudioSource>();
         beepAudioSource.clip = beepClip;
 
+        isPlaying = true;
+    }
 
-        bgmName = "Song1";
+    private void Update()
+    {
+        if (isPlaying) return;
+
+        if (index >= rhythmActions.Count) return;
+
+        RhythmAction();
     }
 
     public void StartMusic()
     {
         musicStartTime = AudioSettings.dspTime;
         //audioSource.Play();
+        isPlaying = false;
         SoundManager.Instance.PlayBGM(bgmName);
     }
 
@@ -56,14 +72,16 @@ public class RhythmManager : SingleTon<RhythmManager>
         musicStartTime = AudioSettings.dspTime;
         //audioSource.Play();
         SoundManager.Instance.PlayBGM(bgmName);
+        isPlaying = false;
         InvokeRepeating("PlayBeep", (float)syncTime, 60f / bpm);
     }
 
-
     public void RhythmAction()
     {
-        musicNowTime = AudioSettings.dspTime - musicStartTime - 1f; //노래 흐른 시간 // -1은 노트가 100퍼 맞추는 시간
+        isPlaying = true;
+        musicNowTime = AudioSettings.dspTime - musicStartTime; //노래 흐른 시간 // QTE의 경우는 -1f를 추가로 해줘야한다
         double delay;
+        
 
         //빼기 반복은 조금 비효율적인 거 같음
         while (true)
@@ -77,12 +95,14 @@ public class RhythmManager : SingleTon<RhythmManager>
         //한마디 - 남은 시간 만큼 딜레이를 주고 실행
         delay = musicNowTime;
 
+        
         Invoke("QTEMake", (float)(measure - delay));
     }
 
     public void QTEMake()
     {
-        qteManager.SetBeatList(beats, bpm);
+        rhythmActions[index].StartRhythmAction();
+        index++;
     }
 
     void PlayBeep()
