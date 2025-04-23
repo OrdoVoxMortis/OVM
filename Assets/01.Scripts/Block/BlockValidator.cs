@@ -37,6 +37,7 @@ public static class BlockValidator
             case CombineType.AllowByType:
                 return block.PreCombineRule.AllowedType == prev.Type;
             case CombineType.AllowSpecific:
+                Debug.Log($"AllowSpecific 검사: {prev.id} ∈ [{string.Join(",", block.PreCombineRule.AllowedBlocksIds)}]");
                 return block.PreCombineRule.AllowedBlocksIds.Contains(prev.id);
             default:
                 return false;

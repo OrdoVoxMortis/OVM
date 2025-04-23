@@ -73,6 +73,10 @@ public class Block : MonoBehaviour, IInteractable
         DataToGhost();
         postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
     }
+    private void Start()
+    {
+        BlockManager.Instance.OnBlockUpdate += SetGhost;
+    }
 
     protected virtual void LoadData()
     {

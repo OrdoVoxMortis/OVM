@@ -26,8 +26,8 @@ namespace Hamster.ZG.Type
             List<int> idList = new List<int>();
             for (int i = 2; i < split.Length; i++)
             {
-                split[i].Replace("[", string.Empty);
-                split[i].Replace("]", string.Empty);
+                split[i] = split[i].Replace("[", string.Empty).Replace("]", string.Empty);
+
 
                 if (int.TryParse(split[i].Trim(), out int id))
                 {
