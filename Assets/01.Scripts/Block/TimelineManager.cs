@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TimelineManager : SingleTon<TimelineManager>
@@ -14,6 +13,7 @@ public class TimelineManager : SingleTon<TimelineManager>
     [SerializeField] private UI_Event eventBlockPrefab;
     [SerializeField] private UI_Sequence targetBlockPrefab;
     public List<UI_Slot> slots = new();
+    public List<UI_Event> eventslots= new();
     private int index = 0;
 
     private void Start()
@@ -83,42 +83,14 @@ public class TimelineManager : SingleTon<TimelineManager>
 
     public void DestroyEvent(Event eventblock)
     {
-        if (eventblock.IsActive)
+        foreach (var slot in eventslots)
         {
-            for (int i = 0; i < slots.Count; i++)
+            if (slot.eventBlock == eventblock)
             {
-                if (slots[i].currentItem != null)
-                {
-                    UI_Event uiEvent = slots[i].currentItem.GetComponent<UI_Event>();
-                    if (uiEvent != null && uiEvent.eventBlock == eventblock)
-                    {
-                        // 찾았으면 삭제
-                        eventblock.IsActive = false;
-                        Destroy(slots[i].currentItem.gameObject);
-                        slots[i].currentItem = null;
-
-                        // 슬롯 왼쪽으로 밀기
-                        for (int j = i; j < slots.Count - 1; j++)
-                        {
-                            slots[j].currentItem = slots[j + 1].currentItem;
-                            if (slots[j].currentItem != null)
-                            {
-                                slots[j].currentItem.transform.SetParent(slots[j].transform);
-                                slots[j].currentItem.transform.localPosition = Vector3.zero;
-                            }
-                        }
-
-                        // 마지막 슬롯 정리
-                        if (slots.Count > 0)
-                        {
-                            int lastIndex = slots.Count - 1;
-                            slots[lastIndex].currentItem = null;
-                        }
-
-                        index--;
-                        break;
-                    }
-                }
+                eventblock.IsActive = false;
+                eventslots.Remove(slot);
+                Destroy(slot.gameObject);
+                break;
             }
         }
     }
@@ -127,7 +99,9 @@ public class TimelineManager : SingleTon<TimelineManager>
         UI_Event eventUI = Instantiate(eventBlockPrefab, slotParent);
         eventUI.eventBlock = eventblock;
         eventUI.transform.localPosition = Vector3.zero;
-        index++;
+        eventslots.Add(eventUI);
+        //slots[index].slotIndex = index;
+        //index++;
     }
 
     public void AddContactBlock(ContactBlock block)

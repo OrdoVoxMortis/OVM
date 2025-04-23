@@ -8,6 +8,8 @@ public class UI_Event : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private CanvasGroup canvasGroup;
     public Event eventBlock;
 
+    public bool IsActive { get; internal set; }
+
     private void Start()
     {
         canvas = GetComponentInParent<Canvas>();

@@ -55,6 +55,7 @@ public class PostProcessingToggle : MonoBehaviour
             playRhythm_UI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+        // 플레이어 위치값 초기화
         }
     }
     private void OnSimulateInput(InputAction.CallbackContext context)
