@@ -156,6 +156,7 @@ public class TimelineManager : SingleTon<TimelineManager>
 
             current.IsSuccess = isSuccess;
             Debug.Log($"[{current.BlockName}] 조합 결과: {(isSuccess ? "성공" : "실패")}");
+            current.SetGhost();
         }
     }
 
