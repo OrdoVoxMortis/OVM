@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class ContactBlock : Block
 {
-    public bool IsTarget {  get; private set; } // 타겟
-
+    public bool IsTarget { get; private set; } // 타겟
+    public bool IsDeath {  get; private set; }  
     protected override void LoadData()
     {
         base.LoadData();
         IsTarget = DataManager.Instance.blockDict[id].isTarget;
     }
-
-    //public void OnInteract()
-    //{
-    //    TimelineManager.Instance.AddContactBlock(this);
-    //    BlockManager.Instance.OnBlockUpdate?.Invoke();
-    //}
 }

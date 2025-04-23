@@ -10,6 +10,7 @@ public class GameManager : SingleTon<GameManager>
     public AudioClip SelectedBGM {  get; private set; }
     public static event Action OnSelectedBGMSet; // 추가
     public bool SimulationMode { get; set; }
+    public float playTime;
 
     protected override void Awake()
     {
@@ -23,10 +24,12 @@ public class GameManager : SingleTon<GameManager>
         Player = FindObjectOfType<Player>();
 
     }
+
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
     public void SetSelectedBGM(AudioClip clip)
     {
         SelectedBGM = clip;
@@ -37,6 +40,7 @@ public class GameManager : SingleTon<GameManager>
         Debug.Log("스테이지 음악 할당됨!");
         OnSelectedBGMSet?.Invoke(); // 이벤트 발동!!
     }
+
     public void LoadScene(string sceneName)
     {
         //UIManager.Instance.ClearUI();

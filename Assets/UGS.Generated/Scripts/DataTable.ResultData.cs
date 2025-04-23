@@ -17,39 +17,39 @@ using UnityEngine;
 namespace DataTable
 {
     [GoogleSheet.Attribute.TableStruct]
-    public partial class StageData : ITable
+    public partial class ResultData : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<StageData> loadedList, Dictionary<string, StageData> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<ResultData> loadedList, Dictionary<string, ResultData> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1bYLkGCQlm6YZeaVqFQ97hwpNjzjzLIdVvqCNYFtR3ug"; // it is file id
-        static string sheetID = "986960830"; // it is sheet id
+        static string sheetID = "649100003"; // it is sheet id
         static UnityFileReader reader = new UnityFileReader();
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<string, StageData> StageDataMap = new Dictionary<string, StageData>();  
-        public static List<StageData> StageDataList = new List<StageData>();   
+        public static Dictionary<string, ResultData> ResultDataMap = new Dictionary<string, ResultData>();  
+        public static List<ResultData> ResultDataList = new List<ResultData>();   
 
         /// <summary>
-        /// Get StageData List 
+        /// Get ResultData List 
         /// Auto Load
         /// </summary>
-        public static List<StageData> GetList()
+        public static List<ResultData> GetList()
         {{
            if (isLoaded == false) Load();
-           return StageDataList;
+           return ResultDataList;
         }}
 
         /// <summary>
-        /// Get StageData Dictionary, keyType is your sheet A1 field type.
+        /// Get ResultData Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<string, StageData>  GetDictionary()
+        public static Dictionary<string, ResultData>  GetDictionary()
         {{
            if (isLoaded == false) Load();
-           return StageDataMap;
+           return ResultDataMap;
         }}
 
     
@@ -57,12 +57,8 @@ namespace DataTable
 /* Fields. */
 
 		public System.String id;
-		public System.String stageName;
-		public System.Collections.Generic.List<String> musicId;
-		public System.String mapId;
-		public System.Collections.Generic.List<String> npcId;
-		public System.Collections.Generic.List<Int32> blockId;
-		public System.Collections.Generic.List<String> eventId;
+		public System.String name;
+		public System.String dialog;
   
 
 #region fuctions
@@ -73,7 +69,7 @@ namespace DataTable
             if(isLoaded && forceReload == false)
             {
 #if UGS_DEBUG
-                 Debug.Log("StageData is already loaded! if you want reload then, forceReload parameter set true");
+                 Debug.Log("ResultData is already loaded! if you want reload then, forceReload parameter set true");
 #endif
                  return;
             }
@@ -89,7 +85,7 @@ namespace DataTable
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<StageData>, Dictionary<string, StageData>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<ResultData>, Dictionary<string, ResultData>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -117,14 +113,14 @@ namespace DataTable
                
 
 
-    public static (List<StageData> list, Dictionary<string, StageData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<string, StageData> Map = new Dictionary<string, StageData>();
-            List<StageData> List = new List<StageData>();     
+    public static (List<ResultData> list, Dictionary<string, ResultData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<string, ResultData> Map = new Dictionary<string, ResultData>();
+            List<ResultData> List = new List<ResultData>();     
             TypeMap.Init();
-            FieldInfo[] fields = typeof(StageData).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(ResultData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string, string, string)>(); 
             List<List<string>> rows = new List<List<string>>();
-            var sheet = jsonObject["StageData"];
+            var sheet = jsonObject["ResultData"];
 
             foreach (var column in sheet.Keys)
             {
@@ -143,7 +139,7 @@ namespace DataTable
                         int rowCount = rows[0].Count;
                         for (int i = 0; i < rowCount; i++)
                         {
-                            StageData instance = new StageData();
+                            ResultData instance = new ResultData();
                             for (int j = 0; j < typeInfos.Count; j++)
                             {
                                 try
@@ -184,8 +180,8 @@ namespace DataTable
                         }
                         if(isLoaded == false || forceReload)
                         { 
-                            StageDataList = List;
-                            StageDataMap = Map;
+                            ResultDataList = List;
+                            ResultDataMap = Map;
                             isLoaded = true;
                         }
                     } 
@@ -195,10 +191,10 @@ namespace DataTable
 
  
 
-        public static void Write(StageData data, System.Action<WriteObjectResult> onWriteCallback = null)
+        public static void Write(ResultData data, System.Action<WriteObjectResult> onWriteCallback = null)
         { 
             TypeMap.Init();
-            FieldInfo[] fields = typeof(StageData).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(ResultData).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var datas = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {
