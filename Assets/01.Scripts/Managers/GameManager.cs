@@ -9,9 +9,10 @@ public class GameManager : SingleTon<GameManager>
     public int Bpm { get; private set; }
     public AudioClip SelectedBGM {  get; private set; }
     public static event Action OnSelectedBGMSet; // 추가
+    public Action OnGameOver;
     public bool SimulationMode { get; set; }
     public float playTime;
-
+    public bool isEnd = false;
     protected override void Awake()
     {
         base.Awake();
@@ -45,6 +46,16 @@ public class GameManager : SingleTon<GameManager>
     {
         //UIManager.Instance.ClearUI();
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void GameOver()
+    {
+        if (!isEnd)
+        {
+            UIManager.Instance.ShowUI<UI_GameClear>("GameClear_UI");
+            OnGameOver?.Invoke();
+            isEnd = true; 
+        }
     }
 
 }

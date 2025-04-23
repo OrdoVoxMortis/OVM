@@ -1,10 +1,10 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-public class StageManager : MonoBehaviour
+
+public class StageResult : MonoBehaviour
 {
     public string id;
 
@@ -13,11 +13,21 @@ public class StageManager : MonoBehaviour
     List<DataTable.EventData> events = new(); // 배치된 이벤트
     List<UI_Event> useEvents = new(); // 사용한 이벤트
 
-    string missionDialog; // 출력된 대사
-    string planDialog; // 출력된 대사
-    string eventDialog; // 출력된 대사
-    string rhythmDialog; // 출력된 대사
+    [HideInInspector] public string missionDialog; // 출력된 대사
+    [HideInInspector] public string planDialog; // 출력된 대사
+    [HideInInspector] public string eventDialog; // 출력된 대사
+    [HideInInspector] public string rhythmDialog; // 출력된 대사
 
+    private void Start()
+    {
+        GameManager.Instance.OnGameOver += GameOver;
+    }
+
+    public void GameOver()
+    {
+        Init();
+        SetResult();
+    }
 
     void Init()
     {
@@ -45,12 +55,28 @@ public class StageManager : MonoBehaviour
 
     }
 
-    void StageResult()
+    void SetResult()
     {
-        missionDialog = DataManager.Instance.dialogDict[DataManager.Instance.resultDict[MissionResult()].dialog].Dialog;
-        planDialog = DataManager.Instance.dialogDict[DataManager.Instance.resultDict[MissionResult()].dialog].Dialog;
-        eventDialog = DataManager.Instance.dialogDict[DataManager.Instance.resultDict[EventResult()].dialog].Dialog;
-        rhythmDialog = DataManager.Instance.dialogDict[DataManager.Instance.resultDict[MissionResult()].dialog].Dialog;
+        string missionKey = MissionResult();
+        string planKey = PlanResult();
+        string eventKey = EventResult();
+        string rhythmKey;
+
+        missionDialog = !string.IsNullOrEmpty(missionKey)
+            ? DataManager.Instance.dialogDict[DataManager.Instance.resultDict[missionKey].dialog].Dialog
+            : string.Empty;
+
+        planDialog = !string.IsNullOrEmpty(planKey)
+            ? DataManager.Instance.dialogDict[DataManager.Instance.resultDict[planKey].dialog].Dialog
+            : string.Empty;
+
+        eventDialog = !string.IsNullOrEmpty(eventKey)
+            ? DataManager.Instance.dialogDict[DataManager.Instance.resultDict[eventKey].dialog].Dialog
+            : string.Empty;
+
+        rhythmDialog = !string.IsNullOrEmpty(missionKey)
+            ? DataManager.Instance.dialogDict[DataManager.Instance.resultDict[missionKey].dialog].Dialog
+            : string.Empty;
     }
 
     public string MissionResult()
