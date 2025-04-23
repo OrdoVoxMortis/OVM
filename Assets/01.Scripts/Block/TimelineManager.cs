@@ -54,9 +54,11 @@ public class TimelineManager : SingleTon<TimelineManager>
         {
             block.IsActive = true;
             PlacedBlocks.Add(block);
+            UI_Sequence sequenceUI;
 
             //시퀀스 생성
-            UI_Sequence sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
+            if (block is ContactBlock) sequenceUI = Instantiate(targetBlockPrefab, slots[index].transform);
+            else sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
 
             //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
             sequenceUI.block = block;
@@ -149,6 +151,7 @@ public class TimelineManager : SingleTon<TimelineManager>
     }
     public void ValidateCombinations()
     {
+        if (PlacedBlocks.Count == 0) return;
         for (int i = 0; i < PlacedBlocks.Count; i++)
         {
             Block current = PlacedBlocks[i];

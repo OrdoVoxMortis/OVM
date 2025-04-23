@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContactBlock : Block, IInteractable
+public class ContactBlock : Block
 {
     public bool IsTarget {  get; private set; } // 타겟
 
@@ -12,9 +12,9 @@ public class ContactBlock : Block, IInteractable
         IsTarget = DataManager.Instance.blockDict[id].isTarget;
     }
 
-    public void OnInteract()
-    {
-        TimelineManager.Instance.AddContactBlock(this);
-        BlockManager.Instance.OnBlockUpdate?.Invoke();
-    }
+    //public void OnInteract()
+    //{
+    //    TimelineManager.Instance.AddContactBlock(this);
+    //    BlockManager.Instance.OnBlockUpdate?.Invoke();
+    //}
 }
