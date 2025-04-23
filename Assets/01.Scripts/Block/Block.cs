@@ -131,7 +131,7 @@ public class Block : MonoBehaviour, IInteractable
     {
         if(IsSuccess) ghostManager.ghostClip = SuccessSequence;
         else ghostManager.ghostClip = FailSequence;
-        ghostManager.SetBeatList(ghostManager.beats, ghostManager.bpm);
+        ghostManager.SetBeatList(ghostManager.beats, ghostManager.pointNoteList, ghostManager.bpm);
     }
 
     public void Deactive()
