@@ -107,7 +107,7 @@ public class StageResult : MonoBehaviour
                 else return "R005";
             }
         }
-        else if (GameManager.Instance.playTime >= 60f) return "R007";
+        else if (TimelineManager.Instance.blockTime >= 60f) return "R007";
         return string.Empty;
     }
 

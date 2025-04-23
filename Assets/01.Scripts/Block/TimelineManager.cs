@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TimelineManager : SingleTon<TimelineManager>
 {
-    //TODO. 타임라인 배치 변경될 때마다 업데이트
     public GameObject slotPrefab;
     public int slotCount;
     public Transform slotParent;
@@ -16,11 +15,21 @@ public class TimelineManager : SingleTon<TimelineManager>
     public List<UI_Event> eventslots= new();
     private int index = 0;
 
+    public float blockTime = 0f;
+
     private void Start()
     {
         CreateSlots();
         InitSlots();
         gameObject.SetActive(false);
+    }
+
+    public void CalBlockTime()
+    {
+        foreach (var block in PlacedBlocks)
+        {
+            blockTime += block.FixedTime;
+        }
     }
 
     public void InitSlots()
