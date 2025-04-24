@@ -8,9 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class Interaction : MonoBehaviour
 {
-    public float checkRate = 0.05f;
-    private float lastCheckTime;
-    public float maxCheckDistance;
     public LayerMask layerMask;
 
     private GameObject curInteractGameObject;
@@ -18,59 +15,83 @@ public class Interaction : MonoBehaviour
     private IInteractable curInteractable;
     [SerializeField] private TextMeshProUGUI interactText;
 
-    private Camera camera;
-    private CinemachineFreeLook playerCamera;
 
     // Start is called before the first frame update
     void Start()
     {
-        camera = Camera.main;
         PlayerController input = GameManager.Instance.Player.Input;
         input.playerActions.Interection.started -= OnInteractInput;
         input.playerActions.Interection.started += OnInteractInput;
         input.playerActions.Setting.started += OnSettingInput;
         input.playerActions.Cancel.started += OnCancelInput;
         SceneManager.sceneLoaded += OnInteract;
+
+        interactText.gameObject.SetActive(false);
     }
 
-    private void Awake()
-    {
-        playerCamera = FindObjectOfType<CinemachineFreeLook>();
-
-    }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (!UIManager.Instance.isUIActive && Time.time - lastCheckTime > checkRate)
-        {
-            lastCheckTime = Time.time;
+    //void Update()
+    //{
+    //    if (!UIManager.Instance.isUIActive && Time.time - lastCheckTime > checkRate)
+    //    {
+    //        lastCheckTime = Time.time;
 
-            Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
-            RaycastHit hit;
+    //        Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+    //        RaycastHit hit;
 
-            Debug.DrawRay(ray.origin, ray.direction * maxCheckDistance, Color.red);
+    //        Debug.DrawRay(ray.origin, ray.direction * maxCheckDistance, Color.red);
 
-            if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
-            {
-                if (hit.collider.gameObject != curInteractGameObject)
-                {
-                    curInteractGameObject = hit.collider.gameObject;
-                    curInteractable = hit.collider.GetComponent<IInteractable>();
-                    //TODO 텍스트를 출력시켜 줘야함
-                    SetText();
-                }
-            }
-            else
-            {
-                curInteractGameObject = null;
-                curInteractable = null;
-                //TODO 텍스트 출력을 없애 줘야함
-                interactText.gameObject.SetActive(false);
-            }
-        }
+    //        if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
+    //        {
+    //            if (hit.collider.gameObject != curInteractGameObject)
+    //            {
+    //                curInteractGameObject = hit.collider.gameObject;
+    //                curInteractable = hit.collider.GetComponent<IInteractable>();
+    //                //TODO 텍스트를 출력시켜 줘야함
+    //                SetText();
+    //            }
+    //        }
+    //        else
+    //        {
+    //            curInteractGameObject = null;
+    //            curInteractable = null;
+    //            //TODO 텍스트 출력을 없애 줘야함
+    //            interactText.gameObject.SetActive(false);
+    //        }
+    //    }
         
+    //}
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("MusicDoor"))
+        {
+            curInteractGameObject = other.gameObject;
+            curInteractable = other.gameObject.GetComponent<IInteractable>();
+            SetText();
+            Debug.Log("MusicDoor가 찍힘");
+        }
+;
+
+        //LayerMask interactioMask = LayerMask.GetMask("Interactable", "MusicDoor");
+        //if ( (interactioMask.value & (1 << other.gameObject.layer)) != 0)
+        //{
+        //    curInteractGameObject = other.gameObject;
+        //    curInteractable = other.gameObject.GetComponent<IInteractable>();
+        //    SetText();
+        //}
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        curInteractGameObject = null;
+        curInteractable = null;
+        //TODO 텍스트 출력을 없애 줘야함
+        interactText.gameObject.SetActive(false);
+    }
+
     private void SetText()
     {
         interactText.gameObject.SetActive(true);
