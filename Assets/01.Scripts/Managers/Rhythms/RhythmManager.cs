@@ -12,6 +12,7 @@ public class RhythmManager : SingleTon<RhythmManager>
     public double syncTime; //싱크 맞추는 용도
     public float bpm;
     private double measure; //한 마디 
+    private bool isFinished = false;
     //private double timeInMeasure; //한 마디마다 실행 될 수 있게 조절해줄 역할
 
     //public QTEManager qteManager;
@@ -52,10 +53,15 @@ public class RhythmManager : SingleTon<RhythmManager>
 
     private void Update()
     {
+        if (isFinished) return;
+
         if (isPlaying) return;
 
-        if (index >= rhythmActions.Count) return;
-
+        if ( index >= rhythmActions.Count)
+        {
+            OnRhythmSequenceComplete();
+            return;
+        }
         RhythmAction();
     }
 
@@ -125,4 +131,15 @@ public class RhythmManager : SingleTon<RhythmManager>
         clip.SetData(samples, 0);
         return clip;
     }
+
+    private void OnRhythmSequenceComplete()
+    {
+       
+        isFinished = true;
+        GameManager.Instance.GameClear();
+        Debug.Log("모든 리듬 액션 완료! 게임 종료 처리");
+
+        // 게임 종료 로직 추가0
+    }
+
 }

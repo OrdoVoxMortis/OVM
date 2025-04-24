@@ -136,13 +136,7 @@ public class Target : MonoBehaviour
     {
         if (other.gameObject == safeZone)
         {
-
             GameManager.Instance.GameOver();
-
-            if (gameOverUI != null)
-            {
-                gameOverUI.SetActive(true);
-            }
         }
     }
 
