@@ -66,7 +66,8 @@ public class PostProcessingToggle : MonoBehaviour
     }
     private void OnSimulateInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && GameManager.Instance.SelectedBGM != null)
+        //TODO : 테스트를 위해 GameManager.Instance.SelectedBGM != null 를 주석처리함
+        if (context.phase == InputActionPhase.Started /*&& GameManager.Instance.SelectedBGM != null*/)
         {
             TogglePostProcessing();
         }
