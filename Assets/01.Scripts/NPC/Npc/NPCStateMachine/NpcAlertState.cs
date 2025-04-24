@@ -12,8 +12,13 @@ public class NpcAlertState : NpcBaseState
     public override void Enter()
     {
         base.Enter();
+        StartAnimation("Walk");
         Debug.Log("alert");
         stateMachine.npc.CurAlertTime = 0f;
+
+        isWaiting = false;
+        waitTimer = 0f;
+        cooldownTimer = 0f;
     }
     public override void Exit() { base.Exit(); }
 
@@ -21,11 +26,12 @@ public class NpcAlertState : NpcBaseState
     {
         if (!GameManager.Instance.SimulationMode)
         {
-            base.Update();
-            if(stateMachine.npc is Guard)
+            //base.Update();
+            if (stateMachine.npc is Guard)
             {
                 GuardWait();
             }
+            else base.Update();
             if (IsPlayerInSight())
             {
                 IncreaseSuspicion();
