@@ -69,7 +69,6 @@ public class Interaction : MonoBehaviour
                 interactText.gameObject.SetActive(false);
             }
         }
-        
     }
     private void SetText()
     {
