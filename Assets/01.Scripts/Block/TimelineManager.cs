@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TimelineManager : SingleTon<TimelineManager>
 {
-    //TODO. 타임라인 배치 변경될 때마다 업데이트
     public GameObject slotPrefab;
     public int slotCount;
     public Transform slotParent;
@@ -14,13 +12,24 @@ public class TimelineManager : SingleTon<TimelineManager>
     [SerializeField] private UI_Event eventBlockPrefab;
     [SerializeField] private UI_Sequence targetBlockPrefab;
     public List<UI_Slot> slots = new();
+    public List<UI_Event> eventslots= new();
     private int index = 0;
+
+    public float blockTime = 0f;
 
     private void Start()
     {
         CreateSlots();
         InitSlots();
         gameObject.SetActive(false);
+    }
+
+    public void CalBlockTime()
+    {
+        foreach (var block in PlacedBlocks)
+        {
+            blockTime += block.FixedTime;
+        }
     }
 
     public void InitSlots()
@@ -54,9 +63,11 @@ public class TimelineManager : SingleTon<TimelineManager>
         {
             block.IsActive = true;
             PlacedBlocks.Add(block);
+            UI_Sequence sequenceUI;
 
             //시퀀스 생성
-            UI_Sequence sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
+            if (block is ContactBlock) sequenceUI = Instantiate(targetBlockPrefab, slots[index].transform);
+            else sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
 
             //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
             sequenceUI.block = block;
@@ -83,42 +94,14 @@ public class TimelineManager : SingleTon<TimelineManager>
 
     public void DestroyEvent(Event eventblock)
     {
-        if (eventblock.IsActive)
+        foreach (var slot in eventslots)
         {
-            for (int i = 0; i < slots.Count; i++)
+            if (slot.eventBlock == eventblock)
             {
-                if (slots[i].currentItem != null)
-                {
-                    UI_Event uiEvent = slots[i].currentItem.GetComponent<UI_Event>();
-                    if (uiEvent != null && uiEvent.eventBlock == eventblock)
-                    {
-                        // 찾았으면 삭제
-                        eventblock.IsActive = false;
-                        Destroy(slots[i].currentItem.gameObject);
-                        slots[i].currentItem = null;
-
-                        // 슬롯 왼쪽으로 밀기
-                        for (int j = i; j < slots.Count - 1; j++)
-                        {
-                            slots[j].currentItem = slots[j + 1].currentItem;
-                            if (slots[j].currentItem != null)
-                            {
-                                slots[j].currentItem.transform.SetParent(slots[j].transform);
-                                slots[j].currentItem.transform.localPosition = Vector3.zero;
-                            }
-                        }
-
-                        // 마지막 슬롯 정리
-                        if (slots.Count > 0)
-                        {
-                            int lastIndex = slots.Count - 1;
-                            slots[lastIndex].currentItem = null;
-                        }
-
-                        index--;
-                        break;
-                    }
-                }
+                eventblock.IsActive = false;
+                eventslots.Remove(slot);
+                Destroy(slot.gameObject);
+                break;
             }
         }
     }
@@ -127,7 +110,9 @@ public class TimelineManager : SingleTon<TimelineManager>
         UI_Event eventUI = Instantiate(eventBlockPrefab, slotParent);
         eventUI.eventBlock = eventblock;
         eventUI.transform.localPosition = Vector3.zero;
-        index++;
+        eventslots.Add(eventUI);
+        //slots[index].slotIndex = index;
+        //index++;
     }
 
     public void AddContactBlock(ContactBlock block)
@@ -149,6 +134,7 @@ public class TimelineManager : SingleTon<TimelineManager>
     }
     public void ValidateCombinations()
     {
+        if (PlacedBlocks.Count == 0) return;
         for (int i = 0; i < PlacedBlocks.Count; i++)
         {
             Block current = PlacedBlocks[i];
@@ -179,6 +165,7 @@ public class TimelineManager : SingleTon<TimelineManager>
 
             current.IsSuccess = isSuccess;
             Debug.Log($"[{current.BlockName}] 조합 결과: {(isSuccess ? "성공" : "실패")}");
+            current.SetGhost();
         }
     }
 

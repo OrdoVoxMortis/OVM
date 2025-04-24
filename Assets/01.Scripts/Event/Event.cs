@@ -34,11 +34,13 @@ public class Event : MonoBehaviour, IInteractable
         {
             FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
             TimelineManager.Instance.AddEventSlot(this);
+            IsActive = true;
+            Debug.Log("이벤트 데이터 추가!");
         }
         else
         {
+            TimelineManager.Instance.DestroyEvent(this);
             IsActive = false;
-            Deactive();
             Debug.Log("이벤트 데이터 삭제!");
         }
        

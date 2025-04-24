@@ -61,7 +61,7 @@ namespace DataTable
 		public System.Collections.Generic.List<String> musicId;
 		public System.String mapId;
 		public System.Collections.Generic.List<String> npcId;
-		public System.Collections.Generic.List<String> blockId;
+		public System.Collections.Generic.List<Int32> blockId;
 		public System.Collections.Generic.List<String> eventId;
   
 

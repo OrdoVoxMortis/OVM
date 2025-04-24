@@ -8,6 +8,7 @@ public class QTEEditor : Editor
 {
     float bpm;
     List<float> beats;
+    List<bool> notes;
 
     public override void OnInspectorGUI()
     {
@@ -17,10 +18,11 @@ public class QTEEditor : Editor
         //List<int> beats = new List<int>() {1, 1, 2, 2 ,1, 2, 2, 2, 1, 2, 2};
         beats = manager.beats;
         bpm = manager.bpm;
+        notes = manager.pointNoteList;
 
         if (GUILayout.Button("QTE Test"))
         {
-            manager.SetBeatList(beats, bpm);
+            manager.SetBeatList(beats, notes, bpm);
             manager.StartRhythmAction();
         }
     }
@@ -31,6 +33,7 @@ public class GhostEditor : Editor
 {
     float bpm;
     List<float> beats;
+    List<bool> notes; 
 
     public override void OnInspectorGUI()
     {
@@ -40,10 +43,11 @@ public class GhostEditor : Editor
         //List<int> beats = new List<int>() {1, 1, 2, 2 ,1, 2, 2, 2, 1, 2, 2};
         beats = manager.beats;
         bpm = manager.bpm;
+        notes = manager.pointNoteList;
 
         if (GUILayout.Button("MakeGhost"))
         {
-            manager.SetBeatList(beats, bpm);
+            manager.SetBeatList(beats, notes, bpm);
         }
 
         if (GUILayout.Button("PlayGhost"))

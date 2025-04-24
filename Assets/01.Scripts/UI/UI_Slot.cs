@@ -63,7 +63,7 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
             }
 
             PullPlacedBlocks();
-
+            BlockManager.Instance.OnBlockUpdate?.Invoke();
         }
     }
 

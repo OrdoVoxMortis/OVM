@@ -9,8 +9,9 @@ public class GameManager : SingleTon<GameManager>
     public int Bpm { get; private set; }
     public AudioClip SelectedBGM {  get; private set; }
     public static event Action OnSelectedBGMSet; // 추가
+    public Action OnGameOver;
     public bool SimulationMode { get; set; }
-
+    public bool isEnd = false;
     protected override void Awake()
     {
         base.Awake();
@@ -23,10 +24,12 @@ public class GameManager : SingleTon<GameManager>
         Player = FindObjectOfType<Player>();
 
     }
+
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
     public void SetSelectedBGM(AudioClip clip)
     {
         SelectedBGM = clip;
@@ -37,10 +40,21 @@ public class GameManager : SingleTon<GameManager>
         Debug.Log("스테이지 음악 할당됨!");
         OnSelectedBGMSet?.Invoke(); // 이벤트 발동!!
     }
+
     public void LoadScene(string sceneName)
     {
         //UIManager.Instance.ClearUI();
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void GameOver()
+    {
+        if (!isEnd)
+        {
+            UIManager.Instance.ShowUI<UI_GameClear>("GameClear_UI");
+            OnGameOver?.Invoke();
+            isEnd = true; 
+        }
     }
 
 }

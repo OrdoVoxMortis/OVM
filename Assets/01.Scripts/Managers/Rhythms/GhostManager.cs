@@ -12,9 +12,10 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
     public float bpm;
     public List<float> beats;    //입력 받을 패턴 리스트
+    public List<bool> pointNoteList; //true인 경우 point note
 
     public List<Ghost> ghosts;
-    public List<float> checkTimes;
+    public List<float> checkTimes; //나중에 ghost로 이동 
 
     public GameObject ghostPrefabs;
     public AnimationClip ghostClip;
@@ -24,7 +25,10 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     private int curIndex = 0;
 
 
-    float tempTime;
+
+    public AudioClip[] hitSound = new AudioClip[2]; //0은 일반 노트 //1은 포인트 노트
+
+    private float tempTime;
 
     // Start is called before the first frame update
     void Start()
@@ -33,12 +37,22 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         checkTimes = new List<float>();
         curIndex = 0;
         isPlaying = false;
+
+        //RhythmManager.Instance.rhythmActions.Add(this);
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!isPlaying) return;
+
+        if (curIndex >= ghosts.Count)
+        {
+            isPlaying = false;
+            ghostPrefabs.GetComponent<GhostAnimation>().StopAnimation();
+            RhythmManager.Instance.isPlaying = false;
+            return;
+        }
 
         if (ghosts.Count > curIndex)
         {
@@ -49,7 +63,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
                 return;
             }
 
-            if(tempTime - checkTimes[curIndex] > 0.1f) //너무 늦은 경우 실패 체크 위함
+            if(tempTime - checkTimes[curIndex] > 0.4f) //너무 늦은 경우 실패 체크 위함
                 CheckGhost();
         }
     }
@@ -72,15 +86,13 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     {
         if (curIndex >= ghosts.Count)
         {
-            isPlaying = false;
-            ghostPrefabs.AddComponent<GhostAnimation>().StopAnimation();
             return;
         }
 
 
         if (tempTime - checkTimes[curIndex] < 0.2f && tempTime - checkTimes[curIndex] > -0.2f)
         {
-            Debug.Log("성공");
+            Debug.Log("Perfect!");
         } 
         else
         {
@@ -90,7 +102,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         curIndex++;
     }
 
-    public void SetBeatList(List<float> beats, float bpm)
+    public void SetBeatList(List<float> beats, List<bool> pointNoteList, float bpm)
     {
         if (ghosts.Count > 0)
         {
@@ -99,7 +111,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
         this.beats = beats;
         this.bpm = bpm;
-
+        this.pointNoteList = pointNoteList;
         MakeGhost();
     }
 
@@ -124,6 +136,8 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
             GameObject go = Instantiate(ghostPrefabs, playerTrans);
             Ghost ghost = go.AddComponent<Ghost>();
+            
+            ghost.isPointNotes = pointNoteList[i];
 
             if (ghostGaps != 0f)
             {
@@ -150,6 +164,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         }
 
         playerTrans.forward = direction;
+        ghostPrefabs.transform.forward = direction;
     }
 
     public void RemoveGhost()
@@ -162,5 +177,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             checkTimes.RemoveAt(0);
         }
     }
+
+   
 
 }

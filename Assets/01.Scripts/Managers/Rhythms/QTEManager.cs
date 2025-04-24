@@ -10,6 +10,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
     //beat로 들어오는 값 1 = 4분음표
 
     public List<QTE> qteList; //처리할 QTE
+    public List<bool> pointNoteList; //true인 경우 point note
 
     public GameObject qtePrefabs;
     public Canvas canvas;
@@ -25,7 +26,8 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         audioSource = gameObject.AddComponent<AudioSource>();
 
         //오디오 클립가져오기
-        //구현
+        
+
     }
 
     // Update is called once per frame
@@ -37,15 +39,16 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         }
     }
 
-    public void SetBeatList(List<float> beats, float bpm)
+    public void SetBeatList(List<float> beats, List<bool> pointNoteList, float bpm)
     {
         this.beats = beats;
+        this.pointNoteList = pointNoteList;
         this.bpm = bpm;
     }
 
     public void StartRhythmAction()
     {
-        RhythmManager.Instance.qteManager = this;
+        //RhythmManager.Instance.qteManager = this;
         StartCoroutine(MakeQTE());
     }
 
@@ -55,6 +58,8 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         {
             QTE qte = Instantiate(qtePrefabs, canvas.transform).GetComponent<QTE>();
             qteList.Add(qte);
+            qte.manager = this;
+            qte.isPointNotes = pointNoteList[i];
             float nextBeat = beats[i];
             if (nextBeat <= 0)
             {

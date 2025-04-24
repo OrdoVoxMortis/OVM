@@ -100,12 +100,13 @@ public class Block : MonoBehaviour, IInteractable
         {
             FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
             TimelineManager.Instance.AddBlock(this);
-            SetGhost();
+            RhythmManager.Instance.rhythmActions.Add(ghostManager);
         }
         else
         {
             TimelineManager.Instance.DestroyBlock(this);
             ghostManager.RemoveGhost();
+            RhythmManager.Instance.rhythmActions.Remove(ghostManager);
             Debug.Log("블럭 데이터 삭제!");
         }
 
@@ -132,7 +133,7 @@ public class Block : MonoBehaviour, IInteractable
     {
         if(IsSuccess) ghostManager.ghostClip = SuccessSequence;
         else ghostManager.ghostClip = FailSequence;
-        ghostManager.SetBeatList(ghostManager.beats, ghostManager.bpm);
+        ghostManager.SetBeatList(ghostManager.beats, ghostManager.pointNoteList, ghostManager.bpm);
     }
 
     public void Deactive()

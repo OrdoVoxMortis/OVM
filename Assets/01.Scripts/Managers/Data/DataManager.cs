@@ -15,7 +15,8 @@ public class DataManager : SingleTon<DataManager>
     public Dictionary<string, MusicData> musicDict { get; private set; } = new();
     public Dictionary<string, SuspicionData> suspicionDict { get; private set; } = new();
     public Dictionary<string, NpcTypeData> npcTypeDict { get; private set; } = new();
-
+    public Dictionary<string, ResultData> resultDict { get; private set; } = new();
+    public Dictionary<string, DialogData> dialogDict { get; private set; } = new();
     protected override void Awake()
     {
         base.Awake();
@@ -40,5 +41,7 @@ public class DataManager : SingleTon<DataManager>
         eventDict = EventData.GetDictionary();
         musicDict = MusicData.GetDictionary();
         suspicionDict = SuspicionData.GetDictionary();
+        resultDict = ResultData.GetDictionary();
+        dialogDict = DialogData.GetDictionary();
     }
 }
