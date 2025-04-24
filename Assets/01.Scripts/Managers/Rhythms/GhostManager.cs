@@ -164,6 +164,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         }
 
         playerTrans.forward = direction;
+        ghostPrefabs.transform.forward = direction;
     }
 
     public void RemoveGhost()
@@ -176,5 +177,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             checkTimes.RemoveAt(0);
         }
     }
+
+   
 
 }
