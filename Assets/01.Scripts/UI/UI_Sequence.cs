@@ -1,10 +1,11 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_Sequence : MonoBehaviour
 {
     public Block block;
-    public Text blockName;
+    public TextMeshProUGUI blockName;
 
     public UI_Sequence(Block block)
     {

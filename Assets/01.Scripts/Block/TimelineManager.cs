@@ -68,7 +68,7 @@ public class TimelineManager : SingleTon<TimelineManager>
             //시퀀스 생성
             if (block is ContactBlock) sequenceUI = Instantiate(targetBlockPrefab, slots[index].transform);
             else sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
-
+            sequenceUI.Initialize(block); 
             //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
             sequenceUI.block = block;
             sequenceUI.transform.localPosition = Vector3.zero;
