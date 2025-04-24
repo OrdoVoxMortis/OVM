@@ -133,12 +133,16 @@ public class NpcBaseState : IState
 
             if (moveTimer >= moveDelay)
             {
-                agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
+                Move();
                 moveTimer = 0f;
             }
 
             bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
-            if (isMoving) StartAnimation("Walk");
+            if (isMoving)
+            {
+                RotateVelocity();
+                StartAnimation("Walk");
+            }
             else StopAnimation("Walk");
 
             if (waitTimer >= 3f)
@@ -164,6 +168,7 @@ public class NpcBaseState : IState
                     cooldownTimer = 0f;
                     waitTimer = 0f;
                     agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
+                    StartAnimation("Walk");
                 }
             }
         }
