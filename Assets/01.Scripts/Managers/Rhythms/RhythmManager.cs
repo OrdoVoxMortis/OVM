@@ -37,7 +37,7 @@ public class RhythmManager : SingleTon<RhythmManager>
     public void Start()
     {
         //audioSource = GetComponent<AudioSource>();
-        measure = 60f / bpm * 4 * 4; //4박자가 한 마디 //4마디로 한 줄
+        measure = 60f / bpm * 4; //4박자가 한 마디 //4마디로 한 줄
 
         //qteManager = GetComponent<QTEManager>();
         //qteManager.bpm = bpm;
