@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem.Android;
 
 public class NpcBaseState : IState
@@ -50,13 +51,17 @@ public class NpcBaseState : IState
             moveTimer += Time.deltaTime;
             if (moveTimer >= moveDelay)
             {
-                stateMachine.npc.Agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
+                Move();
                 moveTimer = 0f;
             }
 
             var agent = stateMachine.npc.Agent;
             bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
-            if (isMoving) StartAnimation("Walk");
+            if (isMoving)
+            {
+                RotateVelocity();
+                StartAnimation("Walk");
+            }
             else StopAnimation("Walk");
         }
         else
@@ -74,7 +79,14 @@ public class NpcBaseState : IState
     {
         stateMachine.npc.Animator.SetBool(anim, false);
     }
+    
+    public void Move()
+    {
+        stateMachine.npc.Agent.updateRotation = true;
 
+        stateMachine.npc.Agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
+        
+    }
     public Vector3 GetRandomPointInArea(BoxCollider collider)
     {
         Vector3 center = collider.bounds.center;
@@ -84,6 +96,19 @@ public class NpcBaseState : IState
         float randomZ = Random.Range(center.z - size.z / 2, center.z + size.z / 2);
 
         return new Vector3(randomX, center.y, randomZ);
+    }
+
+    protected void RotateVelocity()
+    {
+        NavMeshAgent agent = stateMachine.npc.Agent;
+        Vector3 vel = agent.velocity;
+
+        if (vel.sqrMagnitude < 0.01f) return;
+
+        Quaternion rot = Quaternion.LookRotation(vel.normalized);
+        Transform trans = stateMachine.npc.transform;
+        trans.rotation = Quaternion.Slerp(trans.rotation, rot, stateMachine.RotationDamping * Time.deltaTime);
+
     }
     public bool IsPlayerInSight() //true -> 경계
     {
