@@ -16,7 +16,7 @@ public class UI_GameClear : BaseUI
     protected override void Awake()
     {
         stage = FindAnyObjectByType<StageResult>();
-        GameManager.Instance.OnGameOver += SetText;
+        GameManager.Instance.OnGameClear += SetText;
     }
 
     public void SetText()

@@ -8,10 +8,10 @@ public class StageResult : MonoBehaviour
 {
     public string id;
 
-    List<DataTable.BlockData> blocks = new(); // 배치된 블럭
-    List<Block> useBlocks = new(); // 사용한 블럭
-    List<DataTable.EventData> events = new(); // 배치된 이벤트
-    List<UI_Event> useEvents = new(); // 사용한 이벤트
+    [HideInInspector] public List<DataTable.BlockData> blocks = new(); // 배치된 블럭
+    [HideInInspector] public List<Block> useBlocks = new(); // 사용한 블럭
+    [HideInInspector] public List<DataTable.EventData> events = new(); // 배치된 이벤트
+    [HideInInspector] public List<UI_Event> useEvents = new(); // 사용한 이벤트
 
     [HideInInspector] public string missionDialog; // 출력된 대사
     [HideInInspector] public string planDialog; // 출력된 대사
@@ -20,10 +20,10 @@ public class StageResult : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnGameOver += GameOver;
+        GameManager.Instance.OnGameClear += GameClear;
     }
 
-    public void GameOver()
+    public void GameClear()
     {
         Init();
         SetResult();

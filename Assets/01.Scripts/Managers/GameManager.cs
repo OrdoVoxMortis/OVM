@@ -9,7 +9,9 @@ public class GameManager : SingleTon<GameManager>
     public int Bpm { get; private set; }
     public AudioClip SelectedBGM {  get; private set; }
     public static event Action OnSelectedBGMSet; // 추가
+    public Action OnGameClear;
     public Action OnGameOver;
+    public StageResult stageResult;
     public bool SimulationMode { get; set; }
     public bool isEnd = false;
     protected override void Awake()
@@ -54,7 +56,9 @@ public class GameManager : SingleTon<GameManager>
             SoundManager.Instance.StopBGM();
             UIManager.Instance.ShowUI<UI_GameClear>("GameClear_UI");
             UIManager.Instance.UIActive();
-            OnGameOver?.Invoke();
+            OnGameClear?.Invoke();
+            stageResult = FindAnyObjectByType<StageResult>();
+            //SaveManager.Instance.SaveGame();
             isEnd = true; 
         }
     }
@@ -66,6 +70,7 @@ public class GameManager : SingleTon<GameManager>
             SoundManager.Instance.StopBGM();
             UIManager.Instance.ShowUI<UI_GameOver>("GameOver_UI");
             UIManager.Instance.UIActive();
+            OnGameOver?.Invoke();
             isEnd = true;
         }
     }

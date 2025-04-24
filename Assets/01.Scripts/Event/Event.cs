@@ -6,7 +6,7 @@ using UnityEngine;
 public class Event : MonoBehaviour, IInteractable
 {
     //QTEManager
-    //public int id;
+    public string id;
     //public string name;
     //public string description;
     private PostProcessingToggle postProcessingToggle; // 추후 수정
@@ -21,7 +21,7 @@ public class Event : MonoBehaviour, IInteractable
 
     protected virtual void LoadData()
     {
-        //var data = DataManager.Instance.eventDict[id];
+        var data = DataManager.Instance.eventDict[id];
         //name = data.name;
         //description = data.description;
     }
