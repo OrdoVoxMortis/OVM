@@ -5,12 +5,8 @@ using UnityEngine.UI;
 public class UI_Sequence : MonoBehaviour
 {
     public Block block;
+    public Color contactBlockColor = Color.red;
     public TextMeshProUGUI blockName;
-
-    public UI_Sequence(Block block)
-    {
-        this.block = block;
-    }
 
     public void Initialize(Block block)
     {
@@ -19,6 +15,11 @@ public class UI_Sequence : MonoBehaviour
         if (blockName != null && block != null)
         {
             blockName.text = block.BlockName;
+        }
+
+        if(block is ContactBlock)
+        {
+            blockName.color = contactBlockColor;
         }
     }
 }
