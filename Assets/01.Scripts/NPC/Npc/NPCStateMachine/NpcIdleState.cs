@@ -29,11 +29,11 @@ public class NpcIdleState : NpcBaseState
     {
         if (!GameManager.Instance.SimulationMode)
         {
+            base.Update();
             if(stateMachine.npc is Guard )
             {
                 GuardWait();
             }
-            else base.Update();
             if (!stateMachine.npc.IsAction)
             {
                 if (stateMachine.npc.CurAlertTime > 0)

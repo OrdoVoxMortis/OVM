@@ -115,10 +115,23 @@ public class NpcBaseState : IState
         Transform player = GameManager.Instance.Player.transform;
         Vector3 directionPlayer = (player.position - stateMachine.npc.transform.position).normalized;
         float angle = Vector3.Angle(stateMachine.npc.transform.forward, directionPlayer);
-
+        
         float distance = Vector3.Distance(stateMachine.npc.transform.position, player.position);
         if (angle > stateMachine.npc.ViewAngle / 2f || distance > stateMachine.npc.ViewDistance) return false;
 
+        //벽
+        Vector3 headPosition = stateMachine.npc.transform.position + new Vector3(0, 1.5f, 0); // y값은 머리 위치
+
+        Vector3 playerClosetPoint = stateMachine.npc.playerCollider.ClosestPoint(headPosition); // Target의 머리위치에서 부터 플레이어 콜라이더의 가장 가까운 위치를 구합니다.
+
+        float sqrDistance = (playerClosetPoint - headPosition).sqrMagnitude;
+        distance = Mathf.Sqrt(sqrDistance);
+        if (Physics.Raycast(headPosition, directionPlayer, out RaycastHit hit, distance))
+        {
+            // 시야 범위내에 물건이 있다면 확인 불가능
+            if (hit.collider.gameObject != stateMachine.npc.player)
+                return false;
+        }
         return true;
     }
 

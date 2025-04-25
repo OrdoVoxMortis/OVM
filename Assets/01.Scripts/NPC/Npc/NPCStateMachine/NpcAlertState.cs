@@ -26,12 +26,11 @@ public class NpcAlertState : NpcBaseState
     {
         if (!GameManager.Instance.SimulationMode)
         {
-            //base.Update();
+            base.Update();
             if (stateMachine.npc is Guard)
             {
                 GuardWait();
             }
-            else base.Update();
             if (IsPlayerInSight())
             {
                 IncreaseSuspicion();

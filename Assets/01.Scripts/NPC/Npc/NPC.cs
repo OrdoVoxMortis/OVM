@@ -45,6 +45,9 @@ public class NPC : MonoBehaviour
     public float CurAlertTime {  get; set; } // 현재 경계 시간
     public NavMeshAgent Agent { get; set; }
 
+    public GameObject player;
+    public Collider playerCollider;
+
     [field: SerializeField] public NPCSO Data { get; private set; }
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
 
@@ -60,7 +63,8 @@ public class NPC : MonoBehaviour
         Init();
         stateMachine = new NpcStateMachine(this);
         stateMachine.ChangeState(stateMachine.IdleState);
-
+        player = GameManager.Instance.Player.gameObject;
+        playerCollider = player.GetComponent<Collider>();
     }
     private void Init()
     {
