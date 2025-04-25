@@ -148,7 +148,7 @@ public class Block : MonoBehaviour, IInteractable
         foreach (Transform child in clone.transform)
         {
             Debug.Log(GameManager.Instance.SimulationMode);
-            child.gameObject.SetActive(GameManager.Instance.SimulationMode);
+            child.gameObject.SetActive(!GameManager.Instance.SimulationMode);
         }
     }
 }
