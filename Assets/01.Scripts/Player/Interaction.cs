@@ -1,8 +1,11 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -10,15 +13,22 @@ public class Interaction : MonoBehaviour
 {
     public LayerMask layerMask;
 
-    private GameObject curInteractGameObject;
+    [Header("UI")]
     public GameObject settingMenu;
-    private IInteractable curInteractable;
     [SerializeField] private TextMeshProUGUI interactText;
 
+    private IInteractable curInteractable;
+    private readonly List<IInteractable> curInterdatas = new List<IInteractable>();
 
     // Start is called before the first frame update
     void Start()
     {
+        if (interactText == null)
+        {
+
+            interactText = GameObject.Find("Canvas/InteractText").gameObject.GetComponent<TextMeshProUGUI>();
+        }
+
         PlayerController input = GameManager.Instance.Player.Input;
         input.playerActions.Interection.started -= OnInteractInput;
         input.playerActions.Interection.started += OnInteractInput;
@@ -31,65 +41,100 @@ public class Interaction : MonoBehaviour
 
 
     // Update is called once per frame
-    //void Update()
-    //{
-    //    if (!UIManager.Instance.isUIActive && Time.time - lastCheckTime > checkRate)
-    //    {
-    //        lastCheckTime = Time.time;
+    void Update()
+    {
+        if (curInterdatas.Count <= 0)
+        {
+            if (curInteractable != null)
+            {
+                curInteractable = null;
+                interactText.gameObject.SetActive(false);
+            }
+            return;
+        }
 
-    //        Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
-    //        RaycastHit hit;
+        // 플레이어와 가장 가까운 IInteratable 찾기
+        float shortestDistance = float.MaxValue;
+        IInteractable nearInteracte = null;
+        Vector3 playerPosision = GameManager.Instance.Player.transform.position;
 
-    //        Debug.DrawRay(ray.origin, ray.direction * maxCheckDistance, Color.red);
+        foreach (var candidate in curInterdatas)
+        {
+            var candidateTransform = (candidate as MonoBehaviour)?.transform;
+            if (candidateTransform == null)
+            {
+                continue;
+            }
 
-    //        if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
-    //        {
-    //            if (hit.collider.gameObject != curInteractGameObject)
-    //            {
-    //                curInteractGameObject = hit.collider.gameObject;
-    //                curInteractable = hit.collider.GetComponent<IInteractable>();
-    //                //TODO 텍스트를 출력시켜 줘야함
-    //                SetText();
-    //            }
-    //        }
-    //        else
-    //        {
-    //            curInteractGameObject = null;
-    //            curInteractable = null;
-    //            //TODO 텍스트 출력을 없애 줘야함
-    //            interactText.gameObject.SetActive(false);
-    //        }
-    //    }
-        
-    //}
+            float distance = Vector3.Distance(playerPosision, candidateTransform.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                nearInteracte = candidate;
+            }
+        }
+
+        // UI 갱신(가장 가까운 대상이 바뀌었을 때)
+        if (nearInteracte != curInteractable)
+        {
+            curInteractable = nearInteracte;
+            if (curInteractable != null)
+            {
+
+                interactText.gameObject.SetActive(true);
+            }
+            else
+            {
+                interactText.gameObject.SetActive(false);
+            }
+        }
+
+
+
+    }
+
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("MusicDoor"))
-        {
-            curInteractGameObject = other.gameObject;
-            curInteractable = other.gameObject.GetComponent<IInteractable>();
-            SetText();
-            Debug.Log("MusicDoor가 찍힘");
-        }
-;
+        if ((layerMask.value & (1 << other.gameObject.layer)) == 0) return;
 
-        //LayerMask interactioMask = LayerMask.GetMask("Interactable", "MusicDoor");
-        //if ( (interactioMask.value & (1 << other.gameObject.layer)) != 0)
-        //{
-        //    curInteractGameObject = other.gameObject;
-        //    curInteractable = other.gameObject.GetComponent<IInteractable>();
-        //    SetText();
-        //}
+        var interactable = other.GetComponent<IInteractable>();
+
+        if (interactable != null && !curInterdatas.Contains(interactable))
+        {
+            curInterdatas.Add(interactable);
+
+            //curInteractGameObject = other.gameObject;
+            //curInteractable = interactable;
+            //SetText();
+            //Debug.Log("MusicDoor가 찍힘");
+        }
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        curInteractGameObject = null;
-        curInteractable = null;
-        //TODO 텍스트 출력을 없애 줘야함
-        interactText.gameObject.SetActive(false);
+        var interactable = other.GetComponent<IInteractable>();
+
+        if (interactable != null)
+        {
+            curInterdatas.Remove(interactable);
+            if (interactable == curInteractable)
+            {
+                curInteractable = null;
+                interactText.gameObject.SetActive(false);
+            }
+        }
+
+        //if (curInteractable != null && other.gameObject == ((MonoBehaviour)curInteractable).gameObject)
+        //{
+        //    curInteractGameObject = null;
+        //    curInteractable = null;
+        //    //TODO 텍스트 출력을 없애 줘야함
+        //    interactText.gameObject.SetActive(false);
+        //}
+      
     }
 
     private void SetText()
@@ -103,7 +148,6 @@ public class Interaction : MonoBehaviour
         {
             curInteractable.OnInteract();
             interactText.gameObject.SetActive(false);
-            curInteractGameObject = null;
             curInteractable = null;
         }
     }
@@ -133,7 +177,6 @@ public class Interaction : MonoBehaviour
         {
             curInteractable.OnInteract();
             interactText.gameObject.SetActive(false);
-            curInteractGameObject = null;
             curInteractable = null;
         }
     }
@@ -143,8 +186,10 @@ public class Interaction : MonoBehaviour
         PlayerController input = GameManager.Instance.Player.Input;
         input.playerActions.Interection.started -= OnInteractInput;
         input.playerActions.Interection.started += OnInteractInput;
-        interactText = FindObjectOfType<TextMeshProUGUI>();
-        curInteractGameObject = null;
+
+        curInterdatas.Clear();
+
         curInteractable = null;
     }
+
 }

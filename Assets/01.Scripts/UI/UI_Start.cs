@@ -29,7 +29,7 @@ public class UI_Start: BaseUI
         gameObject.SetActive(false);
 
         playerTimeline.stopped += OnTimelineEnd;
-
+        Cursor.lockState = CursorLockMode.Locked;
         playerTimeline.Play();
     }
 
