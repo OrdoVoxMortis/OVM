@@ -12,8 +12,7 @@ public static class BlockValidator
 
     public static bool RequiresPrevBlock(Block block) // 선행 블럭 필요 여부
     {
-        return block.Action == BlockAction.Collect ||
-               (block.PreCombineRule != null && block.PreCombineRule.RuleType != CombineType.None);
+        return block.PreCombineRule != null && block.PreCombineRule.RuleType != CombineType.None;
     }
 
     public static bool CanCombineWithNext(Block block, Block next) // 후속 조합 검사

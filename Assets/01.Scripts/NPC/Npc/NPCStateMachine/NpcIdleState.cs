@@ -14,10 +14,6 @@ public class NpcIdleState : NpcBaseState
         base.Enter();
         stateMachine.npc.Agent.isStopped = false;
 
-        isWaiting = false;
-        waitTimer = 0f;
-        cooldownTimer = 0f;
-
         Debug.Log("idle");
     }
 
@@ -29,11 +25,11 @@ public class NpcIdleState : NpcBaseState
     {
         if (!GameManager.Instance.SimulationMode)
         {
-            base.Update();
             if(stateMachine.npc is Guard )
             {
                 GuardWait();
             }
+            else base.Update();
             if (!stateMachine.npc.IsAction)
             {
                 if (stateMachine.npc.CurAlertTime > 0)
