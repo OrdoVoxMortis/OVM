@@ -39,9 +39,7 @@ public class MissionNote : MonoBehaviour, IInteractable
             Sprite image = null;
             if (!string.IsNullOrEmpty(ImageName))
             {
-                Debug.Log(ImageName);
                 image = ResourceManager.Instance.LoadImage(ImageName);
-                Debug.Log(image);
             }
 
             if (string.IsNullOrEmpty(DialogText))
