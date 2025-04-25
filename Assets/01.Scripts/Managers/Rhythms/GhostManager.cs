@@ -24,9 +24,8 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public bool isPlaying;
     private int curIndex = 0;
 
-
-
     public AudioClip[] hitSound = new AudioClip[2]; //0은 일반 노트 //1은 포인트 노트
+    public AudioSource audioSource;
 
     private float tempTime;
 
@@ -37,6 +36,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         checkTimes = new List<float>();
         curIndex = 0;
         isPlaying = false;
+        audioSource = gameObject.AddComponent<AudioSource>();
 
         //RhythmManager.Instance.rhythmActions.Add(this);
     }
@@ -90,16 +90,16 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             return;
         }
 
+        ghosts[curIndex].CheckGhost(tempTime - checkTimes[curIndex]);
 
-        if (tempTime - checkTimes[curIndex] < 0.2f && tempTime - checkTimes[curIndex] > -0.2f)
+        if (ghosts[curIndex].isOverGood)
         {
-            Debug.Log("Perfect!");
-        } 
-        else
-        {
-            Debug.Log("실패");
+            if (hitSound[0] == null || hitSound[1] == null)
+            {
+                audioSource.PlayOneShot(ghosts[curIndex].isPointNotes ? hitSound[1] : hitSound[0]);
+            }
         }
-
+        
         curIndex++;
     }
 
