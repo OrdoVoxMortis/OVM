@@ -96,10 +96,10 @@ public class RhythmManager : SingleTon<RhythmManager>
         delay = musicNowTime;
 
         
-        Invoke("QTEMake", (float)(measure - delay));
+        Invoke("RhythmMake", (float)(measure - delay));
     }
 
-    public void QTEMake()
+    public void RhythmMake()
     {
         rhythmActions[index].StartRhythmAction();
         index++;
