@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TimelineManager : SingleTon<TimelineManager>
@@ -155,6 +156,13 @@ public class TimelineManager : SingleTon<TimelineManager>
             Block prevSuccess = null;
             Block nextSuccess = null;
 
+            //접촉 블럭 검사
+            if(current is ContactBlock block)
+            {
+                ContactBlockValid(block, i);
+                continue;
+            }
+
             // 선행 검사
             if (current.PreCombineRule != null && current.PreCombineRule.RuleType != CombineType.None)
             {
@@ -207,7 +215,7 @@ public class TimelineManager : SingleTon<TimelineManager>
             if (prevSuccess != null)
             {
                 prevSuccess.IsSuccess = true;
-                Debug.Log($"[{current.BlockName}] + [{prevSuccess.BlockName}] 조합 결과: 성공");
+                Debug.Log($"[{prevSuccess.BlockName}] + [{current.BlockName}] 조합 결과: 성공");
             }
             if (nextSuccess != null)
             {
@@ -223,6 +231,7 @@ public class TimelineManager : SingleTon<TimelineManager>
             // 사용된 블럭 제거
             availableBlocks.Remove(current);
             if (prevSuccess != null) availableBlocks.Remove(prevSuccess);
+            
             if (nextSuccess != null) availableBlocks.Remove(nextSuccess);
         }
 
@@ -237,6 +246,16 @@ public class TimelineManager : SingleTon<TimelineManager>
         }
     }
 
+    private void ContactBlockValid(ContactBlock contact, int index)
+    {
+        bool hasDeathTriggerBefore = PlacedBlocks.GetRange(0, index).Any(b => b.IsDeathTrigger);
+        if (hasDeathTriggerBefore) 
+        {
+            contact.IsSuccess = true;
+            contact.SetGhost();
+            Debug.Log($"{contact.BlockName} 접촉 블럭 조건 만족: 사망 트리거 선행 존재");
+        }
+    }
 
     private bool HasValidPreviousBlock(Block block, int index)
     {
