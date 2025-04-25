@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.InputSystem.Android;
 
 public class NpcBaseState : IState
@@ -51,17 +50,13 @@ public class NpcBaseState : IState
             moveTimer += Time.deltaTime;
             if (moveTimer >= moveDelay)
             {
-                Move();
+                stateMachine.npc.Agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
                 moveTimer = 0f;
             }
 
             var agent = stateMachine.npc.Agent;
             bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
-            if (isMoving)
-            {
-                RotateVelocity();
-                StartAnimation("Walk");
-            }
+            if (isMoving) StartAnimation("Walk");
             else StopAnimation("Walk");
         }
         else
@@ -79,14 +74,7 @@ public class NpcBaseState : IState
     {
         stateMachine.npc.Animator.SetBool(anim, false);
     }
-    
-    public void Move()
-    {
-        stateMachine.npc.Agent.updateRotation = true;
 
-        stateMachine.npc.Agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
-        
-    }
     public Vector3 GetRandomPointInArea(BoxCollider collider)
     {
         Vector3 center = collider.bounds.center;
@@ -96,19 +84,6 @@ public class NpcBaseState : IState
         float randomZ = Random.Range(center.z - size.z / 2, center.z + size.z / 2);
 
         return new Vector3(randomX, center.y, randomZ);
-    }
-
-    protected void RotateVelocity()
-    {
-        NavMeshAgent agent = stateMachine.npc.Agent;
-        Vector3 vel = agent.velocity;
-
-        if (vel.sqrMagnitude < 0.01f) return;
-
-        Quaternion rot = Quaternion.LookRotation(vel.normalized);
-        Transform trans = stateMachine.npc.transform;
-        trans.rotation = Quaternion.Slerp(trans.rotation, rot, stateMachine.RotationDamping * Time.deltaTime);
-
     }
     public bool IsPlayerInSight() //true -> 경계
     {
@@ -133,16 +108,12 @@ public class NpcBaseState : IState
 
             if (moveTimer >= moveDelay)
             {
-                Move();
+                agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
                 moveTimer = 0f;
             }
 
             bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
-            if (isMoving)
-            {
-                RotateVelocity();
-                StartAnimation("Walk");
-            }
+            if (isMoving) StartAnimation("Walk");
             else StopAnimation("Walk");
 
             if (waitTimer >= 3f)
@@ -168,7 +139,6 @@ public class NpcBaseState : IState
                     cooldownTimer = 0f;
                     waitTimer = 0f;
                     agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
-                    StartAnimation("Walk");
                 }
             }
         }

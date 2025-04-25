@@ -14,10 +14,6 @@ public class NpcIdleState : NpcBaseState
         base.Enter();
         stateMachine.npc.Agent.isStopped = false;
 
-        isWaiting = false;
-        waitTimer = 0f;
-        cooldownTimer = 0f;
-
         Debug.Log("idle");
     }
 

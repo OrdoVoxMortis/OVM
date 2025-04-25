@@ -1513,6 +1513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9134538228590443306}
   - component: {fileID: 6196047043442941649}
+  - component: {fileID: 5305322649117960486}
   m_Layer: 8
   m_Name: TestPlayerGhost
   m_TagString: Player
@@ -1559,6 +1560,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5305322649117960486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5780211118841858251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790622b23c40e3041bb5766bf42d4835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPointNotes: 0
 --- !u!1 &5880012697863873611
 GameObject:
   m_ObjectHideFlags: 0
