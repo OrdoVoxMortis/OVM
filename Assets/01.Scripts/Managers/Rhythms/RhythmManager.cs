@@ -12,7 +12,6 @@ public class RhythmManager : SingleTon<RhythmManager>
     public double syncTime; //싱크 맞추는 용도
     public float bpm;
     private double measure; //한 마디 
-    private bool isFinished = false;
     //private double timeInMeasure; //한 마디마다 실행 될 수 있게 조절해줄 역할
 
     //public QTEManager qteManager;
@@ -27,6 +26,7 @@ public class RhythmManager : SingleTon<RhythmManager>
     private int index = 0;
 
     public bool isPlaying; //qte, ghost매니저가 끝날 때, false로 변경
+    public bool isFinished = false;
 
     protected override void Awake()
     {
@@ -53,15 +53,16 @@ public class RhythmManager : SingleTon<RhythmManager>
 
     private void Update()
     {
-        if (isFinished) return;
-
         if (isPlaying) return;
+        if (isFinished) return;
+      
 
-        if ( index >= rhythmActions.Count)
+        if (index >= rhythmActions.Count)
         {
             OnRhythmSequenceComplete();
             return;
         }
+
         RhythmAction();
     }
 
@@ -101,13 +102,16 @@ public class RhythmManager : SingleTon<RhythmManager>
         //한마디 - 남은 시간 만큼 딜레이를 주고 실행
         delay = musicNowTime;
 
-        
-        Invoke("QTEMake", (float)(measure - delay));
+        //ToDo 끝났을 때
+
+
+        Invoke("RhythmMake", (float)(measure - delay));
     }
 
-    public void QTEMake()
+    public void RhythmMake()
     {
         rhythmActions[index].StartRhythmAction();
+        //ToDo 여기서 다음 리듬액션 시작
         index++;
     }
 
@@ -134,12 +138,11 @@ public class RhythmManager : SingleTon<RhythmManager>
 
     private void OnRhythmSequenceComplete()
     {
-       
+
         isFinished = true;
         GameManager.Instance.GameClear();
         Debug.Log("모든 리듬 액션 완료! 게임 종료 처리");
 
         // 게임 종료 로직 추가0
     }
-
 }

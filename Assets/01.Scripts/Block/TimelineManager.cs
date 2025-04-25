@@ -11,7 +11,6 @@ public class TimelineManager : SingleTon<TimelineManager>
     public List<Block> PlacedBlocks { get; set; } = new();
     [SerializeField] private UI_Sequence sequencePrefab;
     [SerializeField] private UI_Event eventBlockPrefab;
-    [SerializeField] private UI_Sequence targetBlockPrefab;
     public List<UI_Slot> slots = new();
     public List<UI_Event> eventslots= new();
     private int index = 0;
@@ -67,8 +66,7 @@ public class TimelineManager : SingleTon<TimelineManager>
             UI_Sequence sequenceUI;
 
             //시퀀스 생성
-            if (block is ContactBlock) sequenceUI = Instantiate(targetBlockPrefab, slots[index].transform);
-            else sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
+            sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
             sequenceUI.Initialize(block); 
             //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
             sequenceUI.block = block;
@@ -114,16 +112,6 @@ public class TimelineManager : SingleTon<TimelineManager>
         eventslots.Add(eventUI);
         //slots[index].slotIndex = index;
         //index++;
-    }
-
-    public void AddContactBlock(ContactBlock block)
-    {
-        UI_Sequence targetUI = Instantiate(targetBlockPrefab, slots[index].transform);
-        targetUI.block = block;
-        targetUI.transform.localPosition = Vector3.zero;
-        slots[index].slotIndex = index;
-        slots[index].currentItem = targetUI;
-        index++;
     }
 
     public void AddSlot(UI_Slot newslot)
@@ -289,8 +277,21 @@ public class TimelineManager : SingleTon<TimelineManager>
 
         Block blockToMove = PlacedBlocks[fromIndex];
         PlacedBlocks.RemoveAt(fromIndex);
-
         PlacedBlocks.Insert(toIndex, blockToMove);
+
+        for(int i = 0; i < slots.Count; i++)
+        {
+            if(i < PlacedBlocks.Count)
+                slots[i].currentItem.Initialize(PlacedBlocks[i]);
+            else
+            {
+                if(slots[i].currentItem != null)
+                {
+                    Destroy(slots[i].currentItem.gameObject);
+                    slots[i].currentItem = null;
+                }
+            }
+        }
     }
     
     public void RemoveAndShiftLeft(int removeIndex)

@@ -6,22 +6,19 @@ using UnityEngine;
 public class Event : MonoBehaviour, IInteractable
 {
     //QTEManager
-    public string id;
+    //public int id;
     //public string name;
     //public string description;
     private PostProcessingToggle postProcessingToggle; // 추후 수정
-    private QTEManager qteManager;
-
     public bool IsActive { get; set; } // 타임라인 내 활성화
     private void Awake()
     {
         postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
-        qteManager = GetComponent<QTEManager>();
     }
 
     protected virtual void LoadData()
     {
-        var data = DataManager.Instance.eventDict[id];
+        //var data = DataManager.Instance.eventDict[id];
         //name = data.name;
         //description = data.description;
     }
@@ -37,14 +34,12 @@ public class Event : MonoBehaviour, IInteractable
         {
             FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
             TimelineManager.Instance.AddEventSlot(this);
-            RhythmManager.Instance.rhythmActions.Add(qteManager);
             IsActive = true;
             Debug.Log("이벤트 데이터 추가!");
         }
         else
         {
             TimelineManager.Instance.DestroyEvent(this);
-            RhythmManager.Instance.rhythmActions.Remove(qteManager);
             IsActive = false;
             Debug.Log("이벤트 데이터 삭제!");
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Guard : NPC
 {
     public GameObject[] waitPositions;
-    public bool isChasing = false;
+
     public GameObject GetWaitPosition()
     {
         if(waitPositions.Length > 0)

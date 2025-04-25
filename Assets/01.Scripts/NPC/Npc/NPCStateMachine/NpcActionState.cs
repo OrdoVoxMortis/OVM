@@ -26,62 +26,50 @@ public class NpcActionState : NpcBaseState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation("Run");
     }
 
     public override void Update()
     {
-        if (!GameManager.Instance.SimulationMode)
+        if (isMovingToTarget)
         {
-            stateMachine.npc.Agent.isStopped = true;
-            if (isMovingToTarget)
+            MoveToTarget();
+            return;
+        }
+        if (IsPlayerInSight()) // 시야 내
+        {
+            if (!isPlayerInSight)
             {
-                MoveToTarget();
-                return;
+                isPlayerInSight = true;
+                lostSightTimer = 0f;
+                stateMachine.npc.CurAlertTime = 0f; // 경계 시간 초기화
             }
-            if (IsPlayerInSight()) // 시야 내
+
+            stateMachine.npc.CurAlertTime += Time.deltaTime; // 경계 시간 카운트
+            Debug.Log("지속형 시작");
+            ContiActionByType(); // 지속형 행동
+
+            if (stateMachine.npc.CurAlertTime >= stateMachine.npc.MaxAlertTime && !isTriggered)
             {
-                if (!isPlayerInSight)
-                {
-                    isPlayerInSight = true;
-                    lostSightTimer = 0f;
-                    stateMachine.npc.CurAlertTime = 0f; // 경계 시간 초기화
-                }
-
-                stateMachine.npc.CurAlertTime += Time.deltaTime; // 경계 시간 카운트
-                Debug.Log("지속형 시작");
-                ContiActionByType(); // 지속형 행동
-
-                if (stateMachine.npc.CurAlertTime >= stateMachine.npc.MaxAlertTime && !isTriggered)
-                {
-                    TriggerActionByType(); // 최대 경계 시간 초과 시 발동형 행동
-                }
-            }
-            else // 시야 밖
-            {
-                if (isPlayerInSight)
-                {
-                    isPlayerInSight = false;
-                    lostSightTimer = 0f;
-                }
-
-                lostSightTimer += Time.deltaTime;
-                // 최소 경계 시간 동안 지속형 행동
-                if (lostSightTimer < stateMachine.npc.MinAlertTime) ContiActionByType();
-                else
-                {
-                    isAlert = false;
-                    Debug.Log("지속형 끝");
-                    if (stateMachine.npc is Guard guard) guard.isChasing = false;
-                    stateMachine.ChangeState(stateMachine.AlertState); // 최소 경계 시간 지나면 중단
-                }
+                TriggerActionByType(); // 최대 경계 시간 초과 시 발동형 행동
             }
         }
-        else
+        else // 시야 밖
         {
-            StopAnimation("Run");
-            StopAnimation("Walk");
-            stateMachine.npc.Agent.isStopped = true;
+            if (isPlayerInSight)
+            {
+                isPlayerInSight = false;
+                lostSightTimer = 0f;
+            }
+
+            lostSightTimer += Time.deltaTime;
+            // 최소 경계 시간 동안 지속형 행동
+            if (lostSightTimer < stateMachine.npc.MinAlertTime) ContiActionByType();
+            else
+            {
+                isAlert = false;
+                Debug.Log("지속형 끝");
+                stateMachine.ChangeState(stateMachine.AlertState); // 최소 경계 시간 지나면 중단
+            }
         }
     }
 
@@ -119,6 +107,7 @@ public class NpcActionState : NpcBaseState
             default:
                 break;
         }
+        //stateMachine.ChangeState(stateMachine.AlertState);
     }
 
     private void NotifyTarget()
@@ -170,15 +159,12 @@ public class NpcActionState : NpcBaseState
 
     private void ChasePlayer()
     {
-        if (stateMachine.npc is Guard guard) guard.isChasing = true;
-        stateMachine.npc.Agent.isStopped = false;
         StartAnimation("Run");
         stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
-
-        if (stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
+        if(stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
         {
             StopAnimation("Run");
-            GameManager.Instance.GameOver();   
+            stateMachine.ChangeState(stateMachine.IdleState);
         }
     }
 }
