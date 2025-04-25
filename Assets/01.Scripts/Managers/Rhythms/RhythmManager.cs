@@ -102,13 +102,16 @@ public class RhythmManager : SingleTon<RhythmManager>
         //한마디 - 남은 시간 만큼 딜레이를 주고 실행
         delay = musicNowTime;
 
-        
+        //ToDo 끝났을 때
+
+
         Invoke("RhythmMake", (float)(measure - delay));
     }
 
     public void RhythmMake()
     {
         rhythmActions[index].StartRhythmAction();
+        //ToDo 여기서 다음 리듬액션 시작
         index++;
     }
 
