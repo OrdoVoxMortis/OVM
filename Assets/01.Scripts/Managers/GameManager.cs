@@ -13,6 +13,7 @@ public class GameManager : SingleTon<GameManager>
     public Action OnGameOver;
     public StageResult stageResult;
     public bool SimulationMode { get; set; }
+    public Action OnSimulationMode;
     public bool isEnd = false;
     protected override void Awake()
     {
