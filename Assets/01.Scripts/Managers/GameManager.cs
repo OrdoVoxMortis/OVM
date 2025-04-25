@@ -47,13 +47,25 @@ public class GameManager : SingleTon<GameManager>
         SceneManager.LoadScene(sceneName);
     }
 
+    public void GameClear()
+    {
+        if (!isEnd)
+        {
+            SoundManager.Instance.StopBGM();
+            UIManager.Instance.ShowUI<UI_GameClear>("GameClear_UI");
+            UIManager.Instance.UIActive();
+            OnGameOver?.Invoke();
+            isEnd = true;
+        }
+    }
     public void GameOver()
     {
         if (!isEnd)
         {
-            UIManager.Instance.ShowUI<UI_GameClear>("GameClear_UI");
-            OnGameOver?.Invoke();
-            isEnd = true; 
+            SoundManager.Instance.StopBGM();
+            UIManager.Instance.ShowUI<UI_GameOver>("GameOver_UI");
+            UIManager.Instance.UIActive();
+            isEnd = true;
         }
     }
 
