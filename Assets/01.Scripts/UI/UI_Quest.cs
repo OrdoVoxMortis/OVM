@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class UI_Quest : BaseUI
     [SerializeField] private TextMeshProUGUI questText;
     [SerializeField] private Image targetImage;
     [SerializeField] private TextMeshProUGUI dialogText;
+    [SerializeField] private GameObject textBox;
 
     private string fullDialog; // 실제 대사 저장
     private bool isDialogShown = false; // 대사가 출력되었는지?
@@ -25,12 +27,23 @@ public class UI_Quest : BaseUI
     private void Start()
     {
         gameObject.SetActive(false);
+        textBox.SetActive(false); // 대화창도 기본적으로 비활성화
+        
+    }
+
+    private void Update()
+    {
+        acceptBtn.interactable = true;
     }
     private void OnClickAccept()
     {
-        Debug.Log("퀘스트 수락!"); // TODO 실제로 넘어가는 암살의뢰 UI 연결해주기
-        Hide();
-        GameManager.Instance.LoadScene("Stage_Scene");
+        if (!isDialogShown) 
+        {
+            Debug.Log("퀘스트 수락!"); // TODO 실제로 넘어가는 암살의뢰 UI 연결해주기
+            Hide();
+            GameManager.Instance.LoadScene("Stage_Scene");
+        }
+        
     }
 
     private void QuestAcceptable() // 의뢰 대사 내용이 할당되어 있지 않으면 의뢰 씬으로 넘어가게 해줌
@@ -42,9 +55,11 @@ public class UI_Quest : BaseUI
         }
         else if (!isDialogShown)
         {
-            // 대사가 아직 안 보여졌으면 보여주기
+            
+            textBox.SetActive(true);
             dialogText.text = fullDialog;
             isDialogShown = true;
+            acceptBtn.interactable = false;
         }
     }
 
@@ -59,9 +74,13 @@ public class UI_Quest : BaseUI
 
         if (dialogText != null)
         {
-            fullDialog = dialog; // 대사를 저장만 하고
-            dialogText.text = ""; // 실제로는 비워둠 (처음에는 안 보여줘야 하니까)
+            fullDialog = dialog; 
             isDialogShown = false; // 초기화
+            if (string.IsNullOrEmpty(dialog))
+            {
+                dialogText.text = "";
+                textBox.SetActive(false); // 대사가 없으면 대사창 숨기기
+            }
         }
     }
 }

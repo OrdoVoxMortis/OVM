@@ -43,12 +43,17 @@ public class MissionNote : MonoBehaviour, IInteractable
                 image = ResourceManager.Instance.LoadImage(ImageName);
                 Debug.Log(image);
             }
+
+            if (string.IsNullOrEmpty(DialogText))
+            {
+                Debug.Log("대사 없음: textBox는 비활성화 상태로 설정된다");
+            }
             questUI.SetQuest(Description, image, DialogText);
             UIManager.Instance.UIActive();
             UIManager.Instance.ShowUI<UI_Quest>("UI_Quest");
             return;
         }
-        Debug.Log("null");
+        Debug.Log("UI가 이미 켜져있음");
         
     }
 

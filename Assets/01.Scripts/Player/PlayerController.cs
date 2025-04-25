@@ -101,4 +101,6 @@ public class PlayerController :MonoBehaviour
     {
         playerActions.CancleUI.started -= OnCancleUI;
     }
+
+
 }
