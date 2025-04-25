@@ -52,61 +52,13 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
             UI_Slot otherSlot = eventData.pointerDrag.GetComponentInParent<UI_Slot>();
             if (otherSlot != null)
             {
-           
                 TimelineManager.Instance.MoveBlockAndShift(otherSlot.slotIndex,slotIndex);
                 for (int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
                 {
                     Debug.Log($"[정렬후] slot {i} = {(TimelineManager.Instance.PlacedBlocks[i] != null ? TimelineManager.Instance.PlacedBlocks[i].BlockName : "null")}");
                 }
-                SwapBlocks(otherSlot);
-
             }
-
-            PullPlacedBlocks();
             BlockManager.Instance.OnBlockUpdate?.Invoke();
         }
     }
-
-    private void SwapBlocks(UI_Slot otherSlot)
-    {
-        UI_Sequence temp = currentItem;
-        currentItem = otherSlot.currentItem;
-        otherSlot.currentItem = temp;
-
-        if (currentItem != null)
-        {
-            currentItem.transform.SetParent(transform);
-            currentItem.transform.localPosition = Vector3.zero;
-        }
-        if (otherSlot.currentItem != null)
-        {
-            otherSlot.currentItem.transform.SetParent(otherSlot.transform);
-            otherSlot.currentItem.transform.localPosition = Vector3.zero;
-        }
-    }
-    private void PullPlacedBlocks()
-    {
-        List<UI_Slot> slots = TimelineManager.Instance.slots; // TimelineManager에 있는 슬롯 가져오기
-
-        for (int i = 0; i<slots.Count; i++)
-        {
-            if (slots[i].currentItem == null)
-            {
-                for(int j = i+1; j < slots.Count; j++)
-                {
-                    if (slots[j].currentItem != null)
-                    {
-                        slots[i].currentItem = slots[j].currentItem;
-                        slots[i].currentItem.transform.SetParent(slots[i].transform);
-                        slots[i].currentItem.transform.localPosition = Vector3.zero;
-
-                        slots[j].currentItem = null;
-                        break;
-                    }
-                }
-            }
-        }
-       
-    }
-
 }

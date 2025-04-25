@@ -26,6 +26,7 @@ public class RhythmManager : SingleTon<RhythmManager>
     private int index = 0;
 
     public bool isPlaying; //qte, ghost매니저가 끝날 때, false로 변경
+    public bool isFinished = false;
 
     protected override void Awake()
     {
@@ -53,8 +54,14 @@ public class RhythmManager : SingleTon<RhythmManager>
     private void Update()
     {
         if (isPlaying) return;
+        if (isFinished) return;
+      
 
-        if (index >= rhythmActions.Count) return;
+        if (index >= rhythmActions.Count)
+        {
+            OnRhythmSequenceComplete();
+            return;
+        }
 
         RhythmAction();
     }
@@ -96,10 +103,10 @@ public class RhythmManager : SingleTon<RhythmManager>
         delay = musicNowTime;
 
         
-        Invoke("QTEMake", (float)(measure - delay));
+        Invoke("RhythmMake", (float)(measure - delay));
     }
 
-    public void QTEMake()
+    public void RhythmMake()
     {
         rhythmActions[index].StartRhythmAction();
         index++;
@@ -124,5 +131,15 @@ public class RhythmManager : SingleTon<RhythmManager>
         AudioClip clip = AudioClip.Create("Beep", sampleCount, 1, sampleRate, false);
         clip.SetData(samples, 0);
         return clip;
+    }
+
+    private void OnRhythmSequenceComplete()
+    {
+
+        isFinished = true;
+        GameManager.Instance.GameClear();
+        Debug.Log("모든 리듬 액션 완료! 게임 종료 처리");
+
+        // 게임 종료 로직 추가0
     }
 }

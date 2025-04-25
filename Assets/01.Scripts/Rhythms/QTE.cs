@@ -17,6 +17,8 @@ public class QTE : MonoBehaviour
     private bool isChecked = false;
     public bool isPointNotes = false;
 
+    public bool isOverGood;
+
     private float[] judges = new float[3] { 0.2f, 0.3f, 0.4f }; //perfect, good, miss, 0.4이후론 fail
 
     // Start is called before the first frame update
@@ -56,18 +58,22 @@ public class QTE : MonoBehaviour
         if (timing < judges[0])
         {
             Debug.Log("Perfect!");
+            isOverGood = true;
         }
         else if (timing < judges[1])
         {
             Debug.Log("Good!");
+            isOverGood = true;
         }
         else if (timing < judges[2])
         {
             Debug.Log("Miss!");
+            isOverGood = false;
         } 
         else
         {
             Debug.Log("Fail!");
+            isOverGood = false;
         }
         isChecked = true;
 
