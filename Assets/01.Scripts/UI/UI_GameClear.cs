@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class UI_GameClear : BaseUI
 {
@@ -10,15 +12,11 @@ public class UI_GameClear : BaseUI
     [SerializeField] private TextMeshProUGUI planDialog;
     [SerializeField] private TextMeshProUGUI eventDialog;
     [SerializeField] private TextMeshProUGUI rhythmDialog;
-    public Button lobbyBtn;
+
     protected override void Awake()
     {
         stage = FindAnyObjectByType<StageResult>();
-        GameManager.Instance.OnGameClear += SetText;
-
-        if (lobbyBtn != null)
-            lobbyBtn.onClick.AddListener(BackToLobby);
-
+        GameManager.Instance.OnGameOver += SetText;
     }
 
     public void SetText()
@@ -46,12 +44,5 @@ public class UI_GameClear : BaseUI
         {
             Destroy(rhythmDialog.transform.parent.gameObject);
         }
-    }
-
-    private void BackToLobby()
-    {
-        Debug.Log("로비씬으로 돌아갑니다!");
-        GameManager.Instance.LoadScene("Lobby_Scene");
-        Hide();
     }
 }

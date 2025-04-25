@@ -26,7 +26,6 @@ public class NpcActionState : NpcBaseState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation("Run");
     }
 
     public override void Update()
@@ -160,14 +159,12 @@ public class NpcActionState : NpcBaseState
 
     private void ChasePlayer()
     {
-        stateMachine.npc.Agent.isStopped = false;
         StartAnimation("Run");
         stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
-
-        if (stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
+        if(stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
         {
             StopAnimation("Run");
-            GameManager.Instance.GameOver();   
+            stateMachine.ChangeState(stateMachine.IdleState);
         }
     }
 }

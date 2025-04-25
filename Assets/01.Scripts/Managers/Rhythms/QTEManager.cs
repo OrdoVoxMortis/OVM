@@ -50,7 +50,6 @@ public class QTEManager : MonoBehaviour, IRhythmActions
     {
         //RhythmManager.Instance.qteManager = this;
         StartCoroutine(MakeQTE());
-        Debug.Log("qte 생성!");
     }
 
     IEnumerator MakeQTE()
