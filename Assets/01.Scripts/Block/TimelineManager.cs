@@ -68,7 +68,7 @@ public class TimelineManager : SingleTon<TimelineManager>
             //시퀀스 생성
             if (block is ContactBlock) sequenceUI = Instantiate(targetBlockPrefab, slots[index].transform);
             else sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
-
+            sequenceUI.Initialize(block); 
             //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
             sequenceUI.block = block;
             sequenceUI.transform.localPosition = Vector3.zero;
@@ -135,46 +135,117 @@ public class TimelineManager : SingleTon<TimelineManager>
     public void ValidateCombinations()
     {
         if (PlacedBlocks.Count == 0) return;
+
+        // 모든 블럭 초기화
+        foreach (var block in PlacedBlocks)
+        {
+            block.IsSuccess = false;
+        }
+
+        // 조합에 사용 가능한 블럭 리스트
+        List<Block> availableBlocks = new List<Block>(PlacedBlocks);
+
         for (int i = 0; i < PlacedBlocks.Count; i++)
         {
             Block current = PlacedBlocks[i];
 
-            bool isSuccess = true;
+            if (!availableBlocks.Contains(current)) continue;
 
-            // 선행 규칙 검사
+            bool success = true;
+            Block prevSuccess = null;
+            Block nextSuccess = null;
+
+            // 선행 검사
             if (current.PreCombineRule != null && current.PreCombineRule.RuleType != CombineType.None)
             {
-                bool hasValidPrev = HasValidPreviousBlock(current, i);
-                if (!hasValidPrev && BlockValidator.RequiresPrevBlock(current))
+                success = false;
+                foreach (var other in availableBlocks)
                 {
-                    isSuccess = false;
+                    if (other == current) continue;
+
+                    if (BlockValidator.CanCombineWithPrev(current, other))
+                    {
+                        prevSuccess = other;
+                        success = true;
+                        break;
+                    }
+                }
+
+                if (!success && BlockValidator.RequiresPrevBlock(current))
+                {
+                    current.IsSuccess = false;
+                    continue;
                 }
             }
 
-            // 후속 규칙 검사
+            // 후속 검사
+            success = true; // 다시 초기화
             if (current.NextCombineRule != null && current.NextCombineRule.RuleType != CombineType.None)
             {
-                bool hasValidNext = HasValidNextBlock(current, i);
-                if (!hasValidNext && BlockValidator.RequiresNextBlock(current))
+                success = false;
+                foreach (var other in availableBlocks)
                 {
-                    isSuccess = false;
+                    if (other == current) continue;
+
+                    if (BlockValidator.CanCombineWithNext(current, other))
+                    {
+                        nextSuccess = other;
+                        success = true;
+                        break;
+                    }
+                }
+
+                if (!success && BlockValidator.RequiresNextBlock(current))
+                {
+                    current.IsSuccess = false;
+                    continue;
                 }
             }
 
-            //TODO. 검사 결과에 따라 시퀀스 출력
+            // 조합 성공 처리
+            current.IsSuccess = true;
+            if (prevSuccess != null)
+            {
+                prevSuccess.IsSuccess = true;
+                Debug.Log($"[{current.BlockName}] + [{prevSuccess.BlockName}] 조합 결과: 성공");
+            }
+            if (nextSuccess != null)
+            {
+                nextSuccess.IsSuccess = true;
+                Debug.Log($"[{current.BlockName}] + [{nextSuccess.BlockName}] 조합 결과: 성공");
+            }
 
-            current.IsSuccess = isSuccess;
-            Debug.Log($"[{current.BlockName}] 조합 결과: {(isSuccess ? "성공" : "실패")}");
             current.SetGhost();
+            prevSuccess?.SetGhost();
+            nextSuccess?.SetGhost();
+            
+
+            // 사용된 블럭 제거
+            availableBlocks.Remove(current);
+            if (prevSuccess != null) availableBlocks.Remove(prevSuccess);
+            if (nextSuccess != null) availableBlocks.Remove(nextSuccess);
+        }
+
+        // 실패 블럭들 고스트 처리
+        foreach (var block in PlacedBlocks)
+        {
+            if (!block.IsSuccess)
+            {
+                block.SetGhost();
+                Debug.Log($"[{block.BlockName}] 조합 결과: 실패");
+            }
         }
     }
+
 
     private bool HasValidPreviousBlock(Block block, int index)
     {
         for (int i = 0; i < index; i++)
         {
             if (BlockValidator.CanCombineWithPrev(block, PlacedBlocks[i]))
+            {
                 return true;
+            }
         }
         return false;
     }
@@ -183,7 +254,9 @@ public class TimelineManager : SingleTon<TimelineManager>
         for (int i = index + 1; i < PlacedBlocks.Count; i++)
         {
             if (BlockValidator.CanCombineWithNext(block, PlacedBlocks[i]))
+            {
                 return true;
+            }
         }
         return false;
     }

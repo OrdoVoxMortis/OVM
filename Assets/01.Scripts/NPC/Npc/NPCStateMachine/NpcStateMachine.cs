@@ -23,5 +23,8 @@ public class NpcStateMachine : StateMachine
         IdleState = new NpcIdleState(this);
         AlertState = new NpcAlertState(this);
         ActionState = new NpcActionState(this);
+
+        MovementSpeed = npc.Data.GroundData.BaseSpeed;
+        RotationDamping = npc.Data.GroundData.BaseRotationDamping;
     }
 }

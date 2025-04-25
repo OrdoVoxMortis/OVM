@@ -69,7 +69,8 @@ public class PostProcessingToggle : MonoBehaviour
         //TODO : 테스트를 위해 GameManager.Instance.SelectedBGM != null 를 주석처리함
         if (context.phase == InputActionPhase.Started /*&& GameManager.Instance.SelectedBGM != null*/)
         {
-            TogglePostProcessing();
+            if(!IsChasing())
+                TogglePostProcessing();
         }
     }
 
@@ -78,6 +79,13 @@ public class PostProcessingToggle : MonoBehaviour
         yield return null; // 한 프레임 기다림
         GameManager.Instance.Player.transform.position = savedPlayerPosition;
         Debug.Log("[PostProcessingToggle] 딜레이 후 복구 위치: " + savedPlayerPosition);
+    }
+
+    private bool IsChasing()
+    {
+        Guard guard = FindObjectOfType<Guard>();
+        if (guard.isChasing) return true;
+        return false;
     }
 
 
