@@ -24,8 +24,9 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public bool isPlaying;
     private int curIndex = 0;
 
-    public AudioClip[] hitSound = new AudioClip[2]; //0은 일반 노트 //1은 포인트 노트
-    public AudioSource audioSource;
+    public string[] hitSound = new string[2]; //0은 일반 노트 //1은 포인트 노트
+    public string blockSound;
+   
 
     private float tempTime;
 
@@ -36,7 +37,9 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         checkTimes = new List<float>();
         curIndex = 0;
         isPlaying = false;
-        audioSource = gameObject.AddComponent<AudioSource>();
+        hitSound[0] = "Note_N1";
+        hitSound[1] = "Note_P1";
+    
 
         //RhythmManager.Instance.rhythmActions.Add(this);
     }
@@ -75,6 +78,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         if(ghosts.Count == 0) return;
 
         ghostPrefabs.AddComponent<GhostAnimation>().PlayAnimation();
+        SoundManager.Instance.PlaySfx(blockSound);
         ghostPrefabs.GetComponent<GhostAnimation>().moving = direction.normalized * ghostGaps;
         ghostPrefabs.transform.position = playerTrans.position;
         ghostPrefabs.transform.forward = direction;
@@ -94,9 +98,9 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
         if (ghosts[curIndex].isOverGood)
         {
-            if (hitSound[0] == null || hitSound[1] == null)
+            if (hitSound[0] != null && hitSound[1] != null)
             {
-                audioSource.PlayOneShot(ghosts[curIndex].isPointNotes ? hitSound[1] : hitSound[0]);
+                SoundManager.Instance.PlaySfx(ghosts[curIndex].isPointNotes ? hitSound[1] : hitSound[0]);
             }
         }
         

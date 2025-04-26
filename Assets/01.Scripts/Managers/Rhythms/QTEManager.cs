@@ -15,15 +15,16 @@ public class QTEManager : MonoBehaviour, IRhythmActions
     public GameObject qtePrefabs;
     public Canvas canvas;
 
-    public AudioClip[] hitSound = new AudioClip[2]; //0은 일반 노트 //1은 포인트 노트
-    public AudioSource audioSource;
+    public string[] hitSound = new string[2]; //0은 일반 노트 //1은 포인트 노트
+
 
 
     // Start is called before the first frame update
     void Start()
     {
         qteList = new List<QTE>();
-        audioSource = gameObject.AddComponent<AudioSource>();
+        hitSound[0] = "Note_N1";
+        hitSound[1] = "Note_P1";
         //오디오 클립가져오기
 
 
@@ -88,7 +89,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         if (hitSound[0] == null || hitSound[1] == null)
         {
             if (qteList[0].isOverGood)
-                audioSource.PlayOneShot(qteList[0].isPointNotes ? hitSound[1] : hitSound[0]);
+                SoundManager.Instance.PlaySfx(qteList[0].isPointNotes ? hitSound[1] : hitSound[0]);
         }
 
         qteList[0].CheckJudge();

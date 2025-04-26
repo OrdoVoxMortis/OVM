@@ -131,6 +131,7 @@ public class Block : MonoBehaviour, IInteractable
         ghostManager.ghostClip = FixedSequence;
         ghostManager.ghostPrefabs = transform.GetChild(0).gameObject;
         ghostManager.bpm = GameManager.Instance.Bpm;
+        ghostManager.blockSound = DataManager.Instance.blockDict[id].blockSound;
     }
 
     public void SetGhost()

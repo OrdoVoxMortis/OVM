@@ -95,7 +95,7 @@ public class SoundManager : SingleTon<SoundManager>
         {
             AudioSource source = GetSfxSource();
             source.clip = clip;
-            source.Play();
+            source.PlayOneShot(clip);
             StartCoroutine(ReturnAudiosource(source));
         }
         else Debug.Log("sfx not found");
