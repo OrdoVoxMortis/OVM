@@ -114,20 +114,18 @@ public class RhythmManager : SingleTon<RhythmManager>
     {
         UIManager.Instance.CurrentUIHide();
         rhythmActions[index].StartRhythmAction();
-        
-        if (rhythmActions[index] is GhostManager)
-        {
+      
             //ToDo 끝났을 때
             if (tlCIndex >= 0)
                 timelineCamera.DisableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
-            
+
             //ToDo 여기서 다음 리듬액션 시작
             tlCIndex++;
             if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
                 tlCIndex = 0;
             timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
-        }
 
+        
         index++;
     }
 
@@ -154,7 +152,7 @@ public class RhythmManager : SingleTon<RhythmManager>
 
     private void OnRhythmSequenceComplete()
     {
-
+        UIManager.Instance.CurrentUIHide();
         isFinished = true;
         GameManager.Instance.GameClear();
         Debug.Log("모든 리듬 액션 완료! 게임 종료 처리");

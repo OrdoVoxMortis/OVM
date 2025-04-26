@@ -47,6 +47,7 @@ public class TimelineCamera : MonoBehaviour
             entry.virtualCamera.gameObject.SetActive(true);
             Debug.Log($"[{name}] 카메라 {entry.id} 활성화");
         }
+
         else
         {
             Debug.LogWarning($"[{name}] 카메라 {entry.id} 가 존재하지 않음");

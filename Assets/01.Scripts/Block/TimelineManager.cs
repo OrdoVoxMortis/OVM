@@ -86,7 +86,6 @@ public class TimelineManager : SingleTon<TimelineManager>
             {
                 block.IsActive = false;
                 RemoveAndShiftLeft(index);
-                
             }
         }
     }
