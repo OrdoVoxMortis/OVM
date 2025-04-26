@@ -533,6 +533,7 @@ MonoBehaviour:
   questText: {fileID: 3456491080871832766}
   targetImage: {fileID: 3300184159096585385}
   dialogText: {fileID: 3659924499126616032}
+  textBox: {fileID: 3887502758009582572}
 --- !u!1 &5780047515242018201
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,6 +785,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TextBox
       objectReference: {fileID: 0}
+    - target: {fileID: 8025828817709088252, guid: 19066d57617488046943207058ae5b66,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -801,6 +807,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3887502758009582572 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8025828817709088252, guid: 19066d57617488046943207058ae5b66,
+    type: 3}
+  m_PrefabInstance: {fileID: 6526375430153801232}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5979156291926895587 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 605854099023308275, guid: 19066d57617488046943207058ae5b66,

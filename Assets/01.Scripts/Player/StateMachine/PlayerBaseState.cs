@@ -30,6 +30,7 @@ public class PlayerBaseState : IState
     protected virtual void AddInputActionCallbacks()
     {
         PlayerController input = stateMachine.Player.Input;
+        input.playerActions.Movement.started += OnMovementStarted;
         input.playerActions.Movement.canceled += OnMovementCanceled;
         input.playerActions.Run.started += OnRunStarted;
         input.playerActions.Run.canceled += OnRunCanceled;
@@ -41,6 +42,7 @@ public class PlayerBaseState : IState
     protected virtual void RemoveInputActionCallbacks()
     {
         PlayerController input = stateMachine.Player.Input;
+        input.playerActions.Movement.started -= OnMovementStarted;
         input.playerActions.Movement.canceled -= OnMovementCanceled;
         input.playerActions.Run.started -= OnRunStarted;
         input.playerActions.Run.canceled -= OnRunCanceled;
@@ -67,6 +69,11 @@ public class PlayerBaseState : IState
         }
     }
 
+    protected virtual void OnMovementStarted(InputAction.CallbackContext context)
+    {
+        
+    }
+
     protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
     {
 
@@ -91,10 +98,14 @@ public class PlayerBaseState : IState
     {
         stateMachine.IsRunKeyHeld = false;
         // 만약 현재 상태가 RunState라면, 움직임 값에 따라 WalkState 또는 IdleState로 전이
-        if (stateMachine.MovementInput != Vector2.zero)
-            stateMachine.ChangeState(stateMachine.WalkState);
-        else
-            stateMachine.ChangeState(stateMachine.IdleState);
+        if (stateMachine.CurrentState() == stateMachine.RunState)
+        {
+
+            if (stateMachine.MovementInput != Vector2.zero)
+                stateMachine.ChangeState(stateMachine.WalkState);
+            else
+                stateMachine.ChangeState(stateMachine.IdleState);
+        }
     }
 
     protected virtual void OnJumpStarted(InputAction.CallbackContext context)

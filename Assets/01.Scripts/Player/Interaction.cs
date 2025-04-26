@@ -33,7 +33,7 @@ public class Interaction : MonoBehaviour
         input.playerActions.Interection.started -= OnInteractInput;
         input.playerActions.Interection.started += OnInteractInput;
         input.playerActions.Setting.started += OnSettingInput;
-        input.playerActions.Cancel.started += OnCancelInput;
+        input.playerActions.CancleUI.started += OnCancelInput;
         SceneManager.sceneLoaded += OnInteract;
 
         interactText.gameObject.SetActive(false);
@@ -92,8 +92,6 @@ public class Interaction : MonoBehaviour
 
 
     }
-
-
 
     private void OnTriggerEnter(Collider other)
     {

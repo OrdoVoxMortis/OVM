@@ -25,7 +25,6 @@ public class PlayerController :MonoBehaviour
         playerActions = playerInputs.Player;
 
         //playerActions.Accept.performed += OnAcceptQuest;
-        playerActions.CancleUI.started += OnCancleUI;
 
         playerCamera = transform.Find("CameraLookPoint/FollowPlayerCamera").GetComponent<CinemachineFreeLook>();
 
@@ -66,14 +65,14 @@ public class PlayerController :MonoBehaviour
     private void OnEnable()
     {
         //playerActions.Accept.performed += OnAcceptQuest;
-        playerActions.CancleUI.performed += OnCancleUI;
+        playerActions.CancleUI.started += OnCancleUI;
         playerInputs.Enable();
     }
 
     private void OnDisable()
     {
         //playerActions.Accept.performed -= OnAcceptQuest;
-        playerActions.CancleUI.performed -= OnCancleUI;
+        playerActions.CancleUI.started -= OnCancleUI;
         playerInputs.Disable();
     }
 
@@ -101,4 +100,6 @@ public class PlayerController :MonoBehaviour
     {
         playerActions.CancleUI.started -= OnCancleUI;
     }
+
+
 }

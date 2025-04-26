@@ -14,7 +14,19 @@ public class PlayerRunState : PlayerGroundState
     {
         stateMachine.MovementSpeedModifier = groundData.RunSpeedModifier;
         base.Enter();
-        StartAnimation(stateMachine.Player.AnimationData.RunParameterHash);
+        
+        // 현재 애니메이터 상태 진행도를 가져와 Run 애니메이션에 적용
+        Animator anim = stateMachine.Player.Animator;
+        int runHash = stateMachine.Player.AnimationData.RunParameterHash;
+        StartAnimation(runHash);
+
+        // 현재 레이어의 상태 정보
+        AnimatorStateInfo curState = anim.GetCurrentAnimatorStateInfo(0);
+        float normalizedTime = (curState.normalizedTime) % 1f;
+
+        // Run 상태로 즉시 전환하면서 같은 진행 비율에서 재생을 시작합니다
+        anim.Play(runHash, 0, normalizedTime);
+
     }
 
     public override void Exit()

@@ -7,7 +7,7 @@ public class UIManager : SingleTon<UIManager>
 {
     private Dictionary<string, BaseUI> activeUIs = new(); // 활성화된 UI
     public bool isUIActive = false;
-    private BaseUI currentUI = null;
+    [SerializeField] private BaseUI currentUI = null;
     private Canvas canvas;
     public static event System.Action OnEscPressed;
 
@@ -19,7 +19,7 @@ public class UIManager : SingleTon<UIManager>
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.M))
         {
             OnEscPressed?.Invoke();
             Debug.Log("메뉴출력");
@@ -33,6 +33,7 @@ public class UIManager : SingleTon<UIManager>
         {
             ui.Show();
             currentUI = ui;
+            Debug.Log("현재Ui창 할당됨!");
             return (T) ui;
         }
         else
@@ -95,8 +96,18 @@ public class UIManager : SingleTon<UIManager>
 
     public void CurrentUIHide()
     {
+        if (currentUI == null)
+        {
+            Debug.LogWarning("currentUI가 null입니다!");
+            return;
+        }
+
+        Debug.Log($"현재 숨기려는 UI: {currentUI.name}");
+
         currentUI.Hide();
+        isUIActive = false;
     }
+
 
     private void GetCanvas()
     {

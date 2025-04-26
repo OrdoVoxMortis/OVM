@@ -36,5 +36,10 @@ public abstract class StateMachine
     {
         currentState?.PhysicsUpdate();
     }
+    
+    public IState CurrentState()
+    {
+        return currentState;
+    }
 
 }
