@@ -64,13 +64,15 @@ public class Block : MonoBehaviour, IInteractable
     private GhostManager ghostManager;
     public bool IsSuccess { get; set; } // 조합 성공인지
     private PostProcessingToggle postProcessingToggle; // 추후 수정
-
+    private GameObject clone; // 클론 위치
 
     private void Awake()
     {
         LoadData();
         ghostManager = GetComponent<GhostManager>();
         DataToGhost();
+        clone = transform.GetChild(1).gameObject;
+        GameManager.Instance.OnSimulationMode += ToggleGhost;
         postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
     }
 
@@ -139,5 +141,14 @@ public class Block : MonoBehaviour, IInteractable
     public void Deactive()
     {
         gameObject.SetActive(false);
+    }
+
+    private void ToggleGhost()
+    {
+        foreach (Transform child in clone.transform)
+        {
+            Debug.Log(GameManager.Instance.SimulationMode);
+            child.gameObject.SetActive(!GameManager.Instance.SimulationMode);
+        }
     }
 }
