@@ -24,11 +24,6 @@ public class DataManager : SingleTon<DataManager>
         InitData();
     }
 
-    private void Start()
-    {
-
-
-    }
 
     private void InitData()
     {
