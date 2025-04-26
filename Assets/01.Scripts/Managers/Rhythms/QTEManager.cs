@@ -55,6 +55,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
     IEnumerator MakeQTE()
     {
+        UIManager.Instance.ShowUI<UI_QTE>("QTE_UI");
         for (int i = 0; i < beats.Count; i++)
         {
             QTE qte = Instantiate(qtePrefabs, canvas.transform).GetComponent<QTE>();
