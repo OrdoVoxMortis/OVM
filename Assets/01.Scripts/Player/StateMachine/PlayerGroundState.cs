@@ -44,6 +44,17 @@ public class PlayerGroundState : PlayerBaseState
         base.OnSitStarted(context);
     }
 
+    protected override void OnMovementStarted(InputAction.CallbackContext context)
+    {
+        stateMachine.MovementInput = context.ReadValue<Vector2>();
+        if (stateMachine.IsRunKeyHeld)
+            stateMachine.ChangeState(stateMachine.RunState);
+        else
+            stateMachine.ChangeState(stateMachine.WalkState);
+
+        base.OnMovementStarted(context);
+    }
+
     protected override void OnMovementCanceled(InputAction.CallbackContext context)
     {
         if (stateMachine.MovementInput == Vector2.zero) return;
