@@ -106,13 +106,6 @@ public class RhythmManager : SingleTon<RhythmManager>
         //한마디 - 남은 시간 만큼 딜레이를 주고 실행
         delay = musicNowTime;
 
-        //ToDo 끝났을 때
-        tlCIndex++;
-        if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
-            tlCIndex = 0;
-        timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
-        
-
 
         Invoke("RhythmMake", (float)(measure - delay));
     }
@@ -120,9 +113,16 @@ public class RhythmManager : SingleTon<RhythmManager>
     public void RhythmMake()
     {
         rhythmActions[index].StartRhythmAction();
-        //ToDo 여기서 다음 리듬액션 시작
-        timelineCamera.DisableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
+
+        //ToDo 끝났을 때
+        if(tlCIndex >= 0)
+            timelineCamera.DisableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
         index++;
+        //ToDo 여기서 다음 리듬액션 시작
+        tlCIndex++;
+        if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
+            tlCIndex = 0;
+        timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
     }
 
     void PlayBeep()
