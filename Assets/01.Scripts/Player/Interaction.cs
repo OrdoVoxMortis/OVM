@@ -93,8 +93,6 @@ public class Interaction : MonoBehaviour
 
     }
 
-
-
     private void OnTriggerEnter(Collider other)
     {
         if ((layerMask.value & (1 << other.gameObject.layer)) == 0) return;

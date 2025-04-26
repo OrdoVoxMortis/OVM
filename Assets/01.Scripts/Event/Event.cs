@@ -11,9 +11,11 @@ public class Event : MonoBehaviour, IInteractable
     //public string description;
     private PostProcessingToggle postProcessingToggle; // 추후 수정
     public bool IsActive { get; set; } // 타임라인 내 활성화
+    private QTEManager qteManager;
     private void Awake()
     {
         postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
+        qteManager = GetComponent<QTEManager>();
     }
 
     protected virtual void LoadData()
@@ -34,11 +36,13 @@ public class Event : MonoBehaviour, IInteractable
         {
             FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
             TimelineManager.Instance.AddEventSlot(this);
+            RhythmManager.Instance.rhythmActions.Add(qteManager);
             IsActive = true;
             Debug.Log("이벤트 데이터 추가!");
         }
         else
         {
+            RhythmManager.Instance.rhythmActions.Remove(qteManager);
             TimelineManager.Instance.DestroyEvent(this);
             IsActive = false;
             Debug.Log("이벤트 데이터 삭제!");

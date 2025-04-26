@@ -28,7 +28,6 @@ public class UI_Quest : BaseUI
     {
         gameObject.SetActive(false);
         textBox.SetActive(false); // 대화창도 기본적으로 비활성화
-        
     }
 
     private void Update()
@@ -43,7 +42,6 @@ public class UI_Quest : BaseUI
             Hide();
             GameManager.Instance.LoadScene("Stage_Scene");
         }
-        
     }
 
     private void QuestAcceptable() // 의뢰 대사 내용이 할당되어 있지 않으면 의뢰 씬으로 넘어가게 해줌

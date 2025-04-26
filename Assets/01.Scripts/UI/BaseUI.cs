@@ -16,11 +16,14 @@ public class BaseUI : MonoBehaviour
         UIManager.Instance.UIActive();
     }
 
-    public virtual void Hide() // ui 숨겨주기
+    public virtual void Hide()
     {
+        Debug.Log($"[BaseUI] {this.name} Hide 호출됨, ActiveSelf: {gameObject.activeSelf}");
         gameObject.SetActive(false);
+        Debug.Log($"[BaseUI] {this.name} Hide 완료 후, ActiveSelf: {gameObject.activeSelf}");
         UIManager.Instance.UIDeactive();
     }
+
     public virtual void Close()
     {
        // TODO: UImanager를 경유하여, 해당 UI가 중복으로 존재해선 안될경우 삭제!
