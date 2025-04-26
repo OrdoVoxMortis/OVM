@@ -14,6 +14,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
     public GameObject qtePrefabs;
     public Canvas canvas;
+    public string eventSound;
 
     public string[] hitSound = new string[2]; //0은 일반 노트 //1은 포인트 노트
 
@@ -57,6 +58,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
     IEnumerator MakeQTE()
     {
         UIManager.Instance.ShowUI<UI_QTE>("QTE_UI");
+        SoundManager.Instance.PlaySfx("EventSound_E001");
         for (int i = 0; i < beats.Count; i++)
         {
             QTE qte = Instantiate(qtePrefabs, canvas.transform).GetComponent<QTE>();
