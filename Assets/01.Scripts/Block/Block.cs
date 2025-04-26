@@ -59,6 +59,7 @@ public class Block : MonoBehaviour, IInteractable
     public AnimationClip FailSequence {  get; private set; } // 실패 노트 시퀀스
     public AnimationClip FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
     public AnimationClip AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
+    public AudioClip BlockSound { get; private set; } // 블럭 사운드
 
     public bool IsActive { get; set; } // 타임라인 내 활성화
     private GhostManager ghostManager;
@@ -94,6 +95,7 @@ public class Block : MonoBehaviour, IInteractable
         FailSequence = ResourceManager.Instance.LoadAnimationClip(data.failSequence);
         FixedSequence = ResourceManager.Instance.LoadAnimationClip(data.fixedSequence);
         AfterFlexSequence = ResourceManager.Instance.LoadAnimationClip(data.afterFlexSequence);
+        BlockSound = ResourceManager.Instance.SfxList[data.blockSound];
     }
 
     public void OnInteract()

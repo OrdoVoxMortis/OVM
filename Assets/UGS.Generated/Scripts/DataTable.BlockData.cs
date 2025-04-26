@@ -70,6 +70,7 @@ namespace DataTable
 		public System.String failSequence;
 		public System.String fixedSequence;
 		public System.String afterFlexSequence;
+		public System.String blockSound;
   
 
 #region fuctions
