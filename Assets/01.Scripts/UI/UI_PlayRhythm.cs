@@ -41,7 +41,13 @@ public class UI_PlayRhythm : BaseUI
         {
             Debug.Log("암살 시작!");
             // 여기 암살 시작하는 코드 넣으면 됨
+            for(int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
+            {
+                RhythmManager.Instance.rhythmActions.Add(TimelineManager.Instance.PlacedBlocks[i].GetComponent<IRhythmActions>());
+                
+            }
             RhythmManager.Instance.StartMusic();
+
         }
         else
         {

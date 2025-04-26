@@ -102,13 +102,13 @@ public class Block : MonoBehaviour, IInteractable
         {
             FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
             TimelineManager.Instance.AddBlock(this);
-            RhythmManager.Instance.rhythmActions.Add(ghostManager);
+            //RhythmManager.Instance.rhythmActions.Add(ghostManager);
         }
         else
         {
             TimelineManager.Instance.DestroyBlock(this);
             ghostManager.RemoveGhost();
-            RhythmManager.Instance.rhythmActions.Remove(ghostManager);
+            //RhythmManager.Instance.rhythmActions.Remove(ghostManager);
             Debug.Log("블럭 데이터 삭제!");
         }
 

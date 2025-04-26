@@ -36,13 +36,13 @@ public class Event : MonoBehaviour, IInteractable
         {
             FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
             TimelineManager.Instance.AddEventSlot(this);
-            RhythmManager.Instance.rhythmActions.Add(qteManager);
+            //RhythmManager.Instance.rhythmActions.Add(qteManager);
             IsActive = true;
             Debug.Log("이벤트 데이터 추가!");
         }
         else
         {
-            RhythmManager.Instance.rhythmActions.Remove(qteManager);
+            //RhythmManager.Instance.rhythmActions.Remove(qteManager);
             TimelineManager.Instance.DestroyEvent(this);
             IsActive = false;
             Debug.Log("이벤트 데이터 삭제!");

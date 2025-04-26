@@ -112,20 +112,23 @@ public class RhythmManager : SingleTon<RhythmManager>
 
     public void RhythmMake()
     {
+        UIManager.Instance.CurrentUIHide();
         rhythmActions[index].StartRhythmAction();
-
+        
         if (rhythmActions[index] is GhostManager)
         {
             //ToDo 끝났을 때
             if (tlCIndex >= 0)
                 timelineCamera.DisableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
-            index++;
+            
             //ToDo 여기서 다음 리듬액션 시작
             tlCIndex++;
             if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
                 tlCIndex = 0;
             timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
         }
+
+        index++;
     }
 
     void PlayBeep()

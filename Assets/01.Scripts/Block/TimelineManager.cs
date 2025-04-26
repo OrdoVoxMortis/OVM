@@ -110,8 +110,8 @@ public class TimelineManager : SingleTon<TimelineManager>
         eventUI.eventBlock = eventblock;
         eventUI.transform.localPosition = Vector3.zero;
         eventslots.Add(eventUI);
-        //slots[index].slotIndex = index;
-        //index++;
+        slots[index].slotIndex = index;
+        index++;
     }
 
     public void AddSlot(UI_Slot newslot)
