@@ -28,6 +28,10 @@ public class RhythmManager : SingleTon<RhythmManager>
     public bool isPlaying; //qte, ghost매니저가 끝날 때, false로 변경
     public bool isFinished = false;
 
+    //
+    private TimelineCamera timelineCamera;
+    private int tlCIndex;
+
     protected override void Awake()
     {
         base.Awake();
@@ -103,6 +107,11 @@ public class RhythmManager : SingleTon<RhythmManager>
         delay = musicNowTime;
 
         //ToDo 끝났을 때
+        tlCIndex++;
+        if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
+            tlCIndex = 0;
+        timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
+        
 
 
         Invoke("RhythmMake", (float)(measure - delay));
@@ -112,6 +121,7 @@ public class RhythmManager : SingleTon<RhythmManager>
     {
         rhythmActions[index].StartRhythmAction();
         //ToDo 여기서 다음 리듬액션 시작
+        timelineCamera.DisableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
         index++;
     }
 
@@ -145,4 +155,12 @@ public class RhythmManager : SingleTon<RhythmManager>
 
         // 게임 종료 로직 추가0
     }
+
+    public void RegisterTimelineCamera(TimelineCamera camera)
+    {
+        tlCIndex = -1;
+        timelineCamera = camera;
+        Debug.Log($"[SoundManager] TimellineCamera register {camera.name}");
+    }
+
 }

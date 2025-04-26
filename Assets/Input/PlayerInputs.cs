@@ -116,15 +116,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Cancel"",
-                    ""type"": ""Button"",
-                    ""id"": ""329aff5c-8058-410e-9a6b-d7947da64763"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -281,17 +272,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""CancleUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d91990b7-0769-41ec-a97f-9223c66694ff"",
-                    ""path"": ""<Keyboard>/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -338,7 +318,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Simulate = m_Player.FindAction("Simulate", throwIfNotFound: true);
         m_Player_Accept = m_Player.FindAction("Accept", throwIfNotFound: true);
         m_Player_CancleUI = m_Player.FindAction("CancleUI", throwIfNotFound: true);
-        m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         // RhythmMode
         m_RhythmMode = asset.FindActionMap("RhythmMode", throwIfNotFound: true);
         m_RhythmMode_RhythmInput = m_RhythmMode.FindAction("RhythmInput", throwIfNotFound: true);
@@ -413,7 +392,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Simulate;
     private readonly InputAction m_Player_Accept;
     private readonly InputAction m_Player_CancleUI;
-    private readonly InputAction m_Player_Cancel;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -428,7 +406,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Simulate => m_Wrapper.m_Player_Simulate;
         public InputAction @Accept => m_Wrapper.m_Player_Accept;
         public InputAction @CancleUI => m_Wrapper.m_Player_CancleUI;
-        public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -468,9 +445,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @CancleUI.started += instance.OnCancleUI;
             @CancleUI.performed += instance.OnCancleUI;
             @CancleUI.canceled += instance.OnCancleUI;
-            @Cancel.started += instance.OnCancel;
-            @Cancel.performed += instance.OnCancel;
-            @Cancel.canceled += instance.OnCancel;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -505,9 +479,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @CancleUI.started -= instance.OnCancleUI;
             @CancleUI.performed -= instance.OnCancleUI;
             @CancleUI.canceled -= instance.OnCancleUI;
-            @Cancel.started -= instance.OnCancel;
-            @Cancel.performed -= instance.OnCancel;
-            @Cancel.canceled -= instance.OnCancel;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -583,7 +554,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnSimulate(InputAction.CallbackContext context);
         void OnAccept(InputAction.CallbackContext context);
         void OnCancleUI(InputAction.CallbackContext context);
-        void OnCancel(InputAction.CallbackContext context);
     }
     public interface IRhythmModeActions
     {
