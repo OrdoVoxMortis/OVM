@@ -80,7 +80,7 @@ public class Interaction : MonoBehaviour
             curInteractable = nearInteracte;
             if (curInteractable != null)
             {
-
+                SetText();
                 interactText.gameObject.SetActive(true);
             }
             else

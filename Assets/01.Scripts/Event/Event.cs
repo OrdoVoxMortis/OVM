@@ -54,6 +54,11 @@ public class Event : MonoBehaviour, IInteractable
     {
         gameObject.SetActive(false);
     }
+
+    public void SetInteractComponenet(string newText)
+    {
+        throw new System.NotImplementedException();
+    }
 }
 
    

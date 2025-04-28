@@ -6,6 +6,7 @@ public interface IInteractable
     public void OnInteract();
     public void Deactive();
     public string GetInteractComponent();
+    public void SetInteractComponenet(string newText);
 }
 public class MissionNote : MonoBehaviour, IInteractable
 {
@@ -15,6 +16,7 @@ public class MissionNote : MonoBehaviour, IInteractable
     public string ImageName {  get; private set; } // 의뢰 이미지
     public string DialogText { get; private set; } // 의로 대사 이미지
     private UI_Quest questUI;
+    private string interactText = "E키를 눌러 상호작용";
 
     private void Start()
     {
@@ -57,7 +59,12 @@ public class MissionNote : MonoBehaviour, IInteractable
 
     public string GetInteractComponent()
     {
-        return "E키를 눌러 상호작용";
+        return interactText;
+    }
+
+    public void SetInteractComponenet(string newText)
+    {
+        interactText = newText;
     }
 
     public void Deactive()
