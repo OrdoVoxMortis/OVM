@@ -7,6 +7,7 @@ public class UI_Start: BaseUI
     [SerializeField] private Button closeBtn; // 연결할 버튼
     private Player player;
     private PlayableDirector playerTimeline;
+    private PlayerController playerController;
 
     protected override void Awake()
     {
@@ -22,12 +23,15 @@ public class UI_Start: BaseUI
         UIManager.Instance.UIActive();
         player = GameManager.Instance.Player;
         playerTimeline = player.gameObject.GetComponent<PlayableDirector>();
+        playerController = player.GetComponent<PlayerController>();
+        playerController.enabled = false;
     }
 
     void OnStartClick()
     {
+       
         gameObject.SetActive(false);
-
+        playerController.enabled = true;
         playerTimeline.stopped += OnTimelineEnd;
         Cursor.lockState = CursorLockMode.Locked;
         playerTimeline.Play();

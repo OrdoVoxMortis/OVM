@@ -27,4 +27,9 @@ public class Trashcan : MonoBehaviour, IInteractable
     {
         throw new System.NotImplementedException();
     }
+
+    public void SetInteractComponenet(string newText)
+    {
+        throw new System.NotImplementedException();
+    }
 }

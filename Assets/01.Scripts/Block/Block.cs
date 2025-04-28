@@ -182,4 +182,9 @@ public class Block : MonoBehaviour, IInteractable
             child.gameObject.SetActive(!GameManager.Instance.SimulationMode);
         }
     }
+
+    public void SetInteractComponenet(string newText)
+    {
+        throw new System.NotImplementedException();
+    }
 }

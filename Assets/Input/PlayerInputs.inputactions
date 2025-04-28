@@ -87,18 +87,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "CancleUI",
+                    "name": "CancelUI",
                     "type": "Button",
                     "id": "c57b5392-46f6-4513-b1d6-c6fe193d42e5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Cancel",
-                    "type": "Button",
-                    "id": "329aff5c-8058-410e-9a6b-d7947da64763",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -245,18 +236,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "CancleUI",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d91990b7-0769-41ec-a97f-9223c66694ff",
-                    "path": "<Keyboard>/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Cancel",
+                    "action": "CancelUI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

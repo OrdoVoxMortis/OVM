@@ -47,7 +47,7 @@ public class UI_PlayRhythm : BaseUI
                 
             }
             RhythmManager.Instance.StartMusic();
-
+            this.gameObject.SetActive(false);
         }
         else
         {

@@ -661,8 +661,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597661882742379820}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.03632494, y: 0.000000091051284, z: -0.00000008884641, w: -0.99934006}
-  m_LocalPosition: {x: 2.5377286e-13, y: -0.0000027623676, z: -0.0000026308253}
+  m_LocalRotation: {x: -0.03632493, y: -0, z: -0.00000004470348, w: 0.99934006}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2817,8 +2817,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8048396943979275070}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.000000043045603, z: 0.000000050872075, w: 1}
-  m_LocalPosition: {x: 6.3443215e-14, y: -0.0000006905919, z: -0.0000006577063}
+  m_LocalRotation: {x: -0.000000059604638, y: -0, z: 0.000000029802319, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2896,8 +2896,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8578727736444650101}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.018189458, y: -0.00000014133563, z: 0.00000012482788, w: 0.9998346}
-  m_LocalPosition: {x: 6.3443215e-14, y: -0.0000006905919, z: -0.0000006577063}
+  m_LocalRotation: {x: -0.018189475, y: 0.000000029802322, z: 0.000000044703484, w: 0.9998346}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3074,8 +3074,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8778513299315604601}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.39391935, y: 0.000000029802322, z: -0.000000014901161, w: 0.9191451}
-  m_LocalPosition: {x: 0.00000047683716, y: 2.2, z: -2}
+  m_LocalRotation: {x: 0.27854303, y: 0.6499337, z: -0.27854303, w: 0.64993376}
+  m_LocalPosition: {x: -2, y: 2.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3333,7 +3333,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.2, z: 0}
+  m_Center: {x: 0, y: 1.4, z: 0}
 --- !u!114 &252723299590080623
 MonoBehaviour:
   m_ObjectHideFlags: 0
