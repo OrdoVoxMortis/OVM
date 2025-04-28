@@ -60,7 +60,7 @@ public class StageResult : MonoBehaviour
         string missionKey = MissionResult();
         string planKey = PlanResult();
         string eventKey = EventResult();
-        string rhythmKey;
+        string rhythmKey = "";
 
         missionDialog = !string.IsNullOrEmpty(missionKey)
             ? DataManager.Instance.dialogDict[DataManager.Instance.resultDict[missionKey].dialog].Dialog
@@ -74,8 +74,8 @@ public class StageResult : MonoBehaviour
             ? DataManager.Instance.dialogDict[DataManager.Instance.resultDict[eventKey].dialog].Dialog
             : string.Empty;
 
-        rhythmDialog = !string.IsNullOrEmpty(missionKey)
-            ? DataManager.Instance.dialogDict[DataManager.Instance.resultDict[missionKey].dialog].Dialog
+        rhythmDialog = !string.IsNullOrEmpty(rhythmKey)
+            ? DataManager.Instance.dialogDict[DataManager.Instance.resultDict[rhythmKey].dialog].Dialog
             : string.Empty;
     }
 

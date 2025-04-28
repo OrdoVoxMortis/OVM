@@ -44,7 +44,7 @@ public class NpcBaseState : IState
 
     public virtual void Update()
     {
-        if (!GameManager.Instance.SimulationMode && GameManager.Instance.SelectedBGM != null)
+        if (GameManager.Instance.SelectedBGM != null)
         {
             stateMachine.npc.Agent.isStopped = false;
             moveTimer += Time.deltaTime;
@@ -56,7 +56,10 @@ public class NpcBaseState : IState
 
             var agent = stateMachine.npc.Agent;
             bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
-            if (isMoving) StartAnimation("Walk");
+            if (isMoving)
+            {
+                StartAnimation("Walk");
+            }
             else StopAnimation("Walk");
         }
         else

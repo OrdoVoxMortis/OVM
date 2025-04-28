@@ -52,6 +52,9 @@ public class NPC : MonoBehaviour
     public BoxCollider Area { get; set; }
     public NpcStateMachine stateMachine;
     public bool IsAction { get; set; }
+    private bool isPause = false;
+    private bool prevAgentStopped;
+    private float prevAnimSpeed;
     private void Awake()
     {
     }
@@ -73,6 +76,28 @@ public class NPC : MonoBehaviour
     }
     private void Update()
     {
+        if (GameManager.Instance.SimulationMode)
+        {
+            if (!isPause)
+            {
+                prevAgentStopped = Agent.isStopped;
+                prevAnimSpeed = Animator.speed;
+
+                Agent.velocity = Vector3.zero;
+                Animator.speed = 0f;
+                Agent.isStopped = true;
+                isPause = true;
+            }
+            return;
+        }
+
+        if (isPause)
+        {
+            Agent.isStopped = prevAgentStopped;
+            Animator.speed = prevAnimSpeed;
+            isPause = false;
+        }
+
         stateMachine?.Update();
     }
 
@@ -127,21 +152,26 @@ public class NPC : MonoBehaviour
     {
         Area[] allAreas = GameObject.FindObjectsOfType<Area>();
         float minDist = float.MaxValue;
-        Area nearnest = null;
+        Area selectedArea = null;
 
         foreach(var area in allAreas)
         {
+            if (area.AreaBounds.bounds.Contains(transform.position)) 
+            {
+                selectedArea = area;
+                break;
+            }
             float dist = Vector3.Distance(transform.position, area.transform.position);
             if(dist < minDist)
             {
                 minDist = dist;
-                nearnest = area;
+                selectedArea = area;
             }
         }
 
-        if (nearnest != null)
+        if (selectedArea != null)
         {
-            Area = nearnest.AreaBounds;
+            Area = selectedArea.AreaBounds;
             
         }
     }

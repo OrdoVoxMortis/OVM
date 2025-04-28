@@ -1459,7 +1459,7 @@ PrefabInstance:
     - target: {fileID: 1893186254092025319, guid: 7c342654076b3e044b14eb2e6f60bf96,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.11
+      value: 1.16
       objectReference: {fileID: 0}
     - target: {fileID: 1893186254092025319, guid: 7c342654076b3e044b14eb2e6f60bf96,
         type: 3}
@@ -1559,7 +1559,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -2943,17 +2943,17 @@ PrefabInstance:
     - target: {fileID: 3926827062505038733, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.01818946
+      value: -0.018189475
       objectReference: {fileID: 0}
     - target: {fileID: 3926827062505038733, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.000000029802322
       objectReference: {fileID: 0}
     - target: {fileID: 3926827062505038733, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.000000044703484
       objectReference: {fileID: 0}
     - target: {fileID: 3971649660518770396, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
@@ -5064,9 +5064,9 @@ MonoBehaviour:
   curTime: 0
   isPlaying: 0
   hitSound:
-  - {fileID: 0}
-  - {fileID: 0}
-  audioSource: {fileID: 0}
+  - 
+  - 
+  blockSound: 
 --- !u!135 &1505951567
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7129,9 +7129,9 @@ MonoBehaviour:
   curTime: 0
   isPlaying: 0
   hitSound:
-  - {fileID: 0}
-  - {fileID: 0}
-  audioSource: {fileID: 0}
+  - 
+  - 
+  blockSound: 
 --- !u!4 &2043510373
 Transform:
   m_ObjectHideFlags: 0
@@ -7601,10 +7601,10 @@ MonoBehaviour:
   qtePrefabs: {fileID: 8792027279673050329, guid: 6f5cebf92c044d9408dbb5c330dac8f4,
     type: 3}
   canvas: {fileID: 1408380022}
+  eventSound: 
   hitSound:
-  - {fileID: 8300000, guid: d1b0c534120b04c66a2b1a2fe8a8c8f3, type: 3}
-  - {fileID: 8300000, guid: e0784a7a3551d4c15a8b0133d13b13f3, type: 3}
-  audioSource: {fileID: 0}
+  - 
+  - 
 --- !u!135 &2213697159282399742
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -67,6 +67,7 @@ public class NpcActionState : NpcBaseState
             else
             {
                 isAlert = false;
+                stateMachine.npc.Agent.isStopped = false;
                 Debug.Log("지속형 끝");
                 stateMachine.ChangeState(stateMachine.AlertState); // 최소 경계 시간 지나면 중단
             }
@@ -107,7 +108,6 @@ public class NpcActionState : NpcBaseState
             default:
                 break;
         }
-        //stateMachine.ChangeState(stateMachine.AlertState);
     }
 
     private void NotifyTarget()
@@ -130,6 +130,12 @@ public class NpcActionState : NpcBaseState
         if (agent.remainingDistance <= agent.stoppingDistance) //도착시
         {
             StopAnimation("Walk");
+            Vector3 lookDir = (target.transform.position - stateMachine.npc.transform.position);
+            lookDir.y = 0;
+            if (lookDir.sqrMagnitude > 0.01f)
+            {
+                stateMachine.Target.transform.rotation = Quaternion.LookRotation(lookDir);
+            }
             agent.isStopped = true;
             isMovingToTarget = false;
 
@@ -147,6 +153,8 @@ public class NpcActionState : NpcBaseState
     private void LookAtTarget()
     {
         StopAnimation("Walk");
+        stateMachine.npc.Agent.isStopped = true;
+        stateMachine.npc.Agent.velocity = Vector3.zero;
         Vector3 dirToTarget = (stateMachine.Target.transform.position - stateMachine.npc.transform.position).normalized;
         if (dirToTarget.sqrMagnitude < 0.01f) return;
 
@@ -159,12 +167,22 @@ public class NpcActionState : NpcBaseState
 
     private void ChasePlayer()
     {
-        StartAnimation("Run");
-        stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
-        if(stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
+        if (!GameManager.Instance.SimulationMode)
         {
+            stateMachine.npc.Agent.isStopped = false;
+            StartAnimation("Run");
+            stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
+            if (stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
+            {
+                StopAnimation("Run");
+                stateMachine.ChangeState(stateMachine.IdleState);
+            }
+        }
+        else
+        {
+            stateMachine.npc.Agent.isStopped = true;
             StopAnimation("Run");
-            stateMachine.ChangeState(stateMachine.IdleState);
+            StopAnimation("Walk");
         }
     }
 }

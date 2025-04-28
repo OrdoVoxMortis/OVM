@@ -23,27 +23,25 @@ public class NpcIdleState : NpcBaseState
 
     public override void Update()
     {
-        if (!GameManager.Instance.SimulationMode)
+        if (stateMachine.npc is Guard)
         {
-            if(stateMachine.npc is Guard )
-            {
-                GuardWait();
-            }
-            else base.Update();
-            if (!stateMachine.npc.IsAction)
-            {
-                if (stateMachine.npc.CurAlertTime > 0)
-                    stateMachine.npc.CurAlertTime -= Time.deltaTime;
-                else DecreaseSuspicion();
-
-                if (IsPlayerInSight())
-                {
-                    stateMachine.ChangeState(stateMachine.AlertState);
-                }
-            }
+            GuardWait();
         }
         else base.Update();
+        if (!stateMachine.npc.IsAction)
+        {
+            if (stateMachine.npc.CurAlertTime > 0)
+                stateMachine.npc.CurAlertTime -= Time.deltaTime;
+            else DecreaseSuspicion();
+
+            if (IsPlayerInSight())
+            {
+                stateMachine.ChangeState(stateMachine.AlertState);
+            }
+        }
     }
+
+
 
 
     private void DecreaseSuspicion()

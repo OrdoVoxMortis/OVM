@@ -19,26 +19,23 @@ public class NpcAlertState : NpcBaseState
 
     public override void Update()
     {
-        if (!GameManager.Instance.SimulationMode)
+        base.Update();
+        if (stateMachine.npc is Guard)
         {
-            base.Update();
-            if(stateMachine.npc is Guard)
-            {
-                GuardWait();
-            }
-            if (IsPlayerInSight())
-            {
-                IncreaseSuspicion();
-                if (stateMachine.npc.CurSuspicion == stateMachine.npc.SuspicionParams.maxValue)
-                    stateMachine.ChangeState(stateMachine.ActionState);
-            }
-            else if (!isAlert)
-            {
-                DecreaseSuspicion();
-                if (stateMachine.npc.CurSuspicion == 0) stateMachine.ChangeState(stateMachine.IdleState);
-            }
+            GuardWait();
         }
-        else base.Update();
+        if (IsPlayerInSight())
+        {
+            IncreaseSuspicion();
+            if (stateMachine.npc.CurSuspicion == stateMachine.npc.SuspicionParams.maxValue)
+                stateMachine.ChangeState(stateMachine.ActionState);
+        }
+        else if (!isAlert)
+        {
+            DecreaseSuspicion();
+            if (stateMachine.npc.CurSuspicion == 0) stateMachine.ChangeState(stateMachine.IdleState);
+        }
+
     }
 
     private void IncreaseSuspicion() // true(max)면 ActionState
