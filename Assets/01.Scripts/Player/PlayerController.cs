@@ -65,14 +65,14 @@ public class PlayerController :MonoBehaviour
     private void OnEnable()
     {
         //playerActions.Accept.performed += OnAcceptQuest;
-        playerActions.CancleUI.started += OnCancleUI;
+        playerActions.CancelUI.started += OnCancelUI;
         playerInputs.Enable();
     }
 
     private void OnDisable()
     {
         //playerActions.Accept.performed -= OnAcceptQuest;
-        playerActions.CancleUI.started -= OnCancleUI;
+        playerActions.CancelUI.started -= OnCancelUI;
         playerInputs.Disable();
     }
 
@@ -81,7 +81,7 @@ public class PlayerController :MonoBehaviour
         
     }
 
-    public void OnCancleUI(InputAction.CallbackContext context)
+    public void OnCancelUI(InputAction.CallbackContext context)
     {
         Debug.Log("Cancle 클릭");
         if (context.phase == InputActionPhase.Started)
@@ -93,12 +93,12 @@ public class PlayerController :MonoBehaviour
 
     public void SubscribeCancleUI()
     {
-        playerActions.CancleUI.started += OnCancleUI;
+        playerActions.CancelUI.started += OnCancelUI;
     }
 
     public void UnsubscribeCancleUI()
     {
-        playerActions.CancleUI.started -= OnCancleUI;
+        playerActions.CancelUI.started -= OnCancelUI;
     }
 
 

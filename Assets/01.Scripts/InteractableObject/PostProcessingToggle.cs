@@ -76,7 +76,7 @@ public class PostProcessingToggle : MonoBehaviour
 
     private IEnumerator RestorePlayerPosition()
     {
-        yield return null; // 한 프레임 기다림
+        yield return new WaitForEndOfFrame(); // 한 프레임 기다림
         GameManager.Instance.Player.transform.position = savedPlayerPosition;
         Debug.Log("[PostProcessingToggle] 딜레이 후 복구 위치: " + savedPlayerPosition);
     }

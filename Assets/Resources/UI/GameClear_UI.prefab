@@ -793,6 +793,7 @@ MonoBehaviour:
   planDialog: {fileID: 821623994117939782}
   eventDialog: {fileID: 4613495114885088347}
   rhythmDialog: {fileID: 8821229418971787574}
+  lobbyBtn: {fileID: 4834946772191098331}
 --- !u!1 &8810533369548267463
 GameObject:
   m_ObjectHideFlags: 0
@@ -1122,6 +1123,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe67740d0a0e78946a37a68f52c60e1f, type: 3}
+--- !u!114 &4834946772191098331 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 96297906898850182, guid: fe67740d0a0e78946a37a68f52c60e1f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4778090603480015965}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7427649234510961042 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2691885625135906255, guid: fe67740d0a0e78946a37a68f52c60e1f,
