@@ -167,22 +167,17 @@ public class NpcActionState : NpcBaseState
 
     private void ChasePlayer()
     {
-        if (!GameManager.Instance.SimulationMode)
+
+        stateMachine.npc.Agent.isStopped = false;
+        StartAnimation("Run");
+        stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
+        if (stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
         {
-            stateMachine.npc.Agent.isStopped = false;
-            StartAnimation("Run");
-            stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
-            if (stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
-            {
-                StopAnimation("Run");
-                stateMachine.ChangeState(stateMachine.IdleState);
-            }
-        }
-        else
-        {
-            stateMachine.npc.Agent.isStopped = true;
             StopAnimation("Run");
-            StopAnimation("Walk");
+            GameManager.Instance.GameOver();
+            stateMachine.ChangeState(stateMachine.IdleState);
         }
+
+
     }
 }

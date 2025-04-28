@@ -124,39 +124,38 @@ public class TimelineManager : SingleTon<TimelineManager>
     {
         if (PlacedBlocks.Count == 0) return;
 
-        // 모든 블럭 초기화
         foreach (var block in PlacedBlocks)
         {
+            if (block.IsDeathTrigger) continue;
             block.IsSuccess = false;
         }
 
-        // 조합에 사용 가능한 블럭 리스트
         List<Block> availableBlocks = new List<Block>(PlacedBlocks);
 
         for (int i = 0; i < PlacedBlocks.Count; i++)
         {
             Block current = PlacedBlocks[i];
-
             if (!availableBlocks.Contains(current)) continue;
 
             bool success = true;
             Block prevSuccess = null;
             Block nextSuccess = null;
 
-            //접촉 블럭 검사
-            if(current is ContactBlock block)
+            // 접촉 블럭 특수 규칙 처리
+            if (current is ContactBlock contact)
             {
-                ContactBlockValid(block, i);
+                ContactBlockValid(contact, i);
                 continue;
             }
 
-            // 선행 검사
+            // 선행 조합 검사 (앞 블럭만)
             if (current.PreCombineRule != null && current.PreCombineRule.RuleType != CombineType.None)
             {
                 success = false;
-                foreach (var other in availableBlocks)
+                for (int j = 0; j < i; j++)
                 {
-                    if (other == current) continue;
+                    Block other = PlacedBlocks[j];
+                    if (!availableBlocks.Contains(other)) continue;
 
                     if (BlockValidator.CanCombineWithPrev(current, other))
                     {
@@ -173,14 +172,14 @@ public class TimelineManager : SingleTon<TimelineManager>
                 }
             }
 
-            // 후속 검사
-            success = true; // 다시 초기화
+            // 후속 조합 검사 (뒤 블럭만)
             if (current.NextCombineRule != null && current.NextCombineRule.RuleType != CombineType.None)
             {
                 success = false;
-                foreach (var other in availableBlocks)
+                for (int j = i + 1; j < PlacedBlocks.Count; j++)
                 {
-                    if (other == current) continue;
+                    Block other = PlacedBlocks[j];
+                    if (!availableBlocks.Contains(other)) continue;
 
                     if (BlockValidator.CanCombineWithNext(current, other))
                     {
@@ -213,16 +212,14 @@ public class TimelineManager : SingleTon<TimelineManager>
             current.SetGhost();
             prevSuccess?.SetGhost();
             nextSuccess?.SetGhost();
-            
 
-            // 사용된 블럭 제거
+            // 사용된 블럭 available에서 제거
             availableBlocks.Remove(current);
             if (prevSuccess != null) availableBlocks.Remove(prevSuccess);
-            
             if (nextSuccess != null) availableBlocks.Remove(nextSuccess);
         }
 
-        // 실패 블럭들 고스트 처리
+        // 실패 처리
         foreach (var block in PlacedBlocks)
         {
             if (!block.IsSuccess)
@@ -233,39 +230,20 @@ public class TimelineManager : SingleTon<TimelineManager>
         }
     }
 
+
+
     private void ContactBlockValid(ContactBlock contact, int index)
     {
-        bool hasDeathTriggerBefore = PlacedBlocks.GetRange(0, index).Any(b => b.IsDeathTrigger);
-        if (hasDeathTriggerBefore) 
+        bool hasDeathTriggerBefore = PlacedBlocks.GetRange(0, index).Any(b => b.IsDeathTrigger && b.IsSuccess);
+        if (hasDeathTriggerBefore)
         {
             contact.IsSuccess = true;
             contact.SetGhost();
-            Debug.Log($"{contact.BlockName} 접촉 블럭 조건 만족: 사망 트리거 선행 존재");
+            Debug.Log($"{contact.BlockName} 접촉 블럭 조건 만족: 성공한 사망 트리거 존재");
         }
+        else Debug.Log("사망 트리거 없음");
     }
 
-    private bool HasValidPreviousBlock(Block block, int index)
-    {
-        for (int i = 0; i < index; i++)
-        {
-            if (BlockValidator.CanCombineWithPrev(block, PlacedBlocks[i]))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    private bool HasValidNextBlock(Block block, int index)
-    {
-        for (int i = index + 1; i < PlacedBlocks.Count; i++)
-        {
-            if (BlockValidator.CanCombineWithNext(block, PlacedBlocks[i]))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void MoveBlockAndShift(int fromIndex, int toIndex)
     {

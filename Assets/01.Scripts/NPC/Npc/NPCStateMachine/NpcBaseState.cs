@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem.Android;
 
 public class NpcBaseState : IState
@@ -58,6 +59,7 @@ public class NpcBaseState : IState
             bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
             if (isMoving)
             {
+                RotateVelocity();
                 StartAnimation("Walk");
             }
             else StopAnimation("Walk");
@@ -100,50 +102,79 @@ public class NpcBaseState : IState
         return true;
     }
 
+    protected void RotateVelocity()
+    {
+        NavMeshAgent agent = stateMachine.npc.Agent;
+        Vector3 vel = agent.velocity;
+
+        if (vel.sqrMagnitude < 0.01f) return;
+
+        Quaternion rot = Quaternion.LookRotation(vel.normalized);
+        Transform trans = stateMachine.npc.transform;
+        trans.rotation = Quaternion.Slerp(trans.rotation, rot, stateMachine.RotationDamping * Time.deltaTime);
+
+    }
+
     public void GuardWait()
     {
         var agent = stateMachine.npc.Agent;
-
-        if (!isWaiting)
+        bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
+        if (GameManager.Instance.SelectedBGM != null)
         {
-            waitTimer += Time.deltaTime;
-            moveTimer += Time.deltaTime;
-
-            if (moveTimer >= moveDelay)
+            agent.updateRotation = false;
+            if (!isWaiting)
             {
-                agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
-                moveTimer = 0f;
-            }
+                waitTimer += Time.deltaTime;
 
-            bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
-            if (isMoving) StartAnimation("Walk");
-            else StopAnimation("Walk");
-
-            if (waitTimer >= 3f)
-            {
-                if (stateMachine.npc is Guard guard)
+                if (isMoving)
                 {
-                    agent.SetDestination(guard.GetWaitPosition().transform.position);
-                    isWaiting = true;
-                    waitTimer = 0f;
+                    RotateVelocity();
+                    StartAnimation("Walk");
+                }
+                else
+                {
+                    StopAnimation("Walk");
+                    cooldownTimer += Time.deltaTime; 
+                }
+
+                if (cooldownTimer >= 2f) 
+                {
+                    if (waitTimer >= 3f) 
+                    {
+                        if (stateMachine.npc is Guard guard)
+                        {
+                            agent.SetDestination(guard.GetWaitPosition().transform.position);
+                            isWaiting = true;
+                            waitTimer = 0f;
+                            cooldownTimer = 0f;
+                            StartAnimation("Walk");
+                        }
+                    }
                 }
             }
-        }
-        else // 대기중
-        {
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            else // 대기중
             {
-                StopAnimation("Walk");
-                cooldownTimer += Time.deltaTime;
-
-                if (cooldownTimer >= 5f)
+                if (isMoving)
                 {
-                    isWaiting = false;
-                    cooldownTimer = 0f;
-                    waitTimer = 0f;
-                    agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
+                    RotateVelocity();
+                    StartAnimation("Walk");
+                }
+                else
+                {
+                    StopAnimation("Walk");
+                    cooldownTimer += Time.deltaTime;
+
+                    if (cooldownTimer >= 5f)
+                    {
+                        isWaiting = false;
+                        cooldownTimer = 0f;
+                        waitTimer = 0f;
+                        moveTimer = 0f;
+                        agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
+                    }
                 }
             }
+            agent.updateRotation = true;
         }
     }
 }

@@ -1862,13 +1862,14 @@ GameObject:
   - component: {fileID: 7320805111093210315}
   - component: {fileID: 3099108460165923790}
   - component: {fileID: 5765882515739516735}
+  - component: {fileID: 4187046080624043679}
   m_Layer: 0
   m_Name: General
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7751448668663373075
 Transform:
   m_ObjectHideFlags: 0
@@ -1905,7 +1906,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
+  m_Height: 1.85
   m_Radius: 0.25
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -1930,6 +1931,7 @@ MonoBehaviour:
   <AnimationData>k__BackingField:
     groundParameterName: '@Ground'
     idleParameterName: Idle
+    interactionParameterName: Interaction
     walkParameterName: Walk
     runParameterName: Run
     sitParameterName: Sit
@@ -1945,7 +1947,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 7190002525945305981}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.27
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -1954,10 +1956,33 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: -0.22
+  m_Height: 1.75
+  m_BaseOffset: -0.35
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &4187046080624043679
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7190002525945305981}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.32
+  m_Height: 1.92
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.2, z: 0}
 --- !u!1 &7604802222153870364
 GameObject:
   m_ObjectHideFlags: 0
