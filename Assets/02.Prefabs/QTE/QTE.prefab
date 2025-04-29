@@ -5114,8 +5114,8 @@ RectTransform:
   m_GameObject: {fileID: 8792027279673050329}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3064144160407187639}
   - {fileID: 4899442056493281859}
@@ -5139,6 +5139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7fc95a4ec8a3f42980bccfd68bff44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 0}
   outerLineSize: 0
   outerLine: {fileID: 4899442056493281859}
   innerImage: {fileID: 7767835315091213590}
@@ -5173,3 +5174,5 @@ MonoBehaviour:
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
   particle: {fileID: 2622204732053842070}
+  isPointNotes: 0
+  isOverGood: 0
