@@ -27,7 +27,7 @@ public class PlayerBaseState : IState
         RemoveInputActionCallbacks();
     }
 
-    protected virtual void AddInputActionCallbacks()
+    public virtual void AddInputActionCallbacks()
     {
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.started += OnMovementStarted;
@@ -39,7 +39,7 @@ public class PlayerBaseState : IState
         input.playerActions.Jump.started += OnJumpStarted;
     }
 
-    protected virtual void RemoveInputActionCallbacks()
+    public virtual void RemoveInputActionCallbacks()
     {
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.started -= OnMovementStarted;
