@@ -24,6 +24,7 @@ public class BlockSaveData
 public class SaveManager : SingleTon<SaveManager>
 {
     private string SavePath => $"{Application.persistentDataPath}/save.json";
+    private List<int> blockIds = new();
     //TODO. 스테이지 정보 저장&로드
     public void SaveGame()
     {
@@ -73,19 +74,20 @@ public class SaveManager : SingleTon<SaveManager>
 
         StageManager.Instance.SetStage(data.stageId);
 
-        foreach (var saveBlock in data.blocks)
+
+        foreach (var b in data.blocks)
         {
-            if(DataManager.Instance.blockDict.TryGetValue(saveBlock.id, out var blockData))
-            {
-                var block = new Block();
-                block.id = blockData.id;
-            }
+            blockIds.Add(b.id);
         }
 
+        SceneManager.sceneLoaded += OnStageSceneLoaded;
+
+        GameManager.Instance.LoadScene("Stage_Scene");
         //foreach (var e in data.events)
         //{
         //    TimelineManager.Instance.AddEventSlot(e);
         //}
+
     }
 
     public void Retry(string id)
@@ -105,5 +107,22 @@ public class SaveManager : SingleTon<SaveManager>
             Debug.Log("세이브 파일 삭제");
         }
 
+    }
+
+    private void OnStageSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Stage_Scene")
+        {
+            TimelineManager.Instance.LoadBlocks(blockIds);
+
+            for (int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
+            {
+                RhythmManager.Instance.rhythmActions.Add(TimelineManager.Instance.PlacedBlocks[i].GetComponent<IRhythmActions>());
+
+            }
+            RhythmManager.Instance.StartMusic();
+            RhythmManager.Instance.RhythmAction();
+            SceneManager.sceneLoaded -= OnStageSceneLoaded;
+        }
     }
 }

@@ -298,4 +298,23 @@ public class TimelineManager : SingleTon<TimelineManager>
         }
         index = PlacedBlocks.Count;
     }
+
+    public void LoadBlocks(List<int> blockIds)
+    {
+        Block[] allBlocks = FindObjectsOfType<Block>();
+
+        foreach(var id in blockIds)
+        {
+            var block = allBlocks.FirstOrDefault(b  => b.id == id);
+            if (block != null)
+            {
+                if (!PlacedBlocks.Contains(block)) PlacedBlocks.Add(block);
+            }
+            else Debug.Log($"{id} block not found");
+        }
+        foreach(var block in PlacedBlocks)
+        {
+            block.SetGhost();
+        }
+    }
 }
