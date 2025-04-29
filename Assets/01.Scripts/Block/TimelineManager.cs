@@ -24,12 +24,9 @@ public class TimelineManager : SingleTon<TimelineManager>
         gameObject.SetActive(false);
     }
 
-    public void CalBlockTime()
+    public void CalBlockTime(Block block)
     {
-        foreach (var block in PlacedBlocks)
-        {
-            blockTime += block.FixedTime;
-        }
+        blockTime += block.FixedTime;
     }
 
     public void InitSlots()
@@ -63,6 +60,7 @@ public class TimelineManager : SingleTon<TimelineManager>
         {
             block.IsActive = true;
             PlacedBlocks.Add(block);
+            CalBlockTime(block);
             UI_Sequence sequenceUI;
 
             //시퀀스 생성

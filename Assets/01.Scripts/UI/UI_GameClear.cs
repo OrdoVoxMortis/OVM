@@ -17,14 +17,17 @@ public class UI_GameClear : BaseUI
     public Button lobbyBtn;
     protected override void Awake()
     {
-        stage = FindAnyObjectByType<StageResult>();
-        GameManager.Instance.OnGameOver += SetText;
+        GameManager.Instance.OnGameClear += SetText;
         if (lobbyBtn != null)
             lobbyBtn.onClick.AddListener(BackToLobby);
     }
 
     public void SetText()
     {
+        stage = StageManager.Instance.StageResult;
+        Debug.Log(stage.missionDialog);
+        Debug.Log(stage.planDialog);
+        Debug.Log(stage.eventDialog);
         missionDialog.text = stage.missionDialog;
         if (string.IsNullOrEmpty(missionDialog.text))
         {
