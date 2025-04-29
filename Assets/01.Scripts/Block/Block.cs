@@ -83,7 +83,7 @@ public class Block : MonoBehaviour, IInteractable
         postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
     }
 
-    protected virtual void LoadData()
+    public virtual void LoadData()
     {
         var data = DataManager.Instance.blockDict[id];
 
