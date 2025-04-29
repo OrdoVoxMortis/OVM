@@ -97,18 +97,6 @@ public class UI_SaveLoad : BaseUI
         }
     }
 
-    private void ReplayGame()
-    {
-        Debug.Log("게임 재시작!");
-        SaveManager.Instance.Replay();
-    }
-
-    private void RetryGame()
-    {
-        Debug.Log("게임 재시도!");
-        //SaveManager.Instance.Retry();
-    }
-
     public void DeleteStageData()
     {
 

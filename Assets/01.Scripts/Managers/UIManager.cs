@@ -9,7 +9,7 @@ public class UIManager : SingleTon<UIManager>
     public bool isUIActive = false;
     [SerializeField] private BaseUI currentUI = null;
     private Canvas canvas;
-    public static event System.Action OnEscPressed;
+    public static event System.Action popupSetting;
 
     protected override void Awake()
     {
@@ -21,7 +21,7 @@ public class UIManager : SingleTon<UIManager>
     {
         if(Input.GetKeyDown(KeyCode.M))
         {
-            OnEscPressed?.Invoke();
+            popupSetting?.Invoke();
             Debug.Log("메뉴출력");
         }
     }
