@@ -33,10 +33,6 @@ public class UI_SaveLoad : BaseUI
         base.Awake();
         if (backBtn != null)
             backBtn.onClick.AddListener(Hide);
-        if (replayBtn != null)
-            replayBtn.onClick.AddListener(ReplayGame);
-        if (retryBtn != null)
-            retryBtn.onClick.AddListener(RetryGame);
         if (normalBtn != null)
             normalBtn.onClick.AddListener(SetNormalStage);
         if (hiddenBtn != null)
