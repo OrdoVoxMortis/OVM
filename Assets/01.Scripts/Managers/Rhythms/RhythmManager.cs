@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class RhythmManager : SingleTon<RhythmManager>
 {
@@ -12,6 +11,9 @@ public class RhythmManager : SingleTon<RhythmManager>
     public double syncTime; //싱크 맞추는 용도
     public float bpm;
     private double measure; //한 마디 
+    public bool isDelayed;  //delay 필요 여부
+    public bool isFixed;    //fixed time이 있는 경우
+    public float fixedTime;
     //private double timeInMeasure; //한 마디마다 실행 될 수 있게 조절해줄 역할
 
     //public QTEManager qteManager;
@@ -90,6 +92,20 @@ public class RhythmManager : SingleTon<RhythmManager>
     public void RhythmAction()
     {
         isPlaying = true;
+
+
+        if (!isDelayed) //delay 없이 실행
+        {
+            RhythmMake();
+            return;
+        }
+
+        if(isFixed) //고정된 시간 이후로 실행
+        {
+            Invoke("RhythmMake", fixedTime);
+            return;
+        }
+
         musicNowTime = AudioSettings.dspTime - musicStartTime; //노래 흐른 시간 // QTE의 경우는 -1f를 추가로 해줘야한다
         double delay;
         
@@ -106,7 +122,6 @@ public class RhythmManager : SingleTon<RhythmManager>
         //한마디 - 남은 시간 만큼 딜레이를 주고 실행
         delay = musicNowTime;
 
-
         Invoke("RhythmMake", (float)(measure - delay));
     }
 
@@ -114,16 +129,27 @@ public class RhythmManager : SingleTon<RhythmManager>
     {
         UIManager.Instance.CurrentUIHide();
         rhythmActions[index].StartRhythmAction();
-      
-            //ToDo 끝났을 때
-            if (tlCIndex >= 0)
-                timelineCamera.DisableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
 
-            //ToDo 여기서 다음 리듬액션 시작
-            tlCIndex++;
-            if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
-                tlCIndex = 0;
-            timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
+        if (rhythmActions[index] is QTEManager)
+        {
+            //노래 재생 관련 코드 추가
+            SoundManager.Instance.PauseBGM();
+        } 
+        else
+        {
+            SoundManager.Instance.UnPauseBGM();
+        }
+
+
+        //ToDo 끝났을 때
+        if (tlCIndex >= 0)
+            timelineCamera.DisableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
+
+        //ToDo 여기서 다음 리듬액션 시작
+        tlCIndex++;
+        if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
+            tlCIndex = 0;
+        timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
 
         
         index++;
