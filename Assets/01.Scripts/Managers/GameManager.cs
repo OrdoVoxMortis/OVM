@@ -47,7 +47,7 @@ public class GameManager : SingleTon<GameManager>
         //UIManager.Instance.ClearUI();
         SceneManager.LoadScene(sceneName);
     }
-
+    
     public void GameClear()
     {
         if (!isEnd)
