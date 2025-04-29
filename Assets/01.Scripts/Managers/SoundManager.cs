@@ -129,6 +129,18 @@ public class SoundManager : SingleTon<SoundManager>
         bgmPlayer.Stop();
     }
 
+    public void PauseBGM()
+    {
+        if(bgmPlayer.isPlaying)
+            bgmPlayer.Pause();
+    }
+
+    public void UnPauseBGM()
+    {
+        if(!bgmPlayer.isPlaying && bgmPlayer.time > 0f && bgmPlayer.time < bgmPlayer.clip.length)
+            bgmPlayer.UnPause();
+    }
+
     IEnumerator ReturnAudiosource(AudioSource source)
     {
         yield return new WaitWhile(() => source.isPlaying);
