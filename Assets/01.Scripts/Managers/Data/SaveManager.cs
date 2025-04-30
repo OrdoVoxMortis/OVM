@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,7 @@ public class SaveManager : SingleTon<SaveManager>
 {
     private string SavePath => $"{Application.persistentDataPath}/save.json";
     private List<int> blockIds = new();
+    public bool isReplay;
     //TODO. 스테이지 정보 저장&로드
     public void SaveGame()
     {
@@ -58,6 +60,7 @@ public class SaveManager : SingleTon<SaveManager>
 
     public void Replay()
     {
+        isReplay = true;
         if (!File.Exists(SavePath))
         {
             Debug.Log("세이브 파일 x");
@@ -116,21 +119,26 @@ public class SaveManager : SingleTon<SaveManager>
             TimelineManager.Instance.LoadBlocks(blockIds);
             RhythmManager.Instance.OnStart?.Invoke();
 
-            var timelineCam = FindObjectOfType<TimelineCamera>();
-            if (timelineCam != null)
-            {
-                RhythmManager.Instance.RegisterTimelineCamera(timelineCam);
-            }
-            else Debug.Log("Timeline camera x");
+            //var timelineCam = FindObjectOfType<TimelineCamera>();
+            //if (timelineCam != null)
+            //{
+            //    RhythmManager.Instance.RegisterTimelineCamera(timelineCam);
+            //}
+            //else Debug.Log("Timeline camera x");
 
-            for (int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
-            {
-                RhythmManager.Instance.rhythmActions.Add(TimelineManager.Instance.PlacedBlocks[i].GetComponent<IRhythmActions>());
-
-            }
-            RhythmManager.Instance.StartMusic();
-            RhythmManager.Instance.RhythmAction();
+            StartCoroutine(DelayInit());
             SceneManager.sceneLoaded -= OnStageSceneLoaded;
         }
+    }
+    
+    private IEnumerator DelayInit()
+    {
+        yield return null;
+        for (int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
+        {
+            RhythmManager.Instance.rhythmActions.Add(TimelineManager.Instance.PlacedBlocks[i].GetComponent<IRhythmActions>());
+
+        }
+        RhythmManager.Instance.StartMusic();
     }
 }

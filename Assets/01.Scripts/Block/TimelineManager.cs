@@ -16,11 +16,16 @@ public class TimelineManager : SingleTon<TimelineManager>
     private int index = 0;
 
     public float blockTime = 0f;
+    protected override void Awake()
+    {
+        base.Awake();
+        CreateSlots();
+        InitSlots();
+        PlacedBlocks.Clear();
+    }
 
     private void Start()
     {
-        CreateSlots();
-        InitSlots();
         gameObject.SetActive(false);
     }
 
@@ -308,7 +313,10 @@ public class TimelineManager : SingleTon<TimelineManager>
             var block = allBlocks.FirstOrDefault(b  => b.id == id);
             if (block != null)
             {
-                if (!PlacedBlocks.Contains(block)) PlacedBlocks.Add(block);
+                if (!PlacedBlocks.Contains(block))
+                {
+                    AddBlock(block);
+                }
             }
             else Debug.Log($"{id} block not found");
         }
