@@ -18,6 +18,9 @@ public class StageResult : MonoBehaviour
     [HideInInspector] public string eventDialog; // 출력된 대사
     [HideInInspector] public string rhythmDialog; // 출력된 대사
 
+    public bool GhostCheck {  get; set; }
+    public bool QteCheck {  get; set; }
+
     private void Start()
     {
         GameManager.Instance.OnGameClear += GameClear;
@@ -62,7 +65,7 @@ public class StageResult : MonoBehaviour
         string missionKey = MissionResult();
         string planKey = PlanResult();
         string eventKey = EventResult();
-        string rhythmKey = "";
+        string rhythmKey = RhythmResult();
 
         missionDialog = !string.IsNullOrEmpty(missionKey)
             ? DataManager.Instance.dialogDict[DataManager.Instance.resultDict[missionKey].dialog].Dialog
@@ -118,5 +121,12 @@ public class StageResult : MonoBehaviour
         if (useBlocks.Count == 0 && useEvents.Count > 0) return "R008";
         if (useEvents.Count == 0) return "R009";
         return string.Empty;
+    }
+
+    public string RhythmResult()
+    {
+        if (GhostCheck && QteCheck) return "R010";
+        else if (QteCheck) return "R011";
+        return string.Empty ;
     }
 }
