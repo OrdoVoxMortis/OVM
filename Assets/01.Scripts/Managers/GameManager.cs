@@ -10,6 +10,7 @@ public class GameManager : SingleTon<GameManager>
     public AudioClip SelectedBGM {  get; private set; }
     public static event Action OnSelectedBGMSet; // 추가
     public Action OnGameOver;
+    public Action OnGameClear;
     public bool SimulationMode { get; set; }
     public Action OnSimulationMode;
     public bool isEnd = false;
@@ -38,6 +39,7 @@ public class GameManager : SingleTon<GameManager>
         {
             Bpm = bgm.BPM;
         }
+        Debug.Log(SelectedBGM.name);
         Debug.Log("스테이지 음악 할당됨!");
         OnSelectedBGMSet?.Invoke(); // 이벤트 발동!!
     }
@@ -53,9 +55,15 @@ public class GameManager : SingleTon<GameManager>
         if (!isEnd)
         {
             SoundManager.Instance.StopBGM();
-            UIManager.Instance.ShowUI<UI_GameClear>("GameClear_UI");
+
+            OnGameClear?.Invoke();
+
+            SaveManager.Instance.SaveGame();
+
+            var ui = UIManager.Instance.ShowUI<UI_GameClear>("GameClear_UI");
+            ui.SetText();
             UIManager.Instance.UIActive();
-            OnGameOver?.Invoke();
+
             isEnd = true;
         }
     }
@@ -66,6 +74,7 @@ public class GameManager : SingleTon<GameManager>
             SoundManager.Instance.StopBGM();
             UIManager.Instance.ShowUI<UI_GameOver>("GameOver_UI");
             UIManager.Instance.UIActive();
+            OnGameOver?.Invoke();
             isEnd = true;
         }
     }

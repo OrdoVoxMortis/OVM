@@ -24,12 +24,9 @@ public class TimelineManager : SingleTon<TimelineManager>
         gameObject.SetActive(false);
     }
 
-    public void CalBlockTime()
+    public void CalBlockTime(Block block)
     {
-        foreach (var block in PlacedBlocks)
-        {
-            blockTime += block.FixedTime;
-        }
+        blockTime += block.FixedTime;
     }
 
     public void InitSlots()
@@ -63,6 +60,7 @@ public class TimelineManager : SingleTon<TimelineManager>
         {
             block.IsActive = true;
             PlacedBlocks.Add(block);
+            CalBlockTime(block);
             UI_Sequence sequenceUI;
 
             //시퀀스 생성
@@ -299,5 +297,24 @@ public class TimelineManager : SingleTon<TimelineManager>
             if (lastIndex < slots.Count) slots[lastIndex].currentItem = null;
         }
         index = PlacedBlocks.Count;
+    }
+
+    public void LoadBlocks(List<int> blockIds)
+    {
+        Block[] allBlocks = FindObjectsOfType<Block>();
+
+        foreach(var id in blockIds)
+        {
+            var block = allBlocks.FirstOrDefault(b  => b.id == id);
+            if (block != null)
+            {
+                if (!PlacedBlocks.Contains(block)) PlacedBlocks.Add(block);
+            }
+            else Debug.Log($"{id} block not found");
+        }
+        foreach(var block in PlacedBlocks)
+        {
+            block.SetGhost();
+        }
     }
 }

@@ -6,7 +6,7 @@ public class ContactBlock : Block
 {
     public bool IsTarget { get; private set; } // 타겟
     public bool IsDeath {  get; private set; }  
-    protected override void LoadData()
+    public override void LoadData()
     {
         base.LoadData();
         IsTarget = DataManager.Instance.blockDict[id].isTarget;

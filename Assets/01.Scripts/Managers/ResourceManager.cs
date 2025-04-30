@@ -58,10 +58,10 @@ public class ResourceManager : SingleTon<ResourceManager>
 
     }
 
-    public void InstantiatePrefab(string name)
+    public GameObject InstantiatePrefab(string name, Transform trans = null)
     {
         GameObject prefab = Resources.Load<GameObject>(name);
-        Instantiate(prefab);
+        return Instantiate(prefab, trans);
     }
 
     public Sprite LoadImage(string name)

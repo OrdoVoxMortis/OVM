@@ -11,7 +11,10 @@ public class BaseScene : MonoBehaviour
 
     protected virtual void Init()
     {
-        if(FindObjectOfType<EventSystem>() == null) ResourceManager.Instance.InstantiatePrefab("UI/EventSystem");
+        if (FindObjectOfType<EventSystem>() == null)
+        {
+           var go = ResourceManager.Instance.InstantiatePrefab("UI/EventSystem");
+        }
     }
 
 }
