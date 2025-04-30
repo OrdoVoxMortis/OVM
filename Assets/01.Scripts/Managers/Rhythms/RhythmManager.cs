@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +34,8 @@ public class RhythmManager : SingleTon<RhythmManager>
     //
     private TimelineCamera timelineCamera;
     private int tlCIndex;
+
+    public Action OnStart;
 
     protected override void Awake()
     {

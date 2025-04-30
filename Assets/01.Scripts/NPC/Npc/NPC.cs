@@ -63,7 +63,7 @@ public class NPC : MonoBehaviour
         Init();
         stateMachine = new NpcStateMachine(this);
         stateMachine.ChangeState(stateMachine.IdleState);
-
+        RhythmManager.Instance.OnStart += Destroy;
     }
     private void Init()
     {
@@ -176,5 +176,14 @@ public class NPC : MonoBehaviour
         }
     }
 
+    private void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        RhythmManager.Instance.OnStart -= Destroy;
+    }
 }
 
