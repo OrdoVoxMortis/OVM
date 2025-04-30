@@ -114,6 +114,14 @@ public class SaveManager : SingleTon<SaveManager>
         if (scene.name == "Stage_Scene")
         {
             TimelineManager.Instance.LoadBlocks(blockIds);
+            RhythmManager.Instance.OnStart?.Invoke();
+
+            var timelineCam = FindObjectOfType<TimelineCamera>();
+            if (timelineCam != null)
+            {
+                RhythmManager.Instance.RegisterTimelineCamera(timelineCam);
+            }
+            else Debug.Log("Timeline camera x");
 
             for (int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
             {

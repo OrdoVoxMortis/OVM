@@ -4,8 +4,6 @@ using UnityEngine.AI;
 
 public class NpcActionState : NpcBaseState
 {
-    private bool notifyToTarget = false;
-
     private float lookTime;
     private float lookTimer;
     private Quaternion targetRotation;

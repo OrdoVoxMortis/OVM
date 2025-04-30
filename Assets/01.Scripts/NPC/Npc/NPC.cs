@@ -55,15 +55,21 @@ public class NPC : MonoBehaviour
     private bool isPause = false;
     private bool prevAgentStopped;
     private float prevAnimSpeed;
+
+    public GameObject player;
+    public Collider playerCollider;
     private void Awake()
     {
+        RhythmManager.Instance.OnStart += Destroy;
     }
     private void Start()
     {
         Init();
         stateMachine = new NpcStateMachine(this);
         stateMachine.ChangeState(stateMachine.IdleState);
-        RhythmManager.Instance.OnStart += Destroy;
+
+        player = GameManager.Instance.Player.gameObject;
+        playerCollider = player.GetComponent<Collider>();
     }
     private void Init()
     {

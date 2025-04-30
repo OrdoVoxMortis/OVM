@@ -49,12 +49,6 @@ public class Block : MonoBehaviour, IInteractable
 
     public bool IsDeathTrigger {  get; private set; } // 사망 트리거
 
-    //public Transform successSequenceRoot;
-    //public Transform failSequenceRoot;
-    //public Transform fixedSequenceRoot;
-    //public Transform afterFlexSequenceRoot;
-    //public Transform beforeFlexSequenceRoot;
-
     public AnimationClip SuccessSequence {  get; private set; } // 성공 노트 시퀀스
     public AnimationClip FailSequence {  get; private set; } // 실패 노트 시퀀스
     public AnimationClip FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
@@ -101,7 +95,10 @@ public class Block : MonoBehaviour, IInteractable
         FailSequence = ResourceManager.Instance.LoadAnimationClip(data.failSequence);
         FixedSequence = ResourceManager.Instance.LoadAnimationClip(data.fixedSequence);
         AfterFlexSequence = ResourceManager.Instance.LoadAnimationClip(data.afterFlexSequence);
-        BlockSound = ResourceManager.Instance.SfxList[data.blockSound];
+        if (!string.IsNullOrEmpty(data.blockSound) && ResourceManager.Instance.SfxList.TryGetValue(data.blockSound, out var clip))
+        {
+            BlockSound = clip;
+        }
     }
 
     public void OnInteract()
@@ -110,13 +107,11 @@ public class Block : MonoBehaviour, IInteractable
         {
             FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
             TimelineManager.Instance.AddBlock(this);
-            //RhythmManager.Instance.rhythmActions.Add(ghostManager);
         }
         else
         {
             TimelineManager.Instance.DestroyBlock(this);
             ghostManager.RemoveGhost();
-            //RhythmManager.Instance.rhythmActions.Remove(ghostManager);
             Debug.Log("블럭 데이터 삭제!");
         }
 
