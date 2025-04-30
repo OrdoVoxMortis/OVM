@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public ForceReceiver ForceReceiver { get; private set; }
     public Interaction Interaction { get; private set; }
 
-    private PlayerStateMachine stateMachine;
+    public PlayerStateMachine stateMachine;
     public CinemachineComposer composer;
 
 

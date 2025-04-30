@@ -33,10 +33,6 @@ public class UI_SaveLoad : BaseUI
         base.Awake();
         if (backBtn != null)
             backBtn.onClick.AddListener(Hide);
-        if (replayBtn != null)
-            replayBtn.onClick.AddListener(ReplayGame);
-        if (retryBtn != null)
-            retryBtn.onClick.AddListener(RetryGame);
         if (normalBtn != null)
             normalBtn.onClick.AddListener(SetNormalStage);
         if (hiddenBtn != null)
@@ -95,18 +91,6 @@ public class UI_SaveLoad : BaseUI
             if (slotUI != null) slotUI.SetSlot(data);
             loadedSlots.Add(currentInstance);
         }
-    }
-
-    private void ReplayGame()
-    {
-        Debug.Log("게임 재시작!");
-        SaveManager.Instance.Replay();
-    }
-
-    private void RetryGame()
-    {
-        Debug.Log("게임 재시도!");
-        //SaveManager.Instance.Retry();
     }
 
     public void DeleteStageData()

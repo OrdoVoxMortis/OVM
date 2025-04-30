@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class PlayerController :MonoBehaviour
 {
@@ -99,6 +100,27 @@ public class PlayerController :MonoBehaviour
     public void UnsubscribeCancleUI()
     {
         playerActions.CancelUI.started -= OnCancelUI;
+    }
+
+    public void PlayerActionUnsubscribe()
+    {
+        Player player = GameManager.Instance.Player;
+        var currentState = player.stateMachine.CurrentState();
+
+        playerActions.Interection.started -= GameManager.Instance.Player.Interaction.OnInteractInput;
+
+        if (currentState is PlayerBaseState baseState)
+        {
+            baseState.RemoveInputActionCallbacks();
+        }
+
+        UnsubscribeCancleUI();
+
+
+        playerInputs.Disable();
+
+        Debug.Log("플레이어 상호작용 인풋 액션 키 비활성화!");
+        
     }
 
 
