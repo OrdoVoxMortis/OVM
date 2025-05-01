@@ -62,7 +62,6 @@ public class Block : MonoBehaviour, IInteractable
     private GameObject clone; // 클론 위치
     private Animator animator;
 
-    private AnimatorOverrideController animatorController;
 
     private void Awake()
     {
@@ -71,8 +70,6 @@ public class Block : MonoBehaviour, IInteractable
         DataToGhost();
         clone = transform.GetChild(1).gameObject;
         animator = transform.GetChild(0).GetComponent<Animator>();
-        animatorController = new AnimatorOverrideController(animator.runtimeAnimatorController);
-        animator.runtimeAnimatorController = animatorController;
         GameManager.Instance.OnSimulationMode += ToggleGhost;
         postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
     }
@@ -137,30 +134,22 @@ public class Block : MonoBehaviour, IInteractable
 
     public void SetGhost()
     {
+        var animatorController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         if (IsSuccess)
         {
             ghostManager.ghostClip = SuccessSequence;
-            foreach (var clip in animatorController.animationClips)
-            {
-                if (clip.name == DataManager.Instance.blockDict[id].failSequence)
-                {
-                    animatorController[DataManager.Instance.blockDict[id].failSequence] = SuccessSequence;
-                }
-
-            }
+    
         }
         else
         {
             ghostManager.ghostClip = FailSequence;
-            foreach (var clip in animatorController.animationClips)
-            {
-                if (clip.name == DataManager.Instance.blockDict[id].successSequence)
-                {
-                    animatorController[DataManager.Instance.blockDict[id].successSequence] = FailSequence;
-                }
 
-            }
         }
+        foreach (var clip in animatorController.animationClips)
+        {
+            animatorController[clip.name] = ghostManager.ghostClip;
+        }
+        animator.runtimeAnimatorController = animatorController;
         ghostManager.SetBeatList(ghostManager.beats, ghostManager.pointNoteList, ghostManager.bpm);
     }
 
