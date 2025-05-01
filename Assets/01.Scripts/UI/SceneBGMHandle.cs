@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class SceneBGMHandle : MonoBehaviour
 {
@@ -7,6 +8,6 @@ public class SceneBGMHandle : MonoBehaviour
 
     private void Start()
     {
-        SoundManager.Instance.PlayBGM(bgmName);
+        bgmName = "Background";
     }
 }
