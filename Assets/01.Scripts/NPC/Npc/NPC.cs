@@ -1,4 +1,5 @@
 using GoogleSheet.Core.Type;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -58,6 +59,7 @@ public class NPC : MonoBehaviour
 
     public GameObject player;
     public Collider playerCollider;
+    public bool isColliding = false; // 충돌
     private void Awake()
     {
         RhythmManager.Instance.OnStart += Destroy;
@@ -190,6 +192,30 @@ public class NPC : MonoBehaviour
     private void OnDestroy()
     {
         RhythmManager.Instance.OnStart -= Destroy;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("충돌");
+            isColliding = true;
+            Agent.isStopped = true;
+            Animator.SetBool("Trigger", true);
+            Animator.SetBool("Walk", false);
+
+            StartCoroutine(StopDelay(2f));
+
+        }
+    }
+
+    private IEnumerator StopDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isColliding = false;
+        Agent.isStopped = false;
+        Animator.SetBool("Walk", true);
+        Animator.SetBool("Trigger", false);
     }
 }
 

@@ -47,6 +47,11 @@ public class NpcBaseState : IState
     {
         if (GameManager.Instance.SelectedBGM != null)
         {
+            if (stateMachine.npc.isColliding)
+            {
+                stateMachine.npc.Agent.isStopped = true;
+                return;
+            }
             stateMachine.npc.Agent.isStopped = false;
             moveTimer += Time.deltaTime;
             if (moveTimer >= moveDelay)
