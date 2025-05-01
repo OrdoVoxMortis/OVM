@@ -67,11 +67,12 @@ public class Block : MonoBehaviour, IInteractable
     {
         LoadData();
         ghostManager = GetComponent<GhostManager>();
+        postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
+        if (ghostManager == null) return;
         DataToGhost();
         clone = transform.GetChild(1).gameObject;
         animator = transform.GetChild(0).GetComponent<Animator>();
         GameManager.Instance.OnSimulationMode += ToggleGhost;
-        postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
     }
 
     public virtual void LoadData()
@@ -88,6 +89,7 @@ public class Block : MonoBehaviour, IInteractable
         IsDeathTrigger = data.isDeathTrigger;
         CurrentAfterFlexTime = AfterFlexibleMarginTime;
 
+        if (ResourceManager.Instance.LoadAnimationClip(data.successSequence) == null) return;
         SuccessSequence = ResourceManager.Instance.LoadAnimationClip(data.successSequence);
         FailSequence = ResourceManager.Instance.LoadAnimationClip(data.failSequence);
         FixedSequence = ResourceManager.Instance.LoadAnimationClip(data.fixedSequence);
@@ -134,6 +136,7 @@ public class Block : MonoBehaviour, IInteractable
 
     public void SetGhost()
     {
+        if(ghostManager == null) return;    
         var animatorController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         if (IsSuccess)
         {
