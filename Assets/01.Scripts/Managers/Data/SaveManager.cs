@@ -42,7 +42,6 @@ public class SaveManager : SingleTon<SaveManager>
             blockName = b.BlockName
 
         }).ToList();
-        
 
         data.musicId = GameManager.Instance.SelectedBGM.name;
 
@@ -77,7 +76,6 @@ public class SaveManager : SingleTon<SaveManager>
 
         StageManager.Instance.SetStage(data.stageId);
 
-
         foreach (var b in data.blocks)
         {
             blockIds.Add(b.id);
@@ -86,6 +84,13 @@ public class SaveManager : SingleTon<SaveManager>
         SceneManager.sceneLoaded += OnStageSceneLoaded;
 
         GameManager.Instance.LoadScene("Stage_Scene");
+
+        if (ResourceManager.Instance.BgmList.TryGetValue(data.musicId, out var bgm))
+        {
+            GameManager.Instance.SetSelectedBGM(bgm);
+
+        }
+
         //foreach (var e in data.events)
         //{
         //    TimelineManager.Instance.AddEventSlot(e);
@@ -119,13 +124,6 @@ public class SaveManager : SingleTon<SaveManager>
             TimelineManager.Instance.LoadBlocks(blockIds);
             RhythmManager.Instance.OnStart?.Invoke();
 
-            //var timelineCam = FindObjectOfType<TimelineCamera>();
-            //if (timelineCam != null)
-            //{
-            //    RhythmManager.Instance.RegisterTimelineCamera(timelineCam);
-            //}
-            //else Debug.Log("Timeline camera x");
-
             StartCoroutine(DelayInit());
             SceneManager.sceneLoaded -= OnStageSceneLoaded;
         }
@@ -134,6 +132,7 @@ public class SaveManager : SingleTon<SaveManager>
     private IEnumerator DelayInit()
     {
         yield return null;
+
         for (int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
         {
             RhythmManager.Instance.rhythmActions.Add(TimelineManager.Instance.PlacedBlocks[i].GetComponent<IRhythmActions>());
