@@ -12,7 +12,7 @@ public class ForceReceiver : MonoBehaviour
 
     private bool jumpTriggered = false;
 
-    private float jumpBufferTime = 0.1f;
+    [SerializeField]private float jumpBufferTime = 0.1f;
     private float jumpTimer = 0f;
 
     // Start is called before the first frame update
@@ -22,23 +22,25 @@ public class ForceReceiver : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (controller.isGrounded)
+        if (controller.isGrounded) //지면을 감지
         {
             if (!jumpTriggered)
             {
-
+                // 착지 직후 중력 보정
                 verticalVelocity = Physics.gravity.y * Time.deltaTime;
             }
         }
         else
         {
+            // 공중에 떠 있다면 중력 가속
             verticalVelocity += Physics.gravity.y * Time.deltaTime;
         }
 
         if (jumpTriggered)
         {
+            // 점프 타이머 진행
             jumpTimer += Time.deltaTime;
             if (jumpTimer >= jumpBufferTime)
             {
@@ -49,7 +51,7 @@ public class ForceReceiver : MonoBehaviour
 
     }
 
-    public void Jump(float jumpForce)
+    public void Jump(float jumpForce)   
     {
         verticalVelocity = jumpForce;
         jumpTriggered = true;

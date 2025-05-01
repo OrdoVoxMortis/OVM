@@ -27,7 +27,7 @@ public class PlayerGroundState : PlayerBaseState
         base.Update();
     }
 
-    public override void PhysicsUpdate()
+    public override void PhysicsUpdate()        // 플레이어가 공중이라면 
     {
         base.PhysicsUpdate();
 

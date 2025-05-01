@@ -25,11 +25,11 @@ public class PlayerController :MonoBehaviour
         playerInputs = new PlayerInputs();
         playerActions = playerInputs.Player;
 
-        //playerActions.Accept.performed += OnAcceptQuest;
-
+        
+        // 카메라 찾기
         playerCamera = transform.Find("CameraLookPoint/FollowPlayerCamera").GetComponent<CinemachineFreeLook>();
 
-
+        //카메라 참조 및 초기화
         if (playerCamera == null)
         {
             Debug.LogError("씬에서 CinemachineFreeLook 카메라를 찾을 수 없습니다.");
@@ -39,6 +39,7 @@ public class PlayerController :MonoBehaviour
             CinemachineVirtualCamera middleRog = playerCamera.GetRig(1);
             if (middleRog != null)
             {
+                // 중간리그에서 CinemachineComposer 추출 후 초기 오프셋(m_TrackedObjectOffset) 저장
                 CinemachineComposer composer = middleRog.GetCinemachineComponent<CinemachineComposer>();
                 if (composer != null)
                 {
@@ -65,21 +66,16 @@ public class PlayerController :MonoBehaviour
 
     private void OnEnable()
     {
-        //playerActions.Accept.performed += OnAcceptQuest;
+        
         playerActions.CancelUI.started += OnCancelUI;
         playerInputs.Enable();
     }
 
     private void OnDisable()
     {
-        //playerActions.Accept.performed -= OnAcceptQuest;
+        
         playerActions.CancelUI.started -= OnCancelUI;
         playerInputs.Disable();
-    }
-
-    private void OnAcceptQuest(InputAction.CallbackContext context)
-    {
-        
     }
 
     public void OnCancelUI(InputAction.CallbackContext context)
@@ -102,6 +98,7 @@ public class PlayerController :MonoBehaviour
         playerActions.CancelUI.started -= OnCancelUI;
     }
 
+    //플레이어의 액션 전부 해제
     public void PlayerActionUnsubscribe()
     {
         Player player = GameManager.Instance.Player;

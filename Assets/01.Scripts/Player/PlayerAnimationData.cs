@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class PlayerAnimationData
 {
+    // 애니메이터 파라미터명을 지정
     [SerializeField] private string groundParameterName = "@Ground";
     [SerializeField] private string idleParameterName = "Idle";
     [SerializeField] private string interactionParameterName = "Interaction";
@@ -19,6 +20,7 @@ public class PlayerAnimationData
 
 
 
+    // string 이름을 int 해시값을 이용해 저장할 변수
     public int GroundParameterHash { get; private set; }
     public int IdleParameterHash { get; private set; }
     public int InteractionParameterHash { get; private set; }
@@ -32,6 +34,7 @@ public class PlayerAnimationData
 
     public void Initialize()
     {
+        //  Animator.StringToHash(string) 을 호출하여 파라미터명을 해시로 변환합니다.
         GroundParameterHash = Animator.StringToHash(groundParameterName);
         IdleParameterHash = Animator.StringToHash(idleParameterName);
         InteractionParameterHash = Animator.StringToHash(interactionParameterName);
