@@ -60,6 +60,7 @@ public class NPC : MonoBehaviour
     public GameObject player;
     public Collider playerCollider;
     public bool isColliding = false; // 충돌
+    public bool isWalking = true;
     private void Awake()
     {
         RhythmManager.Instance.OnStart += Destroy;
@@ -201,21 +202,25 @@ public class NPC : MonoBehaviour
             Debug.Log("충돌");
             isColliding = true;
             Agent.isStopped = true;
-            Animator.SetBool("Trigger", true);
             Animator.SetBool("Walk", false);
+            Animator.SetBool("Run", false);
+            Animator.SetBool("Trigger", true);
 
-            StartCoroutine(StopDelay(2f));
+            StartCoroutine(StopDelay(2f, isWalking));
 
         }
     }
 
-    private IEnumerator StopDelay(float delay)
+    private IEnumerator StopDelay(float delay, bool walk)
     {
         yield return new WaitForSeconds(delay);
+
         isColliding = false;
         Agent.isStopped = false;
-        Animator.SetBool("Walk", true);
         Animator.SetBool("Trigger", false);
+
+        if (walk) Animator.SetBool("Walk", true);
+        else Animator.SetBool("Run", true);
     }
 }
 

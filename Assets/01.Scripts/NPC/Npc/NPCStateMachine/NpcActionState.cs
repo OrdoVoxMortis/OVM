@@ -115,7 +115,8 @@ public class NpcActionState : NpcBaseState
         {
             stateMachine.npc.Agent.isStopped = false;
             stateMachine.npc.Agent.SetDestination(target.transform.position);
-            StartAnimation("Walk");
+            StartAnimation("Run");
+            stateMachine.npc.isWalking = false;
             isMovingToTarget = true;
         }
     }
@@ -127,7 +128,9 @@ public class NpcActionState : NpcBaseState
         
         if (agent.remainingDistance <= agent.stoppingDistance) //도착시
         {
-            StopAnimation("Walk");
+            StartAnimation("Notify");
+            StopAnimation("Run");
+            stateMachine.npc.isWalking = true;
             Vector3 lookDir = (target.transform.position - stateMachine.npc.transform.position);
             lookDir.y = 0;
             if (lookDir.sqrMagnitude > 0.01f)
@@ -139,7 +142,10 @@ public class NpcActionState : NpcBaseState
 
             if (stateMachine.npc is Friend friend)
             {
-                friend.NotifyTarget(target);
+                friend.NotifyTarget(target, () =>
+                {
+                    StopAnimation("Notify");
+                });
 
             }
         }
