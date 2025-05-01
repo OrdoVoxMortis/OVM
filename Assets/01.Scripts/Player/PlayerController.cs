@@ -24,6 +24,7 @@ public class PlayerController :MonoBehaviour
     {
         playerInputs = new PlayerInputs();
         playerActions = playerInputs.Player;
+        playerActions.Enable();
 
         
         // 카메라 찾기
@@ -68,14 +69,14 @@ public class PlayerController :MonoBehaviour
     {
         
         playerActions.CancelUI.started += OnCancelUI;
-        playerInputs.Enable();
+        
     }
 
     private void OnDisable()
     {
         
         playerActions.CancelUI.started -= OnCancelUI;
-        playerInputs.Disable();
+       
     }
 
     public void OnCancelUI(InputAction.CallbackContext context)
@@ -99,12 +100,11 @@ public class PlayerController :MonoBehaviour
     }
 
     //플레이어의 액션 전부 해제
-    public void PlayerActionUnsubscribe()
+    public void UnsubscribeAllInputs(Interaction interaction)
     {
-        Player player = GameManager.Instance.Player;
-        var currentState = player.stateMachine.CurrentState();
+        if (interaction == null || playerInputs == null) return;
 
-        playerActions.Interection.started -= GameManager.Instance.Player.Interaction.OnInteractInput;
+        var currentState = GameManager.Instance.Player.stateMachine.CurrentState();
 
         if (currentState is PlayerBaseState baseState)
         {
@@ -114,10 +114,26 @@ public class PlayerController :MonoBehaviour
         UnsubscribeCancleUI();
 
 
-        playerInputs.Disable();
-
-        Debug.Log("플레이어 상호작용 인풋 액션 키 비활성화!");
+        Debug.Log("플레이어 모든 입력키 비활성화!");
         
+    }
+
+    // 플레이어의 모든 입력 콜백을 구독
+    public void SubscribeAllInputs()
+    {
+
+        var interaction = GameManager.Instance.Player.Interaction;
+
+        var current = GameManager.Instance.Player.stateMachine.CurrentState();
+        if (current is PlayerBaseState pbs)
+        {
+            pbs.AddInputActionCallbacks();
+        }
+
+        SubscribeCancleUI();
+
+        Debug.Log("플레이어 모든 입력키 활성화");
+
     }
 
 

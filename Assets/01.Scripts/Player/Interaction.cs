@@ -1,9 +1,11 @@
 
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Windows;
 
 public class Interaction : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class Interaction : MonoBehaviour
     private readonly List<IInteractable> curInterdatas = new List<IInteractable>();
 
     private Player player;
+    PlayerController input;
 
     // Start is called before the first frame update
     void Start()
@@ -28,18 +31,55 @@ public class Interaction : MonoBehaviour
             interactText = GameObject.Find("Canvas/InteractText").gameObject.GetComponent<TextMeshProUGUI>();
         }
 
-        player = GameManager.Instance.Player;
+        if (player == null)
+            player = GameManager.Instance.Player;
+        if (input == null)
+        {
+            input = player.Input;
+        }
 
-        PlayerController input = GameManager.Instance.Player.Input;
         input.playerActions.Interection.started -= OnInteractInput;
         input.playerActions.Interection.started += OnInteractInput;
         input.playerActions.Setting.started -= OnSettingInput;
         input.playerActions.Setting.started += OnSettingInput;
-        
-        // 씬 전환시 재등록
-        SceneManager.sceneLoaded += OnInteract;
 
         interactText.gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        player = GameManager.Instance.Player;
+        if (player == null) return;
+
+        input = GameManager.Instance.Player.Input;
+        if (input == null) return;
+
+
+        input.playerActions.Interection.started -= OnInteractInput;
+        input.playerActions.Interection.started += OnInteractInput;
+        input.playerActions.Setting.started -= OnSettingInput;
+        input.playerActions.Setting.started += OnSettingInput;
+
+        input.SubscribeAllInputs();
+
+        SceneManager.sceneLoaded += OnLoadInteract;
+    }
+
+    private void OnDisable()
+    {
+        if (input != null)
+        {
+            if (input != null)
+            {
+                input.UnsubscribeAllInputs(this);
+
+            }
+
+            input.playerActions.Interection.started -= OnInteractInput;
+            input.playerActions.Setting.started -= OnSettingInput;
+        }
+
+        SceneManager.sceneLoaded -= OnLoadInteract;
     }
 
 
@@ -171,17 +211,17 @@ public class Interaction : MonoBehaviour
         }
     }
 
-    private void OnInteract(Scene scene, LoadSceneMode mode)        // 씬을 다시 불러오거나 리로딩 할 때 재등록
+    private void OnLoadInteract(Scene scene, LoadSceneMode mode)        // 씬을 다시 불러오거나 리로딩 할 때 재등록
     {
-        PlayerController input = GameManager.Instance.Player.Input;
-        input.playerActions.Interection.started -= OnInteractInput;
-        input.playerActions.Interection.started += OnInteractInput;
-        input.playerActions.Setting.started -= OnSettingInput;
-        input.playerActions.Setting.started += OnSettingInput;
+        input.UnsubscribeAllInputs(this);
+        player = GameManager.Instance.Player;
+        input = player.Input;
+        input.SubscribeAllInputs();
 
         curInterdatas.Clear();
 
         curInteractable = null;
     }
+    
 
 }

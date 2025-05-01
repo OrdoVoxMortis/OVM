@@ -36,6 +36,18 @@ public class Player : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        var cur = stateMachine.CurrentState();
+        cur?.Enter();
+    }
+
+    private void OnDisable()
+    {
+        var cur = stateMachine.CurrentState();
+        cur?.Exit();
+    }
+
 
     // Start is called before the first frame update
     void Start()
