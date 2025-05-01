@@ -28,7 +28,9 @@ public class TargetGuardState : TargetBaseState
         base.Enter();
         //NavMeshAgent의 이동을 멈춘다
         stateMachine.Target.Agent.isStopped = true;
-        currentGuardTimer = 5f;
+        // 최소 경계 시간을 가져온다.
+        currentGuardTimer = stateMachine.MinAlertTime;
+        // 경계 지속 시간
         accumulatedGuardTime = 0f;
         StartAnimation(stateMachine.Target.AnimationData.IdleParameterHash);
 
@@ -58,10 +60,12 @@ public class TargetGuardState : TargetBaseState
 
         if (IsPlayerInSight())
         {
-            currentGuardTimer = 5f;
+            // 플레이어가 시야안에 들어왔다면 최소시간을 다시 갱신
+            currentGuardTimer = stateMachine.MinAlertTime;
         }
 
-        if (accumulatedGuardTime >= 10f)
+        // 경계 지속 시간이 최대 경계 시간이 되었다면
+        if (accumulatedGuardTime >= stateMachine.MaxAlertTime)
         {
             stateMachine.ChangeState(stateMachine.RunAwayState);
             return;
