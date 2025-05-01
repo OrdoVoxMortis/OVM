@@ -324,5 +324,6 @@ public class TimelineManager : SingleTon<TimelineManager>
         {
             block.SetGhost();
         }
+        ValidateCombinations();
     }
 }
