@@ -29,7 +29,6 @@ public class UI_Start: BaseUI
 
     void OnStartClick()
     {
-       
         gameObject.SetActive(false);
         playerTimeline.stopped += OnTimelineEnd;
         Cursor.lockState = CursorLockMode.Locked;
@@ -39,6 +38,7 @@ public class UI_Start: BaseUI
     private void OnTimelineEnd(PlayableDirector pd)
     {
         playerTimeline.stopped -= OnTimelineEnd;
+        SoundManager.Instance.PlayBGM("Background");
         UIManager.Instance.UIDeactive();
         playerController.playerActions.Enable();
     }
