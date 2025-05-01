@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class PlayerController :MonoBehaviour
 {
@@ -23,12 +24,13 @@ public class PlayerController :MonoBehaviour
     {
         playerInputs = new PlayerInputs();
         playerActions = playerInputs.Player;
+        playerActions.Enable();
 
-        //playerActions.Accept.performed += OnAcceptQuest;
-
+        
+        // 카메라 찾기
         playerCamera = transform.Find("CameraLookPoint/FollowPlayerCamera").GetComponent<CinemachineFreeLook>();
 
-
+        //카메라 참조 및 초기화
         if (playerCamera == null)
         {
             Debug.LogError("씬에서 CinemachineFreeLook 카메라를 찾을 수 없습니다.");
@@ -38,6 +40,7 @@ public class PlayerController :MonoBehaviour
             CinemachineVirtualCamera middleRog = playerCamera.GetRig(1);
             if (middleRog != null)
             {
+                // 중간리그에서 CinemachineComposer 추출 후 초기 오프셋(m_TrackedObjectOffset) 저장
                 CinemachineComposer composer = middleRog.GetCinemachineComponent<CinemachineComposer>();
                 if (composer != null)
                 {
@@ -64,21 +67,16 @@ public class PlayerController :MonoBehaviour
 
     private void OnEnable()
     {
-        //playerActions.Accept.performed += OnAcceptQuest;
+        
         playerActions.CancelUI.started += OnCancelUI;
-        playerInputs.Enable();
+        
     }
 
     private void OnDisable()
     {
-        //playerActions.Accept.performed -= OnAcceptQuest;
-        playerActions.CancelUI.started -= OnCancelUI;
-        playerInputs.Disable();
-    }
-
-    private void OnAcceptQuest(InputAction.CallbackContext context)
-    {
         
+        playerActions.CancelUI.started -= OnCancelUI;
+       
     }
 
     public void OnCancelUI(InputAction.CallbackContext context)
@@ -99,6 +97,43 @@ public class PlayerController :MonoBehaviour
     public void UnsubscribeCancleUI()
     {
         playerActions.CancelUI.started -= OnCancelUI;
+    }
+
+    //플레이어의 액션 전부 해제
+    public void UnsubscribeAllInputs(Interaction interaction)
+    {
+        if (interaction == null || playerInputs == null) return;
+
+        var currentState = GameManager.Instance.Player.stateMachine.CurrentState();
+
+        if (currentState is PlayerBaseState baseState)
+        {
+            baseState.RemoveInputActionCallbacks();
+        }
+
+        UnsubscribeCancleUI();
+
+
+        Debug.Log("플레이어 모든 입력키 비활성화!");
+        
+    }
+
+    // 플레이어의 모든 입력 콜백을 구독
+    public void SubscribeAllInputs()
+    {
+
+        var interaction = GameManager.Instance.Player.Interaction;
+
+        var current = GameManager.Instance.Player.stateMachine.CurrentState();
+        if (current is PlayerBaseState pbs)
+        {
+            pbs.AddInputActionCallbacks();
+        }
+
+        SubscribeCancleUI();
+
+        Debug.Log("플레이어 모든 입력키 활성화");
+
     }
 
 

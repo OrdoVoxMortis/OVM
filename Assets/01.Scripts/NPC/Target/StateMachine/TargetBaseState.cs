@@ -97,11 +97,29 @@ public class TargetBaseState : IState
 
     private void Move()
     {
+        // 이동 해야하는 위치
         Vector3 movementDirection = GetMovementDirection();
-
+        // NavMeshAgent를 이용하여 목적지 방향 벡터를 설정해줍니다.
         stateMachine.Target.Agent.SetDestination(movementDirection);
 
         RotateVelocity();
+    }
+    protected void RotateVelocity()
+    {
+        // NavMeshAgent에서 현재 움직이고 있는 방향
+        NavMeshAgent agent = stateMachine.Target.Agent;
+        Vector3 vel = agent.velocity;
+
+        // 속도가 0에 가깝다면 회전처리를 중단합니다.
+        if (vel.sqrMagnitude < 0.01f) return;
+
+        // Target이 움직이는 방향
+        Quaternion targetRot = Quaternion.LookRotation(vel.normalized);
+
+        // 현재 회전에서 Target이 움직이는 방향으로 부드럽게 회전
+        Transform tTrans = stateMachine.Target.transform;
+        tTrans.rotation = Quaternion.Slerp(tTrans.rotation, targetRot, stateMachine.RotationDamping * Time.deltaTime);
+
     }
 
     private Vector3 GetMovementDirection()
@@ -118,18 +136,6 @@ public class TargetBaseState : IState
         return stateMachine.Blocks[blockNumber].transform.position;
     }
 
-    protected void RotateVelocity()
-    {
-        NavMeshAgent agent = stateMachine.Target.Agent;
-        Vector3 vel = agent.velocity;
-
-        if (vel.sqrMagnitude < 0.01f) return;
-
-        Quaternion targetRot = Quaternion.LookRotation(vel.normalized);
-        Transform tTrans = stateMachine.Target.transform;
-        tTrans.rotation = Quaternion.Slerp(tTrans.rotation, targetRot, stateMachine.RotationDamping * Time.deltaTime);
-
-    }
 
     // Target의 시야 범위를 구하기 
     protected bool IsPlayerInSight()

@@ -682,6 +682,9 @@ MonoBehaviour:
   musicBtn: {fileID: 2416179268848995671, guid: ffe27d2ad198ffe4c9d50c513fb246c8,
     type: 3}
   buttonParent: {fileID: 8778750525838251493}
+  musicImage: {fileID: 8575213580198727534, guid: 5435b4ce43bc98b4eadc0261f656e2c7,
+    type: 3}
+  imageParent: {fileID: 1390246809647311018}
 --- !u!1001 &7001053599773290555
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -794,6 +797,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Back_Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 7151532056465065012, guid: fe67740d0a0e78946a37a68f52c60e1f,
+        type: 3}
+      propertyPath: m_text
+      value: Press ESC to close
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

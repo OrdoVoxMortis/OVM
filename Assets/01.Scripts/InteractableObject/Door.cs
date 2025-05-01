@@ -22,7 +22,8 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (GameManager.Instance.SelectedBGM == null)
         {
-            musicUI.Show();
+            UIManager.Instance.ShowUI<UI_Music>("Music_UI");
+            UIManager.Instance.UIActive();
             isInteracted = true;
         }
         else

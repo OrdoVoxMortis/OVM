@@ -141,6 +141,7 @@ public class RhythmManager : SingleTon<RhythmManager>
         else
         {
             SoundManager.Instance.UnPauseBGM();
+            Debug.Log("다시 브금 재생");
         }
 
 
