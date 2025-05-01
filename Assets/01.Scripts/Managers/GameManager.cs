@@ -24,6 +24,7 @@ public class GameManager : SingleTon<GameManager>
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Player = FindObjectOfType<Player>();
+        SelectedBGM = null;
 
     }
 
@@ -49,7 +50,7 @@ public class GameManager : SingleTon<GameManager>
         //UIManager.Instance.ClearUI();
         SceneManager.LoadScene(sceneName);
     }
-
+    
     public void GameClear()
     {
         if (!isEnd)

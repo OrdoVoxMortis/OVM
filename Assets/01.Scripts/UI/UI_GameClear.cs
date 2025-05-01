@@ -56,6 +56,7 @@ public class UI_GameClear : BaseUI
     private void BackToLobby()
     {
         Debug.Log("로비씬으로 돌아갑니다!");
+        UIManager.Instance.ClearUI();
         GameManager.Instance.LoadScene("Lobby_Scene");
         Hide();
     }

@@ -12,16 +12,14 @@ public class UI_Music : BaseUI
     protected override void Awake()
     {
         base.Awake();
+       
         if (backBtn != null)
             backBtn.onClick.AddListener(OnClickBack);
     }
-
     private void Start()
     {
-        gameObject.SetActive(false);
         CreateMusicButtons();
     }
-
     private void OnClickBack()
     {
         Hide();

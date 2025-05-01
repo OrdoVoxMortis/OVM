@@ -115,6 +115,8 @@ public class PlayerController :MonoBehaviour
 
 
         playerInputs.Disable();
+
+        Debug.Log("플레이어 상호작용 인풋 액션 키 비활성화!");
         
     }
 
