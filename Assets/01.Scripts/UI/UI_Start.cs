@@ -20,6 +20,8 @@ public class UI_Start: BaseUI
     }
     private void Start()
     {
+        playerController = GameManager.Instance.Player.Input;
+        playerController.playerActions.Disable();
         UIManager.Instance.UIActive();
         player = GameManager.Instance.Player;
         playerTimeline = player.gameObject.GetComponent<PlayableDirector>();
@@ -38,6 +40,7 @@ public class UI_Start: BaseUI
     {
         playerTimeline.stopped -= OnTimelineEnd;
         UIManager.Instance.UIDeactive();
+        playerController.playerActions.Enable();
     }
 
 }

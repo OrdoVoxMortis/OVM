@@ -27,21 +27,4 @@ public class StartSceneCamera : MonoBehaviour
         playerController = GameManager.Instance.Player.Input;
     }
 
-    private IEnumerator RunTransition()
-    {
-        yield return new WaitForSeconds(duration);
-    }
-
-    //private IEnumerator LerpFOV(CinemachineVirtualCamera cam, float from, float to, float timeMax)
-    //{
-    //    float time = 0f;
-    //    while (time < timeMax)
-    //    {
-    //        LensSettings lens = cam.m_Lens;
-    //        lens.FieldOfView = Mathf.
-    //    }
-    //}
-
-
-
 }
