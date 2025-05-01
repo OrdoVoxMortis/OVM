@@ -7,6 +7,8 @@ public class Target : MonoBehaviour
 {
     [field: SerializeField] public NPCSO Data { get; private set; }
 
+    public LayerMask targetLayer;
+
     [field: Header("Animations")]
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
 
@@ -67,6 +69,8 @@ public class Target : MonoBehaviour
         stateMachine = new TargetStateMachine(this);
         Agent.updateRotation = false;
     }
+
+
 
     // Start is called before the first frame update
     void Start()

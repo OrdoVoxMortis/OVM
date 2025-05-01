@@ -40,6 +40,7 @@ public class TimelineCamera : MonoBehaviour
         RhythmManager.Instance.RegisterTimelineCamera(this);
     }
 
+    // 해당 id의 카메라를 활성화
     public void EnableCamera(int id)
     {
         if (cameras.TryGetValue(id, out var entry))
@@ -55,6 +56,7 @@ public class TimelineCamera : MonoBehaviour
 
     }
 
+    // 해당 id의 카메라를 비활성화
     public void DisableCamera(int id)
     {
         if (cameras.TryGetValue(id, out var entry))
