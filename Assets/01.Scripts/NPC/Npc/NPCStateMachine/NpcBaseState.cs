@@ -123,7 +123,10 @@ public class NpcBaseState : IState
         float angle = Vector3.Angle(stateMachine.npc.transform.forward, directionPlayer);
 
         float distance = Vector3.Distance(stateMachine.npc.transform.position, player.position);
-        if (angle > stateMachine.npc.ViewAngle / 2f || distance > stateMachine.npc.ViewDistance) return false;
+        if (angle > stateMachine.npc.ViewAngle / 2f || distance > stateMachine.npc.ViewDistance)
+        {
+            return false;
+        }
 
         //벽
         Vector3 headPosition = stateMachine.npc.transform.position + new Vector3(0, 1.5f, 0);
@@ -132,10 +135,12 @@ public class NpcBaseState : IState
 
         float sqrDistance = (playerClosetPoint - headPosition).sqrMagnitude;
 
-        if (Physics.Raycast(headPosition, directionPlayer, out RaycastHit hit, stateMachine.npc.ViewDistance, 9))
+        if (Physics.Raycast(headPosition, directionPlayer, out RaycastHit hit, stateMachine.npc.ViewDistance, stateMachine.npc.layer))
         {
             if (hit.collider.gameObject != stateMachine.npc.player.transform.gameObject)
+            {
                 return false;
+            }
         }
         return true;
     }

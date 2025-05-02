@@ -61,6 +61,7 @@ public class NPC : MonoBehaviour
     public Collider playerCollider;
     public bool isColliding = false; // 충돌
     public bool isWalking = true;
+    public LayerMask layer;
     private void Awake()
     {
         RhythmManager.Instance.OnStart += Destroy;
