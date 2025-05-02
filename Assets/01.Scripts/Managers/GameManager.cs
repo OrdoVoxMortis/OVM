@@ -25,10 +25,7 @@ public class GameManager : SingleTon<GameManager>
     {
         Player = FindObjectOfType<Player>();
 
-
         SoundManager.Instance.StopBGM();
-
-
     }
 
     private void OnDestroy()
