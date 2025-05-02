@@ -84,13 +84,6 @@ public class SaveManager : SingleTon<SaveManager>
         SceneManager.sceneLoaded += OnStageSceneLoaded;
 
         GameManager.Instance.LoadScene("Stage_Scene");
-
-        if (ResourceManager.Instance.BgmList.TryGetValue(data.musicId, out var bgm))
-        {
-            GameManager.Instance.SetSelectedBGM(bgm);
-
-        }
-
         //foreach (var e in data.events)
         //{
         //    TimelineManager.Instance.AddEventSlot(e);
