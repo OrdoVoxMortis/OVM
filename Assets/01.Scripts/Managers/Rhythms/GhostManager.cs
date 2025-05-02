@@ -7,6 +7,8 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public Transform playerTrans; //고스트 시작 위치
     public Vector3 direction; //고스트가 생성되는 방향
 
+    public Vector3 rotateAngle; //고스트가 생성된 후 회전각도
+
     public float ghostGaps;
 
     public float bpm;
@@ -92,6 +94,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         ghostPrefabs.GetComponent<GhostAnimation>().moving = direction.normalized * ghostGaps;
         ghostPrefabs.transform.position = playerTrans.position;
         ghostPrefabs.transform.forward = direction;
+        ghostPrefabs.transform.rotation = Quaternion.Euler(rotateAngle);
         curIndex = 0;
         isPlaying = true;
         curTime = Time.time;
@@ -171,6 +174,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             {
                 createPos += playerTrans.forward.normalized * (ghostGaps * (60f / bpm) / nextBeat);
                 ghost.transform.position = createPos;
+                ghost.transform.rotation = Quaternion.Euler(rotateAngle);
             }
 
             if (ghostClip != null)
@@ -216,6 +220,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
                 ghostClip.SampleAnimation(ghostCurTiming, checkTimes[0]);
 
             ghostCurTiming.transform.position = ghosts[0].transform.position;
+            ghostCurTiming.transform.rotation = Quaternion.Euler(rotateAngle);
 
             render = ghostCurTiming.GetComponent<Renderer>();
             if (render == null)
