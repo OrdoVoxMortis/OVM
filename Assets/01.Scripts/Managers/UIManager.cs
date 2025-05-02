@@ -64,9 +64,12 @@ public class UIManager : SingleTon<UIManager>
     {
         foreach (BaseUI ui in ResourceManager.Instance.UIList.Values)
         {
-            Destroy(ui.gameObject);
+            if (ui != null && ui.gameObject.scene.IsValid()) // 씬 인스턴스만 Destroy
+            {
+                Destroy(ui.gameObject);
+            }
         }
-        ResourceManager.Instance.UIList.Clear();
+        //ResourceManager.Instance.UIList.Clear();
         activeUIs.Clear();
     }
 
