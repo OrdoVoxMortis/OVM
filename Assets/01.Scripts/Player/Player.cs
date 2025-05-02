@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         AnimationData.Initialize();
+
         Animator = GetComponentInChildren<Animator>();
         Input = GetComponent<PlayerController>();
         Controller = GetComponent<CharacterController>();
@@ -35,17 +36,31 @@ public class Player : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        var cur = stateMachine.CurrentState();
+        cur?.Enter();
+    }
+
+    private void OnDisable()
+    {
+        var cur = stateMachine.CurrentState();
+        cur?.Exit();
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
-        //Input.UIDeactive();
+        // 초기 상태 세팅
+        // 현재 초기 세팅은 Idle
         stateMachine.ChangeState(stateMachine.IdleState);
     }
 
     // Update is called once per frame
     void Update()
     {
+        // 플레이어 입력처리, 상태별 로직
         stateMachine.HandleInput();
         stateMachine.Update();
     }

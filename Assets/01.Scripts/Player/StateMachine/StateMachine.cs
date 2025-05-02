@@ -13,16 +13,16 @@ public interface IState
 
 public abstract class StateMachine
 {
-    protected IState currentState;
+    protected IState currentState;          // 현재 활성화된 상태를 저장
 
-    public void ChangeState(IState state)
+    public void ChangeState(IState state)   // 이전 상태가 있으면 Exit 호출 후 상태를 교채
     {
         currentState?.Exit();
         currentState = state;
         currentState?.Enter();
     }
 
-    public void HandleInput()
+    public void HandleInput()             
     {
         currentState?.HandleInput();
     }

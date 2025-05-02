@@ -24,6 +24,11 @@ public class GameManager : SingleTon<GameManager>
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Player = FindObjectOfType<Player>();
+
+
+        SoundManager.Instance.StopBGM();
+
+
     }
 
     private void OnDestroy()

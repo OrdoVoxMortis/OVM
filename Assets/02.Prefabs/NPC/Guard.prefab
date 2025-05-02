@@ -1701,7 +1701,7 @@ Animator:
   m_GameObject: {fileID: 5542238685185702382}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
-  m_Controller: {fileID: 9100000, guid: 03924a55f35ddfb4db5f7e2e843eb527, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9077b2feef785b84a8e7b77bdfad28bb, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2159,6 +2159,9 @@ MonoBehaviour:
     airParameterName: '@Air'
     jumpParameterName: Jump
     fallParameterName: Fall
+  player: {fileID: 0}
+  playerCollider: {fileID: 0}
+  isColliding: 0
   waitPositions:
   - {fileID: 0}
   - {fileID: 0}
@@ -2199,7 +2202,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2

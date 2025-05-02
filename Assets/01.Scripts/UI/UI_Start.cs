@@ -20,18 +20,16 @@ public class UI_Start: BaseUI
     }
     private void Start()
     {
+        playerController = GameManager.Instance.Player.Input;
+        playerController.playerActions.Disable();
         UIManager.Instance.UIActive();
         player = GameManager.Instance.Player;
         playerTimeline = player.gameObject.GetComponent<PlayableDirector>();
-        playerController = player.GetComponent<PlayerController>();
-        playerController.enabled = false;
     }
 
     void OnStartClick()
     {
-       
         gameObject.SetActive(false);
-        playerController.enabled = true;
         playerTimeline.stopped += OnTimelineEnd;
         Cursor.lockState = CursorLockMode.Locked;
         playerTimeline.Play();
@@ -40,7 +38,9 @@ public class UI_Start: BaseUI
     private void OnTimelineEnd(PlayableDirector pd)
     {
         playerTimeline.stopped -= OnTimelineEnd;
+        SoundManager.Instance.PlayBGM("Background");
         UIManager.Instance.UIDeactive();
+        playerController.playerActions.Enable();
     }
 
 }
