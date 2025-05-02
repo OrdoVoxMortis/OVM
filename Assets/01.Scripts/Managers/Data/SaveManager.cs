@@ -69,10 +69,10 @@ public class SaveManager : SingleTon<SaveManager>
         string json = File.ReadAllText(SavePath);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-        //if(ResourceManager.Instance.BgmList.TryGetValue(data.musicId, out var clip))
-        //{
-         //   GameManager.Instance.SetSelectedBGM(clip);
-        //}
+        if(ResourceManager.Instance.BgmList.TryGetValue(data.musicId, out var clip))
+        {
+            GameManager.Instance.SetSelectedBGM(clip);
+        }
 
         StageManager.Instance.SetStage(data.stageId);
 
