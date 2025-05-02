@@ -1367,6 +1367,11 @@ MonoBehaviour:
     fallParameterName: Fall
   player: {fileID: 0}
   playerCollider: {fileID: 0}
+  isColliding: 0
+  isWalking: 1
+  layer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!195 &7369660889194913928
 NavMeshAgent:
   m_ObjectHideFlags: 0

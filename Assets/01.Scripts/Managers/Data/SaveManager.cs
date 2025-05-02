@@ -95,7 +95,8 @@ public class SaveManager : SingleTon<SaveManager>
     {
         if (DataManager.Instance.stageDict.TryGetValue(id, out var stage))
         {
-            SceneManager.LoadScene(stage.stageName);
+            //임시로 스테이지 지정
+            SceneManager.LoadScene("Stage_Scene");
 
         }
     }
