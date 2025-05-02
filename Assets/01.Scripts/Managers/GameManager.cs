@@ -71,6 +71,7 @@ public class GameManager : SingleTon<GameManager>
             SelectedBGM = null;
             isEnd = true;
         }
+        isEnd = false;
     }
     public void GameOver()
     {
