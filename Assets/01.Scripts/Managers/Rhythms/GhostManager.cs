@@ -26,8 +26,8 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
     public string[] hitSound = new string[2]; //0은 일반 노트 //1은 포인트 노트
     public string blockSound;
-   
 
+    private bool isReplay;
     private float tempTime;
 
     // Start is called before the first frame update
@@ -39,7 +39,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         isPlaying = false;
         hitSound[0] = "Note_N1";
         hitSound[1] = "Note_P1";
-    
+        isReplay = SaveManager.Instance.isReplay;
 
         //RhythmManager.Instance.rhythmActions.Add(this);
     }
@@ -48,7 +48,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     void Update()
     {
         if (!isPlaying) return;
-
+       
         if (curIndex >= ghosts.Count)
         {
             isPlaying = false;
@@ -74,8 +74,15 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public void StartRhythmAction()
     {
         if (isPlaying) return;
-
-        if(ghosts.Count == 0) return;
+        if (ghosts.Count == 0)
+        {
+            if (isReplay)
+            {
+                MakeGhost();
+                isReplay = false;
+            }
+            else return;
+        }
 
         ghostPrefabs.AddComponent<GhostAnimation>().PlayAnimation();
         SoundManager.Instance.PlaySfx(blockSound);
@@ -93,7 +100,6 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         {
             return;
         }
-
         ghosts[curIndex].CheckGhost(tempTime - checkTimes[curIndex]);
 
         if (ghosts[curIndex].isOverGood)
@@ -103,8 +109,8 @@ public class GhostManager : MonoBehaviour, IRhythmActions
                 SoundManager.Instance.PlaySfx(ghosts[curIndex].isPointNotes ? hitSound[1] : hitSound[0]);
             }
         }
-        
         curIndex++;
+        
     }
 
     public void SetBeatList(List<float> beats, List<bool> pointNoteList, float bpm)
@@ -167,7 +173,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             ghosts.Add(ghost);
             checkTimes.Add(realTime);
         }
-
+        
         playerTrans.forward = direction;
         
     }

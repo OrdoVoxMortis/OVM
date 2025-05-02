@@ -25,6 +25,7 @@ public class StageResult : MonoBehaviour
     {
         GameManager.Instance.OnGameClear += GameClear;
         StageManager.Instance.SetStage(id);
+        StageManager.Instance.SetStageResult(this);
     }
 
     public void GameClear()

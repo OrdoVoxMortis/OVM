@@ -24,8 +24,10 @@ public class GameManager : SingleTon<GameManager>
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Player = FindObjectOfType<Player>();
+
+
         SoundManager.Instance.StopBGM();
-        SelectedBGM = null;
+
 
     }
 
@@ -36,6 +38,7 @@ public class GameManager : SingleTon<GameManager>
 
     public void SetSelectedBGM(AudioClip clip)
     {
+        if (clip == null) Debug.Log("clip null");
         SelectedBGM = clip;
         if(DataManager.Instance.musicDict.TryGetValue(clip.name, out var bgm))
         {
@@ -65,7 +68,7 @@ public class GameManager : SingleTon<GameManager>
             var ui = UIManager.Instance.ShowUI<UI_GameClear>("GameClear_UI");
             ui.SetText();
             UIManager.Instance.UIActive();
-
+            SelectedBGM = null;
             isEnd = true;
         }
     }
@@ -77,6 +80,7 @@ public class GameManager : SingleTon<GameManager>
             UIManager.Instance.ShowUI<UI_GameOver>("GameOver_UI");
             UIManager.Instance.UIActive();
             OnGameOver?.Invoke();
+            SelectedBGM = null;
             isEnd = true;
         }
     }
