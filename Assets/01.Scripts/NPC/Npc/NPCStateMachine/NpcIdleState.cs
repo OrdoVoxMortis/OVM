@@ -36,6 +36,7 @@ public class NpcIdleState : NpcBaseState
 
             if (IsPlayerInSight())
             {
+                Debug.Log("NPC 플레이어 시야");
                 stateMachine.ChangeState(stateMachine.AlertState);
             }
         }

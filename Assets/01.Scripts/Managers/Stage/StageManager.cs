@@ -12,9 +12,9 @@ public class StageManager : SingleTon<StageManager>
 
     protected override void Awake()
     {
-        StageResult = FindObjectOfType<StageResult>();  
         PlayTime = 0f;
     }
+
     private void Update()
     {
         PlayTime += Time.deltaTime;
@@ -26,6 +26,11 @@ public class StageManager : SingleTon<StageManager>
         {
             CurrentStageData = stage;
         }
+    }
+
+    public void SetStageResult(StageResult result)
+    {
+        StageResult = result;
     }
 
 

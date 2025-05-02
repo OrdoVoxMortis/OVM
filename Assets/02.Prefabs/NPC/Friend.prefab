@@ -1312,11 +1312,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1893186254092025319}
-  - component: {fileID: 6871948475992435915}
-  - component: {fileID: 1132466661276898523}
   - component: {fileID: 6752383626220758900}
   - component: {fileID: 7369660889194913928}
   - component: {fileID: 6731684295375469580}
+  - component: {fileID: 4388699882223755576}
   m_Layer: 0
   m_Name: Friend
   m_TagString: Untagged
@@ -1341,57 +1340,6 @@ Transform:
   - {fileID: 6612445454750061400}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &6871948475992435915
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3701555637837366510}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.25
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.2, z: 0}
---- !u!114 &1132466661276898523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3701555637837366510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84c274f9a594b314893b11e344ad18aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: NPC_F001
-  <Data>k__BackingField: {fileID: 11400000, guid: 4f09a92c775b9534c94aed6da60abdc5,
-    type: 2}
-  <AnimationData>k__BackingField:
-    groundParameterName: '@Ground'
-    idleParameterName: Idle
-    interactionParameterName: Interaction
-    walkParameterName: Walk
-    runParameterName: Run
-    sitParameterName: Sit
-    airParameterName: '@Air'
-    jumpParameterName: Jump
-    fallParameterName: Fall
 --- !u!114 &6752383626220758900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1417,6 +1365,13 @@ MonoBehaviour:
     airParameterName: '@Air'
     jumpParameterName: Jump
     fallParameterName: Fall
+  player: {fileID: 0}
+  playerCollider: {fileID: 0}
+  isColliding: 0
+  isWalking: 1
+  layer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!195 &7369660889194913928
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1454,7 +1409,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1462,6 +1417,33 @@ CapsuleCollider:
   m_Height: 1.92
   m_Direction: 1
   m_Center: {x: 0, y: 1.2, z: 0}
+--- !u!54 &4388699882223755576
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3701555637837366510}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &3874036041182609823
 GameObject:
   m_ObjectHideFlags: 0
@@ -2275,7 +2257,7 @@ Animator:
   m_GameObject: {fileID: 7437175115210199001}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
-  m_Controller: {fileID: 9100000, guid: 03924a55f35ddfb4db5f7e2e843eb527, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9077b2feef785b84a8e7b77bdfad28bb, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

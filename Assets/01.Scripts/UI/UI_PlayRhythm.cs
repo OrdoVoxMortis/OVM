@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_PlayRhythm : BaseUI
 {
     public Button playBtn;
+    public Image playCancle;
     TimelineCamera timelineCam;
     protected virtual void Awake()
     {
@@ -19,6 +21,7 @@ public class UI_PlayRhythm : BaseUI
     {
         Hide();
         playBtn.onClick.AddListener(StartRhythm);
+        playCancle.gameObject.SetActive(false);
     }
 
     private void StartRhythm()
@@ -41,8 +44,12 @@ public class UI_PlayRhythm : BaseUI
         {
             Debug.Log("암살 시작!");
             // 여기 암살 시작하는 코드 넣으면 됨
+
+            RhythmManager.Instance.OnStart?.Invoke();
+
             // GameManager.Instance.Player.Input.PlayerActionUnsubscribe(); 입력이 된 부분이 없어서 null 오류 발생!
             GameManager.Instance.Player.gameObject.SetActive(false);
+
             for(int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
             {
                 RhythmManager.Instance.rhythmActions.Add(TimelineManager.Instance.PlacedBlocks[i].GetComponent<IRhythmActions>());                
@@ -53,6 +60,14 @@ public class UI_PlayRhythm : BaseUI
         else
         {
             Debug.Log("슬롯에 아이템이 없습니다!");
+            StartCoroutine(WaitUntilShow());
         }
+    }
+
+    IEnumerator WaitUntilShow()
+    {
+        playCancle.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.0f);
+        playCancle.gameObject.SetActive(false);
     }
 }

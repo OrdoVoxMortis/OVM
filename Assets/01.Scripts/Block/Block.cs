@@ -49,12 +49,6 @@ public class Block : MonoBehaviour, IInteractable
 
     public bool IsDeathTrigger {  get; private set; } // 사망 트리거
 
-    //public Transform successSequenceRoot;
-    //public Transform failSequenceRoot;
-    //public Transform fixedSequenceRoot;
-    //public Transform afterFlexSequenceRoot;
-    //public Transform beforeFlexSequenceRoot;
-
     public AnimationClip SuccessSequence {  get; private set; } // 성공 노트 시퀀스
     public AnimationClip FailSequence {  get; private set; } // 실패 노트 시퀀스
     public AnimationClip FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
@@ -68,19 +62,17 @@ public class Block : MonoBehaviour, IInteractable
     private GameObject clone; // 클론 위치
     private Animator animator;
 
-    private AnimatorOverrideController animatorController;
 
     private void Awake()
     {
         LoadData();
         ghostManager = GetComponent<GhostManager>();
+        postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
+        if (ghostManager == null) return;
         DataToGhost();
         clone = transform.GetChild(1).gameObject;
         animator = transform.GetChild(0).GetComponent<Animator>();
-        animatorController = new AnimatorOverrideController(animator.runtimeAnimatorController);
-        animator.runtimeAnimatorController = animatorController;
         GameManager.Instance.OnSimulationMode += ToggleGhost;
-        postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
     }
 
     public virtual void LoadData()
@@ -97,11 +89,15 @@ public class Block : MonoBehaviour, IInteractable
         IsDeathTrigger = data.isDeathTrigger;
         CurrentAfterFlexTime = AfterFlexibleMarginTime;
 
+        if (ResourceManager.Instance.LoadAnimationClip(data.successSequence) == null) return;
         SuccessSequence = ResourceManager.Instance.LoadAnimationClip(data.successSequence);
         FailSequence = ResourceManager.Instance.LoadAnimationClip(data.failSequence);
         FixedSequence = ResourceManager.Instance.LoadAnimationClip(data.fixedSequence);
         AfterFlexSequence = ResourceManager.Instance.LoadAnimationClip(data.afterFlexSequence);
-        BlockSound = ResourceManager.Instance.SfxList[data.blockSound];
+        if (!string.IsNullOrEmpty(data.blockSound) && ResourceManager.Instance.SfxList.TryGetValue(data.blockSound, out var clip))
+        {
+            BlockSound = clip;
+        }
     }
 
     public void OnInteract()
@@ -110,13 +106,11 @@ public class Block : MonoBehaviour, IInteractable
         {
             FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
             TimelineManager.Instance.AddBlock(this);
-            //RhythmManager.Instance.rhythmActions.Add(ghostManager);
         }
         else
         {
             TimelineManager.Instance.DestroyBlock(this);
             ghostManager.RemoveGhost();
-            //RhythmManager.Instance.rhythmActions.Remove(ghostManager);
             Debug.Log("블럭 데이터 삭제!");
         }
 
@@ -142,30 +136,23 @@ public class Block : MonoBehaviour, IInteractable
 
     public void SetGhost()
     {
+        if(ghostManager == null) return;    
+        var animatorController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         if (IsSuccess)
         {
             ghostManager.ghostClip = SuccessSequence;
-            foreach (var clip in animatorController.animationClips)
-            {
-                if (clip.name == DataManager.Instance.blockDict[id].failSequence)
-                {
-                    animatorController[DataManager.Instance.blockDict[id].failSequence] = SuccessSequence;
-                }
-
-            }
+    
         }
         else
         {
             ghostManager.ghostClip = FailSequence;
-            foreach (var clip in animatorController.animationClips)
-            {
-                if (clip.name == DataManager.Instance.blockDict[id].successSequence)
-                {
-                    animatorController[DataManager.Instance.blockDict[id].successSequence] = FailSequence;
-                }
 
-            }
         }
+        foreach (var clip in animatorController.animationClips)
+        {
+            animatorController[clip.name] = ghostManager.ghostClip;
+        }
+        animator.runtimeAnimatorController = animatorController;
         ghostManager.SetBeatList(ghostManager.beats, ghostManager.pointNoteList, ghostManager.bpm);
     }
 

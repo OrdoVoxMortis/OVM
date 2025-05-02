@@ -87,14 +87,15 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         {
             return;
         }
+        qteList[0].CheckJudge();
 
-        if (hitSound[0] != null || hitSound[1] != null)
+        if (hitSound[0] != null && hitSound[1] != null)
         {
             if (qteList[0].isOverGood)
                 SoundManager.Instance.PlaySfx(qteList[0].isPointNotes ? hitSound[1] : hitSound[0]);
         }
 
-        qteList[0].CheckJudge();
+        
         qteList.RemoveAt(0);
     }
 

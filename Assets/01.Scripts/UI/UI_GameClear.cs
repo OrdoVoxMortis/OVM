@@ -25,9 +25,6 @@ public class UI_GameClear : BaseUI
     public void SetText()
     {
         stage = StageManager.Instance.StageResult;
-        Debug.Log(stage.missionDialog);
-        Debug.Log(stage.planDialog);
-        Debug.Log(stage.eventDialog);
         missionDialog.text = stage.missionDialog;
         if (string.IsNullOrEmpty(missionDialog.text))
         {

@@ -28,6 +28,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
     private GameObject ghostCurTiming;
 
+    private bool isReplay;
     private float tempTime;
     public Material ghostMat;
     public Material outlineMat;
@@ -41,7 +42,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         isPlaying = false;
         hitSound[0] = "Note_N1";
         hitSound[1] = "Note_P1";
-    
+        isReplay = SaveManager.Instance.isReplay;
 
         //RhythmManager.Instance.rhythmActions.Add(this);
     }
@@ -50,7 +51,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     void Update()
     {
         if (!isPlaying) return;
-
+       
         if (curIndex >= ghosts.Count)
         {
             isPlaying = false;
@@ -76,8 +77,15 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public void StartRhythmAction()
     {
         if (isPlaying) return;
-
-        if(ghosts.Count == 0) return;
+        if (ghosts.Count == 0)
+        {
+            if (isReplay)
+            {
+                MakeGhost();
+                isReplay = false;
+            }
+            else return;
+        }
 
         ghostPrefabs.AddComponent<GhostAnimation>().PlayAnimation();
         SoundManager.Instance.PlaySfx(blockSound);
@@ -108,7 +116,6 @@ public class GhostManager : MonoBehaviour, IRhythmActions
                 SoundManager.Instance.PlaySfx(ghosts[curIndex].isPointNotes ? hitSound[1] : hitSound[0]);
             }
         }
-        
         curIndex++;
 
         // 추가할 곳
@@ -119,6 +126,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
             ghostCurTiming.transform.position = ghosts[curIndex].transform.position;
         }
+        
     }
 
     public void SetBeatList(List<float> beats, List<bool> pointNoteList, float bpm)
@@ -220,6 +228,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             render.materials = mats;
         }
 
+        
         playerTrans.forward = direction;
         
     }

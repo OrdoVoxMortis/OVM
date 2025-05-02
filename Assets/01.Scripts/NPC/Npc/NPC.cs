@@ -1,4 +1,5 @@
 using GoogleSheet.Core.Type;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -55,8 +56,15 @@ public class NPC : MonoBehaviour
     private bool isPause = false;
     private bool prevAgentStopped;
     private float prevAnimSpeed;
+
+    public GameObject player;
+    public Collider playerCollider;
+    public bool isColliding = false; // 충돌
+    public bool isWalking = true;
+    public LayerMask layer;
     private void Awake()
     {
+        RhythmManager.Instance.OnStart += Destroy;
     }
     private void Start()
     {
@@ -64,6 +72,8 @@ public class NPC : MonoBehaviour
         stateMachine = new NpcStateMachine(this);
         stateMachine.ChangeState(stateMachine.IdleState);
 
+        player = GameManager.Instance.Player.gameObject;
+        playerCollider = player.GetComponent<Collider>();
     }
     private void Init()
     {
@@ -176,5 +186,42 @@ public class NPC : MonoBehaviour
         }
     }
 
+    private void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        RhythmManager.Instance.OnStart -= Destroy;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("충돌");
+            isColliding = true;
+            Agent.isStopped = true;
+            Animator.SetBool("Walk", false);
+            Animator.SetBool("Run", false);
+            Animator.SetBool("Trigger", true);
+
+            StartCoroutine(StopDelay(2f, isWalking));
+
+        }
+    }
+
+    private IEnumerator StopDelay(float delay, bool walk)
+    {
+        yield return new WaitForSeconds(delay);
+
+        isColliding = false;
+        Agent.isStopped = false;
+        Animator.SetBool("Trigger", false);
+
+        if (walk) Animator.SetBool("Walk", true);
+        else Animator.SetBool("Run", true);
+    }
 }
 

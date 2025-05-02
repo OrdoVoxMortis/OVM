@@ -13,6 +13,7 @@ public class Ghost : MonoBehaviour
 
     public void CheckGhost(float timing)
     {
+        StageManager.Instance.StageResult.GhostCheck = true;
         timing = Mathf.Abs(timing);
         if (timing < judges[0])
         {
@@ -23,16 +24,19 @@ public class Ghost : MonoBehaviour
         {
             Debug.Log("Good!");
             isOverGood = true;
+            StageManager.Instance.StageResult.GhostCheck = false;
         }
         else if (timing < judges[2])
         {
             Debug.Log("Miss!");
             isOverGood = false;
+            StageManager.Instance.StageResult.GhostCheck = false;
         }
         else
         {
             Debug.Log("Fail!");
             isOverGood = false;
+            StageManager.Instance.StageResult.GhostCheck = false;
         }
     }
 }

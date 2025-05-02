@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class Friend : NPC
 {
-    public void NotifyTarget(Target target)
+    public void NotifyTarget(Target target, System.Action onComplete)
     {
         Debug.Log("nofity");
-        StartCoroutine(WaitCo(target));
+        StartCoroutine(WaitCo(target, onComplete));
         
     }
 
-    private IEnumerator WaitCo(Target target)
+    private IEnumerator WaitCo(Target target, System.Action onComplete)
     {
-        target.IsNotified = true;
         target.FriendPosition = transform.position;
         Debug.Log(target.IsNotified);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(6.55f);
+        target.IsNotified = true;
         stateMachine.ChangeState(stateMachine.IdleState);
-
+        onComplete?.Invoke();
     }
 }

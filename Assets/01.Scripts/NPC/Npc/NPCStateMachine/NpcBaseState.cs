@@ -47,14 +47,21 @@ public class NpcBaseState : IState
     {
         if (GameManager.Instance.SelectedBGM != null)
         {
-            stateMachine.npc.Agent.isStopped = false;
-            moveTimer += Time.deltaTime;
-            if (moveTimer >= moveDelay)
+            if (stateMachine.npc.isColliding)
             {
-                stateMachine.npc.Agent.SetDestination(GetRandomPointInArea(stateMachine.npc.Area));
-                moveTimer = 0f;
+                StopAnimation("Walk");
+                stateMachine.npc.Agent.isStopped = true;
             }
-
+            else
+            {
+                stateMachine.npc.Agent.isStopped = false;
+                moveTimer += Time.deltaTime;
+                if (moveTimer >= moveDelay)
+                {
+                    Move();
+                    moveTimer = 0f;
+                }
+            }
             var agent = stateMachine.npc.Agent;
             bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
             if (isMoving)
@@ -69,6 +76,25 @@ public class NpcBaseState : IState
             StopAnimation("Walk");
             stateMachine.npc.Agent.isStopped = true;
         }
+    }
+
+    public void Move()
+    {
+        Transform npc = stateMachine.npc.transform;
+        Vector3 nextPosition = GetRandomPointInArea(stateMachine.npc.Area);
+
+        Vector3 forward = npc.forward;
+        Vector3 nextDir = (nextPosition - npc.position).normalized;
+        float crossY = Vector3.Cross(forward, nextDir).y;
+
+        if(Mathf.Abs(crossY) > 0.01f)
+        {
+            if (crossY > 0f) StartAnimation("TurnLeft");
+            else StartAnimation("TurnRight");
+        }
+        StopAnimation("TurnRight");
+        StopAnimation("TurnLeft");
+        stateMachine.npc.Agent.SetDestination(nextPosition);
     }
     protected void StartAnimation(string anim)
     {
@@ -97,8 +123,25 @@ public class NpcBaseState : IState
         float angle = Vector3.Angle(stateMachine.npc.transform.forward, directionPlayer);
 
         float distance = Vector3.Distance(stateMachine.npc.transform.position, player.position);
-        if (angle > stateMachine.npc.ViewAngle / 2f || distance > stateMachine.npc.ViewDistance) return false;
+        if (angle > stateMachine.npc.ViewAngle / 2f || distance > stateMachine.npc.ViewDistance)
+        {
+            return false;
+        }
 
+        //벽
+        Vector3 headPosition = stateMachine.npc.transform.position + new Vector3(0, 1.5f, 0);
+
+        Vector3 playerClosetPoint = stateMachine.npc.playerCollider.ClosestPoint(headPosition); 
+
+        float sqrDistance = (playerClosetPoint - headPosition).sqrMagnitude;
+
+        if (Physics.Raycast(headPosition, directionPlayer, out RaycastHit hit, stateMachine.npc.ViewDistance, stateMachine.npc.layer))
+        {
+            if (hit.collider.gameObject != stateMachine.npc.player.transform.gameObject)
+            {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -130,6 +173,7 @@ public class NpcBaseState : IState
                 {
                     RotateVelocity();
                     StartAnimation("Walk");
+                    StopAnimation("LookAround");
                 }
                 else
                 {
@@ -148,6 +192,7 @@ public class NpcBaseState : IState
                             waitTimer = 0f;
                             cooldownTimer = 0f;
                             StartAnimation("Walk");
+                            StopAnimation("LookAround");
                         }
                     }
                 }
@@ -158,10 +203,12 @@ public class NpcBaseState : IState
                 {
                     RotateVelocity();
                     StartAnimation("Walk");
+                    StopAnimation("LookAround");
                 }
                 else
                 {
                     StopAnimation("Walk");
+                    StartAnimation("LookAround");
                     cooldownTimer += Time.deltaTime;
 
                     if (cooldownTimer >= 5f)

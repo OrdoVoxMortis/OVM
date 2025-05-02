@@ -53,6 +53,7 @@ public class QTE : MonoBehaviour
 
     public void CheckJudge()
     {
+        StageManager.Instance.StageResult.QteCheck = true;
         float timing = Mathf.Abs(1f - outerLineSize);
         if (timing < judges[0])
         {
@@ -63,16 +64,19 @@ public class QTE : MonoBehaviour
         {
             Debug.Log("Good!");
             isOverGood = true;
+            StageManager.Instance.StageResult.QteCheck = false;
         }
         else if (timing < judges[2])
         {
             Debug.Log("Miss!");
             isOverGood = false;
+            StageManager.Instance.StageResult.QteCheck = false;
         } 
         else
         {
             Debug.Log("Fail!");
             isOverGood = false;
+            StageManager.Instance.StageResult.QteCheck = false;
         }
         isChecked = true;
 
