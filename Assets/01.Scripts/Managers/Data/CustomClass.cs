@@ -33,7 +33,7 @@ namespace Hamster.ZG.Type
                 {
                     idList.Add(id);
                 }
-                else Debug.Log($"{i} empty");
+                
             }
 
             return new CombineRule()
