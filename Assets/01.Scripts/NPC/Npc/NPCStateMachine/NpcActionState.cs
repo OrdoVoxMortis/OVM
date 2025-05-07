@@ -113,7 +113,8 @@ public class NpcActionState : NpcBaseState
         var target = GameObject.FindObjectOfType<Target>();
         if(target != null)
         {
-            stateMachine.npc.Agent.isStopped = false;
+            if (stateMachine.npc.isColliding) stateMachine.npc.Agent.isStopped = true;
+            else stateMachine.npc.Agent.isStopped = false;
             stateMachine.npc.Agent.SetDestination(target.transform.position);
             StartAnimation("Run");
             stateMachine.npc.isWalking = false;
@@ -130,7 +131,6 @@ public class NpcActionState : NpcBaseState
         {
             StartAnimation("Notify");
             StopAnimation("Run");
-            stateMachine.npc.isWalking = true;
             Vector3 lookDir = (target.transform.position - stateMachine.npc.transform.position);
             lookDir.y = 0;
             if (lookDir.sqrMagnitude > 0.01f)
@@ -171,7 +171,7 @@ public class NpcActionState : NpcBaseState
 
     private void ChasePlayer()
     {
-
+        stateMachine.npc.isWalking = false;
         stateMachine.npc.Agent.isStopped = false;
         StartAnimation("Run");
         stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);

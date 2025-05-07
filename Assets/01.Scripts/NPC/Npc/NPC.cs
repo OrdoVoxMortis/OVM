@@ -83,6 +83,7 @@ public class NPC : MonoBehaviour
         FindArea();
 
         CurSuspicion = 0;
+        isWalking = true;
     }
     private void Update()
     {
@@ -201,20 +202,22 @@ public class NPC : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("충돌");
-            isColliding = true;
-            Agent.isStopped = true;
             Animator.SetBool("Walk", false);
             Animator.SetBool("Run", false);
             Animator.SetBool("Trigger", true);
 
-            StartCoroutine(StopDelay(2f, isWalking));
+            StartCoroutine(StopDelay(3f, isWalking));
 
         }
     }
 
     private IEnumerator StopDelay(float delay, bool walk)
     {
-        yield return new WaitForSeconds(delay);
+        if(walk) yield return new WaitForSeconds(2f);
+        isColliding = true;
+
+        if(walk) yield return new WaitForSeconds(delay);
+        else yield return new WaitForSeconds(1f);
 
         isColliding = false;
         Agent.isStopped = false;
