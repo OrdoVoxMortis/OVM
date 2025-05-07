@@ -1,5 +1,3 @@
-using Cinemachine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,55 +6,86 @@ public class UIManager : SingleTon<UIManager>
     private Dictionary<string, BaseUI> activeUIs = new(); // 활성화된 UI
     public bool isUIActive = false;
     [SerializeField] private BaseUI currentUI = null;
+    [SerializeField] private Stack <BaseUI> uiStack = new();
     private Canvas canvas;
     public static event System.Action popupSetting;
 
     protected override void Awake()
     {
         base.Awake();
-        
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M))
         {
-            popupSetting?.Invoke();
-            Debug.Log("메뉴출력");
+           ShowUI<UI_Volume>("UI_Volume", allowDuplicate: true);
+           UIActive();
+        }
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            CloseTopPopup();
         }
     }
 
-    public T ShowUI<T>(string name) where T : BaseUI
+    public T ShowUI<T>(string name, bool allowDuplicate = false) where T : BaseUI
     {
         GetCanvas();
-        if(activeUIs.TryGetValue(name, out var ui))
+
+        BaseUI ui = null;
+        if(!allowDuplicate && activeUIs.TryGetValue(name, out ui))
         {
             ui.Show();
-            currentUI = ui;
-            Debug.Log("현재Ui창 할당됨!");
-            return (T) ui;
         }
         else
         {
             ui = ResourceManager.Instance.LoadUI<T>(name);
             if (ui == null) return null;
-            var inst = Instantiate(ui, canvas.transform);
-            activeUIs[typeof(T).Name] = inst;
-            currentUI = inst;
-            return (T)inst;
+            ui = Instantiate(ui, canvas.transform);
+            if (!allowDuplicate) 
+                activeUIs[name] = ui;
         }
-  
+
+        if (ui.IsPopup)
+        {
+            uiStack.Push(ui);
+        }
+        else
+        {
+            currentUI = ui;
+        }
+        ui.Show();
+        isUIActive = true;
+        Debug.Log("현재Ui창 스택됨!");
+        return (T)ui;
+        //else
+        //{
+        //    ui = ResourceManager.Instance.LoadUI<T>(name);
+        //    if (ui == null) return null;
+        //    var inst = Instantiate(ui, canvas.transform);
+        //    activeUIs[typeof(T).Name] = inst;
+        //    currentUI = inst;
+        //    return (T)inst;
+        //}
+
     }
 
     public void HideUI<T>() 
     {
-        string name = typeof(T).Name;
-        if (activeUIs.TryGetValue(name, out var ui))
-        {
-            ui.Hide();
-            currentUI = null;
-            //activeUIs.Remove(name);
-        }
+        //string name = typeof(T).Name;
+        //if (activeUIs.TryGetValue(name, out var ui))
+        //{
+        //    ui.Hide();
+        //    currentUI = null;
+        //    //activeUIs.Remove(name);
+        //}
+
+        if (uiStack.Count == 0) return;
+
+        var topUI = uiStack.Pop();
+        topUI.Hide();
+
+        isUIActive = uiStack.Count > 0;
 
     }
 
@@ -72,6 +101,8 @@ public class UIManager : SingleTon<UIManager>
         }
 
         activeUIs.Clear();
+        uiStack.Clear();
+        isUIActive = false;
     }
 
     public void UIActive()
@@ -112,12 +143,36 @@ public class UIManager : SingleTon<UIManager>
         isUIActive = false;
     }
 
+    public void CloseTopPopup()
+    {
+        if (uiStack.Count == 0) return;
+
+        var topUI = uiStack.Peek();
+        if (topUI.IsPopup)
+        {
+            uiStack.Pop().Hide(); // 팝업은 Hide -> Destroy
+        }
+    }
+
 
     private void GetCanvas()
     {
         if(canvas == null)
         {
             canvas = FindObjectOfType<Canvas>();
+        }
+    }
+
+    public void OnEscPressed()
+    {
+        if(uiStack.Count > 0)
+        {
+            CloseTopPopup();
+        }
+        else if(currentUI != null)
+        {
+            currentUI.Hide();
+            currentUI = null;
         }
     }
 

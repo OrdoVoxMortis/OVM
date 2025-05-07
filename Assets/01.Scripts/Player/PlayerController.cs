@@ -1,10 +1,6 @@
 using Cinemachine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 public class PlayerController :MonoBehaviour
 {
@@ -17,6 +13,8 @@ public class PlayerController :MonoBehaviour
     public CinemachineFreeLook playerCamera;
     public Vector3 CameraFollowOffset { get; private set; }
 
+    private Player player;
+
 
 
     // Start is called before the first frame update
@@ -28,7 +26,11 @@ public class PlayerController :MonoBehaviour
 
         
         // 카메라 찾기
-        playerCamera = transform.Find("CameraLookPoint/FollowPlayerCamera").GetComponent<CinemachineFreeLook>();
+        if (playerCamera == null)
+        {
+            playerCamera = transform.Find("CameraLookPoint/FollowPlayerCamera").GetComponent<CinemachineFreeLook>();
+
+        }
 
         //카메라 참조 및 초기화
         if (playerCamera == null)
@@ -65,6 +67,11 @@ public class PlayerController :MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        player = GameManager.Instance.Player;
+    }
+
     private void OnEnable()
     {
         
@@ -85,7 +92,7 @@ public class PlayerController :MonoBehaviour
         if (context.phase == InputActionPhase.Started)
         {
             Debug.Log("현재UI 숨기기!");
-            UIManager.Instance.CurrentUIHide();
+            UIManager.Instance.OnEscPressed();
         }
     }
 
@@ -104,7 +111,7 @@ public class PlayerController :MonoBehaviour
     {
         if (interaction == null || playerInputs == null) return;
 
-        var currentState = GameManager.Instance.Player.stateMachine.CurrentState();
+        var currentState = player.stateMachine.CurrentState();
 
         if (currentState is PlayerBaseState baseState)
         {
@@ -122,9 +129,9 @@ public class PlayerController :MonoBehaviour
     public void SubscribeAllInputs()
     {
 
-        var interaction = GameManager.Instance.Player.Interaction;
+        var interaction = player.Interaction;
 
-        var current = GameManager.Instance.Player.stateMachine.CurrentState();
+        var current = player.stateMachine.CurrentState();
         if (current is PlayerBaseState pbs)
         {
             pbs.AddInputActionCallbacks();

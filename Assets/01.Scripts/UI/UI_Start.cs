@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ public class UI_Start: BaseUI
     private Player player;
     private PlayableDirector playerTimeline;
     private PlayerController playerController;
+    private CinemachineInputProvider inputProvider;
 
     protected override void Awake()
     {
@@ -25,6 +27,7 @@ public class UI_Start: BaseUI
         UIManager.Instance.UIActive();
         player = GameManager.Instance.Player;
         playerTimeline = player.gameObject.GetComponent<PlayableDirector>();
+        inputProvider = GameManager.Instance.Player.Input.playerCamera.GetComponent<CinemachineInputProvider>();
     }
 
     void OnStartClick()
@@ -33,6 +36,9 @@ public class UI_Start: BaseUI
         playerTimeline.stopped += OnTimelineEnd;
         Cursor.lockState = CursorLockMode.Locked;
         playerTimeline.Play();
+
+        if (inputProvider != null)
+            inputProvider.enabled = false;
     }
 
     private void OnTimelineEnd(PlayableDirector pd)
@@ -41,6 +47,10 @@ public class UI_Start: BaseUI
         SoundManager.Instance.PlayBGM("Background");
         UIManager.Instance.UIDeactive();
         playerController.playerActions.Enable();
+
+        if (inputProvider != null)
+            inputProvider.enabled = true;
+
     }
 
 }

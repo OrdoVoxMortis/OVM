@@ -1175,6 +1175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69bc1d8c8a2be3443ab2b04f78d6e7e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isReplay: 0
 --- !u!4 &237690537
 Transform:
   m_ObjectHideFlags: 0
@@ -2281,6 +2282,8 @@ MonoBehaviour:
   isEnabled: 0
   timeLine_UI: {fileID: 1893561992}
   playRhythm_UI: {fileID: 519300036}
+  playerPrefab: {fileID: 8994080444928254586, guid: f6c962b39fc656046be1aeef54784fa0,
+    type: 3}
 --- !u!1001 &727213837
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2928,17 +2931,17 @@ PrefabInstance:
     - target: {fileID: 7128781054590977844, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.000000014901159
+      value: -0.000000059604638
       objectReference: {fileID: 0}
     - target: {fileID: 7128781054590977844, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000059604638
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7128781054590977844, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000014901159
+      value: 0.000000029802319
       objectReference: {fileID: 0}
     - target: {fileID: 7139613506781944971, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
@@ -3023,22 +3026,22 @@ PrefabInstance:
     - target: {fileID: 7984067287631047457, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9993401
+      value: 0.99934006
       objectReference: {fileID: 0}
     - target: {fileID: 7984067287631047457, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.036324948
+      value: -0.03632493
       objectReference: {fileID: 0}
     - target: {fileID: 7984067287631047457, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000029802322
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7984067287631047457, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.00000004470348
       objectReference: {fileID: 0}
     - target: {fileID: 8048396943979275070, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
@@ -4603,6 +4606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTrans: {fileID: 0}
   direction: {x: 0, y: 0, z: 0}
+  rotateAngle: {x: 0, y: 0, z: 0}
   ghostGaps: 1
   bpm: 120
   beats:
@@ -4633,6 +4637,8 @@ MonoBehaviour:
   - 
   - 
   blockSound: 
+  ghostMat: {fileID: 0}
+  outlineMat: {fileID: 0}
 --- !u!135 &1505951567
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6706,6 +6712,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTrans: {fileID: 0}
   direction: {x: 0, y: 0, z: 0}
+  rotateAngle: {x: 0, y: 0, z: 0}
   ghostGaps: 0
   bpm: 120
   beats:
@@ -6743,6 +6750,8 @@ MonoBehaviour:
   - 
   - 
   blockSound: 
+  ghostMat: {fileID: 0}
+  outlineMat: {fileID: 0}
 --- !u!4 &2043510373
 Transform:
   m_ObjectHideFlags: 0
