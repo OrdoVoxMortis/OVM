@@ -121,8 +121,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         }
         curIndex++;
 
-        // 추가할 곳
-        if (curIndex < ghosts.Count)
+        if (curIndex < ghosts.Count) // 한 번 칠 때마다 외각선 오브젝트 위치 변경
         {
             if (ghostClip != null)
                 ghostClip.SampleAnimation(ghostCurTiming, ghosts[curIndex].animTime);
@@ -192,7 +191,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
                 
             }
 
-            if (ghostMat != null)
+            if (ghostMat != null) //고스트 머테리얼이 여부
             {
                 render = ghost.GetComponent<Renderer>();
                 if(render == null)
@@ -211,7 +210,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         }
 
 
-        if (outlineMat != null)
+        if (outlineMat != null) //아웃라인 머테리얼 여부
         {
             ghostCurTiming = Instantiate(ghostPrefabs, playerTrans);
 
@@ -225,12 +224,17 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             render = ghostCurTiming.GetComponent<Renderer>();
             if (render == null)
                 render = ghostCurTiming.GetComponentInChildren<Renderer>(includeInactive: true);
-            Material[] mats = render.materials;
 
-            for (int i = 0; i < mats.Length; i++)
-                mats[i] = outlineMat;
+            Material[] mats;
+            if (render != null)
+            {
+                mats = render.materials;
 
-            render.materials = mats;
+                for (int i = 0; i < mats.Length; i++)
+                    mats[i] = outlineMat;
+
+                render.materials = mats;
+            }
         }
 
         

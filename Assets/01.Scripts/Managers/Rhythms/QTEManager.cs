@@ -78,7 +78,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
             yield return new WaitForSeconds((60f / bpm) / nextBeat);
         }
-        RhythmManager.Instance.isPlaying = false;
+        
     }
 
     public void CheckQTE()
@@ -97,6 +97,8 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
         
         qteList.RemoveAt(0);
+        if(qteList.Count == 0)
+            RhythmManager.Instance.isPlaying = false;
     }
 
 }
