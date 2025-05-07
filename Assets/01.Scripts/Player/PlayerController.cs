@@ -85,7 +85,7 @@ public class PlayerController :MonoBehaviour
         if (context.phase == InputActionPhase.Started)
         {
             Debug.Log("현재UI 숨기기!");
-            UIManager.Instance.CurrentUIHide();
+            UIManager.Instance.OnEscPressed();
         }
     }
 
