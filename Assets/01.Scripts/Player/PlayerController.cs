@@ -81,9 +81,7 @@ public class PlayerController :MonoBehaviour
 
     private void OnDisable()
     {
-        
         playerActions.CancelUI.started -= OnCancelUI;
-       
     }
 
     public void OnCancelUI(InputAction.CallbackContext context)

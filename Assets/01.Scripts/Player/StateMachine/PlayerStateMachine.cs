@@ -47,5 +47,17 @@ public class PlayerStateMachine : StateMachine
         RotationDamping = Player.Data.GroundData.BaseRotationDamping;
     }
 
+    public PlayerStateMachine(Player_Ghost player)
+    {
+        MainCamTransform = Camera.main.transform;
+
+        IdleState = new PlayerIdleState(this);
+        WalkState = new PlayerWalkState(this);
+        RunState = new PlayerRunState(this);
+        SitState = new PlayerSitState(this);
+
+        JumpState = new PlayerJumpState(this);
+        FallState = new PlayerFallState(this);
+    }
 
 }
