@@ -95,6 +95,9 @@ public class NpcActionState : NpcBaseState
         Debug.Log("발동형 시작");
         isTriggered = true;
         stateMachine.npc.IsAction = true;
+        StopAnimation("TurnLeft");
+        StopAnimation("TurnRight");
+
         ActionType type = stateMachine.npc.TriggerAlertAction;
 
         switch (type)
@@ -110,12 +113,11 @@ public class NpcActionState : NpcBaseState
 
     private void NotifyTarget()
     {
-        var target = GameObject.FindObjectOfType<Target>();
-        if(target != null)
+        if(stateMachine.npc.target != null)
         {
             if (stateMachine.npc.isColliding) stateMachine.npc.Agent.isStopped = true;
             else stateMachine.npc.Agent.isStopped = false;
-            stateMachine.npc.Agent.SetDestination(target.transform.position);
+            stateMachine.npc.Agent.SetDestination(stateMachine.npc.target.transform.position);
             StartAnimation("Run");
             stateMachine.npc.isWalking = false;
             isMovingToTarget = true;
@@ -124,25 +126,28 @@ public class NpcActionState : NpcBaseState
 
     private void MoveToTarget()
     {
-        var target = GameObject.FindObjectOfType<Target>();
+        if (stateMachine.npc.target.IsNotified) return;
         var agent = stateMachine.npc.Agent;
         
         if (agent.remainingDistance <= agent.stoppingDistance) //도착시
         {
             StartAnimation("Notify");
             StopAnimation("Run");
-            Vector3 lookDir = (target.transform.position - stateMachine.npc.transform.position);
+            Vector3 lookDir = (stateMachine.npc.target.transform.position - stateMachine.npc.transform.position);
             lookDir.y = 0;
             if (lookDir.sqrMagnitude > 0.01f)
             {
-                stateMachine.Target.transform.rotation = Quaternion.LookRotation(lookDir);
+                Quaternion lookRot = Quaternion.LookRotation(lookDir);
+                Quaternion rotated = lookRot * Quaternion.Euler(0, -90f, 0);
+                stateMachine.npc.transform.rotation = rotated;
             }
             agent.isStopped = true;
             isMovingToTarget = false;
 
             if (stateMachine.npc is Friend friend)
             {
-                friend.NotifyTarget(target, () =>
+                if (friend.IsNotifying) return;
+                friend.NotifyTarget(stateMachine.npc.target, () =>
                 {
                     StopAnimation("Notify");
                 });
@@ -151,7 +156,7 @@ public class NpcActionState : NpcBaseState
         }
         else
         {
-            agent.SetDestination(target.transform.position);
+            agent.SetDestination(stateMachine.npc.target.transform.position);
         }
     }
     private void LookAtTarget()
@@ -160,13 +165,40 @@ public class NpcActionState : NpcBaseState
         stateMachine.npc.Agent.isStopped = true;
         stateMachine.npc.Agent.velocity = Vector3.zero;
         Vector3 dirToTarget = (stateMachine.Target.transform.position - stateMachine.npc.transform.position).normalized;
+        dirToTarget.y = 0f;
         if (dirToTarget.sqrMagnitude < 0.01f) return;
 
         stateMachine.npc.Agent.updateRotation = false;
 
         Quaternion lookRotation = Quaternion.LookRotation(dirToTarget.normalized);
+
+        Vector3 forward = stateMachine.npc.transform.forward;
+
+        float angle = Vector3.SignedAngle(forward, dirToTarget.normalized, Vector3.up);
+
         stateMachine.npc.transform.rotation = Quaternion.Slerp(stateMachine.npc.transform.rotation, lookRotation, Time.deltaTime * stateMachine.RotationDamping);
+        
+        if(Mathf.Abs(angle) > 10f)
+        {
+            if(angle > 0f)
+            {
+                StartAnimation("TurnRight");
+                StopAnimation("TurnLeft");
+            }
+            else
+            {
+                StopAnimation("TurnRight");
+                StartAnimation("TurnLeft");
+            }
+        }
+        else 
+        {
+            StopAnimation("TurnRight");
+            StopAnimation("TurnLeft");
+        }
+
         stateMachine.npc.Agent.updateRotation = true;
+
     }
 
     private void ChasePlayer()
@@ -179,6 +211,7 @@ public class NpcActionState : NpcBaseState
         {
             StopAnimation("Run");
             GameManager.Instance.GameOver();
+            Debug.Log("가드");
             stateMachine.ChangeState(stateMachine.IdleState);
         }
 
