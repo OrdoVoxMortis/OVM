@@ -40,12 +40,14 @@ public class PlayerGroundState : PlayerBaseState
 
     protected override void OnSitStarted(InputAction.CallbackContext context)
     {
+        if (UIManager.Instance.isUIActive) return;
         stateMachine.ChangeState(stateMachine.SitState);
         base.OnSitStarted(context);
     }
 
     protected override void OnMovementStarted(InputAction.CallbackContext context)
     {
+        if (UIManager.Instance.isUIActive) return;
         stateMachine.MovementInput = context.ReadValue<Vector2>();
         if (stateMachine.IsRunKeyHeld)
             stateMachine.ChangeState(stateMachine.RunState);
@@ -57,6 +59,7 @@ public class PlayerGroundState : PlayerBaseState
 
     protected override void OnMovementCanceled(InputAction.CallbackContext context)
     {
+        if (UIManager.Instance.isUIActive) return;
         if (stateMachine.MovementInput == Vector2.zero) return;
         stateMachine.ChangeState(stateMachine.IdleState);
 
@@ -65,6 +68,7 @@ public class PlayerGroundState : PlayerBaseState
 
     protected override void OnJumpStarted(InputAction.CallbackContext context)
     {
+        if (UIManager.Instance.isUIActive) return;
         if (stateMachine.Player.Controller.isGrounded)
         {
 

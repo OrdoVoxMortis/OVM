@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GhostManager : MonoBehaviour, IRhythmActions
 {
     public Transform playerTrans; //고스트 시작 위치
     public Vector3 direction; //고스트가 생성되는 방향
+
+    public Vector3 rotateAngle; //고스트가 생성된 후 회전각도
 
     public float ghostGaps;
 
@@ -27,8 +28,12 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public string[] hitSound = new string[2]; //0은 일반 노트 //1은 포인트 노트
     public string blockSound;
 
+    private GameObject ghostCurTiming;
+
     private bool isReplay;
     private float tempTime;
+    public Material ghostMat;
+    public Material outlineMat;
 
     // Start is called before the first frame update
     void Start()
@@ -89,6 +94,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         ghostPrefabs.GetComponent<GhostAnimation>().moving = direction.normalized * ghostGaps;
         ghostPrefabs.transform.position = playerTrans.position;
         ghostPrefabs.transform.forward = direction;
+        ghostPrefabs.transform.rotation = Quaternion.Euler(rotateAngle);
         curIndex = 0;
         isPlaying = true;
         curTime = Time.time;
@@ -100,6 +106,10 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         {
             return;
         }
+
+        if (tempTime - checkTimes[curIndex] < -0.8f) //아주 빨리 쳤을 경우 뒤의 고스트 인식 하지 않도록    
+            return;
+
         ghosts[curIndex].CheckGhost(tempTime - checkTimes[curIndex]);
 
         if (ghosts[curIndex].isOverGood)
@@ -110,6 +120,15 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             }
         }
         curIndex++;
+
+        // 추가할 곳
+        if (curIndex < ghosts.Count)
+        {
+            if (ghostClip != null)
+                ghostClip.SampleAnimation(ghostCurTiming, ghosts[curIndex].animTime);
+
+            ghostCurTiming.transform.position = ghosts[curIndex].transform.position;
+        }
         
     }
 
@@ -131,6 +150,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         Vector3 createPos = playerTrans.position;
         float time = 0f;
         float realTime = 0f;
+        Renderer render;
         for (int i = 0; i < beats.Count; i++)
         {
             float nextBeat = beats[i];
@@ -152,8 +172,9 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
             if (ghostGaps != 0f)
             {
-                createPos += playerTrans.forward.normalized * ghostGaps * (60f / bpm) / nextBeat;
+                createPos += playerTrans.forward.normalized * (ghostGaps * (60f / bpm) / nextBeat);
                 ghost.transform.position = createPos;
+                ghost.transform.rotation = Quaternion.Euler(rotateAngle);
             }
 
             if (ghostClip != null)
@@ -167,12 +188,51 @@ public class GhostManager : MonoBehaviour, IRhythmActions
                     time -= ghostClip.length;
                 }
                 ghostClip.SampleAnimation(ghost.gameObject, time);
+                ghost.animTime = time;
                 
+            }
+
+            if (ghostMat != null)
+            {
+                render = ghost.GetComponent<Renderer>();
+                if(render == null)
+                    render = ghost.GetComponentInChildren<Renderer>(includeInactive: true);
+                Material[] mats = render.materials;
+
+                for (int j = 0; j < mats.Length; j++)
+                    mats[j] = ghostMat;
+                
+
+                render.materials = mats;
             }
 
             ghosts.Add(ghost);
             checkTimes.Add(realTime);
         }
+
+
+        if (outlineMat != null)
+        {
+            ghostCurTiming = Instantiate(ghostPrefabs, playerTrans);
+
+
+            if(ghostClip != null)
+                ghostClip.SampleAnimation(ghostCurTiming, checkTimes[0]);
+
+            ghostCurTiming.transform.position = ghosts[0].transform.position;
+            ghostCurTiming.transform.rotation = Quaternion.Euler(rotateAngle);
+
+            render = ghostCurTiming.GetComponent<Renderer>();
+            if (render == null)
+                render = ghostCurTiming.GetComponentInChildren<Renderer>(includeInactive: true);
+            Material[] mats = render.materials;
+
+            for (int i = 0; i < mats.Length; i++)
+                mats[i] = outlineMat;
+
+            render.materials = mats;
+        }
+
         
         playerTrans.forward = direction;
         
@@ -181,6 +241,9 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public void RemoveGhost()
     {
         int idx = ghosts.Count;
+        if(ghostCurTiming != null)
+            Destroy(ghostCurTiming);
+
         for (int i = 0; i < idx; i++)
         {
             Destroy(ghosts[0].gameObject);
@@ -188,7 +251,5 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             checkTimes.RemoveAt(0);
         }
     }
-
-   
 
 }

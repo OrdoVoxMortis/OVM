@@ -25,13 +25,17 @@ public class GhostAnimation : MonoBehaviour
     public void PlayAnimation()
     {
         isMoving = true;
-        anim.enabled = true;
-        anim.Play("Ghost");
+        if (anim != null)
+        {
+            anim.enabled = true;
+            anim.Play("Ghost");
+        }
     }
 
     public void StopAnimation()
     {
         isMoving = false;
-        anim.enabled = false;
+        if (anim != null)
+            anim.enabled = false;
     }
 }
