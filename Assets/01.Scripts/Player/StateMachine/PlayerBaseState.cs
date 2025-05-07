@@ -63,10 +63,13 @@ public class PlayerBaseState : IState
 
     public virtual void Update()
     {
-        if (!UIManager.Instance.isUIActive)
+        if (UIManager.Instance.isUIActive)
         {
-            Move();
+            if (!(stateMachine.CurrentState() is PlayerIdleState))
+                stateMachine.ChangeState(stateMachine.IdleState);
+            return;
         }
+            Move();
     }
 
     protected virtual void OnMovementStarted(InputAction.CallbackContext context)
@@ -96,6 +99,7 @@ public class PlayerBaseState : IState
 
     protected virtual void OnRunCanceled(InputAction.CallbackContext cntext)
     {
+        if (UIManager.Instance.isUIActive) return;
         stateMachine.IsRunKeyHeld = false;
         // 만약 현재 상태가 RunState라면, 움직임 값에 따라 WalkState 또는 IdleState로 전이
         if (stateMachine.CurrentState() == stateMachine.RunState)
