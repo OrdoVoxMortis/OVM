@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BaseUI : MonoBehaviour
 {
-    
+    public virtual bool IsPopup => false;
 
     protected virtual void Awake()
     {

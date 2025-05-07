@@ -2282,6 +2282,8 @@ MonoBehaviour:
   isEnabled: 0
   timeLine_UI: {fileID: 1893561992}
   playRhythm_UI: {fileID: 519300036}
+  playerPrefab: {fileID: 8994080444928254586, guid: f6c962b39fc656046be1aeef54784fa0,
+    type: 3}
 --- !u!1001 &727213837
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2929,17 +2931,17 @@ PrefabInstance:
     - target: {fileID: 7128781054590977844, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.000000014901159
+      value: -0.000000059604638
       objectReference: {fileID: 0}
     - target: {fileID: 7128781054590977844, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000059604638
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7128781054590977844, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000014901159
+      value: 0.000000029802319
       objectReference: {fileID: 0}
     - target: {fileID: 7139613506781944971, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
