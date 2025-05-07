@@ -45,7 +45,6 @@ public class QTE : MonoBehaviour
         {
             manager.CheckQTE();
             CheckJudge();
-            Invoke("DestroyObject", 0.5f);
         }
 
         outerLine.localScale = new Vector2(outerLineSize, outerLineSize);
