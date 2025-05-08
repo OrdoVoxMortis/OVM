@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class RhythmManager : SingleTon<RhythmManager>
@@ -25,6 +26,8 @@ public class RhythmManager : SingleTon<RhythmManager>
 
     public AnimationCurve curve;
 
+    public TextMeshProUGUI checkJudgeText;
+
     public List<IRhythmActions> rhythmActions;
     private int index = 0;
 
@@ -42,6 +45,7 @@ public class RhythmManager : SingleTon<RhythmManager>
         base.Awake();
 
         rhythmActions = new List<IRhythmActions>();
+        checkJudgeText.gameObject.SetActive(false);
     }
 
     public void Start()
@@ -58,6 +62,9 @@ public class RhythmManager : SingleTon<RhythmManager>
         beepAudioSource.clip = beepClip;
 
         isPlaying = true;
+
+        checkJudgeText.transform.SetAsLastSibling();
+        checkJudgeText.gameObject.SetActive(true);
     }
 
     private void Update()

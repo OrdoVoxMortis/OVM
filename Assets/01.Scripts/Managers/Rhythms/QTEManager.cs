@@ -57,7 +57,9 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
     IEnumerator MakeQTE()
     {
-        UIManager.Instance.ShowUI<UI_QTE>("QTE_UI");
+        UI_QTE qteUI = UIManager.Instance.ShowUI<UI_QTE>("QTE_UI");
+        qteUI.transform.SetAsFirstSibling();
+        RhythmManager.Instance.checkJudgeText.transform.SetAsLastSibling();
         SoundManager.Instance.PlaySfx("EventSound_E001");
         for (int i = 0; i < beats.Count; i++)
         {
