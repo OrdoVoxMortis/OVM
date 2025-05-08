@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,20 +44,20 @@ public class UI_SaveLoad : BaseUI
     }
     private void SetNormalStage()
     {
-        LoadSaveSlots(normalStagePrefab);
+        LoadSaveData(normalStagePrefab);
         //ShowStageData(normalStagePrefab);
     }
 
     private void SetHiddenStage()
     {
         ShowStageData(hiddenStagePrefab);
-        LoadSaveSlots(hiddenStagePrefab);
+        LoadSaveData(hiddenStagePrefab);
     }
 
     private void SetEventData()
     {
         ShowStageData(eventStagePrefab);
-        LoadSaveSlots(eventStagePrefab);
+        LoadEventData();
     }
 
     private void ShowStageData(GameObject go)
@@ -74,7 +75,7 @@ public class UI_SaveLoad : BaseUI
         }
     }
 
-    private void LoadSaveSlots(GameObject prefab)
+    private void LoadSaveData(GameObject prefab)
     {
         string path = Application.persistentDataPath;
         string[] saveFiles = Directory.GetFiles(path, "*.json");
@@ -93,6 +94,28 @@ public class UI_SaveLoad : BaseUI
         }
     }
 
+    private void LoadEventData()
+    {
+        string path = Application.persistentDataPath;
+        string[] saveFiles = Directory.GetFiles(path, "*.json");
+
+        foreach(string file in saveFiles)
+        {
+            string json = File.ReadAllText(file);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+            bool isCollected = data.events != null && data.events.Exists(e => e.isCollect);
+
+            if (!isCollected) continue;
+
+            currentInstance = Instantiate(eventStagePrefab, stageWindow);
+            currentInstance.transform.localScale = Vector3.one;
+
+            var slotUI = currentInstance.GetComponent<UI_EventSlot>();
+            if (slotUI != null) slotUI.SetSlot(data);
+            loadedSlots.Add(currentInstance);
+        }
+    }
     public void DeleteStageData()
     {
 

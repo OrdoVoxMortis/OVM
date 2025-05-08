@@ -7,7 +7,7 @@ public class UI_PlayRhythm : BaseUI
     public Button playBtn;
     public Image playCancle;
     TimelineCamera timelineCam;
-    protected virtual void Awake()
+    protected override void Awake()
     {
         base.Awake();
         timelineCam = FindObjectOfType <TimelineCamera>();

@@ -3,41 +3,45 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Event : MonoBehaviour, IInteractable
+public class Event : TimelineElement
 {
     //QTEManager
-    //public int id;
-    //public string name;
-    //public string description;
+    public string ImageName { get; private set; }
+    public string Description { get; private set; }
+
     private PostProcessingToggle postProcessingToggle; // 추후 수정
-    public bool IsActive { get; set; } // 타임라인 내 활성화
     private QTEManager qteManager;
+    public bool IsCollect { get; set; } // 해금
     private void Awake()
     {
         postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
         qteManager = GetComponent<QTEManager>();
     }
-
+    private void Start()
+    {
+        LoadData();
+    }
     protected virtual void LoadData()
     {
-        //var data = DataManager.Instance.eventDict[id];
-        //name = data.name;
-        //description = data.description;
+        var data = DataManager.Instance.eventDict[id];
+        Name = data.name;
+        Description = data.description;
     }
-    public string GetInteractComponent()
+    public override string GetInteractComponent()
     {
         if (!IsActive) return "E키를 눌러 활성화";
         else return "X키를 눌러 비활성화";
     }
 
-    public void OnInteract()
+    public override void OnInteract()
     {
         if (!IsActive)
         {
             FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
-            TimelineManager.Instance.AddEventSlot(this);
+            TimelineManager.Instance.AddBlock(this);
             //RhythmManager.Instance.rhythmActions.Add(qteManager);
             IsActive = true;
+            IsCollect = true;
             Debug.Log("이벤트 데이터 추가!");
         }
         else
@@ -45,17 +49,18 @@ public class Event : MonoBehaviour, IInteractable
             //RhythmManager.Instance.rhythmActions.Remove(qteManager);
             TimelineManager.Instance.DestroyEvent(this);
             IsActive = false;
+            IsCollect = false;
             Debug.Log("이벤트 데이터 삭제!");
         }
        
     }
 
-    public void Deactive()
+    public override void Deactive()
     {
         gameObject.SetActive(false);
     }
 
-    public void SetInteractComponenet(string newText)
+    public override void SetInteractComponenet(string newText)
     {
         throw new System.NotImplementedException();
     }
