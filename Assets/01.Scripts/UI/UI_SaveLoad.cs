@@ -56,7 +56,7 @@ public class UI_SaveLoad : BaseUI
 
     private void SetEventData()
     {
-        ShowStageData(eventStagePrefab);
+        //ShowStageData(eventStagePrefab);
         LoadEventData();
     }
 

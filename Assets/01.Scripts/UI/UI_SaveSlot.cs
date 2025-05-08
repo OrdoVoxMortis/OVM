@@ -22,8 +22,9 @@ public class UI_SaveSlot : MonoBehaviour
 
     public void SetSlot(SaveData data)
     {
+        Debug.Log(data.stageId);
         id = data.stageId;
-        if (DataManager.Instance.stageDict.TryGetValue(data.stageId, out var stage))
+        if (DataManager.Instance.stageDict.TryGetValue(id, out var stage))
         {
             stageName.text = stage.stageName;
         }

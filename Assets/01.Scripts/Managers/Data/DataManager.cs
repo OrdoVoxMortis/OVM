@@ -24,7 +24,6 @@ public class DataManager : SingleTon<DataManager>
         InitData();
     }
 
-
     private void InitData()
     {
         npcDict = NpcData.GetDictionary();

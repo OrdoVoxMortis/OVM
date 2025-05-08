@@ -80,7 +80,7 @@ public class SaveManager : SingleTon<SaveManager>
                     id = e.id,
                     eventName = e.Name,
                     imageName = e.ImageName,
-                    isCollect = e.IsCollect
+                    isCollect = true
                 });
                 data.timeline.Add(new TimelineSaveData
                 {
