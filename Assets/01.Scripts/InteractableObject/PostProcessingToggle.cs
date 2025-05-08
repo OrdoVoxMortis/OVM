@@ -32,6 +32,12 @@ public class PostProcessingToggle : MonoBehaviour
             Debug.Log("플레이어 위치 저장!" + savedPlayerPosition);
             //TODO 시뮬레이션 전용 Cancle 구독
             simulationPlayer = Instantiate(playerPrefab, savedPlayerPosition, Quaternion.identity);
+            if (simulationPlayer != null)
+            {
+                Player_Ghost player_Ghost = simulationPlayer.gameObject.GetComponent<Player_Ghost>();
+                player_Ghost.Initialize(GameManager.Instance.Player);
+            }
+
             GameManager.Instance.Player.Input.UnsubscribeCancleUI();
             timeLine_UI.SetActive(true);
             playRhythm_UI.SetActive(true);
