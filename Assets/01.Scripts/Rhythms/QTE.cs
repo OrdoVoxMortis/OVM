@@ -21,7 +21,6 @@ public class QTE : MonoBehaviour
     public bool isOverGood;
 
     private float[] judges = new float[3] { 0.2f, 0.3f, 0.4f }; //perfect, good, miss, 0.4이후론 fail
-    public float animTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -87,8 +86,8 @@ public class QTE : MonoBehaviour
             isOverGood = false;
             StageManager.Instance.StageResult.QteCheck = false;
         }
-        StopAllCoroutines(); // 이전 판정 텍스트 제거 루틴이 있다면 중지
-        StartCoroutine(HideJudgeTextAfterDelay(animTime));
+        StopAllCoroutines();
+        StartCoroutine(HideJudgeTextAfterDelay(0.2f));
         isChecked = true;
 
         if (timing < judges[1]) //Good 이상인 경우 파티클

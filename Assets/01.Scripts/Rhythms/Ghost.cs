@@ -51,7 +51,7 @@ public class Ghost : MonoBehaviour
         }
 
         StopAllCoroutines(); // 이전 판정 텍스트 제거 루틴이 있다면 중지
-        StartCoroutine(HideJudgeTextAfterDelay(animTime));
+        StartCoroutine(HideJudgeTextAfterDelay(0.2f));
     }
     IEnumerator HideJudgeTextAfterDelay(float delay)
     {
