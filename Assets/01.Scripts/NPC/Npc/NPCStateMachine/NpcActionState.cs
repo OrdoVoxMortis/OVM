@@ -86,6 +86,7 @@ public class NpcActionState : NpcBaseState
                 LookAtTarget();
                 break;
             default:
+                stateMachine.ChangeState(stateMachine.AlertState);
                 break;
         }
     }
@@ -214,7 +215,5 @@ public class NpcActionState : NpcBaseState
             Debug.Log("가드");
             stateMachine.ChangeState(stateMachine.IdleState);
         }
-
-
     }
 }
