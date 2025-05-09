@@ -11,6 +11,7 @@ public class GameManager : SingleTon<GameManager>
     public static event Action OnSelectedBGMSet; // 추가
     public Action OnGameOver;
     public Action OnGameClear;
+    public bool gameStarted = false;
     public bool SimulationMode { get; set; }
     public Action OnSimulationMode;
     public bool isEnd = false;
