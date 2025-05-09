@@ -47,7 +47,7 @@ public class Event : TimelineElement
         else
         {
             //RhythmManager.Instance.rhythmActions.Remove(qteManager);
-            TimelineManager.Instance.DestroyEvent(this);
+            TimelineManager.Instance.DestroyBlock(this);
             IsActive = false;
             IsCollect = false;
             Debug.Log("이벤트 데이터 삭제!");

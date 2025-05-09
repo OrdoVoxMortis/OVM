@@ -78,7 +78,7 @@ public class TimelineManager : SingleTon<TimelineManager>
         }
     }
 
-    public void DestroyBlock(Block block)
+    public void DestroyBlock(TimelineElement block)
     {
         if (block.IsActive)
         {
