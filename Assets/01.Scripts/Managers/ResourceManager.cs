@@ -11,6 +11,7 @@ public class ResourceManager : SingleTon<ResourceManager>
     public Dictionary<string, AudioClip> SfxList = new();
     public Dictionary<string, Sprite> ImageList = new(); 
     public Dictionary<string, AnimationClip> AnimationClipList = new(); 
+    public Dictionary<string, Material> MaterialList = new(); 
     public AudioMixer audioMixer;
     protected override void Awake()
     {
@@ -87,5 +88,17 @@ public class ResourceManager : SingleTon<ResourceManager>
         var anim = Resources.Load<AnimationClip>($"Animation/{name}");
         AnimationClipList[name] = anim;
         return anim;
+    }
+
+    public Material LoadMaterial(string name)
+    {
+        if(MaterialList.TryGetValue(name, out var cacheMaterial))
+        {
+            return cacheMaterial;
+        }
+
+        var mat = Resources.Load<Material>($"Material/{name}");
+        MaterialList[name] = mat;
+        return mat;
     }
 }
