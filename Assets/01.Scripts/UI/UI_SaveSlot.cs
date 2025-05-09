@@ -72,7 +72,7 @@ public class UI_SaveSlot : MonoBehaviour
 
     private void Replay()
     {
-        SaveManager.Instance.Replay(false);
+        SaveManager.Instance.Replay();
     }
 
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -67,6 +68,7 @@ public class ResourceManager : SingleTon<ResourceManager>
 
     public Sprite LoadImage(string name)
     {
+        if (string.IsNullOrEmpty(name)) return null;
         if (ImageList.TryGetValue(name, out var cacheImage))
         {
             return cacheImage as Sprite;

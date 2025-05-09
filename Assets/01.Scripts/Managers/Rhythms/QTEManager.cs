@@ -18,6 +18,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
     public string[] hitSound = new string[2]; //0은 일반 노트 //1은 포인트 노트
 
+    public string eventBgm;
 
 
     // Start is called before the first frame update
@@ -60,7 +61,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         UI_QTE qteUI = UIManager.Instance.ShowUI<UI_QTE>("QTE_UI");
         qteUI.transform.SetAsFirstSibling();
         RhythmManager.Instance.checkJudgeText.transform.SetAsLastSibling();
-        SoundManager.Instance.PlaySfx("EventSound_E001");
+        SoundManager.Instance.PlaySfx(eventBgm);
         for (int i = 0; i < beats.Count; i++)
         {
             QTE qte = Instantiate(qtePrefabs, canvas.transform).GetComponent<QTE>();

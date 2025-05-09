@@ -8,6 +8,7 @@ public class Event : TimelineElement
     //QTEManager
     public string ImageName { get; private set; }
     public string Description { get; private set; }
+    public string BgmName { get; private set; }
 
     private PostProcessingToggle postProcessingToggle; // 추후 수정
     private QTEManager qteManager;
@@ -20,12 +21,14 @@ public class Event : TimelineElement
     private void Start()
     {
         LoadData();
+        qteManager.eventBgm = BgmName;
     }
     protected virtual void LoadData()
     {
         var data = DataManager.Instance.eventDict[id];
         Name = data.name;
         Description = data.description;
+        BgmName = data.music;
     }
     public override string GetInteractComponent()
     {
