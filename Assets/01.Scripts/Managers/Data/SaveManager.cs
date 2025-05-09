@@ -12,7 +12,8 @@ public class SaveData
     public float playTime;
     public string musicId; //(이름)
     public List<BlockSaveData> blocks;
-    //public List<Event> events;
+    public List<EventSaveData> events;
+    public List<TimelineSaveData> timeline;
 }
 
 [System.Serializable]
@@ -22,34 +23,75 @@ public class BlockSaveData
     public string blockName; 
 }
 
+[System.Serializable]
+public class EventSaveData
+{
+    public int id;
+    public string eventName;
+    public string imageName;
+    public bool isCollect;
+}
+
+[System.Serializable]
+public class TimelineSaveData
+{
+    public bool isBlock;
+    public int id;
+}
+
 public class SaveManager : SingleTon<SaveManager>
 {
     private string SavePath => $"{Application.persistentDataPath}/save.json";
-    private List<int> blockIds = new();
+    private List<TimelineSaveData> elementIds = new();
     public bool isReplay;
+    public bool eventReplay;
     //TODO. 스테이지 정보 저장&로드
     public void SaveGame()
     {
         SaveData data = new SaveData();
 
+        data.blocks = new List<BlockSaveData>();
+        data.events = new List<EventSaveData>();
+        data.timeline = new List<TimelineSaveData>();
+
         data.stageId = StageManager.Instance.StageResult.id;
-        
+
         data.playTime = StageManager.Instance.PlayTime;
-
-        data.blocks = TimelineManager.Instance.PlacedBlocks.Where(b => b != null).Select(b=> new BlockSaveData
+        ;
+        foreach (var element in TimelineManager.Instance.PlacedBlocks)
         {
-            id = b.id,
-            blockName = b.BlockName
-
-        }).ToList();
+            if (element is Block block)
+            {
+                data.blocks.Add(new BlockSaveData
+                {
+                    id = block.id,
+                    blockName = block.Name
+                });
+                data.timeline.Add(new TimelineSaveData
+                {
+                    isBlock = true,
+                    id = block.id
+                });
+            }
+            else if (element is Event e)
+            {
+                data.events.Add(new EventSaveData
+                {
+                    id = e.id,
+                    eventName = e.Name,
+                    imageName = e.ImageName,
+                    isCollect = true
+                });
+                data.timeline.Add(new TimelineSaveData
+                {
+                    isBlock = false,
+                    id = e.id,
+                });
+            }
+        }
 
         data.musicId = GameManager.Instance.SelectedBGM.name;
 
-        //data.events = new List<Event>();
-        //foreach (var e in TimelineManager.Instance.eventslots)
-        //{
-        //    data.events.Add(e.eventBlock);
-        //}
 
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(SavePath, json);
@@ -57,8 +99,9 @@ public class SaveManager : SingleTon<SaveManager>
         Debug.Log($"게임 저장 완료 - {SavePath}");
     }
 
-    public void Replay()
+    public void Replay(bool evt)
     {
+        eventReplay = evt;
         isReplay = true;
         if (!File.Exists(SavePath))
         {
@@ -76,18 +119,20 @@ public class SaveManager : SingleTon<SaveManager>
 
         StageManager.Instance.SetStage(data.stageId);
 
-        foreach (var b in data.blocks)
+        foreach (var b in data.timeline)
         {
-            blockIds.Add(b.id);
-        }
+            if (evt)
+            {
+                if (b.isBlock) continue;
+            }
+            elementIds.Add(b);
+        } 
+        
+
 
         SceneManager.sceneLoaded += OnStageSceneLoaded;
-
+        
         GameManager.Instance.LoadScene("Stage_Scene");
-        //foreach (var e in data.events)
-        //{
-        //    TimelineManager.Instance.AddEventSlot(e);
-        //}
 
     }
 
@@ -115,7 +160,7 @@ public class SaveManager : SingleTon<SaveManager>
     {
         if (scene.name == "Stage_Scene")
         {
-            TimelineManager.Instance.LoadBlocks(blockIds);
+            TimelineManager.Instance.LoadBlocks(elementIds);
             RhythmManager.Instance.OnStart?.Invoke();
 
             StartCoroutine(DelayInit());

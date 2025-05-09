@@ -11,7 +11,7 @@ public class StageResult : MonoBehaviour
     List<DataTable.BlockData> blocks = new(); // 배치된 블럭
     List<Block> useBlocks = new(); // 사용한 블럭
     List<DataTable.EventData> events = new(); // 배치된 이벤트
-    List<UI_Event> useEvents = new(); // 사용한 이벤트
+    List<Event> useEvents = new(); // 사용한 이벤트
 
     [HideInInspector] public string missionDialog; // 출력된 대사
     [HideInInspector] public string planDialog; // 출력된 대사
@@ -36,7 +36,7 @@ public class StageResult : MonoBehaviour
 
     void Init()
     {
-        useBlocks = TimelineManager.Instance.PlacedBlocks;
+        useBlocks = TimelineManager.Instance.ReturnBlocks();
         
         var blockIds = DataManager.Instance.stageDict[id].blockId;
         foreach (int blockId in blockIds)
@@ -47,10 +47,10 @@ public class StageResult : MonoBehaviour
             }
         }
 
-        useEvents = TimelineManager.Instance.eventslots;
+        useEvents = TimelineManager.Instance.ReturnEvents();
 
         var eventIds = DataManager.Instance.stageDict[id].eventId;
-        foreach(string id in eventIds)
+        foreach(int id in eventIds)
         {
             if(DataManager.Instance.eventDict.TryGetValue(id, out var eventData))
             {

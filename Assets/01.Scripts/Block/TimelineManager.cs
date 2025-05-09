@@ -7,7 +7,7 @@ public class TimelineManager : SingleTon<TimelineManager>
     public GameObject slotPrefab;
     public int slotCount;
     public Transform slotParent;
-    public List<Block> PlacedBlocks { get; set; } = new();
+    public List<TimelineElement> PlacedBlocks { get; set; } = new();
     [SerializeField] private UI_Sequence sequencePrefab;
     [SerializeField] private UI_Event eventBlockPrefab;
     public List<UI_Slot> slots = new();
@@ -58,20 +58,19 @@ public class TimelineManager : SingleTon<TimelineManager>
         }
     }
 
-    public void AddBlock(Block block)
+    public void AddBlock(TimelineElement block)
     {
         if (!block.IsActive)
         {
             block.IsActive = true;
             PlacedBlocks.Add(block);
-            CalBlockTime(block);
             UI_Sequence sequenceUI;
 
             //시퀀스 생성
             sequenceUI = Instantiate(sequencePrefab, slots[index].transform);
             sequenceUI.Initialize(block); 
             //UI_Sequence sequenceUI = sequence.GetComponent<UI_Sequence>(); // 굳이 게임오브젝트 받아올 필요가 없다
-            sequenceUI.block = block;
+            sequenceUI.item = block;
             sequenceUI.transform.localPosition = Vector3.zero;
             slots[index].slotIndex = index;
             slots[index].currentItem = sequenceUI;
@@ -124,19 +123,24 @@ public class TimelineManager : SingleTon<TimelineManager>
     }
     public void ValidateCombinations()
     {
-        if (PlacedBlocks.Count == 0) return;
+        List<Block> blockList = new List<Block>(ReturnBlocks());
+        if (blockList.Count == 0) return;
 
-        foreach (var block in PlacedBlocks)
+        foreach (var block in blockList)
         {
             if (block.IsDeathTrigger) continue;
             block.IsSuccess = false;
+        } 
+
+        List<Block> availableBlocks = new List<Block>(blockList);
+        foreach(var block in blockList)
+        {
+           availableBlocks.Add(block);
         }
 
-        List<Block> availableBlocks = new List<Block>(PlacedBlocks);
-
-        for (int i = 0; i < PlacedBlocks.Count; i++)
+        for (int i = 0; i < blockList.Count; i++)
         {
-            Block current = PlacedBlocks[i];
+            Block current = blockList[i];
             if (!availableBlocks.Contains(current)) continue;
 
             bool success = true;
@@ -156,7 +160,7 @@ public class TimelineManager : SingleTon<TimelineManager>
                 success = false;
                 for (int j = 0; j < i; j++)
                 {
-                    Block other = PlacedBlocks[j];
+                    Block other = blockList[j];
                     if (!availableBlocks.Contains(other)) continue;
 
                     if (BlockValidator.CanCombineWithPrev(current, other))
@@ -180,7 +184,7 @@ public class TimelineManager : SingleTon<TimelineManager>
                 success = false;
                 for (int j = i + 1; j < PlacedBlocks.Count; j++)
                 {
-                    Block other = PlacedBlocks[j];
+                    Block other = blockList[j];
                     if (!availableBlocks.Contains(other)) continue;
 
                     if (BlockValidator.CanCombineWithNext(current, other))
@@ -203,12 +207,12 @@ public class TimelineManager : SingleTon<TimelineManager>
             if (prevSuccess != null)
             {
                 prevSuccess.IsSuccess = true;
-                Debug.Log($"[{prevSuccess.BlockName}] + [{current.BlockName}] 조합 결과: 성공");
+                Debug.Log($"[{prevSuccess.Name}] + [{current.Name}] 조합 결과: 성공");
             }
             if (nextSuccess != null)
             {
                 nextSuccess.IsSuccess = true;
-                Debug.Log($"[{current.BlockName}] + [{nextSuccess.BlockName}] 조합 결과: 성공");
+                Debug.Log($"[{current.Name}] + [{nextSuccess.Name}] 조합 결과: 성공");
             }
 
             current.SetGhost();
@@ -222,12 +226,12 @@ public class TimelineManager : SingleTon<TimelineManager>
         }
 
         // 실패 처리
-        foreach (var block in PlacedBlocks)
+        foreach (var block in blockList)
         {
             if (!block.IsSuccess)
             {
                 block.SetGhost();
-                Debug.Log($"[{block.BlockName}] 조합 결과: 실패");
+                Debug.Log($"[{block.Name}] 조합 결과: 실패");
             }
         }
     }
@@ -236,12 +240,12 @@ public class TimelineManager : SingleTon<TimelineManager>
 
     private void ContactBlockValid(ContactBlock contact, int index)
     {
-        bool hasDeathTriggerBefore = PlacedBlocks.GetRange(0, index).Any(b => b.IsDeathTrigger && b.IsSuccess);
+        bool hasDeathTriggerBefore = PlacedBlocks.GetRange(0, index).OfType<Block>().Any(b => b.IsDeathTrigger && b.IsSuccess);
         if (hasDeathTriggerBefore)
         {
             contact.IsSuccess = true;
             contact.SetGhost();
-            Debug.Log($"{contact.BlockName} 접촉 블럭 조건 만족: 성공한 사망 트리거 존재");
+            Debug.Log($"{contact.Name} 접촉 블럭 조건 만족: 성공한 사망 트리거 존재");
         }
         else Debug.Log("사망 트리거 없음");
     }
@@ -254,7 +258,7 @@ public class TimelineManager : SingleTon<TimelineManager>
         if (toIndex < 0) toIndex = 0;
         if (toIndex >= PlacedBlocks.Count) toIndex = PlacedBlocks.Count - 1;
 
-        Block blockToMove = PlacedBlocks[fromIndex];
+        TimelineElement blockToMove = PlacedBlocks[fromIndex];
         PlacedBlocks.RemoveAt(fromIndex);
         PlacedBlocks.Insert(toIndex, blockToMove);
 
@@ -303,26 +307,58 @@ public class TimelineManager : SingleTon<TimelineManager>
         index = PlacedBlocks.Count;
     }
 
-    public void LoadBlocks(List<int> blockIds)
+    public void LoadBlocks(List<TimelineSaveData> elementIds)
     {
         Block[] allBlocks = FindObjectsOfType<Block>();
+        Event[] allEvents = FindObjectsOfType<Event>();
 
-        foreach(var id in blockIds)
+        foreach (var element in elementIds)
         {
-            var block = allBlocks.FirstOrDefault(b  => b.id == id);
-            if (block != null)
+            if (element.isBlock)
             {
-                if (!PlacedBlocks.Contains(block))
+                var block = allBlocks.FirstOrDefault(b => b.id == element.id);
+                if (block != null && !PlacedBlocks.Contains(block))
                 {
                     AddBlock(block);
                 }
+                else Debug.Log($"Block: {element.id} not found");
             }
-            else Debug.Log($"{id} block not found");
+            else
+            {
+                var evt = allEvents.FirstOrDefault(e => e.id == element.id);
+                if (evt != null && !PlacedBlocks.Contains(evt))
+                {
+                    AddBlock(evt);
+                    evt.IsCollect = true;
+                }
+                else Debug.Log($"Event: {element.id} not found");
+            }
+            foreach (var item in PlacedBlocks)
+            {
+                if (item is Block block)
+                    block.SetGhost();
+            }
+            ValidateCombinations();
         }
-        foreach(var block in PlacedBlocks)
+    }
+
+    public List<Block> ReturnBlocks()
+    {
+        List<Block> blocks = new();
+        foreach(var item in PlacedBlocks)
         {
-            block.SetGhost();
+            if(item is Block block) blocks.Add(block);
         }
-        ValidateCombinations();
+        return blocks;
+    }
+
+    public List<Event> ReturnEvents()
+    {
+        List<Event> events = new();
+        foreach(var item in PlacedBlocks)
+        {
+            if(item is Event e) events.Add(e);
+        }
+        return events;
     }
 }

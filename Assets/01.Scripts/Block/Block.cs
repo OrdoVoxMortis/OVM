@@ -29,11 +29,8 @@ public enum CombineType
     AllowSpecific // 특정 블럭 허용
 }
 
-public class Block : MonoBehaviour, IInteractable
+public class Block : TimelineElement
 {
-    public int id;
-    public string BlockName {  get; private set; } // 이름
-
     public BlockType Type { get; private set; } // 유형
     public BlockAction Action { get; private set; } // 행동
 
@@ -55,7 +52,6 @@ public class Block : MonoBehaviour, IInteractable
     public AnimationClip AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
     public AudioClip BlockSound { get; private set; } // 블럭 사운드
 
-    public bool IsActive { get; set; } // 타임라인 내 활성화
     private GhostManager ghostManager;
     public bool IsSuccess { get; set; } // 조합 성공인지
     private PostProcessingToggle postProcessingToggle; // 추후 수정
@@ -81,7 +77,7 @@ public class Block : MonoBehaviour, IInteractable
 
         Type = data.type;
         Action = data.action;
-        BlockName = data.blockName;
+        Name = data.blockName;
         PreCombineRule = data.prevCombineRule;
         NextCombineRule = data.nextCombineRule;
         FixedTime = data.fixedTime;
@@ -100,7 +96,7 @@ public class Block : MonoBehaviour, IInteractable
         }
     }
 
-    public void OnInteract()
+    public override void OnInteract()
     {
         if (!IsActive)
         {
@@ -118,7 +114,7 @@ public class Block : MonoBehaviour, IInteractable
       
     }
 
-    public string GetInteractComponent()
+    public override string GetInteractComponent()
     {
         if (!IsActive) return "E키를 눌러 활성화";
         else return "X키를 눌러 비활성화";
@@ -156,7 +152,7 @@ public class Block : MonoBehaviour, IInteractable
         ghostManager.SetBeatList(ghostManager.beats, ghostManager.pointNoteList, ghostManager.bpm);
     }
 
-    public void Deactive()
+    public override void Deactive()
     {
         gameObject.SetActive(false);
     }
@@ -170,7 +166,7 @@ public class Block : MonoBehaviour, IInteractable
         }
     }
 
-    public void SetInteractComponenet(string newText)
+    public override void SetInteractComponenet(string newText)
     {
         throw new System.NotImplementedException();
     }

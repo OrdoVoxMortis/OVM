@@ -123,8 +123,8 @@ public class Target : MonoBehaviour
 
         if (IsNotified)
         {
-            stateMachine.ChangeState(stateMachine.NotifiedState);
             IsNotified = false;
+            stateMachine.ChangeState(stateMachine.NotifiedState);
             return;
         }
 
@@ -180,6 +180,5 @@ public class Target : MonoBehaviour
         }
 
     }
-
 
 }

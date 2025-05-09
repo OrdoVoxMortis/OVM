@@ -62,7 +62,7 @@ namespace DataTable
 		public System.String mapId;
 		public System.Collections.Generic.List<String> npcId;
 		public System.Collections.Generic.List<Int32> blockId;
-		public System.Collections.Generic.List<String> eventId;
+		public System.Collections.Generic.List<Int32> eventId;
   
 
 #region fuctions

@@ -62,6 +62,9 @@ public class NPC : MonoBehaviour
     public bool isColliding = false; // 충돌
     public bool isWalking = true;
     public LayerMask layer;
+    private Coroutine stopCoroutine;
+
+    public Target target;
     private void Awake()
     {
         RhythmManager.Instance.OnStart += Destroy;
@@ -72,8 +75,10 @@ public class NPC : MonoBehaviour
         stateMachine = new NpcStateMachine(this);
         stateMachine.ChangeState(stateMachine.IdleState);
 
+        target = FindObjectOfType<Target>();
         player = GameManager.Instance.Player.gameObject;
         playerCollider = player.GetComponent<Collider>();
+        prevAnimSpeed = Agent.speed;
     }
     private void Init()
     {
@@ -83,6 +88,7 @@ public class NPC : MonoBehaviour
         FindArea();
 
         CurSuspicion = 0;
+        isWalking = true;
     }
     private void Update()
     {
@@ -201,21 +207,42 @@ public class NPC : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("충돌");
-            isColliding = true;
-            Agent.isStopped = true;
             Animator.SetBool("Walk", false);
             Animator.SetBool("Run", false);
             Animator.SetBool("Trigger", true);
-
-            StartCoroutine(StopDelay(2f, isWalking));
+            if (stopCoroutine != null) StopCoroutine(stopCoroutine);
+            stopCoroutine = StartCoroutine(StopDelay(3f, isWalking));
 
         }
     }
 
     private IEnumerator StopDelay(float delay, bool walk)
     {
-        yield return new WaitForSeconds(delay);
+        float speed = Agent.speed;
+        float elapsed = 0f;
+        float duration = 2f;
 
+        //Stop Walking - 애니메이션 2초 후 멈춤
+        if (walk)
+        {
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                Agent.speed = Mathf.Lerp(speed, 0f, elapsed / duration);
+                yield return null;
+            }
+        }
+        else
+        {
+            Agent.speed = 0f; // 즉시 정지
+        }
+
+
+        isColliding = true;
+
+        yield return new WaitForSeconds(walk ? delay : 1f);
+
+        Agent.speed = prevAnimSpeed;
         isColliding = false;
         Agent.isStopped = false;
         Animator.SetBool("Trigger", false);

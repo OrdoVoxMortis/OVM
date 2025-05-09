@@ -23,7 +23,7 @@ public class TargetNotifiedState : TargetBaseState
         }
 
         StartAnimation(stateMachine.Target.AnimationData.IdleParameterHash);
-        timer = 4f;
+        timer = 10.5f;
     }
 
     public override void Update()

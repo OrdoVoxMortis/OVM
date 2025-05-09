@@ -60,11 +60,19 @@ public class GameManager : SingleTon<GameManager>
 
             OnGameClear?.Invoke();
 
-            SaveManager.Instance.SaveGame();
+            if (!SaveManager.Instance.eventReplay)
+            {
+                SaveManager.Instance.SaveGame();
 
-            var ui = UIManager.Instance.ShowUI<UI_GameClear>("GameClear_UI");
-            ui.SetText();
-            UIManager.Instance.UIActive();
+                var ui = UIManager.Instance.ShowUI<UI_GameClear>("GameClear_UI");
+                ui.SetText();
+                UIManager.Instance.UIActive();
+            }
+            else
+            {
+                UIManager.Instance.ClearUI();
+                LoadScene("Lobby_Scene");
+            }
             SelectedBGM = null;
             isEnd = true;
         }
