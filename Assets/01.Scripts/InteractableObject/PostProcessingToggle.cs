@@ -37,7 +37,7 @@ public class PostProcessingToggle : MonoBehaviour
         if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
         {
             float from = colorAdjustments.saturation.value;
-            float to = isEnabled ? -70f : 0f;
+            float to = isEnabled ? -100f : 0f;
 
             // 기존 코루틴이 있으면 중지하고 새로 시작
             if (saturationCoroutine != null)
