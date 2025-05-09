@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class UI_PlayRhythm : BaseUI
@@ -7,6 +8,9 @@ public class UI_PlayRhythm : BaseUI
     public Button playBtn;
     public Image playCancle;
     TimelineCamera timelineCam;
+
+    public bool isEnabled = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -44,11 +48,12 @@ public class UI_PlayRhythm : BaseUI
         {
             Debug.Log("암살 시작!");
             // 여기 암살 시작하는 코드 넣으면 됨
-
+            Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
             RhythmManager.Instance.OnStart?.Invoke();
 
             // GameManager.Instance.Player.Input.PlayerActionUnsubscribe(); 입력이 된 부분이 없어서 null 오류 발생!
             GameManager.Instance.Player.gameObject.SetActive(false);
+            TimelineManager.Instance.gameObject.SetActive(false);
 
             for(int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
             {

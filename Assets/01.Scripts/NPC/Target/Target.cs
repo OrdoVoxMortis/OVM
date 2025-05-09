@@ -105,7 +105,9 @@ public class Target : MonoBehaviour
                 prevAgentStopped = Agent.isStopped;
                 prevAnimSpeed = Animator.speed;
 
+                // Target의 이동을 멈춤
                 Agent.isStopped = true;
+                // 애니메이션을 멈춤
                 Animator.speed = 0f;
                 isPause = true;
             }

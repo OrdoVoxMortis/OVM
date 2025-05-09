@@ -33,7 +33,7 @@ public class GhostEditor : Editor
 {
     float bpm;
     List<float> beats;
-    List<bool> notes; 
+    List<bool> notes;
 
     public override void OnInspectorGUI()
     {

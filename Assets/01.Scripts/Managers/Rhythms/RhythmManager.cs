@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class RhythmManager : SingleTon<RhythmManager>
@@ -25,6 +26,8 @@ public class RhythmManager : SingleTon<RhythmManager>
 
     public AnimationCurve curve;
 
+    public TextMeshProUGUI checkJudgeText;
+
     public List<IRhythmActions> rhythmActions;
     private int index = 0;
 
@@ -42,15 +45,12 @@ public class RhythmManager : SingleTon<RhythmManager>
         base.Awake();
 
         rhythmActions = new List<IRhythmActions>();
+        checkJudgeText.gameObject.SetActive(false);
     }
 
     public void Start()
     {
-        //audioSource = GetComponent<AudioSource>();
         measure = 60f / bpm * 4; //4박자가 한 마디 //4마디로 한 줄
-
-        //qteManager = GetComponent<QTEManager>();
-        //qteManager.bpm = bpm;
 
         //테스트용 비프음
         beepClip = CreateBeepClip();
@@ -58,6 +58,9 @@ public class RhythmManager : SingleTon<RhythmManager>
         beepAudioSource.clip = beepClip;
 
         isPlaying = true;
+
+        checkJudgeText.transform.SetAsLastSibling();
+        checkJudgeText.gameObject.SetActive(true);
     }
 
     private void Update()
@@ -78,7 +81,7 @@ public class RhythmManager : SingleTon<RhythmManager>
     public void StartMusic()
     {
         musicStartTime = AudioSettings.dspTime;
-        //audioSource.Play();
+        
         isPlaying = false;
         SoundManager.Instance.PlayBGM(bgmName);
     }
@@ -86,9 +89,9 @@ public class RhythmManager : SingleTon<RhythmManager>
     public void StartBeep()
     {
         musicStartTime = AudioSettings.dspTime;
-        //audioSource.Play();
-        SoundManager.Instance.PlayBGM(bgmName);
+
         isPlaying = false;
+        SoundManager.Instance.PlayBGM(bgmName);
         InvokeRepeating("PlayBeep", (float)syncTime, 60f / bpm);
     }
 
@@ -135,21 +138,18 @@ public class RhythmManager : SingleTon<RhythmManager>
 
         if (rhythmActions[index] is QTEManager)
         {
-            //노래 재생 관련 코드 추가
             SoundManager.Instance.PauseBGM();
         } 
         else
         {
             SoundManager.Instance.UnPauseBGM();
-            Debug.Log("다시 브금 재생");
         }
 
 
-        //ToDo 끝났을 때
+        //카메라 타인라인
         if (tlCIndex >= 0)
             timelineCamera.DisableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
 
-        //ToDo 여기서 다음 리듬액션 시작
         tlCIndex++;
         if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
             tlCIndex = 0;
@@ -185,9 +185,6 @@ public class RhythmManager : SingleTon<RhythmManager>
         UIManager.Instance.CurrentUIHide();
         isFinished = true;
         GameManager.Instance.GameClear();
-        Debug.Log("모든 리듬 액션 완료! 게임 종료 처리");
-
-        // 게임 종료 로직 추가0
     }
 
     public void RegisterTimelineCamera(TimelineCamera camera)

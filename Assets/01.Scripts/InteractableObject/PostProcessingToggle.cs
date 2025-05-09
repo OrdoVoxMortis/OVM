@@ -8,6 +8,8 @@ public class PostProcessingToggle : MonoBehaviour
     public bool isEnabled = false; // 기본적으로 활성화 상태
     public GameObject timeLine_UI;
     public GameObject playRhythm_UI;
+    public GameObject playerPrefab;
+    private GameObject simulationPlayer;
     PlayerController input;
     private Vector3 savedPlayerPosition;
 
@@ -29,6 +31,13 @@ public class PostProcessingToggle : MonoBehaviour
             savedPlayerPosition = GameManager.Instance.Player.transform.position;
             Debug.Log("플레이어 위치 저장!" + savedPlayerPosition);
             //TODO 시뮬레이션 전용 Cancle 구독
+            simulationPlayer = Instantiate(playerPrefab, savedPlayerPosition, Quaternion.identity);
+            if (simulationPlayer != null)
+            {
+                Player_Ghost player_Ghost = simulationPlayer.gameObject.GetComponent<Player_Ghost>();
+                player_Ghost.Initialize(GameManager.Instance.Player);
+            }
+
             GameManager.Instance.Player.Input.UnsubscribeCancleUI();
             timeLine_UI.SetActive(true);
             playRhythm_UI.SetActive(true);
@@ -38,6 +47,11 @@ public class PostProcessingToggle : MonoBehaviour
         else
         {
             GameManager.Instance.SimulationMode = false;
+            if (simulationPlayer != null)
+            {
+                Destroy(simulationPlayer);
+                Debug.Log("시뮬레이션용 플레이어 제거됨");
+            }
             StartCoroutine(RestorePlayerPosition());
             Debug.Log("플레이어 원래 위치로 복귀" + savedPlayerPosition);
             //TODO 시뮬레이션 전용 Cancle 구독 해제

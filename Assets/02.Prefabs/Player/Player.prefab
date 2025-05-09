@@ -215,8 +215,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1004417170723067766}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.004168534, y: 0.04523836, z: -0.012563185, w: 0.9988885}
-  m_LocalPosition: {x: 0.029372215, y: 0.9677783, z: 0.007349968}
+  m_LocalRotation: {x: 0.004168535, y: 0.045238275, z: -0.012563185, w: 0.9988885}
+  m_LocalPosition: {x: 0.029371496, y: 0.9677783, z: 0.0073497314}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -661,7 +661,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597661882742379820}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.03632493, y: -0, z: -0.00000004470348, w: 0.99934006}
+  m_LocalRotation: {x: 0.00000003842918, y: 0.95582503, z: -0.29393637, w: 0.00000008428548}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2817,8 +2817,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8048396943979275070}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000059604638, y: -0, z: 0.000000029802319, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.00000004043475, y: 0.944517, z: -0.32846272, w: 0.00000008346875}
+  m_LocalPosition: {x: -1.1340668e-13, y: -0.00000013348718, z: 0.00000094428583}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2896,8 +2896,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8578727736444650101}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.018189475, y: 0.000000029802322, z: 0.000000044703484, w: 0.9998346}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.00000010725567, y: 0.95033526, z: -0.3112281, w: 0.00000019862051}
+  m_LocalPosition: {x: -1.1340668e-13, y: -0.00000013348718, z: 0.00000094428583}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3058,7 +3058,6 @@ GameObject:
   - component: {fileID: 1172960441717689163}
   - component: {fileID: 9197163299602171486}
   - component: {fileID: 9180746790824164709}
-  - component: {fileID: 4923378560627218938}
   m_Layer: 9
   m_Name: FollowPlayerCamera
   m_TagString: Untagged
@@ -3074,8 +3073,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8778513299315604601}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27854303, y: 0.6499337, z: -0.27854303, w: 0.64993376}
-  m_LocalPosition: {x: -2, y: 2.2, z: 0}
+  m_LocalRotation: {x: -0, y: -0.9975358, z: -0.07015861, w: 0.000000059604638}
+  m_LocalPosition: {x: 0.00000047683716, y: 2.2, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3235,40 +3234,6 @@ MonoBehaviour:
   AutoEnableInputs: 1
   XYAxis: {fileID: -5630151704836100654, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   ZAxis: {fileID: 0}
---- !u!114 &4923378560627218938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8778513299315604601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
-  m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
-  m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
-    m_CustomCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
-  m_CameraCutEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_CameraActivatedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8994080444928254586
 GameObject:
   m_ObjectHideFlags: 0
@@ -3385,6 +3350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
+  jumpBufferTime: 0.1
 --- !u!320 &3104726792011483302
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -3404,8 +3370,6 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: -2686078478804609095, guid: 6c70870be0e42a34da46686ce076faf6, type: 2}
     value: {fileID: 0}
-  - key: {fileID: -5192630303837396845, guid: 6c70870be0e42a34da46686ce076faf6, type: 2}
-    value: {fileID: 8778513299315604601}
   - key: {fileID: -7069616854151182207, guid: 6c70870be0e42a34da46686ce076faf6, type: 2}
     value: {fileID: 0}
   m_ExposedReferences:

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +21,6 @@ public class QTE : MonoBehaviour
     public bool isOverGood;
 
     private float[] judges = new float[3] { 0.2f, 0.3f, 0.4f }; //perfect, good, miss, 0.4이후론 fail
-
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +45,6 @@ public class QTE : MonoBehaviour
         {
             manager.CheckQTE();
             CheckJudge();
-            Invoke("DestroyObject", 0.5f);
         }
 
         outerLine.localScale = new Vector2(outerLineSize, outerLineSize);
@@ -59,26 +58,36 @@ public class QTE : MonoBehaviour
         if (timing < judges[0])
         {
             Debug.Log("Perfect!");
+            RhythmManager.Instance.checkJudgeText.text = "<b> Perfect </b>";
+            RhythmManager.Instance.checkJudgeText.color = Color.blue;
             isOverGood = true;
         }
         else if (timing < judges[1])
         {
             Debug.Log("Good!");
+            RhythmManager.Instance.checkJudgeText.text = "<b> Good </b>";
+            RhythmManager.Instance.checkJudgeText.color = Color.green;
             isOverGood = true;
             StageManager.Instance.StageResult.QteCheck = false;
         }
         else if (timing < judges[2])
         {
             Debug.Log("Miss!");
+            RhythmManager.Instance.checkJudgeText.text = "<b> Miss </b>";
+            RhythmManager.Instance.checkJudgeText.color = Color.yellow;
             isOverGood = false;
             StageManager.Instance.StageResult.QteCheck = false;
         } 
         else
         {
             Debug.Log("Fail!");
+            RhythmManager.Instance.checkJudgeText.text = "<b> Fail </b>";
+            RhythmManager.Instance.checkJudgeText.color = Color.red;
             isOverGood = false;
             StageManager.Instance.StageResult.QteCheck = false;
         }
+        StopAllCoroutines();
+        StartCoroutine(HideJudgeTextAfterDelay(0.2f));
         isChecked = true;
 
         if (timing < judges[1]) //Good 이상인 경우 파티클
@@ -90,6 +99,13 @@ public class QTE : MonoBehaviour
         Invoke("DestroyObject", 0.5f);
         
     }
+
+    IEnumerator HideJudgeTextAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        RhythmManager.Instance.checkJudgeText.text = "";
+    }
+
 
     private void DestroyObject()
     {

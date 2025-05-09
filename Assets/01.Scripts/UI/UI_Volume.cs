@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UI_Volume : BaseUI
+public class UI_Volume : PopupUI
 {
     public Slider masterSlider;
     public Slider bgmSlider;
