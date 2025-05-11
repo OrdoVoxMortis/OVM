@@ -32078,8 +32078,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.8915094, g: 0.9607883, b: 1, a: 1}
-  m_Intensity: 0.45
+  m_Color: {r: 0.9990726, g: 1, b: 0.8915094, a: 1}
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -32138,7 +32138,7 @@ Transform:
   m_GameObject: {fileID: 705507993}
   serializedVersion: 2
   m_LocalRotation: {x: 0.29648435, y: -0.27372056, z: 0.15401113, w: 0.9019172}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 46.1, y: 73.9, z: -77.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -39302,6 +39302,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 265427334444175690, guid: ec4cee6e7ae21c74d9ae8cf75b885477,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 265427334444175694, guid: ec4cee6e7ae21c74d9ae8cf75b885477,
         type: 3}
@@ -78014,12 +78019,12 @@ GameObject:
   - component: {fileID: 1755423670}
   - component: {fileID: 1755423669}
   m_Layer: 0
-  m_Name: Post_Processing
+  m_Name: PostProcessing01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1755423669
 MonoBehaviour:
   m_ObjectHideFlags: 0
