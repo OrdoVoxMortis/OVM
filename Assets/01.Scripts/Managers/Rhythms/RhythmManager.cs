@@ -171,12 +171,12 @@ public class RhythmManager : SingleTon<RhythmManager>
 
         //카메라 타인라인
         if (tlCIndex >= 0)
-            timelineCamera.DisableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
+            timelineCamera.DisableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id, rhythmActions[index]);
 
         tlCIndex++;
         if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
             tlCIndex = 0;
-        timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id);
+        timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id, rhythmActions[index]);
 
         
         index++;

@@ -4,42 +4,42 @@ using UnityEngine.UI;
 
 public class UI_Sequence : MonoBehaviour
 {
-    public Block block;
+    public TimelineElement item;
     public TextMeshProUGUI blockName;
     public Image blockRange;
     public Image blockMiddle;
-    public void Initialize(Block block)
+    public void Initialize(TimelineElement item)
     {
-        this.block = block;
+        this.item = item;
 
-        if (blockName != null && block != null)
+        if (blockName != null && item != null)
         {
-            blockName.text = block.BlockName;
-            blockRange.color = GetRangeColorById(block.id);
-            blockMiddle.color = GetMiddleColorById(block.id);
+            blockName.text = item.Name;
+            blockRange.color = GetRangeColorById(item);
+            blockMiddle.color = GetMiddleColorById(item);
         }
     }
 
-    private Color GetRangeColorById(int id)
+    private Color GetRangeColorById(TimelineElement type)
     {
-        switch (id) 
+        switch (type) 
         {
-            case 4:
+            case ContactBlock:
                 return new Color32(255,90,70,200); // 접촉
-            case 5:
+            case Event:
                 return new Color32(255,250,140,200); // 이벤트
             default:
                 return new Color32(255,129,0,200); // 기본 색
         }
     }
 
-    private Color GetMiddleColorById(int id)
+    private Color GetMiddleColorById(TimelineElement type)
     {
-        switch (id)
+        switch (type)
         {
-            case 4:
+            case ContactBlock:
                 return Color.red; // 예: Tool
-            case 5:
+            case Event:
                 return Color.yellow; // 예: Food
             default:
                 return new Color32(255,167,6,255); // 기본 색

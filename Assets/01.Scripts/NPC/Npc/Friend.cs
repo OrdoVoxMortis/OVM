@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Friend : NPC
 {
+    public bool IsNotifying { get; private set; } = false;
     public void NotifyTarget(Target target, System.Action onComplete)
     {
+        if (IsNotifying) return;
+        IsNotifying = true;
         Debug.Log("nofity");
         StartCoroutine(WaitCo(target, onComplete));
         
@@ -15,8 +18,11 @@ public class Friend : NPC
     {
         target.FriendPosition = transform.position;
         Debug.Log(target.IsNotified);
-        yield return new WaitForSeconds(6.55f);
         target.IsNotified = true;
+
+        yield return new WaitForSeconds(10.5f);
+
+        IsNotifying = false;
         stateMachine.ChangeState(stateMachine.IdleState);
         onComplete?.Invoke();
     }

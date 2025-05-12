@@ -356,6 +356,7 @@ GameObject:
   - component: {fileID: 527617791762043408}
   - component: {fileID: 5476607762946689173}
   - component: {fileID: 7538973381360609481}
+  - component: {fileID: 9074208612446297285}
   m_Layer: 5
   m_Name: Event_Data_Block
   m_TagString: Untagged
@@ -423,6 +424,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9074208612446297285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6724937386726196574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01226a1f39d89334cb875d1e8de3c793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  replayBtn: {fileID: 8769276037322240634}
+  eventText: {fileID: 950138146287177885}
+  eventImage: {fileID: 7688557245602420875}
 --- !u!1 &9161400906265724242
 GameObject:
   m_ObjectHideFlags: 0

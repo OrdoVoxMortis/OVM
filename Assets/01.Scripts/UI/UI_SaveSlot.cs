@@ -1,3 +1,7 @@
+
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,8 +23,9 @@ public class UI_SaveSlot : MonoBehaviour
 
     public void SetSlot(SaveData data)
     {
+        Debug.Log(data.stageId);
         id = data.stageId;
-        if (DataManager.Instance.stageDict.TryGetValue(data.stageId, out var stage))
+        if (DataManager.Instance.stageDict.TryGetValue(id, out var stage))
         {
             stageName.text = stage.stageName;
         }
@@ -29,28 +34,45 @@ public class UI_SaveSlot : MonoBehaviour
         musicName.text = data.musicId;
         playTime.text = $"{(int)(data.playTime / 60)}분 {(int)data.playTime % 60}초";
 
-        if(data.blocks != null && data.blocks.Count > 0)
+        if(data.timeline != null && data.timeline.Count > 0)
         {
-            foreach (var block in data.blocks)
+            foreach (var element in data.timeline)
             {
-                if (block == null)
+                if (element == null)
                 {
-                    Debug.Log("block null");
+                    Debug.Log("element null");
                     continue;
                 }
                 var blockObj = Instantiate(blockPrefab, blocks);
                 var text = blockObj.GetComponentInChildren<TextMeshProUGUI>();
-                if (text != null) text.text = block.blockName;
+                if (text != null)
+                {
+                    if (element.isBlock)
+                    {
+                        var block = data.blocks.FirstOrDefault(b => b.id == element.id);
+                        if (block != null) text.text = block.blockName;
+                    }
+                    else
+                    {
+                        var evt = data.events.FirstOrDefault(e => e.id == element.id);
+                        if (evt != null) text.text = evt.eventName;
+                    }
+                }
                 else Debug.Log("text not found");
             }
         }
-        replayBtn.onClick.AddListener(SaveManager.Instance.Replay);
+        replayBtn.onClick.AddListener(Replay);
         retryBtn.onClick.AddListener(Retry);
     }
 
     private void Retry()
     {
         SaveManager.Instance.Retry(id);
+    }
+
+    private void Replay()
+    {
+        SaveManager.Instance.Replay(false);
     }
 
 }

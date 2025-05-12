@@ -20,7 +20,7 @@ namespace DataTable
     public partial class EventData : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<EventData> loadedList, Dictionary<string, EventData> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<EventData> loadedList, Dictionary<int, EventData> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1bYLkGCQlm6YZeaVqFQ97hwpNjzjzLIdVvqCNYFtR3ug"; // it is file id
@@ -29,7 +29,7 @@ namespace DataTable
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<string, EventData> EventDataMap = new Dictionary<string, EventData>();  
+        public static Dictionary<int, EventData> EventDataMap = new Dictionary<int, EventData>();  
         public static List<EventData> EventDataList = new List<EventData>();   
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace DataTable
         /// Get EventData Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<string, EventData>  GetDictionary()
+        public static Dictionary<int, EventData>  GetDictionary()
         {{
            if (isLoaded == false) Load();
            return EventDataMap;
@@ -56,7 +56,7 @@ namespace DataTable
 
 /* Fields. */
 
-		public System.String id;
+		public System.Int32 id;
 		public System.String name;
 		public System.String description;
   
@@ -85,7 +85,7 @@ namespace DataTable
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<EventData>, Dictionary<string, EventData>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<EventData>, Dictionary<int, EventData>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -113,8 +113,8 @@ namespace DataTable
                
 
 
-    public static (List<EventData> list, Dictionary<string, EventData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<string, EventData> Map = new Dictionary<string, EventData>();
+    public static (List<EventData> list, Dictionary<int, EventData> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<int, EventData> Map = new Dictionary<int, EventData>();
             List<EventData> List = new List<EventData>();     
             TypeMap.Init();
             FieldInfo[] fields = typeof(EventData).GetFields(BindingFlags.Public | BindingFlags.Instance);

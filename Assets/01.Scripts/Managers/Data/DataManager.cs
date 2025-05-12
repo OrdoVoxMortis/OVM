@@ -11,7 +11,7 @@ public class DataManager : SingleTon<DataManager>
     public Dictionary<string, StageData> stageDict { get; private set; } = new();
     public Dictionary<string, MapData> mapDict { get; private set; } = new();
     public Dictionary<string, MissionData> missionDict { get; private set; } = new();
-    public Dictionary<string, EventData> eventDict { get; private set; } = new();
+    public Dictionary<int, EventData> eventDict { get; private set; } = new();
     public Dictionary<string, MusicData> musicDict { get; private set; } = new();
     public Dictionary<string, SuspicionData> suspicionDict { get; private set; } = new();
     public Dictionary<string, NpcTypeData> npcTypeDict { get; private set; } = new();
@@ -23,7 +23,6 @@ public class DataManager : SingleTon<DataManager>
         UnityGoogleSheet.LoadAllData();
         InitData();
     }
-
 
     private void InitData()
     {
