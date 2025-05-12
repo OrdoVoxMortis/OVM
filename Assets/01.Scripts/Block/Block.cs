@@ -53,15 +53,15 @@ public class Block : TimelineElement
     public AnimationClip AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
     public AudioClip BlockSound { get; private set; } // 블럭 사운드
 
-    private GhostManager ghostManager;
+    protected GhostManager ghostManager;
     public bool IsSuccess { get; set; } // 조합 성공인지
-    private PostProcessingToggle postProcessingToggle; // 추후 수정
-    private GameObject clone; // 클론 위치
-    private Animator animator;
-    private MeshRenderer blockMesh;
-    private Material ghostOutline;
+    protected PostProcessingToggle postProcessingToggle; // 추후 수정
+    protected GameObject clone; // 클론 위치
+    protected Animator animator;
+    protected MeshRenderer blockMesh;
+    protected Material ghostOutline;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         LoadData();
         ghostManager = GetComponent<GhostManager>();
@@ -142,7 +142,7 @@ public class Block : TimelineElement
         ghostManager.blockSound = DataManager.Instance.blockDict[id].blockSound;
     }
 
-    public void SetGhost()
+    public virtual void SetGhost()
     {
         if(ghostManager == null) return;    
         var animatorController = new AnimatorOverrideController(animator.runtimeAnimatorController);
