@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
-public class Door : MonoBehaviour, IInteractable
+public class StageStartPoint : MonoBehaviour, IInteractable
 {
     private bool isInteracted = false;
     private UI_Music musicUI;
