@@ -834,9 +834,9 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 1971570266601348769}
   m_AABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+    m_Center: {x: 0, y: 0.92311543, z: 0.016617514}
+    m_Extent: {x: 0.8639289, y: 0.9231153, z: 0.15747148}
+  m_DirtyAABB: 0
 --- !u!1 &1371161000851861220
 GameObject:
   m_ObjectHideFlags: 0
@@ -3827,6 +3827,9 @@ GameObject:
   - component: {fileID: 6150317858035231599}
   - component: {fileID: 5002791078059401092}
   - component: {fileID: 4821324382513231578}
+  - component: {fileID: 7697715916283514167}
+  - component: {fileID: 459872771708255337}
+  - component: {fileID: 4975550047821111433}
   m_Layer: 0
   m_Name: Guard
   m_TagString: Untagged
@@ -3891,7 +3894,7 @@ Animator:
   m_GameObject: {fileID: 6335277960274065185}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 50979f4f3e14a40059768bd9d93da132, type: 2}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9077b2feef785b84a8e7b77bdfad28bb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4113,6 +4116,87 @@ MonoBehaviour:
       m_RotationOrder: 4
     CurveXRangeDegree: 90
     CurveYRangeDegree: 10
+--- !u!195 &7697715916283514167
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6335277960274065185}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.22
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 1
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.8
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!136 &459872771708255337
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6335277960274065185}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.22388119
+  m_Height: 2.062271
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8372803, z: 0}
+--- !u!114 &4975550047821111433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6335277960274065185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da0519587b7abc44bffab3b566aa4dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: NPC_G001
+  <Data>k__BackingField: {fileID: 11400000, guid: 4f09a92c775b9534c94aed6da60abdc5,
+    type: 2}
+  <AnimationData>k__BackingField:
+    groundParameterName: '@Ground'
+    idleParameterName: Idle
+    interactionParameterName: Interaction
+    walkParameterName: Walk
+    runParameterName: Run
+    sitParameterName: Sit
+    airParameterName: '@Air'
+    jumpParameterName: Jump
+    fallParameterName: Fall
+  player: {fileID: 0}
+  playerCollider: {fileID: 0}
+  isColliding: 0
+  isWalking: 1
+  layer:
+    serializedVersion: 2
+    m_Bits: 512
+  target: {fileID: 0}
+  waitPositions:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &6414942086325458498
 GameObject:
   m_ObjectHideFlags: 0
@@ -4461,9 +4545,9 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 1971570266601348769}
   m_AABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+    m_Center: {x: 0.000000044703484, y: 1.7017817, z: 0.02123724}
+    m_Extent: {x: 0.11058947, y: 0.13095272, z: 0.07673094}
+  m_DirtyAABB: 0
 --- !u!1 &6911398561384136524
 GameObject:
   m_ObjectHideFlags: 0
@@ -5995,6 +6079,6 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 1971570266601348769}
   m_AABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  m_DirtyAABB: 1
+    m_Center: {x: -0.0005566776, y: 1.7334573, z: -0.02980519}
+    m_Extent: {x: 0.11456315, y: 0.13065928, z: 0.13162592}
+  m_DirtyAABB: 0

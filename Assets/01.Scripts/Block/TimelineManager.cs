@@ -240,12 +240,14 @@ public class TimelineManager : SingleTon<TimelineManager>
 
     private void ContactBlockValid(ContactBlock contact, int index)
     {
-        bool hasDeathTriggerBefore = PlacedBlocks.GetRange(0, index).OfType<Block>().Any(b => b.IsDeathTrigger && b.IsSuccess);
-        if (hasDeathTriggerBefore)
+        var deathTrigger = PlacedBlocks.GetRange(0, index).OfType<Block>().FirstOrDefault(b => b.IsDeathTrigger && b.IsSuccess);
+        if (deathTrigger != null)
         {
             contact.IsSuccess = true;
             contact.SetGhost();
-            Debug.Log($"{contact.Name} 접촉 블럭 조건 만족: 성공한 사망 트리거 존재");
+            contact.IsDeath = true;
+            contact.matchedTriggerId = deathTrigger.id;
+            Debug.Log($"{contact.Name} + {deathTrigger.Name}: 성공한 사망 트리거 존재");
         }
         else Debug.Log("사망 트리거 없음");
     }

@@ -94,9 +94,10 @@ public class Block : TimelineElement
         IsDeathTrigger = data.isDeathTrigger;
         CurrentAfterFlexTime = AfterFlexibleMarginTime;
 
-        if (ResourceManager.Instance.LoadAnimationClip(data.successSequence) == null) return;
         SuccessSequence = ResourceManager.Instance.LoadAnimationClip(data.successSequence);
         FailSequence = ResourceManager.Instance.LoadAnimationClip(data.failSequence);
+        
+
         FixedSequence = ResourceManager.Instance.LoadAnimationClip(data.fixedSequence);
         AfterFlexSequence = ResourceManager.Instance.LoadAnimationClip(data.afterFlexSequence);
         if (!string.IsNullOrEmpty(data.blockSound) && ResourceManager.Instance.SfxList.TryGetValue(data.blockSound, out var clip))

@@ -38,4 +38,5 @@ public class DataManager : SingleTon<DataManager>
         resultDict = ResultData.GetDictionary();
         dialogDict = DialogData.GetDictionary();
     }
+
 }
