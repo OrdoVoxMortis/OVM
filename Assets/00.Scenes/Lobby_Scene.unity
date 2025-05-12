@@ -500,6 +500,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &712884857 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6397048286569735210, guid: bd664f20b11d5e34596f6d1908c9b2f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1002183399}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1002183399
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -587,6 +593,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Lobby_Cam
+      objectReference: {fileID: 0}
+    - target: {fileID: 6397048286569735210, guid: bd664f20b11d5e34596f6d1908c9b2f4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1364,17 +1375,17 @@ PrefabInstance:
     - target: {fileID: 3926827062505038733, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.1340668e-13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3926827062505038733, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000013348715
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3926827062505038733, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.00000094428583
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3926827062505038733, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
@@ -1469,17 +1480,17 @@ PrefabInstance:
     - target: {fileID: 7128781054590977844, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.1340668e-13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7128781054590977844, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000013348715
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7128781054590977844, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.00000094428583
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7128781054590977844, guid: 0c6b91712f3bf3a45a97a1e486b9310f,
         type: 3}
@@ -1714,6 +1725,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4651137792663430650, guid: 73fae67507e64924c87e77b494459d5d,
+        type: 3}
+      propertyPath: lobbyCam
+      value: 
+      objectReference: {fileID: 712884857}
     - target: {fileID: 4657881837916933033, guid: 73fae67507e64924c87e77b494459d5d,
         type: 3}
       propertyPath: m_IsActive
