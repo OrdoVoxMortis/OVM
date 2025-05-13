@@ -13,7 +13,7 @@ public class NpcIdleState : NpcBaseState
     {
         base.Enter();
         stateMachine.npc.Agent.isStopped = false;
-
+        StartAnimation(stateMachine.npc.AnimationData.GroundParameterHash);
         Debug.Log("idle");
     }
 
@@ -30,8 +30,8 @@ public class NpcIdleState : NpcBaseState
         else if (stateMachine.npc.behaviorType == BaseBehaviorType.Idle)
         {
             stateMachine.npc.Agent.isStopped = true;
-            StopAnimation("Walk");
-            StartAnimation("Talking");
+            StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
+            StartAnimation(stateMachine.npc.AnimationData.TalkingParameterHash);
         }
         else base.Update();
 

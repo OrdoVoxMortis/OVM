@@ -96,8 +96,8 @@ public class NpcActionState : NpcBaseState
         Debug.Log("발동형 시작");
         isTriggered = true;
         stateMachine.npc.IsAction = true;
-        StopAnimation("TurnLeft");
-        StopAnimation("TurnRight");
+        StopAnimation(stateMachine.npc.AnimationData.TurnLeftParameterHash);
+        StopAnimation(stateMachine.npc.AnimationData.TurnRightParameterHash);
 
         ActionType type = stateMachine.npc.TriggerAlertAction;
 
@@ -119,7 +119,7 @@ public class NpcActionState : NpcBaseState
             if (stateMachine.npc.isColliding) stateMachine.npc.Agent.isStopped = true;
             else stateMachine.npc.Agent.isStopped = false;
             stateMachine.npc.Agent.SetDestination(stateMachine.npc.target.transform.position);
-            StartAnimation("Run");
+            StartAnimation(stateMachine.npc.AnimationData.RunParameterHash);
             stateMachine.npc.isWalking = false;
             isMovingToTarget = true;
         }
@@ -132,8 +132,8 @@ public class NpcActionState : NpcBaseState
         
         if (agent.remainingDistance <= agent.stoppingDistance) //도착시
         {
-            StartAnimation("Notify");
-            StopAnimation("Run");
+            StartAnimation(stateMachine.npc.AnimationData.NofityParameterHash);
+            StopAnimation(stateMachine.npc.AnimationData.RunParameterHash);
             Vector3 lookDir = (stateMachine.npc.target.transform.position - stateMachine.npc.transform.position);
             lookDir.y = 0;
             if (lookDir.sqrMagnitude > 0.01f)
@@ -150,7 +150,7 @@ public class NpcActionState : NpcBaseState
                 if (friend.IsNotifying) return;
                 friend.NotifyTarget(stateMachine.npc.target, () =>
                 {
-                    StopAnimation("Notify");
+                    StopAnimation(stateMachine.npc.AnimationData.NofityParameterHash);
                 });
 
             }
@@ -162,7 +162,7 @@ public class NpcActionState : NpcBaseState
     }
     private void LookAtTarget()
     {
-        StopAnimation("Walk");
+        StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
         stateMachine.npc.Agent.isStopped = true;
         stateMachine.npc.Agent.velocity = Vector3.zero;
         Vector3 dirToTarget = (stateMachine.Target.transform.position - stateMachine.npc.transform.position).normalized;
@@ -183,19 +183,19 @@ public class NpcActionState : NpcBaseState
         {
             if(angle > 0f)
             {
-                StartAnimation("TurnRight");
-                StopAnimation("TurnLeft");
+                StartAnimation(stateMachine.npc.AnimationData.TurnRightParameterHash);
+                StopAnimation(stateMachine.npc.AnimationData.TurnLeftParameterHash);
             }
             else
             {
-                StopAnimation("TurnRight");
-                StartAnimation("TurnLeft");
+                StopAnimation(stateMachine.npc.AnimationData.TurnRightParameterHash);
+                StartAnimation(stateMachine.npc.AnimationData.TurnLeftParameterHash);
             }
         }
         else 
         {
-            StopAnimation("TurnRight");
-            StopAnimation("TurnLeft");
+            StopAnimation(stateMachine.npc.AnimationData.TurnRightParameterHash);
+            StopAnimation(stateMachine.npc.AnimationData.TurnLeftParameterHash);
         }
 
         stateMachine.npc.Agent.updateRotation = true;
@@ -206,11 +206,11 @@ public class NpcActionState : NpcBaseState
     {
         stateMachine.npc.isWalking = false;
         stateMachine.npc.Agent.isStopped = false;
-        StartAnimation("Run");
+        StartAnimation(stateMachine.npc.AnimationData.RunParameterHash);
         stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
         if (stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
         {
-            StopAnimation("Run");
+            StopAnimation(stateMachine.npc.AnimationData.RunParameterHash);
             GameManager.Instance.GameOver();
             Debug.Log("가드");
             stateMachine.ChangeState(stateMachine.IdleState);

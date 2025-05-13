@@ -52,7 +52,7 @@ public class NPC : MonoBehaviour
     public NavMeshAgent Agent { get; set; }
 
     [field: SerializeField] public NPCSO Data { get; private set; }
-    [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
+    [field: SerializeField] public NpcAnimationData AnimationData { get; private set; }
 
     public Animator Animator { get; private set; }
     public BoxCollider Area { get; set; }
@@ -78,6 +78,7 @@ public class NPC : MonoBehaviour
 
     private void Awake()
     {
+        AnimationData.Initialize();
         RhythmManager.Instance.OnStart += Destroy;
     }
     private void Start()

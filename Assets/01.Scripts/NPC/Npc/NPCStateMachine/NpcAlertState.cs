@@ -18,7 +18,7 @@ public class NpcAlertState : NpcBaseState
     public override void Exit() 
     { 
         base.Exit();
-        StopAnimation("Talking");
+        StopAnimation(stateMachine.npc.AnimationData.TalkingParameterHash);
     }
 
     public override void Update()
@@ -31,8 +31,8 @@ public class NpcAlertState : NpcBaseState
         else if (stateMachine.npc.behaviorType == BaseBehaviorType.Idle)
         {
             stateMachine.npc.Agent.isStopped = true;
-            StopAnimation("Walk");
-            StartAnimation("Talking");
+            StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
+            StartAnimation(stateMachine.npc.AnimationData.TalkingParameterHash);
         }
         if (IsPlayerInSight())
         {
