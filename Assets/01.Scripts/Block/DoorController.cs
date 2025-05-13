@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class DoorController : MonoBehaviour, IInteractable
 {
     [Header("Door Setting")]
-    [SerializeField] private Transform door;
 
     [Tooltip("문이 열릴 각도")]
     [SerializeField] private float openAngle = 90f;
@@ -20,6 +21,9 @@ public class DoorController : MonoBehaviour, IInteractable
     [Tooltip("닫는 데 걸릴 시간")]
     [SerializeField] private float closeDuration = 0.5f;
 
+    private NavMeshObstacle obstacle;
+    private Collider doorCollider;
+
     private Quaternion closeRot;
     private Quaternion openRot;
     private Coroutine routine;
@@ -28,15 +32,24 @@ public class DoorController : MonoBehaviour, IInteractable
 
     private void Awake()
     {
-        if (door == null)
-        {
-            door = transform.Find("Door");
-            if (door == null)
-                Debug.LogError($"{name}의 하위에 Door 오브젝트를 찾을 수 없습니다."); 
-        }
 
-        closeRot = door.localRotation;
+        closeRot = this.transform.localRotation;
         openRot = closeRot * Quaternion.Euler(0f, openAngle, 0f);
+
+        if (obstacle == null)
+            obstacle = GetComponent<NavMeshObstacle>();
+        if (doorCollider == null)
+            doorCollider = GetComponent<Collider>();
+
+        if (obstacle != null)
+            obstacle.carving = true;
+        if (doorCollider != null)
+            doorCollider.isTrigger = false;
+
+        if (obstacle == null)
+            Debug.LogWarning("Door 에 Nav Mesh Obstacle이 존재하지 않습니다.");
+        if (doorCollider == null)
+            Debug.LogWarning("Door 에 Collider가 존재하지 않습니다.");
 
     }
 
@@ -50,11 +63,22 @@ public class DoorController : MonoBehaviour, IInteractable
 
     private IEnumerator OpenClose()
     {
+        if (obstacle != null)
+            obstacle.carving = false;
+        if (doorCollider != null)
+            doorCollider.isTrigger = true;
+
         yield return RotateDoor(closeRot, openRot, openDuration);
 
         yield return new WaitForSeconds(closeDelay);
 
+        if (doorCollider != null)
+            doorCollider.isTrigger = false;
+
         yield return RotateDoor(openRot, closeRot, closeDuration);
+
+        if (obstacle != null)
+            obstacle.carving = true;
 
     }
 
@@ -68,10 +92,10 @@ public class DoorController : MonoBehaviour, IInteractable
             float t = Mathf.Clamp01(elapsed / duration);
 
             t = Mathf.SmoothStep(0f, 1f, t);
-            door.localRotation = Quaternion.Slerp(from, to, t);
+            this.transform.localRotation = Quaternion.Slerp(from, to, t);
             yield return null;
         }
-        door.localRotation = to;
+        this.transform.localRotation = to;
     }
 
     public void OnInteract()
