@@ -21,6 +21,14 @@ public class DoorController : MonoBehaviour, IInteractable
     [Tooltip("닫는 데 걸릴 시간")]
     [SerializeField] private float closeDuration = 0.5f;
 
+    [Header("Lockpick Setting")]
+
+    [Tooltip("문 잠금 여부")]
+    [SerializeField] private bool isLocked = false;
+
+    private string lockedInteractText = "락픽 사용하기 [E]";
+
+
     private NavMeshObstacle obstacle;
     private Collider doorCollider;
 
