@@ -168,6 +168,7 @@ public class RhythmManager : SingleTon<RhythmManager>
             SoundManager.Instance.UnPauseBGM();
         }
 
+        index++;
 
         //카메라 타인라인
         if (tlCIndex >= 0)
@@ -177,9 +178,6 @@ public class RhythmManager : SingleTon<RhythmManager>
         if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
             tlCIndex = 0;
         timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id, rhythmActions[index]);
-
-        
-        index++;
     }
 
     void PlayBeep()
