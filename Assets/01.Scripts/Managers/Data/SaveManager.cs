@@ -108,7 +108,7 @@ public class SaveManager : SingleTon<SaveManager>
             }
         }
 
-        data.musicId = GameManager.Instance.SelectedBGM.name;
+        data.musicId = GameManager.Instance.BgmId;
 
 
         string json = JsonUtility.ToJson(data, true);
@@ -167,7 +167,7 @@ public class SaveManager : SingleTon<SaveManager>
 
         var targetEvent = data.unlockedEvents[0];
 
-        if (ResourceManager.Instance.BgmList.TryGetValue(targetEvent.bgmName, out var clip))
+        if (ResourceManager.Instance.SfxList.TryGetValue(targetEvent.bgmName, out var clip))
         {
             GameManager.Instance.SetSelectedBGM(clip);
         }
