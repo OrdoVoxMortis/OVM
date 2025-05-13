@@ -662,7 +662,7 @@ Transform:
   m_GameObject: {fileID: 1597661882742379820}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000003842918, y: 0.95582503, z: -0.29393637, w: 0.00000008428548}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.1340668e-13, y: -0.00000013348718, z: 0.00000094428583}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2817,7 +2817,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8048396943979275070}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.00000004043475, y: 0.944517, z: -0.32846272, w: 0.00000008346875}
+  m_LocalRotation: {x: 0.000000027661198, y: 0.944517, z: -0.32846272, w: 0.00000011424308}
   m_LocalPosition: {x: -1.1340668e-13, y: -0.00000013348718, z: 0.00000094428583}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3248,6 +3248,7 @@ GameObject:
   - component: {fileID: 6988942782928831243}
   - component: {fileID: 7833809086189549734}
   - component: {fileID: 3104726792011483302}
+  - component: {fileID: 8705722962367184537}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -3383,6 +3384,23 @@ PlayableDirector:
     - 4ae52947822923946be7af776c58f4d1: {fileID: 0}
     - ca9bdd024eebc4847938b16fbc8ba594: {fileID: 8778513299315604601}
     - e93ffd45f68303e40a8f7640b91b4465: {fileID: 8778513299315604601}
+--- !u!114 &8705722962367184537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8994080444928254586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a76db477c8f49d444b6b1c8794ad6e77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  settingMenu: {fileID: 0}
+  interactText: {fileID: 0}
 --- !u!1 &9052421397502741760
 GameObject:
   m_ObjectHideFlags: 0
