@@ -20,6 +20,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
     public string[] hitSound = new string[2]; //0은 일반 노트 //1은 포인트 노트
 
+    public string eventBgm;
 
     [Header("QTE 생성 위치 조절")]
     public int rootPositionX;
@@ -79,7 +80,8 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         UI_QTE qteUI = UIManager.Instance.ShowUI<UI_QTE>("QTE_UI");
         qteUI.transform.SetAsFirstSibling();
         RhythmManager.Instance.checkJudgeText.transform.SetAsLastSibling();
-        SoundManager.Instance.PlaySfx("EventSound_E001");
+
+        SoundManager.Instance.PlaySfx("eventBgm");
         isAllNoteEnd = false;
 
         if (pointNoteList.Count < beats.Count)
@@ -96,7 +98,6 @@ public class QTEManager : MonoBehaviour, IRhythmActions
                 isLongNote.Add(false);
         }
 
-        
         for (int i = 0; i < beats.Count; i++)
         {
             float nextBeat = beats[i];

@@ -5,7 +5,6 @@ using UnityEngine;
 public class NpcStateMachine : StateMachine
 {
     public NPC npc { get; }
-    public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; private set; }
     public float RotationDamping { get; private set; } = 3f;
     public float MovementSpeedModifier { get; set; } = 1f;

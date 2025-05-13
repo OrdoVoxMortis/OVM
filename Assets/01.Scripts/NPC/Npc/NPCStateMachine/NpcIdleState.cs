@@ -13,7 +13,7 @@ public class NpcIdleState : NpcBaseState
     {
         base.Enter();
         stateMachine.npc.Agent.isStopped = false;
-
+        StartAnimation(stateMachine.npc.AnimationData.GroundParameterHash);
         Debug.Log("idle");
     }
 
@@ -27,7 +27,14 @@ public class NpcIdleState : NpcBaseState
         {
             GuardWait();
         }
+        else if (stateMachine.npc.behaviorType == BaseBehaviorType.Idle)
+        {
+            stateMachine.npc.Agent.isStopped = true;
+            StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
+            StartAnimation(stateMachine.npc.AnimationData.TalkingParameterHash);
+        }
         else base.Update();
+
         if (!stateMachine.npc.IsAction)
         {
             if (stateMachine.npc.CurAlertTime > 0)
@@ -36,10 +43,10 @@ public class NpcIdleState : NpcBaseState
 
             if (IsPlayerInSight())
             {
-                Debug.Log("NPC 플레이어 시야");
                 stateMachine.ChangeState(stateMachine.AlertState);
             }
         }
+
     }
 
 
