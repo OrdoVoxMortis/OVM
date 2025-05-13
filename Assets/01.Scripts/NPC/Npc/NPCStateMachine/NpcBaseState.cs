@@ -10,7 +10,6 @@ public class NpcBaseState : IState
     protected readonly PlayerGroundData groundData;
     protected bool isAlert = true;
     protected bool isAction = false;
-    public float moveDelay = 2f;
     protected float moveTimer = 0f;
 
     //Guard
@@ -47,6 +46,7 @@ public class NpcBaseState : IState
     {
         if (GameManager.Instance.SelectedBGM != null)
         {
+
             if (stateMachine.npc.isColliding)
             {
                 StopAnimation("Walk");
@@ -56,7 +56,7 @@ public class NpcBaseState : IState
             {
                 stateMachine.npc.Agent.isStopped = false;
                 moveTimer += Time.deltaTime;
-                if (moveTimer >= moveDelay)
+                if (moveTimer >= stateMachine.npc.moveDelay)
                 {
                     Move();
                     moveTimer = 0f;

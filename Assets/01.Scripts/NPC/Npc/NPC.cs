@@ -22,6 +22,11 @@ public enum ActionType
     Watch // 시선
 }
 
+public enum BaseBehaviorType
+{
+    Idle,
+    Wander
+}
 public class Suspicion
 {
     public string grade;
@@ -65,6 +70,12 @@ public class NPC : MonoBehaviour
     private Coroutine stopCoroutine;
 
     public Target target;
+
+    [Header("대기 시간")]
+    public float moveDelay = 2f;
+    [Header("기본 행동")]
+    public BaseBehaviorType behaviorType;
+
     private void Awake()
     {
         RhythmManager.Instance.OnStart += Destroy;

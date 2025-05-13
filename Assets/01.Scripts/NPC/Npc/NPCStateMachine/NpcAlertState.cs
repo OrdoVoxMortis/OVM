@@ -15,7 +15,11 @@ public class NpcAlertState : NpcBaseState
         Debug.Log("alert");
         stateMachine.npc.CurAlertTime = 0f;
     }
-    public override void Exit() { base.Exit(); }
+    public override void Exit() 
+    { 
+        base.Exit();
+        StopAnimation("Talking");
+    }
 
     public override void Update()
     {
@@ -23,6 +27,12 @@ public class NpcAlertState : NpcBaseState
         if (stateMachine.npc is Guard)
         {
             GuardWait();
+        }
+        else if (stateMachine.npc.behaviorType == BaseBehaviorType.Idle)
+        {
+            stateMachine.npc.Agent.isStopped = true;
+            StopAnimation("Walk");
+            StartAnimation("Talking");
         }
         if (IsPlayerInSight())
         {
