@@ -219,9 +219,9 @@ public class NPC : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("충돌");
-            Animator.SetBool("Walk", false);
-            Animator.SetBool("Run", false);
-            Animator.SetBool("Trigger", true);
+            Animator.SetBool(AnimationData.WalkParameterHash, false);
+            Animator.SetBool(AnimationData.RunParameterHash, false);
+            Animator.SetBool(AnimationData.TriggerParameterHash, true);
             if (stopCoroutine != null) StopCoroutine(stopCoroutine);
             stopCoroutine = StartCoroutine(StopDelay(3f, isWalking));
 
@@ -257,10 +257,10 @@ public class NPC : MonoBehaviour
         Agent.speed = prevAnimSpeed;
         isColliding = false;
         Agent.isStopped = false;
-        Animator.SetBool("Trigger", false);
+        Animator.SetBool(AnimationData.TriggerParameterHash, false);
 
-        if (walk) Animator.SetBool("Walk", true);
-        else Animator.SetBool("Run", true);
+        if (walk) Animator.SetBool(AnimationData.WalkParameterHash, true);
+        else Animator.SetBool(AnimationData.RunParameterHash, true);
     }
 }
 
