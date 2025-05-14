@@ -11,6 +11,8 @@ public class QTELong : QTE
     public float holdingTime;
     private float holdingDelta;
 
+    private bool isHolding;
+
     void Start()
     {
         outerLineSize = 2.0f;
@@ -18,9 +20,10 @@ public class QTELong : QTE
 
         if (holdingTime == 0f)
             holdingTime = 1f;
-
+        innerCircleSize = 0f;
+        innerCircle.localScale = new Vector2(0f, 0f);
         holdingDelta = 1f / holdingTime;
-        manager.isHolding = false;
+        isHolding = false;
     }
 
     void Update()
@@ -28,29 +31,35 @@ public class QTELong : QTE
         if (isChecked)
             return;
 
-        if (!manager.isHolding && outerLineSize <= 1 - judges[2]) //누르는 거 자체를 놓친 경우
+        if (!isHolding && outerLineSize <= 1 - judges[2]) //누르는 거 자체를 놓친 경우
         {
             manager.CheckQTE();
         }
 
-        if (!manager.isHolding) //바깥원 줄어듦
+        if(isHolding && innerCircleSize >= 1f)
+        {
+            //삭제
+            Destroy(gameObject);
+        }
+
+        if (!isHolding) //바깥원 줄어듦
         {
             outerLineSize -= Time.deltaTime;
             outerLine.localScale = new Vector2(outerLineSize, outerLineSize);
         }
 
-        if (manager.isHolding) //안쪽원 채워짐
+        if (isHolding) //안쪽원 채워짐
         {
             innerCircleSize += holdingDelta * Time.deltaTime;
             innerCircle.localScale = new Vector2(innerCircleSize, innerCircleSize);
+            innerImage.color = gradient.Evaluate(Mathf.Abs(innerCircleSize));
         }
 
-        innerImage.color = gradient.Evaluate(1 - Mathf.Abs(1 - outerLineSize));
     }
 
     public override void CheckJudge()
     {
-        if (manager.isHolding)
+        if (isHolding)
             return;
         float timing = Mathf.Abs(1f - outerLineSize);
         if (timing > judges[1]) //실패시
@@ -73,7 +82,7 @@ public class QTELong : QTE
             outerLine.gameObject.SetActive(false);
             innerCircle.gameObject.SetActive(false);
             isChecked = true;
-
+            isHolding = false;
             Invoke("DestroyObject", 0.5f);
         } 
         else //성공시
@@ -93,7 +102,8 @@ public class QTELong : QTE
                 isOverGood = true;
                 StageManager.Instance.StageResult.QteCheck = true;
             }
-            manager.isHolding = true;
+            outerLine.localScale = new Vector2(1f, 1f);
+            isHolding = true;
         }
 
     }

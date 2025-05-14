@@ -67,6 +67,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         if(Input.GetKeyUp(KeyCode.Space) && isHolding)
         {
             //롱노트 처리
+            isHolding = false;
         }
     }
 
@@ -119,17 +120,23 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
             if(isLongNoteDoing) //롱노트 처리 중엔 시간만 넘기기 //생성 X
             {
+                if (isHolding)
+                    Invoke("CheckQTE", 1f);
+
                 if (isLongNote[i])
+                {
                     isLongNoteDoing = false;
-                CheckQTE();
+                    isHolding = false;
+                }
+
                 yield return new WaitForSeconds((60f / bpm) / nextBeat);
                 continue;
             }
 
-            if (isLongNote[i]) //롱노트
+            yield return new WaitForSeconds((60f / bpm) / nextBeat);
+            if (isLongNote[i]) //롱노트 시작
             {
                 //롱 노트 처리
-                yield return new WaitForSeconds((60f / bpm) / nextBeat);
                 float holdingTime = 0f; 
                 for(int j = i + 1; j < beats.Count; j++)
                 {
@@ -138,16 +145,13 @@ public class QTEManager : MonoBehaviour, IRhythmActions
                         break;
                 }
 
-                qte = Instantiate(qtePrefabs, canvas.transform).GetComponent<QTELong>();
+                qte = Instantiate(qteLongPrefabs, canvas.transform).GetComponent<QTELong>();
                 
                 ((QTELong)qte).holdingTime = holdingTime;
-
                 isLongNoteDoing = true;
             }
             else //일반 노트
             {
-                yield return new WaitForSeconds((60f / bpm) / nextBeat);
-
                 qte = Instantiate(qtePrefabs, canvas.transform).GetComponent<QTEShort>();
             }
 
