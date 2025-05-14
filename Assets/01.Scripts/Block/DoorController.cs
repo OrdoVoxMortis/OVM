@@ -27,8 +27,8 @@ public class DoorController : MonoBehaviour, IInteractable
     [SerializeField] private bool isLocked = false;
     [Tooltip("락픽 시간")]
     [SerializeField] private float lockPickDuration;
-    [Tooltip("카메라 고정 위치")]
-    [SerializeField] private Transform lockPickCamPoint;
+    [Tooltip("문 손잡이 위치")]
+    [SerializeField] private Transform doorHandle;
 
 
     private string lockedInteractText = "락픽 사용하기 [E]";
@@ -42,6 +42,8 @@ public class DoorController : MonoBehaviour, IInteractable
     private Coroutine routine;
 
     private string interactText = "E키를 눌러 상호작용";
+
+    private bool isClose;   // 문이 닫혔는지 확인
 
     private void Awake()
     {
@@ -64,6 +66,7 @@ public class DoorController : MonoBehaviour, IInteractable
         if (doorCollider == null)
             Debug.LogWarning("Door 에 Collider가 존재하지 않습니다.");
 
+        isClose = true;
     }
 
     public void OpenDoor()
@@ -76,6 +79,8 @@ public class DoorController : MonoBehaviour, IInteractable
 
     private IEnumerator OpenClose()
     {
+        isClose = false;
+
         if (obstacle != null)
             obstacle.carving = false;
         if (doorCollider != null)
@@ -93,6 +98,13 @@ public class DoorController : MonoBehaviour, IInteractable
         if (obstacle != null)
             obstacle.carving = true;
 
+        isClose = true;
+
+    }
+
+    public void Unlock()
+    {
+        isLocked = false;
     }
 
 
@@ -113,7 +125,30 @@ public class DoorController : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        OpenDoor();
+        if (GameManager.Instance.Player.stateMachine.CurrentState() is PlayerAirState)
+            return;
+
+        if (GameManager.Instance.Player.stateMachine.CurrentState() is PlayerInteractionLockpick)
+            return;
+
+        if (!isClose)
+            return;
+
+        if (isLocked)
+        {
+            isClose = false;
+
+            float duration = lockPickDuration;
+            PlayerStateMachine sm = GameManager.Instance.Player.stateMachine;
+            PlayerInteractionLockpick lockState = new PlayerInteractionLockpick(sm, this, duration);
+            sm.ChangeState(lockState);
+        }
+        else
+        {
+            isClose = false;
+            OpenDoor();
+        }
+
     }
 
     public void Deactive()
@@ -123,6 +158,9 @@ public class DoorController : MonoBehaviour, IInteractable
 
     public string GetInteractComponent()
     {
+        if (!isClose)
+            return string.Empty;
+
         return isLocked ? lockedInteractText : interactText;
     }
 
@@ -130,4 +168,10 @@ public class DoorController : MonoBehaviour, IInteractable
     {
         interactText = newText;
     }
+
+    public Transform GetDoorHandleTrans()
+    {
+        return doorHandle;
+    }
+
 }

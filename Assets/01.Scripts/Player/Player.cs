@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     public PlayerStateMachine stateMachine;
     public CinemachineComposer composer;
 
+    public bool isLockpick = false; // true == 락픽 애니메이션 재생 중
+
 
 
 

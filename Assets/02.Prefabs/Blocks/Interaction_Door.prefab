@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &19721555238576598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1332417006658759033}
+  m_Layer: 3
+  m_Name: DoorHandle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1332417006658759033
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19721555238576598}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.026, y: 0.881, z: -1.177}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6808755204304866110}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1282505318596973365
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,6 +372,7 @@ Transform:
   m_Children:
   - {fileID: 7107453169946003920}
   - {fileID: 844840720598678767}
+  - {fileID: 1332417006658759033}
   m_Father: {fileID: 8763954968891055606}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7003850526887296852
@@ -427,9 +459,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openAngle: 90
-  openDuration: 0.5
-  closeDelay: 1
-  closeDuration: 0.5
+  openDuration: 1
+  closeDelay: 2
+  closeDuration: 1
+  isLocked: 1
+  lockPickDuration: 10
+  doorHandle: {fileID: 1332417006658759033}
 --- !u!208 &2813562733703612067
 NavMeshObstacle:
   m_ObjectHideFlags: 0
