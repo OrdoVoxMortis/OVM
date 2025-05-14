@@ -105,7 +105,7 @@ public class Block : TimelineElement
 
         FixedSequence = ResourceManager.Instance.LoadAnimationClip(data.fixedSequence);
         AfterFlexSequence = ResourceManager.Instance.LoadAnimationClip(data.afterFlexSequence);
-        if (!string.IsNullOrEmpty(data.blockSound) && ResourceManager.Instance.SfxList.TryGetValue(data.blockSound, out var clip))
+        if (!string.IsNullOrEmpty(data.blockSound) && ResourceManager.Instance.SfxDict.TryGetValue(data.blockSound, out var clip))
         {
             BlockSound = clip;
         }

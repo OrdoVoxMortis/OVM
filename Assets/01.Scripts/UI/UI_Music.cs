@@ -36,7 +36,7 @@ public class UI_Music : BaseUI
 
     private void Start()
     {
-        mp3BgmList = ResourceManager.Instance.BgmList.Values.ToList();
+        mp3BgmList = ResourceManager.Instance.InGameBGMDict.Values.ToList();
         UIManager.Instance.UIActive();
     }
     private void OnEnable()
