@@ -1,27 +1,29 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class UI_Music : BaseUI
 {
     [SerializeField] private Button backBtn;
-    [SerializeField] private Music_Button musicBtn;
     [SerializeField] private Button nextMusic;
     [SerializeField] private Button prevMusic;
     [SerializeField] private Button playMusic;
     [SerializeField] private Button volMusic;
-    [SerializeField] private Transform buttonParent;
     [SerializeField] private Music_Image musicImage;
-    [SerializeField] private Transform imageParent;
-
+    [SerializeField] private Timer_Text timerText;
+    [SerializeField] private TextMeshProUGUI currentMusicText;
+    [SerializeField] private TextMeshProUGUI musicNameText;
+    [SerializeField] private TextMeshProUGUI musicBpmText;
+    private float currentVolume = 1.0f;
     public List<AudioClip> mp3BgmList = new List<AudioClip>();
     public int currentBGM;
 
-    private Music_Image currentImage;
+   
     protected override void Awake()
     {
         base.Awake();
-       
+        mp3BgmList = ResourceManager.Instance.BgmList.Values.ToList();
         currentBGM = 0;
        
         if (backBtn != null)
@@ -32,17 +34,18 @@ public class UI_Music : BaseUI
             nextMusic.onClick.AddListener(OnclickNextMusic);
         if(prevMusic != null)
             prevMusic.onClick.AddListener(OnclickPrevMusic);
-    }
-
-    private void Start()
-    {
-        mp3BgmList = ResourceManager.Instance.BgmList.Values.ToList();
-        UIManager.Instance.UIActive();
+        if (volMusic != null)
+            volMusic.onClick.AddListener(VolumeUp);
     }
     private void OnEnable()
     {
         PlayBGM();
     }
+    private void Start()
+    {
+        UIManager.Instance.UIActive();
+    }
+
     private void OnClickBack()
     {
         Hide();
@@ -58,31 +61,52 @@ public class UI_Music : BaseUI
     {
         currentBGM++;
         PlayBGM();
-       
+        SoundManager.Instance.SetSelectedBGM(mp3BgmList[currentBGM].name);
     }
 
     private void OnclickPrevMusic()
     {
         currentBGM--;
         PlayBGM();
+        SoundManager.Instance.SetSelectedBGM(mp3BgmList[currentBGM].name);
     }
 
     private void VolumeUp()
     {
+        currentVolume += 0.1f;
 
+        if (currentVolume > 1f) 
+            currentVolume = 0f;
+
+        SoundManager.Instance.SetBGMVolume(currentVolume);
     }
 
     private void PlayBGM()
     {
         SoundManager.Instance.PlayBGM(mp3BgmList[currentBGM].name);
-        if (currentImage != null)
-            currentImage.gameObject.SetActive(false);
-        currentImage = Instantiate(musicImage, imageParent);
+
+        if (timerText != null)
+            timerText.ResetTimer(61f);
+
         string imagePath = $"MusicImages/{mp3BgmList[currentBGM].name}";
         Sprite musicSprite = Resources.Load<Sprite>(imagePath);
-        currentImage.SetImage(musicSprite);
+        musicImage.SetImage(musicSprite);
+
+        UpdateMusicUI();
     }
 
+    private void UpdateMusicUI()
+    {
+        if(currentMusicText != null)
+        {
+            currentMusicText.text = $"{currentBGM + 1} / {mp3BgmList.Count}";
+        }
+
+        if(musicNameText != null)
+        {
+            musicNameText.text = $"{mp3BgmList[currentBGM].name}";
+        }
+    }
 
 
 }
