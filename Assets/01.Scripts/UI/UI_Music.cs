@@ -1,63 +1,88 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 public class UI_Music : BaseUI
 {
     [SerializeField] private Button backBtn;
     [SerializeField] private Music_Button musicBtn;
+    [SerializeField] private Button nextMusic;
+    [SerializeField] private Button prevMusic;
+    [SerializeField] private Button playMusic;
+    [SerializeField] private Button volMusic;
     [SerializeField] private Transform buttonParent;
     [SerializeField] private Music_Image musicImage;
     [SerializeField] private Transform imageParent;
+
+    public List<AudioClip> mp3BgmList = new List<AudioClip>();
+    public int currentBGM;
 
     private Music_Image currentImage;
     protected override void Awake()
     {
         base.Awake();
        
+        currentBGM = 0;
+       
         if (backBtn != null)
             backBtn.onClick.AddListener(OnClickBack);
+        if (playMusic != null)
+            playMusic.onClick.AddListener(OnClickMusicButton);
+        if (nextMusic != null)
+            nextMusic.onClick.AddListener(OnclickNextMusic);
+        if(prevMusic != null)
+            prevMusic.onClick.AddListener(OnclickPrevMusic);
     }
+
     private void Start()
     {
-        CreateMusicButtons();
+        mp3BgmList = ResourceManager.Instance.BgmList.Values.ToList();
+        UIManager.Instance.UIActive();
+    }
+    private void OnEnable()
+    {
+        PlayBGM();
     }
     private void OnClickBack()
     {
         Hide();
     }
 
-    private void CreateMusicButtons()
+    private void OnClickMusicButton()
     {
-        foreach (var bgmEntry in ResourceManager.Instance.BgmList) // 리소스 매니저에 있는 딕셔너리 에서 키값을 참조해서 bgmName으로 저장
-        {
-            string bgmName = bgmEntry.Key;
-
-           
-            Music_Button newButton = Instantiate(musicBtn, buttonParent);
-            newButton.SetMusicButton(bgmName,( ) => OnClickMusicButton(bgmName));
-        }
+        PlayBGM();
+        SoundManager.Instance.SetSelectedBGM(mp3BgmList[currentBGM].name);
     }
 
-    private void OnClickMusicButton(string bgmName)
+    private void OnclickNextMusic()
     {
-        SoundManager.Instance.PlayBGM(bgmName);
-        Debug.Log($"Playing BGM: {bgmName}");
-        SoundManager.Instance.SetSelectedBGM(bgmName);
-        if(currentImage!=null)
+        currentBGM++;
+        PlayBGM();
+       
+    }
+
+    private void OnclickPrevMusic()
+    {
+        currentBGM--;
+        PlayBGM();
+    }
+
+    private void VolumeUp()
+    {
+
+    }
+
+    private void PlayBGM()
+    {
+        SoundManager.Instance.PlayBGM(mp3BgmList[currentBGM].name);
+        if (currentImage != null)
             currentImage.gameObject.SetActive(false);
-
         currentImage = Instantiate(musicImage, imageParent);
-
-        string imagePath = $"MusicImages/{bgmName}";
+        string imagePath = $"MusicImages/{mp3BgmList[currentBGM].name}";
         Sprite musicSprite = Resources.Load<Sprite>(imagePath);
-
-        if (musicSprite == null)
-        {
-            Debug.LogWarning($"[Warning] Sprite not found for {bgmName} at {imagePath}");
-        }
-        else
-        {
-            currentImage.SetImage(musicSprite);
-        }
+        currentImage.SetImage(musicSprite);
     }
+
+
 
 }
