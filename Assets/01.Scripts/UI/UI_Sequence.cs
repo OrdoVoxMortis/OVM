@@ -6,8 +6,18 @@ public class UI_Sequence : MonoBehaviour
 {
     public TimelineElement item;
     public TextMeshProUGUI blockName;
+    public Outline outline;
     public Image blockRange;
     public Image blockMiddle;
+    private void Awake()
+    {
+        if (outline == null && blockRange != null)
+        {
+            outline = blockRange.GetComponent<Outline>();
+        }
+        if (outline != null ) 
+           outline.enabled = false;
+    }
     public void Initialize(TimelineElement item)
     {
         this.item = item;
@@ -18,6 +28,12 @@ public class UI_Sequence : MonoBehaviour
             blockRange.color = GetRangeColorById(item);
             blockMiddle.color = GetMiddleColorById(item);
         }
+    }
+
+    public void SetOutline(bool value)
+    {
+        if(outline != null) 
+           outline.enabled = value;
     }
 
     private Color GetRangeColorById(TimelineElement type)

@@ -16,13 +16,14 @@ public class UI_EventSlot : MonoBehaviour
     public TextMeshProUGUI eventText;
     public Image eventImage;
 
-    public void SetSlot(SaveData data)
+    public void SetSlot(EventSaveData data)
     {
         id = data.stageId;
 
-        if (data.events != null && data.blocks.Count > 0)
+        var unlockedEvents = SaveManager.Instance.GetUnlockEvents();
+        if (unlockedEvents != null && unlockedEvents.Count > 0)
         {
-            foreach (var e in data.events)
+            foreach (var e in unlockedEvents)
             {
                 if (e == null || !e.isCollect) continue;
 
@@ -30,12 +31,13 @@ public class UI_EventSlot : MonoBehaviour
                 eventImage.sprite = ResourceManager.Instance.LoadImage(e.imageName);
             }
         }
+
         replayBtn.onClick.AddListener(Replay);
 
     }
 
     private void Replay()
     {
-        SaveManager.Instance.Replay(true);
+        SaveManager.Instance.ReplayEvent();
     }
 }

@@ -10,7 +10,6 @@ public class NpcBaseState : IState
     protected readonly PlayerGroundData groundData;
     protected bool isAlert = true;
     protected bool isAction = false;
-    public float moveDelay = 2f;
     protected float moveTimer = 0f;
 
     //Guard
@@ -47,16 +46,17 @@ public class NpcBaseState : IState
     {
         if (GameManager.Instance.SelectedBGM != null)
         {
+
             if (stateMachine.npc.isColliding)
             {
-                StopAnimation("Walk");
+                StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
                 stateMachine.npc.Agent.isStopped = true;
             }
             else
             {
                 stateMachine.npc.Agent.isStopped = false;
                 moveTimer += Time.deltaTime;
-                if (moveTimer >= moveDelay)
+                if (moveTimer >= stateMachine.npc.moveDelay)
                 {
                     Move();
                     moveTimer = 0f;
@@ -67,13 +67,13 @@ public class NpcBaseState : IState
             if (isMoving)
             {
                 RotateVelocity();
-                StartAnimation("Walk");
+                StartAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
             }
-            else StopAnimation("Walk");
+            else StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
         }
         else
         {
-            StopAnimation("Walk");
+            StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
             stateMachine.npc.Agent.isStopped = true;
         }
     }
@@ -89,21 +89,21 @@ public class NpcBaseState : IState
 
         if(Mathf.Abs(crossY) > 0.01f)
         {
-            if (crossY > 0f) StartAnimation("TurnLeft");
-            else StartAnimation("TurnRight");
+            if (crossY > 0f) StartAnimation(stateMachine.npc.AnimationData.TurnLeftParameterHash);
+            else StartAnimation(stateMachine.npc.AnimationData.TurnRightParameterHash);
         }
-        StopAnimation("TurnRight");
-        StopAnimation("TurnLeft");
+        StopAnimation(stateMachine.npc.AnimationData.TurnRightParameterHash);
+        StopAnimation(stateMachine.npc.AnimationData.TurnLeftParameterHash);
         stateMachine.npc.Agent.SetDestination(nextPosition);
     }
-    protected void StartAnimation(string anim)
+    protected void StartAnimation(int hash)
     {
-        stateMachine.npc.Animator.SetBool(anim, true);
+        stateMachine.npc.Animator.SetBool(hash, true);
     }
 
-    protected void StopAnimation(string anim)
+    protected void StopAnimation(int hash)
     {
-        stateMachine.npc.Animator.SetBool(anim, false);
+        stateMachine.npc.Animator.SetBool(hash, false);
     }
 
     public Vector3 GetRandomPointInArea(BoxCollider collider)
@@ -142,6 +142,10 @@ public class NpcBaseState : IState
                 return false;
             }
         }
+        //if (GameManager.Instance.Player.unlocking)
+        //{
+        //    stateMachine.ChangeState(stateMachine.ActionState);
+        //}
         return true;
     }
 
@@ -172,12 +176,12 @@ public class NpcBaseState : IState
                 if (isMoving)
                 {
                     RotateVelocity();
-                    StartAnimation("Walk");
-                    StopAnimation("LookAround");
+                    StartAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
+                    StopAnimation(stateMachine.npc.AnimationData.LookAroundParameterHash);
                 }
                 else
                 {
-                    StopAnimation("Walk");
+                    StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
                     cooldownTimer += Time.deltaTime; 
                 }
 
@@ -191,8 +195,8 @@ public class NpcBaseState : IState
                             isWaiting = true;
                             waitTimer = 0f;
                             cooldownTimer = 0f;
-                            StartAnimation("Walk");
-                            StopAnimation("LookAround");
+                            StartAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
+                            StopAnimation(stateMachine.npc.AnimationData.LookAroundParameterHash);
                         }
                     }
                 }
@@ -202,13 +206,13 @@ public class NpcBaseState : IState
                 if (isMoving)
                 {
                     RotateVelocity();
-                    StartAnimation("Walk");
-                    StopAnimation("LookAround");
+                    StartAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
+                    StopAnimation(stateMachine.npc.AnimationData.LookAroundParameterHash);
                 }
                 else
                 {
-                    StopAnimation("Walk");
-                    StartAnimation("LookAround");
+                    StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
+                    StartAnimation(stateMachine.npc.AnimationData.LookAroundParameterHash);
                     cooldownTimer += Time.deltaTime;
 
                     if (cooldownTimer >= 5f)

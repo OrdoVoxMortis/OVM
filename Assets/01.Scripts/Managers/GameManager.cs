@@ -2,12 +2,14 @@ using System.Collections;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class GameManager : SingleTon<GameManager>
 {
     public Player Player { get; private set; }
     public int Bpm { get; private set; }
     public AudioClip SelectedBGM {  get; private set; }
+    public string BgmId {  get; private set; }
     public static event Action OnSelectedBGMSet; // 추가
     public Action OnGameOver;
     public Action OnGameClear;
@@ -36,14 +38,9 @@ public class GameManager : SingleTon<GameManager>
 
     public void SetSelectedBGM(AudioClip clip)
     {
-        if (clip == null) Debug.Log("clip null");
+        Bpm = DataManager.Instance.musicDict[clip.name].BPM;
+        BgmId = clip.name;
         SelectedBGM = clip;
-        if(DataManager.Instance.musicDict.TryGetValue(clip.name, out var bgm))
-        {
-            Bpm = bgm.BPM;
-        }
-        Debug.Log(SelectedBGM.name);
-        Debug.Log("스테이지 음악 할당됨!");
         OnSelectedBGMSet?.Invoke(); // 이벤트 발동!!
     }
 

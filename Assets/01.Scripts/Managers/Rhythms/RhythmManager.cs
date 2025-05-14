@@ -24,7 +24,11 @@ public class RhythmManager : SingleTon<RhythmManager>
 
     private AudioSource beepAudioSource;
 
-    public AnimationCurve curve;
+    public AnimationCurve curve; //사운드 커브 
+    public float totalMusicTime;
+    public float curMusicTime;
+
+    private bool isQTE;
 
     public TextMeshProUGUI checkJudgeText;
 
@@ -34,7 +38,7 @@ public class RhythmManager : SingleTon<RhythmManager>
     public bool isPlaying; //qte, ghost매니저가 끝날 때, false로 변경
     public bool isFinished = false;
 
-    //
+    //카메라
     private TimelineCamera timelineCamera;
     private int tlCIndex;
 
@@ -65,8 +69,12 @@ public class RhythmManager : SingleTon<RhythmManager>
 
     private void Update()
     {
-        if (isPlaying) return;
         if (isFinished) return;
+
+        if(!isQTE)
+            curMusicTime += Time.deltaTime;
+        
+        if (isPlaying) return;
       
 
         if (index >= rhythmActions.Count)
@@ -78,11 +86,26 @@ public class RhythmManager : SingleTon<RhythmManager>
         RhythmAction();
     }
 
+    private void InitTime()
+    {
+        totalMusicTime = 0;
+        curMusicTime = 0;
+        isQTE = false;
+
+        foreach (var action in rhythmActions)
+        {
+            if (action is QTEManager) continue;
+
+            totalMusicTime += ((GhostManager)action).checkTimes[((GhostManager)action).checkTimes.Count - 1];
+        }
+    }
+    
     public void StartMusic()
     {
         musicStartTime = AudioSettings.dspTime;
         
         isPlaying = false;
+        InitTime();
         SoundManager.Instance.PlayBGM(bgmName);
     }
 
@@ -145,6 +168,7 @@ public class RhythmManager : SingleTon<RhythmManager>
             SoundManager.Instance.UnPauseBGM();
         }
 
+        index++;
 
         //카메라 타인라인
         if (tlCIndex >= 0)
@@ -154,9 +178,6 @@ public class RhythmManager : SingleTon<RhythmManager>
         if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
             tlCIndex = 0;
         timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id, rhythmActions[index]);
-
-        
-        index++;
     }
 
     void PlayBeep()
