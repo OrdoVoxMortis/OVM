@@ -34,18 +34,18 @@ public class PostProcessingToggle : MonoBehaviour
         GameManager.Instance.OnSimulationMode?.Invoke();
         Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
 
-        if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
-        {
-            float from = colorAdjustments.saturation.value;
-            float to = isEnabled ? -100f : 0f;
+        //if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
+        //{
+        //    float from = colorAdjustments.saturation.value;
+        //    float to = isEnabled ? -100f : 0f;
 
-            // 기존 코루틴이 있으면 중지하고 새로 시작
-            if (saturationCoroutine != null)
-            {
-                StopCoroutine(saturationCoroutine);
-            }
-            saturationCoroutine = StartCoroutine(LerpSaturation(from, to, 1f)); 
-        }
+        //    // 기존 코루틴이 있으면 중지하고 새로 시작
+        //    if (saturationCoroutine != null)
+        //    {
+        //        StopCoroutine(saturationCoroutine);
+        //    }
+        //    saturationCoroutine = StartCoroutine(LerpSaturation(from, to, 1f)); 
+        //}
         if (isEnabled && timeLine_UI != null)
         {
             
@@ -118,18 +118,18 @@ public class PostProcessingToggle : MonoBehaviour
         Debug.Log("[PostProcessingToggle] 딜레이 후 복구 위치: " + savedPlayerPosition);
     }
 
-    private IEnumerator LerpSaturation(float from, float to, float duration) // 포스트프로세싱 볼륨에 해당된 값을 부드럽게 처리하기 위한 코루틴
-    {
-        float elapsed = 0f; // 경과한 시간 초기화
-        while(elapsed < duration)
-        {
-            float t = elapsed / duration; // 경과 시간을 비율로 계산
-            colorAdjustments.saturation.value = Mathf.Lerp(from, to, t); // 시작값과 끝나는 값 보간하여 점차 증가함
-            elapsed += Time.deltaTime; // 경과시간 프레임마다 증가
-            yield return null;
-        }
-        colorAdjustments.saturation.value = to;
-    }
+    //private IEnumerator LerpSaturation(float from, float to, float duration) // 포스트프로세싱 볼륨에 해당된 값을 부드럽게 처리하기 위한 코루틴
+    //{
+    //    float elapsed = 0f; // 경과한 시간 초기화
+    //    while(elapsed < duration)
+    //    {
+    //        float t = elapsed / duration; // 경과 시간을 비율로 계산
+    //        colorAdjustments.saturation.value = Mathf.Lerp(from, to, t); // 시작값과 끝나는 값 보간하여 점차 증가함
+    //        elapsed += Time.deltaTime; // 경과시간 프레임마다 증가
+    //        yield return null;
+    //    }
+    //    colorAdjustments.saturation.value = to;
+    //}
 
 
 }
