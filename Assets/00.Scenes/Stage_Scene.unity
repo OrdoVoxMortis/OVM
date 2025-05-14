@@ -7016,6 +7016,7 @@ GameObject:
   - component: {fileID: 341630196}
   - component: {fileID: 341630198}
   - component: {fileID: 341630197}
+  - component: {fileID: 341630199}
   m_Layer: 5
   m_Name: Cover_Image
   m_TagString: Untagged
@@ -7080,6 +7081,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 341630195}
   m_CullTransparentMesh: 1
+--- !u!114 &341630199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341630195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaad5fb0d8e2d98499dc945c02e76021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicImage: {fileID: 341630197}
 --- !u!1 &351730443
 GameObject:
   m_ObjectHideFlags: 0
@@ -28272,7 +28286,7 @@ Transform:
   m_GameObject: {fileID: 893365765786647247}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0051, z: 0.1358}
+  m_LocalPosition: {x: -0.000021929147, y: -0.0051208436, z: 0.13582179}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -28378,7 +28392,7 @@ MonoBehaviour:
   playMusic: {fileID: 83080028}
   volMusic: {fileID: 1422885803}
   buttonParent: {fileID: 0}
-  musicImage: {fileID: 0}
+  musicImage: {fileID: 341630199}
   imageParent: {fileID: 341630196}
   mp3BgmList: []
   currentBGM: 0
