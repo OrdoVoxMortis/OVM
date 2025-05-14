@@ -25,6 +25,11 @@ public class DoorController : MonoBehaviour, IInteractable
 
     [Tooltip("문 잠금 여부")]
     [SerializeField] private bool isLocked = false;
+    [Tooltip("락픽 시간")]
+    [SerializeField] private float lockPickDuration;
+    [Tooltip("카메라 고정 위치")]
+    [SerializeField] private Transform lockPickCamPoint;
+
 
     private string lockedInteractText = "락픽 사용하기 [E]";
 
@@ -118,7 +123,7 @@ public class DoorController : MonoBehaviour, IInteractable
 
     public string GetInteractComponent()
     {
-        return interactText;
+        return isLocked ? lockedInteractText : interactText;
     }
 
     public void SetInteractComponenet(string newText)

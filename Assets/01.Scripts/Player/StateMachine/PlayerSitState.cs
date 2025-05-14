@@ -19,14 +19,14 @@ public class PlayerSitState : PlayerGroundState
         stateMachine.MovementSpeedModifier = groundData.SitSpeedModifier;
         stateMachine.Player.Controller.height = 0.85f;
         stateMachine.Player.Controller.center = sitCenter;
-        StartAnimation(stateMachine.Player.AnimationData.SitParameterHash);
+        StartAnimation(stateMachine.Player.AnimationData.SquatParameterHash);
     }
 
     public override void Exit()
     {
         stateMachine.Player.Controller.height = originHeight;
         stateMachine.Player.Controller.center = originCenter;
-        StopAnimation(stateMachine.Player.AnimationData.SitParameterHash);
+        StopAnimation(stateMachine.Player.AnimationData.SquatParameterHash);
         base.Exit();
     }
 
