@@ -20,14 +20,14 @@ public class Ghost : MonoBehaviour
 
         if (timing < judges[0])
         {
-            Debug.Log("Perfect!");
+            //Debug.Log("Perfect!");
             RhythmManager.Instance.checkJudgeText.text = "<b> Perfect </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.blue;
             isOverGood = true;
         }
         else if (timing < judges[1])
         {
-            Debug.Log("Good!");
+            //Debug.Log("Good!");
             RhythmManager.Instance.checkJudgeText.text = "<b> Good </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.green;
             isOverGood = true;
@@ -35,7 +35,7 @@ public class Ghost : MonoBehaviour
         }
         else if (timing < judges[2])
         {
-            Debug.Log("Miss!");
+            //Debug.Log("Miss!");
             RhythmManager.Instance.checkJudgeText.text = "<b> Miss </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.yellow;
             isOverGood = false;
@@ -43,7 +43,7 @@ public class Ghost : MonoBehaviour
         }
         else
         {
-            Debug.Log("Fail!");
+            //Debug.Log("Fail!");
             RhythmManager.Instance.checkJudgeText.text = "<b> Fail </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.red;
             isOverGood = false;

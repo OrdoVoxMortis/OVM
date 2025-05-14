@@ -22,6 +22,11 @@ public enum ActionType
     Watch // 시선
 }
 
+public enum BaseBehaviorType
+{
+    Idle,
+    Wander
+}
 public class Suspicion
 {
     public string grade;
@@ -47,7 +52,7 @@ public class NPC : MonoBehaviour
     public NavMeshAgent Agent { get; set; }
 
     [field: SerializeField] public NPCSO Data { get; private set; }
-    [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
+    [field: SerializeField] public NpcAnimationData AnimationData { get; private set; }
 
     public Animator Animator { get; private set; }
     public BoxCollider Area { get; set; }
@@ -65,8 +70,15 @@ public class NPC : MonoBehaviour
     private Coroutine stopCoroutine;
 
     public Target target;
+
+    [Header("대기 시간")]
+    public float moveDelay = 2f;
+    [Header("기본 행동")]
+    public BaseBehaviorType behaviorType;
+
     private void Awake()
     {
+        AnimationData.Initialize();
         RhythmManager.Instance.OnStart += Destroy;
     }
     private void Start()
@@ -207,9 +219,9 @@ public class NPC : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("충돌");
-            Animator.SetBool("Walk", false);
-            Animator.SetBool("Run", false);
-            Animator.SetBool("Trigger", true);
+            Animator.SetBool(AnimationData.WalkParameterHash, false);
+            Animator.SetBool(AnimationData.RunParameterHash, false);
+            Animator.SetBool(AnimationData.TriggerParameterHash, true);
             if (stopCoroutine != null) StopCoroutine(stopCoroutine);
             stopCoroutine = StartCoroutine(StopDelay(3f, isWalking));
 
@@ -245,10 +257,10 @@ public class NPC : MonoBehaviour
         Agent.speed = prevAnimSpeed;
         isColliding = false;
         Agent.isStopped = false;
-        Animator.SetBool("Trigger", false);
+        Animator.SetBool(AnimationData.TriggerParameterHash, false);
 
-        if (walk) Animator.SetBool("Walk", true);
-        else Animator.SetBool("Run", true);
+        if (walk) Animator.SetBool(AnimationData.WalkParameterHash, true);
+        else Animator.SetBool(AnimationData.RunParameterHash, true);
     }
 }
 

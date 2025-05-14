@@ -1313,6 +1313,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.36346933
       objectReference: {fileID: 0}
+    - target: {fileID: 3099108460165923790, guid: f2450beb4387c834d95aaa41b1e4b21c,
+        type: 3}
+      propertyPath: behaviorType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3448724739043948440, guid: f2450beb4387c834d95aaa41b1e4b21c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6175,6 +6180,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.2963788
       objectReference: {fileID: 0}
+    - target: {fileID: 6752383626220758900, guid: 7c342654076b3e044b14eb2e6f60bf96,
+        type: 3}
+      propertyPath: behaviorType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6945381231521718416, guid: 7c342654076b3e044b14eb2e6f60bf96,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8801,6 +8811,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.36346933
+      objectReference: {fileID: 0}
+    - target: {fileID: 3099108460165923790, guid: f2450beb4387c834d95aaa41b1e4b21c,
+        type: 3}
+      propertyPath: behaviorType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3448724739043948440, guid: f2450beb4387c834d95aaa41b1e4b21c,
         type: 3}
@@ -12966,6 +12981,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.36346933
       objectReference: {fileID: 0}
+    - target: {fileID: 3099108460165923790, guid: f2450beb4387c834d95aaa41b1e4b21c,
+        type: 3}
+      propertyPath: behaviorType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3448724739043948440, guid: f2450beb4387c834d95aaa41b1e4b21c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -15009,6 +15029,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.36346933
+      objectReference: {fileID: 0}
+    - target: {fileID: 3099108460165923790, guid: f2450beb4387c834d95aaa41b1e4b21c,
+        type: 3}
+      propertyPath: behaviorType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3448724739043948440, guid: f2450beb4387c834d95aaa41b1e4b21c,
         type: 3}
@@ -17573,6 +17598,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 4
+  conditionalSequences: []
+  matchedTriggerId: -1
 --- !u!1 &1781033804 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1138116600804025701, guid: aa429e2eebb82784da27ecf877b2ea17,
@@ -20812,6 +20839,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.36346933
       objectReference: {fileID: 0}
+    - target: {fileID: 3099108460165923790, guid: f2450beb4387c834d95aaa41b1e4b21c,
+        type: 3}
+      propertyPath: behaviorType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3448724739043948440, guid: f2450beb4387c834d95aaa41b1e4b21c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -22848,6 +22880,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.36346933
+      objectReference: {fileID: 0}
+    - target: {fileID: 3099108460165923790, guid: f2450beb4387c834d95aaa41b1e4b21c,
+        type: 3}
+      propertyPath: behaviorType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3448724739043948440, guid: f2450beb4387c834d95aaa41b1e4b21c,
         type: 3}
@@ -25040,6 +25077,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.36346933
       objectReference: {fileID: 0}
+    - target: {fileID: 3099108460165923790, guid: f2450beb4387c834d95aaa41b1e4b21c,
+        type: 3}
+      propertyPath: behaviorType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3448724739043948440, guid: f2450beb4387c834d95aaa41b1e4b21c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26984,6 +27026,7 @@ MonoBehaviour:
   hitSound:
   - 
   - 
+  eventBgm: 
 --- !u!135 &2213697159282399742
 SphereCollider:
   m_ObjectHideFlags: 0

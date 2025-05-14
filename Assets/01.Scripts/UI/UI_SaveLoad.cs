@@ -96,23 +96,19 @@ public class UI_SaveLoad : BaseUI
 
     private void LoadEventData()
     {
-        string path = Application.persistentDataPath;
-        string[] saveFiles = Directory.GetFiles(path, "*.json");
+        var unlockedEvents = SaveManager.Instance.GetUnlockEvents();
+        if (unlockedEvents == null || unlockedEvents.Count == 0) return;
 
-        foreach(string file in saveFiles)
+        foreach (var eventData in unlockedEvents)
         {
-            string json = File.ReadAllText(file);
-            SaveData data = JsonUtility.FromJson<SaveData>(json);
-
-            bool isCollected = data.events != null && data.events.Exists(e => e.isCollect);
-
-            if (!isCollected) continue;
+            if (eventData == null || !eventData.isCollect) continue;
 
             currentInstance = Instantiate(eventStagePrefab, stageWindow);
             currentInstance.transform.localScale = Vector3.one;
 
             var slotUI = currentInstance.GetComponent<UI_EventSlot>();
-            if (slotUI != null) slotUI.SetSlot(data);
+            if (slotUI != null) slotUI.SetSlot(eventData);
+
             loadedSlots.Add(currentInstance);
         }
     }
