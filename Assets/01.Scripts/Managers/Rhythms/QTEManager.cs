@@ -36,6 +36,9 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
     private bool isAllNoteEnd;
 
+    public bool isHolding; //롱노트 누르고 있는지의 여부
+    private bool isLongNoteDoing; //롱노트 자체가 처리 중인지 확인
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +51,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         if (col == 0)
             col = 6;
 
+        isLongNoteDoing = false;
         //RhythmManager.Instance.rhythmActions.Add(this);
 
     }
@@ -58,6 +62,11 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         if (Input.GetKeyDown(KeyCode.Space) && !(qteList.Count <= 0))
         {
             CheckQTE();
+        }
+
+        if(Input.GetKeyUp(KeyCode.Space) && isHolding)
+        {
+            //롱노트 처리
         }
     }
 
@@ -77,6 +86,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
     IEnumerator MakeQTE()
     {
+        QTE qte;
         UI_QTE qteUI = UIManager.Instance.ShowUI<UI_QTE>("QTE_UI");
         qteUI.transform.SetAsFirstSibling();
         RhythmManager.Instance.checkJudgeText.transform.SetAsLastSibling();
@@ -107,14 +117,40 @@ public class QTEManager : MonoBehaviour, IRhythmActions
                 nextBeat = 1;
             }
 
-            if (isLongNote[i])
+            if(isLongNoteDoing) //롱노트 처리 중엔 시간만 넘기기 //생성 X
             {
-                //롱 노트 처리
+                if (isLongNote[i])
+                    isLongNoteDoing = false;
+                CheckQTE();
                 yield return new WaitForSeconds((60f / bpm) / nextBeat);
                 continue;
             }
 
-            QTEShort qte = Instantiate(qtePrefabs, canvas.transform).GetComponent<QTEShort>();
+            if (isLongNote[i]) //롱노트
+            {
+                //롱 노트 처리
+                yield return new WaitForSeconds((60f / bpm) / nextBeat);
+                float holdingTime = 0f; 
+                for(int j = i + 1; j < beats.Count; j++)
+                {
+                    holdingTime += (60f / bpm) / beats[j];
+                    if (isLongNote[j]) 
+                        break;
+                }
+
+                qte = Instantiate(qtePrefabs, canvas.transform).GetComponent<QTELong>();
+                
+                ((QTELong)qte).holdingTime = holdingTime;
+
+                isLongNoteDoing = true;
+            }
+            else //일반 노트
+            {
+                yield return new WaitForSeconds((60f / bpm) / nextBeat);
+
+                qte = Instantiate(qtePrefabs, canvas.transform).GetComponent<QTEShort>();
+            }
+
             qteList.Add(qte);
             randPos = Random.Range(0, row * col);
             
@@ -127,13 +163,8 @@ public class QTEManager : MonoBehaviour, IRhythmActions
             {
                 bpm = 120f; //default
             }
-
-            if(i == beats.Count - 1)
-                isAllNoteEnd = true;
-
-            yield return new WaitForSeconds((60f / bpm) / nextBeat);
         }
-        
+        isAllNoteEnd = true;
     }
 
     public void CheckQTE()
@@ -150,7 +181,11 @@ public class QTEManager : MonoBehaviour, IRhythmActions
                 SoundManager.Instance.PlaySfx(qteList[0].isPointNotes ? hitSound[1] : hitSound[0]);
         }
 
-        qteList.RemoveAt(0);
+        if ((qteList[0] is QTEShort) || !isHolding) //롱노트가 진행 중일 땐 제거 X
+        {
+            qteList.RemoveAt(0);
+        }
+
         if(qteList.Count == 0 && isAllNoteEnd) 
             RhythmManager.Instance.isPlaying = false;
     }
