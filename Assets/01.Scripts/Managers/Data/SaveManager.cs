@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -53,6 +54,7 @@ public class SaveManager : SingleTon<SaveManager>
 {
     private string SavePath => $"{Application.persistentDataPath}/save.json";
     private string UnlockPath => $"{Application.persistentDataPath}/Event/event_Unlock.json";
+    private string HiddenPath => $"{Application.persistentDataPath}/Hidden/hidden_save.json";
 
     private List<TimelineSaveData> elementIds = new();
     private EventUnlockData unlockData;
@@ -70,7 +72,7 @@ public class SaveManager : SingleTon<SaveManager>
         data.stageId = StageManager.Instance.StageResult.id;
 
         data.playTime = StageManager.Instance.PlayTime;
-        ;
+        
         foreach (var element in TimelineManager.Instance.PlacedBlocks)
         {
             if (element is Block block)
@@ -110,24 +112,33 @@ public class SaveManager : SingleTon<SaveManager>
 
         data.musicId = GameManager.Instance.BgmId;
 
-
+        string path = SavePath;
+        if(DataManager.Instance.stageDict.TryGetValue(data.stageId, out var stage))
+        {
+            if(stage.stageType == StageType.Hidden)
+            {
+                path = HiddenPath;
+                Debug.Log($"히든 스테이지 저장: {path}");
+            }
+        }
         string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(SavePath, json);
+        File.WriteAllText(path, json);
 
-        Debug.Log($"게임 저장 완료 - {SavePath}");
+        Debug.Log($"게임 저장 완료 - {path}");
     }
 
-    public void Replay()
+    public void Replay(bool isHidden)
     {
         eventReplay = false;
         isReplay = true;
-        if (!File.Exists(SavePath))
+        string path = isHidden ? HiddenPath : SavePath;
+        if (!File.Exists(path))
         {
             Debug.Log("세이브 파일 x");
             return;
         }
 
-        string json = File.ReadAllText(SavePath);
+        string json = File.ReadAllText(path);
 
         SaveData data = JsonUtility.FromJson<SaveData>(json);
         
@@ -147,8 +158,8 @@ public class SaveManager : SingleTon<SaveManager>
 
 
         SceneManager.sceneLoaded += OnStageSceneLoaded;
-        
-        GameManager.Instance.LoadScene("Stage_Scene");
+
+        GameManager.Instance.LoadScene(DataManager.Instance.stageDict[data.stageId].stageName);
 
     }
     public void ReplayEvent()
