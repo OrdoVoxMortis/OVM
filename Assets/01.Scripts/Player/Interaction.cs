@@ -89,11 +89,9 @@ public class Interaction : MonoBehaviour
         // 리스트가 비어 있으면 UI를 숨기고 return 합니다.
         if (curInterdatas.Count <= 0)
         {
-            if (curInteractable != null)
-            {
-                curInteractable = null;
-                interactText.gameObject.SetActive(false);
-            }
+
+            curInteractable = null;
+            interactText.gameObject.SetActive(false);
             return;
         }
 
@@ -118,19 +116,25 @@ public class Interaction : MonoBehaviour
             }
         }
 
-        // UI 갱신(가장 가까운 대상이 바뀌었을 때)
-        if (nearInteracte != curInteractable)
-        {
+
             curInteractable = nearInteracte;
-            if (curInteractable != null)
+        if (curInteractable != null)
+        {
+            string txt = curInteractable.GetInteractComponent();
+
+            if (!string.IsNullOrEmpty(txt))
             {
-                SetText();
+                interactText.text = curInteractable.GetInteractComponent();
                 interactText.gameObject.SetActive(true);
             }
             else
             {
                 interactText.gameObject.SetActive(false);
             }
+        }
+        else
+        {
+            interactText.gameObject.SetActive(false);
         }
 
 
@@ -167,13 +171,11 @@ public class Interaction : MonoBehaviour
         }      
     }
 
-    private void SetText()          // IInteractable에 세팅한 문자열을 반환합니다.
-    {
-        interactText.gameObject.SetActive(true);
-        interactText.text = curInteractable.GetInteractComponent();
-    }
     public void OnInteractInput(InputAction.CallbackContext context)    // 버튼을 눌렀을 때 대상의 OnInteract() 호출 후 UI 처리
     {
+        if (GameManager.Instance.Player.stateMachine.CurrentState() is PlayerInteractionLockpick)
+            return;
+
         if(context.phase == InputActionPhase.Started && curInteractable != null)
         {
             curInteractable.OnInteract();

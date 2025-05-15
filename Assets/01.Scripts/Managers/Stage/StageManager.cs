@@ -1,8 +1,16 @@
 using DataTable;
+using GoogleSheet.Core.Type;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+[UGS(typeof(StageType))]
+public enum StageType
+{
+    Normal,
+    Hidden
+}
 
 public class StageManager : SingleTon<StageManager>
 {
