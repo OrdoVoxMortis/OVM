@@ -17967,12 +17967,12 @@ PrefabInstance:
     - target: {fileID: 2691885625135906255, guid: fe67740d0a0e78946a37a68f52c60e1f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.0618
+      value: -0.061798096
       objectReference: {fileID: 0}
     - target: {fileID: 2691885625135906255, guid: fe67740d0a0e78946a37a68f52c60e1f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0376
+      value: -0.03760147
       objectReference: {fileID: 0}
     - target: {fileID: 2691885625135906255, guid: fe67740d0a0e78946a37a68f52c60e1f,
         type: 3}
@@ -27858,6 +27858,7 @@ GameObject:
   - component: {fileID: 2095922234}
   - component: {fileID: 2095922236}
   - component: {fileID: 2095922235}
+  - component: {fileID: 2095922237}
   m_Layer: 5
   m_Name: Music_Name
   m_TagString: Untagged
@@ -27873,16 +27874,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2095922233}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.02331}
-  m_LocalScale: {x: 0.0001, y: 0.0001, z: 0.1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.0283}
+  m_LocalScale: {x: 0.0001, y: 0.0001, z: 0.0001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 517368336825540725}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0086, y: 0.01923}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0.00365, y: 0.01563}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2095922235
 MonoBehaviour:
@@ -27969,7 +27970,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 5.34, y: 0, z: -511.9225, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -27983,6 +27984,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2095922233}
   m_CullTransparentMesh: 1
+--- !u!114 &2095922237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095922233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8326e737ce3e3c349aebb3822009d099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textRect: {fileID: 0}
+  speed: 10
 --- !u!1 &2125394882
 GameObject:
   m_ObjectHideFlags: 3
@@ -28410,24 +28425,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &517368336825540725
-Transform:
+--- !u!224 &517368336825540725
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893365765786647247}
-  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0051, z: 0.1358}
+  m_LocalPosition: {x: 0, y: 0, z: 0.1358}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2095922234}
   - {fileID: 662229222}
   - {fileID: 1429284341}
   - {fileID: 614103510}
   - {fileID: 1287730774}
-  - {fileID: 2095922234}
   - {fileID: 341630196}
   - {fileID: 83080027}
   - {fileID: 2139286395}
@@ -28437,6 +28451,11 @@ Transform:
   - {fileID: 5345763266938030974}
   m_Father: {fileID: 856361159}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -0.0051}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &632108944182678910
 Transform:
   m_ObjectHideFlags: 3
@@ -28501,7 +28520,6 @@ GameObject:
   m_Component:
   - component: {fileID: 517368336825540725}
   - component: {fileID: 893365765786647248}
-  - component: {fileID: 893365765786647249}
   m_Layer: 5
   m_Name: Music_UI
   m_TagString: Untagged
@@ -28533,21 +28551,6 @@ MonoBehaviour:
   musicBpmText: {fileID: 1287730775}
   mp3BgmList: []
   currentBGM: 0
---- !u!114 &893365765786647249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 893365765786647247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4d420a379a3ac04fb1fba7a87e04d41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ins_traTitle: {fileID: 2095922234}
-  ins_nMoveSpeed: 500
-  ins_bRight: 0
 --- !u!64 &894093326221102746
 MeshCollider:
   m_ObjectHideFlags: 0
