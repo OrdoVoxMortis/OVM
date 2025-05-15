@@ -15,6 +15,7 @@ public class UI_Music : BaseUI
     [SerializeField] private TextMeshProUGUI currentMusicText;
     [SerializeField] private TextMeshProUGUI musicNameText;
     [SerializeField] private TextMeshProUGUI musicBpmText;
+    [SerializeField] private GameObject mp3Model;
     private float currentVolume = 1.0f;
     public List<AudioClip> mp3BgmList = new List<AudioClip>();
     public int currentBGM;
@@ -23,7 +24,7 @@ public class UI_Music : BaseUI
     protected override void Awake()
     {
         base.Awake();
-        mp3BgmList = ResourceManager.Instance.BgmList.Values.ToList();
+        mp3BgmList = ResourceManager.Instance.InGameBGMDict.Values.ToList();
         currentBGM = 0;
        
         if (backBtn != null)
@@ -49,6 +50,7 @@ public class UI_Music : BaseUI
     private void OnClickBack()
     {
         Hide();
+        mp3Model.SetActive(false);
     }
 
     private void OnClickMusicButton()

@@ -70,6 +70,28 @@ public class UIManager : SingleTon<UIManager>
 
     }
 
+    public T SpawnStandaloneUI<T>(string name) where T : BaseUI
+    {
+        T prefab = ResourceManager.Instance.LoadUI<T>(name);
+        if (prefab == null)
+        {
+            Debug.LogError($"프리팹 {name} 을(를) Resources에서 찾을 수 없습니다.");
+            return null;
+        }
+
+        Transform mainCameraTransform = Camera.main?.transform;
+        if (mainCameraTransform == null)
+        {
+            Debug.LogError("Main Camera를 찾을 수 없습니다.");
+            return null;
+        }
+
+        T instance = GameObject.Instantiate(prefab, mainCameraTransform, false);
+        instance.Show();
+        Debug.Log($"Standalone UI {name} 생성 완료!");
+        return instance;
+    }
+
     public void HideUI<T>() 
     {
         //string name = typeof(T).Name;

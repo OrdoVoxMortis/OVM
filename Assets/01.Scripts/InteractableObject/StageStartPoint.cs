@@ -22,7 +22,7 @@ public class StageStartPoint : MonoBehaviour, IInteractable
     {
         if (GameManager.Instance.SelectedBGM == null)
         {
-            UIManager.Instance.ShowUI<UI_Music>("Music_UI");
+            UIManager.Instance.SpawnStandaloneUI<UI_Music>("MP3");
             UIManager.Instance.UIActive();
             isInteracted = true;
         }

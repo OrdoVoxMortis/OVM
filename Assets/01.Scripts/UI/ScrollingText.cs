@@ -1,38 +1,80 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
+using System.Collections;
 
 public class ScrollingText : MonoBehaviour
 {
-    public RectTransform textRect;
-    public float speed = 50f;
+    [Header("이동 속도")]
+    [SerializeField]
+    private float moveSpeed = 0.1f;
 
-    private float startX;
-    private float endX;
-    private RectTransform parentRect;
+    public RectTransform imageRectTransform;
+    public RectTransform textRectTransform;
+    public TMP_Text text;
 
-    void Start()
+    private Vector2 starPos;
+    private Vector2 direction;
+    private Vector2 endPos;
+
+    private IEnumerator MoveTextCor;
+
+    private void Start()
     {
-        parentRect = textRect.parent.GetComponent<RectTransform>();
-
-        LayoutRebuilder.ForceRebuildLayoutImmediate(textRect);
-
-        float parentWidth = parentRect.rect.width;
-        float textWidth = textRect.rect.width;
-
-        startX = parentWidth / 2 + textWidth / 2;
-        endX = -startX;
-
-        textRect.anchoredPosition = new Vector2(startX, textRect.anchoredPosition.y);
+        MoveTextCor = MoveText();
     }
 
-    void Update()
+    private void OnEnable()
     {
-        textRect.anchoredPosition += Vector2.left * speed * Time.unscaledDeltaTime;
+        Init();
+    }
 
-        if (textRect.anchoredPosition.x <= endX)
+    private void OnDisable()
+    {
+        StopCoroutine(MoveTextCor);
+    }
+
+    private void Init()
+    {
+        if (text)
         {
-            textRect.anchoredPosition = new Vector2(startX, textRect.anchoredPosition.y);
+            text.enableWordWrapping = false;
+            text.text = text.text.Replace('\n', ' ');
+            text.autoSizeTextContainer = true;
+        }
+
+        Invoke("SettingPos", .1f);
+    }
+
+    private void SettingPos()
+    {
+        float imageRectHalf = imageRectTransform.rect.width / 2;
+        float textRectHalf = textRectTransform.rect.width / 2;
+        float fixY = textRectTransform.anchoredPosition.y;
+        starPos = new Vector2(textRectHalf  +  imageRectHalf, fixY);
+        endPos = new Vector2(-(textRectHalf + imageRectHalf),fixY);
+        direction = (endPos - starPos).normalized;
+
+        textRectTransform.anchoredPosition = starPos;
+
+        StartCoroutine(MoveTextCor);
+    }
+
+    private IEnumerator MoveText()
+    {
+        while(true)
+        {
+            textRectTransform.Translate(direction * moveSpeed * Time.deltaTime);
+            if (IsEndPos())
+            {
+                textRectTransform.anchoredPosition = starPos;
+            }
+            yield return null;
         }
     }
+
+    private bool IsEndPos()
+    {
+        return textRectTransform.anchoredPosition.x < endPos.x;
+    }
+
 }
