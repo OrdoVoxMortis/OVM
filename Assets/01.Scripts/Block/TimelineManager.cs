@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,6 +14,8 @@ public class TimelineManager : SingleTon<TimelineManager>
     public List<UI_Slot> slots = new();
     public List<UI_Event> eventslots= new();
     private int index = 0;
+    private BlockConnector blockConnector;
+    public Action OnBlockUpdate;
 
     public float blockTime = 0f;
     protected override void Awake()
@@ -26,6 +29,8 @@ public class TimelineManager : SingleTon<TimelineManager>
     private void Start()
     {
         gameObject.SetActive(false);
+        OnBlockUpdate += ValidateCombinations;
+
     }
 
     public void CalBlockTime(Block block)
@@ -362,5 +367,10 @@ public class TimelineManager : SingleTon<TimelineManager>
             if(item is Event e) events.Add(e);
         }
         return events;
+    }
+
+    public void SetBlockConnector(BlockConnector con)
+    {
+        blockConnector = con;
     }
 }

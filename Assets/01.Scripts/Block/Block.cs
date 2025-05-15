@@ -127,7 +127,7 @@ public class Block : TimelineElement
             Debug.Log("블럭 데이터 삭제!");
         }
 
-        BlockManager.Instance.OnBlockUpdate?.Invoke();
+        TimelineManager.Instance.OnBlockUpdate?.Invoke();
       
     }
 
