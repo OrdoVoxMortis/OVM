@@ -1072,7 +1072,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3571805794789767215}
-  - component: {fileID: 4538566653814775530}
   - component: {fileID: 8894431488108064850}
   m_Layer: 5
   m_Name: Music_UI
@@ -1107,31 +1106,6 @@ Transform:
   - {fileID: 4414882349712416170}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4538566653814775530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8615257492238778321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 989f075174b38c540bb0565aea7aaba5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backBtn: {fileID: 1822182971980214755}
-  nextMusic: {fileID: 4129824370276476562}
-  prevMusic: {fileID: 5684708603370244690}
-  playMusic: {fileID: 5079705093807510261}
-  volMusic: {fileID: 404918466154883041}
-  musicImage: {fileID: 4524970452052698421}
-  timerText: {fileID: 7054041788023288194}
-  currentMusicText: {fileID: 5955475586730280166}
-  musicNameText: {fileID: 368015553799207754}
-  musicBpmText: {fileID: 9022669641805353310}
-  mp3Model: {fileID: 0}
-  mp3BgmList: []
-  currentBGM: 0
 --- !u!114 &8894431488108064850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1535,18 +1509,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe67740d0a0e78946a37a68f52c60e1f, type: 3}
---- !u!114 &1822182971980214755 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 96297906898850182, guid: fe67740d0a0e78946a37a68f52c60e1f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1738301141402558565}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &4414882349712416170 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2691885625135906255, guid: fe67740d0a0e78946a37a68f52c60e1f,
