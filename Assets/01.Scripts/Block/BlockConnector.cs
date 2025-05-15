@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class BlockConnector : MonoBehaviour
 {
@@ -28,14 +29,14 @@ public class BlockConnector : MonoBehaviour
         if(!gameObject.activeSelf) gameObject.SetActive(true);
         elements = TimelineManager.Instance.PlacedBlocks;
         List<Vector3> fullPathPoints = new();
-        if (elements.Count == 1) return;
-        for (int i = 0; i < elements.Count; i++)
+        if (elements.Count <= 1) return;
+        for (int i = 0; i < elements.Count -1; i++)
         {
-            if (i == elements.Count - 1) break;
             Vector3 start = elements[i].transform.position;
             Vector3 end = elements[i + 1].transform.position;
 
             NavMeshPath path = new();
+
             if (NavMesh.CalculatePath(start, end, NavMesh.AllAreas, path))
             {
                 fullPathPoints.AddRange(path.corners);
@@ -55,4 +56,5 @@ public class BlockConnector : MonoBehaviour
         if (GameManager.Instance.SimulationMode) gameObject.SetActive(true);
         else gameObject.SetActive(false);
     }
+
 }
