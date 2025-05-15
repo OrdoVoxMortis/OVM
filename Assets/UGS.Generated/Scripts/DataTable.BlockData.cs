@@ -71,6 +71,7 @@ namespace DataTable
 		public System.String fixedSequence;
 		public System.String afterFlexSequence;
 		public System.String blockSound;
+		public System.Collections.Generic.List<String> conditionalSequence;
   
 
 #region fuctions

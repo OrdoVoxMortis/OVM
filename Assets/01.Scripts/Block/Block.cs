@@ -3,6 +3,7 @@ using GoogleSheet.Core.Type;
 using UnityEngine;
 using Hamster.ZG.Type;
 using System.Collections.Generic;
+using System.Linq;
 
 [UGS(typeof(BlockType))]
 public enum BlockType
@@ -52,23 +53,36 @@ public class Block : TimelineElement
     public AnimationClip AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
     public AudioClip BlockSound { get; private set; } // 블럭 사운드
 
-    private GhostManager ghostManager;
+    protected GhostManager ghostManager;
     public bool IsSuccess { get; set; } // 조합 성공인지
-    private PostProcessingToggle postProcessingToggle; // 추후 수정
-    private GameObject clone; // 클론 위치
-    private Animator animator;
+    protected PostProcessingToggle postProcessingToggle; // 추후 수정
+    protected GameObject clone; // 클론 위치
+    protected Animator animator;
+    protected MeshRenderer blockMesh;
+    protected SkinnedMeshRenderer skinnedMeshRenderer;
+    protected Material ghostOutline;
 
-
-    private void Awake()
+    protected virtual void Awake()
     {
         LoadData();
         ghostManager = GetComponent<GhostManager>();
-        postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
         if (ghostManager == null) return;
+
+        postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
+
         DataToGhost();
-        clone = transform.GetChild(1).gameObject;
+
         animator = transform.GetChild(0).GetComponent<Animator>();
+        clone = transform.GetChild(1).gameObject;
+        if (animator.transform.childCount > 0)
+        {
+            skinnedMeshRenderer = transform.GetChild(0).GetChild(1).GetComponent<SkinnedMeshRenderer>();
+        }
+        else blockMesh = transform.GetChild(2).GetComponent<MeshRenderer>();
+
         GameManager.Instance.OnSimulationMode += ToggleGhost;
+
+        ghostOutline = ResourceManager.Instance.LoadMaterial("OutlineGhost");
     }
 
     public virtual void LoadData()
@@ -85,12 +99,13 @@ public class Block : TimelineElement
         IsDeathTrigger = data.isDeathTrigger;
         CurrentAfterFlexTime = AfterFlexibleMarginTime;
 
-        if (ResourceManager.Instance.LoadAnimationClip(data.successSequence) == null) return;
         SuccessSequence = ResourceManager.Instance.LoadAnimationClip(data.successSequence);
         FailSequence = ResourceManager.Instance.LoadAnimationClip(data.failSequence);
+        
+
         FixedSequence = ResourceManager.Instance.LoadAnimationClip(data.fixedSequence);
         AfterFlexSequence = ResourceManager.Instance.LoadAnimationClip(data.afterFlexSequence);
-        if (!string.IsNullOrEmpty(data.blockSound) && ResourceManager.Instance.SfxList.TryGetValue(data.blockSound, out var clip))
+        if (!string.IsNullOrEmpty(data.blockSound) && ResourceManager.Instance.SfxDict.TryGetValue(data.blockSound, out var clip))
         {
             BlockSound = clip;
         }
@@ -100,11 +115,13 @@ public class Block : TimelineElement
     {
         if (!IsActive)
         {
+            AddOutlineMaterial();
             FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
             TimelineManager.Instance.AddBlock(this);
         }
         else
         {
+            RemoveOutlineMaterial();
             TimelineManager.Instance.DestroyBlock(this);
             ghostManager.RemoveGhost();
             Debug.Log("블럭 데이터 삭제!");
@@ -130,7 +147,7 @@ public class Block : TimelineElement
         ghostManager.blockSound = DataManager.Instance.blockDict[id].blockSound;
     }
 
-    public void SetGhost()
+    public virtual void SetGhost()
     {
         if(ghostManager == null) return;    
         var animatorController = new AnimatorOverrideController(animator.runtimeAnimatorController);
@@ -163,11 +180,54 @@ public class Block : TimelineElement
         {
             Debug.Log(GameManager.Instance.SimulationMode);
             child.gameObject.SetActive(!GameManager.Instance.SimulationMode);
+            if (GameManager.Instance.SimulationMode) RemoveOutlineMaterial();
+            else AddOutlineMaterial();
+
         }
     }
 
     public override void SetInteractComponenet(string newText)
     {
         throw new System.NotImplementedException();
+    }
+
+    private void AddOutlineMaterial()
+    {
+        if (blockMesh != null)
+        {
+            var curMaterials = blockMesh.materials.ToList();
+            bool exists = curMaterials.Any(m => m.name.StartsWith(ghostOutline.name));
+            if (!exists)
+            {
+                curMaterials.Add(ghostOutline);
+                blockMesh.materials = curMaterials.ToArray();
+            }
+        }
+        else
+        {
+            var curMaterials = skinnedMeshRenderer.materials.ToList();
+            bool exists = curMaterials.Any(m => m.name.StartsWith(ghostOutline.name));
+            if (!exists)
+            {
+                curMaterials.Add(ghostOutline);
+                skinnedMeshRenderer.materials = curMaterials.ToArray();
+            }
+        }
+    }
+
+    private void RemoveOutlineMaterial()
+    {
+        if (blockMesh != null)
+        {
+            var curMaterials = blockMesh.materials.ToList();
+            curMaterials.RemoveAll(m => m.name.StartsWith(ghostOutline.name));
+            blockMesh.materials = curMaterials.ToArray();
+        }
+        else
+        {
+            var curMaterials = skinnedMeshRenderer.materials.ToList();
+            curMaterials.RemoveAll(m => m.name.StartsWith(ghostOutline.name));
+            skinnedMeshRenderer.materials = curMaterials.ToArray();
+        }
     }
 }

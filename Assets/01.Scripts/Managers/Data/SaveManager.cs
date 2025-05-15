@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,8 +28,10 @@ public class BlockSaveData
 public class EventSaveData
 {
     public int id;
+    public string stageId;
     public string eventName;
     public string imageName;
+    public string bgmName;
     public bool isCollect;
 }
 
@@ -39,10 +42,22 @@ public class TimelineSaveData
     public int id;
 }
 
+[System.Serializable]
+public class EventUnlockData
+{
+    public List<TimelineSaveData> timeline;
+    public List<EventSaveData> unlockedEvents = new();
+}
+
+
 public class SaveManager : SingleTon<SaveManager>
 {
     private string SavePath => $"{Application.persistentDataPath}/save.json";
+    private string UnlockPath => $"{Application.persistentDataPath}/Event/event_Unlock.json";
+    private string HiddenPath => $"{Application.persistentDataPath}/Hidden/hidden_save.json";
+
     private List<TimelineSaveData> elementIds = new();
+    private EventUnlockData unlockData;
     public bool isReplay;
     public bool eventReplay;
     //TODO. 스테이지 정보 저장&로드
@@ -53,11 +68,11 @@ public class SaveManager : SingleTon<SaveManager>
         data.blocks = new List<BlockSaveData>();
         data.events = new List<EventSaveData>();
         data.timeline = new List<TimelineSaveData>();
-
+        LoadUnlockedEvents();
         data.stageId = StageManager.Instance.StageResult.id;
 
         data.playTime = StageManager.Instance.PlayTime;
-        ;
+        
         foreach (var element in TimelineManager.Instance.PlacedBlocks)
         {
             if (element is Block block)
@@ -75,44 +90,60 @@ public class SaveManager : SingleTon<SaveManager>
             }
             else if (element is Event e)
             {
-                data.events.Add(new EventSaveData
+                var evt = new EventSaveData
                 {
                     id = e.id,
                     eventName = e.Name,
                     imageName = e.ImageName,
+                    bgmName = e.BgmName,
+                    stageId = StageManager.Instance.StageResult.id,
                     isCollect = true
-                });
+                };
+                data.events.Add(evt);
                 data.timeline.Add(new TimelineSaveData
                 {
                     isBlock = false,
                     id = e.id,
                 });
+
+                UnlockEvent(evt);
             }
         }
 
-        data.musicId = GameManager.Instance.SelectedBGM.name;
+        data.musicId = GameManager.Instance.BgmId;
 
-
+        string path = SavePath;
+        if(DataManager.Instance.stageDict.TryGetValue(data.stageId, out var stage))
+        {
+            if(stage.stageType == StageType.Hidden)
+            {
+                path = HiddenPath;
+                Debug.Log($"히든 스테이지 저장: {path}");
+            }
+        }
         string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(SavePath, json);
+        File.WriteAllText(path, json);
 
-        Debug.Log($"게임 저장 완료 - {SavePath}");
+        Debug.Log($"게임 저장 완료 - {path}");
     }
 
-    public void Replay(bool evt)
+    public void Replay(bool isHidden)
     {
-        eventReplay = evt;
+        eventReplay = false;
         isReplay = true;
-        if (!File.Exists(SavePath))
+        string path = isHidden ? HiddenPath : SavePath;
+        if (!File.Exists(path))
         {
             Debug.Log("세이브 파일 x");
             return;
         }
 
-        string json = File.ReadAllText(SavePath);
-        SaveData data = JsonUtility.FromJson<SaveData>(json);
+        string json = File.ReadAllText(path);
 
-        if (ResourceManager.Instance.BgmList.TryGetValue(data.musicId, out var clip))
+        SaveData data = JsonUtility.FromJson<SaveData>(json);
+        
+
+        if (ResourceManager.Instance.InGameBGMDict.TryGetValue(data.musicId, out var clip))
         {
             GameManager.Instance.SetSelectedBGM(clip);
         }
@@ -121,21 +152,49 @@ public class SaveManager : SingleTon<SaveManager>
 
         foreach (var b in data.timeline)
         {
-            if (evt)
-            {
-                if (b.isBlock) continue;
-            }
             elementIds.Add(b);
         } 
         
 
 
         SceneManager.sceneLoaded += OnStageSceneLoaded;
-        
-        GameManager.Instance.LoadScene("Stage_Scene");
+
+        GameManager.Instance.LoadScene(DataManager.Instance.stageDict[data.stageId].stageName);
 
     }
+    public void ReplayEvent()
+    {
+        eventReplay = true;
+        isReplay = true;
+        if (!File.Exists(UnlockPath))
+        {
+            Debug.Log("세이브 파일 x");
+            return;
+        }
 
+        string json = File.ReadAllText(UnlockPath);
+
+        EventUnlockData data = JsonUtility.FromJson<EventUnlockData>(json);
+
+        var targetEvent = data.unlockedEvents[0];
+
+        if (ResourceManager.Instance.SfxDict.TryGetValue(targetEvent.bgmName, out var clip))
+        {
+            GameManager.Instance.SetSelectedBGM(clip);
+        }
+
+        StageManager.Instance.SetStage("ST001");
+
+        elementIds.Clear();
+        elementIds.Add(new TimelineSaveData
+        {
+            isBlock = false,
+            id = targetEvent.id
+        });
+
+        SceneManager.sceneLoaded += OnStageSceneLoaded;
+        GameManager.Instance.LoadScene("Stage_Scene");
+    }
     public void Retry(string id)
     {
         if (DataManager.Instance.stageDict.TryGetValue(id, out var stage))
@@ -167,7 +226,7 @@ public class SaveManager : SingleTon<SaveManager>
             SceneManager.sceneLoaded -= OnStageSceneLoaded;
         }
     }
-    
+
     private IEnumerator DelayInit()
     {
         yield return null;
@@ -178,5 +237,36 @@ public class SaveManager : SingleTon<SaveManager>
 
         }
         RhythmManager.Instance.StartMusic();
+    }
+
+    public void LoadUnlockedEvents()
+    {
+        if (File.Exists(UnlockPath))
+        {
+            string json = File.ReadAllText(UnlockPath);
+            unlockData = JsonUtility.FromJson<EventUnlockData>(json);
+        }
+        else unlockData = new EventUnlockData();
+    }
+
+    public void SaveEvent()
+    {
+        string json = JsonUtility.ToJson(unlockData, true);
+        File.WriteAllText(UnlockPath, json);
+    }
+
+    public void UnlockEvent(EventSaveData data)
+    {
+        if (unlockData.unlockedEvents.Any(e => e.id == data.id)) return;
+
+        data.isCollect = true;
+        unlockData.unlockedEvents.Add(data);
+        SaveEvent();
+    }
+
+    public List<EventSaveData> GetUnlockEvents()
+    {
+        if (unlockData == null) LoadUnlockedEvents();
+        return unlockData.unlockedEvents;
     }
 }

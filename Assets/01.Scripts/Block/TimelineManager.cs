@@ -78,7 +78,7 @@ public class TimelineManager : SingleTon<TimelineManager>
         }
     }
 
-    public void DestroyBlock(Block block)
+    public void DestroyBlock(TimelineElement block)
     {
         if (block.IsActive)
         {
@@ -240,14 +240,16 @@ public class TimelineManager : SingleTon<TimelineManager>
 
     private void ContactBlockValid(ContactBlock contact, int index)
     {
-        bool hasDeathTriggerBefore = PlacedBlocks.GetRange(0, index).OfType<Block>().Any(b => b.IsDeathTrigger && b.IsSuccess);
-        if (hasDeathTriggerBefore)
-        {
-            contact.IsSuccess = true;
-            contact.SetGhost();
-            Debug.Log($"{contact.Name} 접촉 블럭 조건 만족: 성공한 사망 트리거 존재");
-        }
-        else Debug.Log("사망 트리거 없음");
+        var deathTrigger = PlacedBlocks.GetRange(0, index).OfType<Block>().FirstOrDefault(b => b.IsDeathTrigger);
+        if (deathTrigger == null) return;
+
+        contact.matchedTriggerId = deathTrigger.id;
+        contact.IsSuccess = deathTrigger.IsSuccess;
+        contact.SetGhost();
+        contact.IsDeath = contact.IsSuccess;
+
+        Debug.Log($"{contact.Name} + {deathTrigger.Name}: 사망 트리거 존재");
+
     }
 
 

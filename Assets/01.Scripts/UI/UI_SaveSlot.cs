@@ -21,6 +21,8 @@ public class UI_SaveSlot : MonoBehaviour
     public Transform blocks;
     public GameObject blockPrefab;
 
+    [Header("히든 스테이지")]
+    [SerializeField] private bool isHidden;
     public void SetSlot(SaveData data)
     {
         Debug.Log(data.stageId);
@@ -62,6 +64,7 @@ public class UI_SaveSlot : MonoBehaviour
             }
         }
         replayBtn.onClick.AddListener(Replay);
+        if (retryBtn == null) return;
         retryBtn.onClick.AddListener(Retry);
     }
 
@@ -72,7 +75,12 @@ public class UI_SaveSlot : MonoBehaviour
 
     private void Replay()
     {
-        SaveManager.Instance.Replay(false);
+        SaveManager.Instance.Replay(isHidden);
+    }
+
+    private void ReplayHidden()
+    {
+        SaveManager.Instance.Replay(isHidden);
     }
 
 }

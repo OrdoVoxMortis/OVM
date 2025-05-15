@@ -114,6 +114,16 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
         if (ghosts[curIndex].isOverGood)
         {
+            RhythmManager rhythmManager = RhythmManager.Instance;
+            float soundLevel = rhythmManager.curve.Evaluate(rhythmManager.curMusicTime / rhythmManager.totalMusicTime);
+            int level = (int)(soundLevel * 5 - 0.0001f) + 1;
+            if (level < 1) level = 1;
+            if (level > 5) level = 5;
+            hitSound[0] = "Note_N" + level;
+            hitSound[1] = "Note_P" + level;
+
+            Debug.Log(hitSound[0]);
+
             if (hitSound[0] != null && hitSound[1] != null)
             {
                 SoundManager.Instance.PlaySfx(ghosts[curIndex].isPointNotes ? hitSound[1] : hitSound[0]);

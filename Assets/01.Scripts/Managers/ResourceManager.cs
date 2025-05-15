@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -6,11 +7,13 @@ using UnityEngine.UI;
 
 public class ResourceManager : SingleTon<ResourceManager>
 {
-    public Dictionary<string, BaseUI> UIList = new();
-    public Dictionary<string, AudioClip> BgmList = new();
-    public Dictionary<string, AudioClip> SfxList = new();
-    public Dictionary<string, Sprite> ImageList = new(); 
-    public Dictionary<string, AnimationClip> AnimationClipList = new(); 
+    public Dictionary<string, BaseUI> UIDict = new();
+    public Dictionary<string, AudioClip> LobbyBGMDict = new();
+    public Dictionary<string, AudioClip> InGameBGMDict = new();
+    public Dictionary<string, AudioClip> SfxDict = new();
+    public Dictionary<string, Sprite> ImageDict = new(); 
+    public Dictionary<string, AnimationClip> AnimationClipDict = new(); 
+    public Dictionary<string, Material> MaterialDict = new(); 
     public AudioMixer audioMixer;
     protected override void Awake()
     {
@@ -18,7 +21,7 @@ public class ResourceManager : SingleTon<ResourceManager>
     }
     public T LoadUI<T>(string name) where T : BaseUI
     {
-        if (UIList.TryGetValue(name, out var cacheUi))
+        if (UIDict.TryGetValue(name, out var cacheUi))
         {
             return cacheUi as T;
         }
@@ -29,28 +32,38 @@ public class ResourceManager : SingleTon<ResourceManager>
             Debug.Log("UI not found");
             return null;
         }
-        UIList[name] = ui;
+        UIDict[name] = ui;
         return ui;
     }
 
     public void LoadAudio()
     {
-        var bgms = Resources.LoadAll<AudioClip>("Sounds/BGM");
-        foreach(var clip in bgms)
+        var inGamebgms = Resources.LoadAll<AudioClip>("Sounds/BGM/InGame");
+        foreach(var clip in inGamebgms)
         {
-            if (!BgmList.ContainsKey(clip.name))
+            if (!InGameBGMDict.ContainsKey(clip.name))
             {
               
-                BgmList[clip.name] = clip;
+                InGameBGMDict[clip.name] = clip;
+            }
+        }
+
+        var lobbybgms = Resources.LoadAll<AudioClip>("Sounds/BGM/Lobby");
+        foreach(var clip in lobbybgms)
+        {
+            if (!LobbyBGMDict.ContainsKey(clip.name))
+            {
+
+                LobbyBGMDict[clip.name] = clip;
             }
         }
 
         var sfxs = Resources.LoadAll<AudioClip>("Sounds/SFX");
         foreach(var clip in sfxs)
         {
-            if (!SfxList.ContainsKey(clip.name))
+            if (!SfxDict.ContainsKey(clip.name))
             {
-                SfxList[clip.name] = clip;
+                SfxDict[clip.name] = clip;
             }
         }
 
@@ -66,26 +79,39 @@ public class ResourceManager : SingleTon<ResourceManager>
 
     public Sprite LoadImage(string name)
     {
-        if (ImageList.TryGetValue(name, out var cacheImage))
+        if (string.IsNullOrEmpty(name)) return null;
+        if (ImageDict.TryGetValue(name, out var cacheImage))
         {
             return cacheImage as Sprite;
         }
         
         var image = Resources.Load<Sprite>($"Image/{name}");
-        ImageList[name] = image;
+        ImageDict[name] = image;
 
         return image;
     }
 
     public AnimationClip LoadAnimationClip(string name)
     {
-        if(AnimationClipList.TryGetValue(name, out var cacheAnim))
+        if(AnimationClipDict.TryGetValue(name, out var cacheAnim))
         {
             return cacheAnim as AnimationClip;
         }
 
         var anim = Resources.Load<AnimationClip>($"Animation/{name}");
-        AnimationClipList[name] = anim;
+        AnimationClipDict[name] = anim;
         return anim;
+    }
+
+    public Material LoadMaterial(string name)
+    {
+        if(MaterialDict.TryGetValue(name, out var cacheMaterial))
+        {
+            return cacheMaterial;
+        }
+
+        var mat = Resources.Load<Material>($"Material/{name}");
+        MaterialDict[name] = mat;
+        return mat;
     }
 }

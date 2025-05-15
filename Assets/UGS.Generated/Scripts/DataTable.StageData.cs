@@ -58,6 +58,7 @@ namespace DataTable
 
 		public System.String id;
 		public System.String stageName;
+		public StageType stageType;
 		public System.Collections.Generic.List<String> musicId;
 		public System.String mapId;
 		public System.Collections.Generic.List<String> npcId;

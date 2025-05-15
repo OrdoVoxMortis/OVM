@@ -1,16 +1,23 @@
 using Cinemachine;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class UI_Start: BaseUI
 {
     [SerializeField] private Button closeBtn; // 연결할 버튼
     [SerializeField] private GameObject lobbyCam; // 로비캠
+    [SerializeField] private LobbyScene lobbyScene;
+    public bool isEnabled = true;
+    public Volume volume;
     private Player player;
     private PlayableDirector playerTimeline;
     private PlayerController playerController;
     private CinemachineInputProvider inputProvider;
+    private ColorAdjustments colorAdjustments; // 볼륨의 color adjustment 값 가져오기
 
     protected override void Awake()
     {
@@ -39,17 +46,24 @@ public class UI_Start: BaseUI
         player = GameManager.Instance.Player;
         playerTimeline = player.gameObject.GetComponent<PlayableDirector>();
         inputProvider = GameManager.Instance.Player.Input.playerCamera.GetComponent<CinemachineInputProvider>();
+        Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
+        if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
+        {
+            colorAdjustments.saturation.value = -100f;
+        }
     }
 
     void OnStartClick()
     {
-        gameObject.SetActive(false);
+        Camera.main.cullingMask = -1;
+        lobbyScene.StartSaturation(LerpSaturation(-100f, 0f, 5));
         playerTimeline.stopped += OnTimelineEnd;
         Cursor.lockState = CursorLockMode.Locked;
         playerTimeline.Play();
         GameManager.Instance.gameStarted = true;
         if (inputProvider != null)
             inputProvider.enabled = false;
+        gameObject.SetActive(false);
     }
 
     private void OnTimelineEnd(PlayableDirector pd)
@@ -64,4 +78,16 @@ public class UI_Start: BaseUI
 
     }
 
+   public IEnumerator LerpSaturation(float from, float to, float duration) // 포스트프로세싱 볼륨에 해당된 값을 부드럽게 처리하기 위한 코루틴
+    {
+        float elapsed = 0f; // 경과한 시간 초기화
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration; // 경과 시간을 비율로 계산
+            colorAdjustments.saturation.value = Mathf.Lerp(from, to, t); // 시작값과 끝나는 값 보간하여 점차 증가함
+            elapsed += Time.deltaTime; // 경과시간 프레임마다 증가
+            yield return null;
+        }
+        colorAdjustments.saturation.value = to;
+    }
 }

@@ -44,14 +44,14 @@ public class UI_SaveLoad : BaseUI
     }
     private void SetNormalStage()
     {
-        LoadSaveData(normalStagePrefab);
+        LoadSaveData();
         //ShowStageData(normalStagePrefab);
     }
 
     private void SetHiddenStage()
     {
-        ShowStageData(hiddenStagePrefab);
-        LoadSaveData(hiddenStagePrefab);
+        //ShowStageData(hiddenStagePrefab);
+        LoadHidddenData();
     }
 
     private void SetEventData()
@@ -75,7 +75,7 @@ public class UI_SaveLoad : BaseUI
         }
     }
 
-    private void LoadSaveData(GameObject prefab)
+    private void LoadSaveData()
     {
         string path = Application.persistentDataPath;
         string[] saveFiles = Directory.GetFiles(path, "*.json");
@@ -85,7 +85,7 @@ public class UI_SaveLoad : BaseUI
             string json = File.ReadAllText(file);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-            currentInstance = Instantiate(prefab, stageWindow);
+            currentInstance = Instantiate(normalStagePrefab, stageWindow);
             currentInstance.transform.localScale = Vector3.one;
 
             var slotUI = currentInstance.GetComponent<UI_SaveSlot>();
@@ -93,26 +93,39 @@ public class UI_SaveLoad : BaseUI
             loadedSlots.Add(currentInstance);
         }
     }
-
-    private void LoadEventData()
+    private void LoadHidddenData()
     {
-        string path = Application.persistentDataPath;
+        string path = $"{Application.persistentDataPath}/Hidden";
         string[] saveFiles = Directory.GetFiles(path, "*.json");
 
-        foreach(string file in saveFiles)
+        foreach (string file in saveFiles)
         {
             string json = File.ReadAllText(file);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-            bool isCollected = data.events != null && data.events.Exists(e => e.isCollect);
+            currentInstance = Instantiate(hiddenStagePrefab, stageWindow);
+            currentInstance.transform.localScale = Vector3.one;
 
-            if (!isCollected) continue;
+            var slotUI = currentInstance.GetComponent<UI_SaveSlot>();
+            if (slotUI != null) slotUI.SetSlot(data);
+            loadedSlots.Add(currentInstance);
+        }
+    }
+    private void LoadEventData()
+    {
+        var unlockedEvents = SaveManager.Instance.GetUnlockEvents();
+        if (unlockedEvents == null || unlockedEvents.Count == 0) return;
+
+        foreach (var eventData in unlockedEvents)
+        {
+            if (eventData == null || !eventData.isCollect) continue;
 
             currentInstance = Instantiate(eventStagePrefab, stageWindow);
             currentInstance.transform.localScale = Vector3.one;
 
             var slotUI = currentInstance.GetComponent<UI_EventSlot>();
-            if (slotUI != null) slotUI.SetSlot(data);
+            if (slotUI != null) slotUI.SetSlot(eventData);
+
             loadedSlots.Add(currentInstance);
         }
     }
