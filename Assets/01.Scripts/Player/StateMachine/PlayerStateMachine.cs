@@ -21,9 +21,11 @@ public class PlayerStateMachine : StateMachine
     public PlayerIdleState IdleState { get; private set; }
     public PlayerWalkState WalkState { get; private set; }
     public PlayerRunState RunState { get; private set; }
-    public PlayerSitState SitState { get; private set; }
+    public PlayerSquatState SquatState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerFallState FallState { get; private set; }
+
+    public PlayerInteractionLockpick InteractionLoackpick { get; private set; }
 
     public bool IsRunKeyHeld { get; set; }
 
@@ -37,7 +39,7 @@ public class PlayerStateMachine : StateMachine
         IdleState = new PlayerIdleState(this);
         WalkState = new PlayerWalkState(this);
         RunState = new PlayerRunState(this);
-        SitState = new PlayerSitState(this);
+        SquatState = new PlayerSquatState(this);
 
         JumpState = new PlayerJumpState(this);
         FallState = new PlayerFallState(this);
@@ -54,7 +56,7 @@ public class PlayerStateMachine : StateMachine
         IdleState = new PlayerIdleState(this);
         WalkState = new PlayerWalkState(this);
         RunState = new PlayerRunState(this);
-        SitState = new PlayerSitState(this);
+        SquatState = new PlayerSquatState(this);
 
         JumpState = new PlayerJumpState(this);
         FallState = new PlayerFallState(this);
