@@ -12,6 +12,7 @@ public class PlayerAnimationData
     [SerializeField] private string interactionParameterName = "Interaction";
     [SerializeField] private string walkParameterName = "Walk";
     [SerializeField] private string runParameterName = "Run";
+    [SerializeField] private string sitParameterName = "Sit";
     [SerializeField] private string squatParameterName = "Squat";
 
     [SerializeField] private string lockpickParameterName = "LockPick";
@@ -28,6 +29,7 @@ public class PlayerAnimationData
     public int InteractionParameterHash { get; private set; }
     public int WalkParameterHash { get; private set; }
     public int RunParameterHash { get; private set; }
+    public int SitParameterHash {  get; private set; } 
     public int SquatParameterHash { get; private set; }   
 
     public int LockpickParameterHash { get; private set; }
@@ -43,7 +45,8 @@ public class PlayerAnimationData
         IdleParameterHash = Animator.StringToHash(idleParameterName);
         InteractionParameterHash = Animator.StringToHash(interactionParameterName);
         WalkParameterHash = Animator.StringToHash(walkParameterName);
-        RunParameterHash = Animator.StringToHash(runParameterName); 
+        RunParameterHash = Animator.StringToHash(runParameterName);
+        SitParameterHash = Animator.StringToHash(sitParameterName);
         SquatParameterHash = Animator.StringToHash(squatParameterName);
 
         LockpickParameterHash = Animator.StringToHash(lockpickParameterName);

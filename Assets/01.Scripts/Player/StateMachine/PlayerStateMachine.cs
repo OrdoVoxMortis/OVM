@@ -25,6 +25,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerJumpState JumpState { get; private set; }
     public PlayerFallState FallState { get; private set; }
 
+    public PlayerInterationSitState InteractionSitState { get; private set; }
     public PlayerInteractionLockpick InteractionLoackpick { get; private set; }
 
     public bool IsRunKeyHeld { get; set; }
