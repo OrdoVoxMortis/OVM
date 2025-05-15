@@ -17,7 +17,7 @@ public class PlayerStateMachine : StateMachine
 
     public Transform MainCamTransform { get; set; }
 
-    //상태들
+    //상태들 (States)
     public PlayerIdleState IdleState { get; private set; }
     public PlayerWalkState WalkState { get; private set; }
     public PlayerRunState RunState { get; private set; }

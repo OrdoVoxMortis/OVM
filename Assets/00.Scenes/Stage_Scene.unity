@@ -6956,17 +6956,17 @@ PrefabInstance:
     - target: {fileID: 3496001505357195445, guid: 70174a6874b912e488660d71eab2173c,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6764592
+      value: 0.67645925
       objectReference: {fileID: 0}
     - target: {fileID: 3496001505357195445, guid: 70174a6874b912e488660d71eab2173c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.20591986
+      value: -0.20591989
       objectReference: {fileID: 0}
     - target: {fileID: 3496001505357195445, guid: 70174a6874b912e488660d71eab2173c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.34783602
+      value: 0.34783605
       objectReference: {fileID: 0}
     - target: {fileID: 4904228346319408586, guid: 70174a6874b912e488660d71eab2173c,
         type: 3}
@@ -16793,6 +16793,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Interaction_Door
       objectReference: {fileID: 0}
+    - target: {fileID: 5460449292478669409, guid: b873a0f1b4b909a44b47dd1498e73e2e,
+        type: 3}
+      propertyPath: isLocked
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8763954968891055606, guid: b873a0f1b4b909a44b47dd1498e73e2e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16880,6 +16885,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3574263854667214485, guid: 3d3fc09d36b6c934d8f17c2124556aa2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.997
+      objectReference: {fileID: 0}
+    - target: {fileID: 3574263854667214485, guid: 3d3fc09d36b6c934d8f17c2124556aa2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.175
       objectReference: {fileID: 0}
     - target: {fileID: 7382921647282983528, guid: 3d3fc09d36b6c934d8f17c2124556aa2,
         type: 3}

@@ -60,12 +60,17 @@ public class PlayerBaseState : IState
 
     public virtual void Update()
     {
+        if (GameManager.Instance.Player.isSit)
+            return;
+
         if (UIManager.Instance.isUIActive)
         {
             if (!(stateMachine.CurrentState() is PlayerIdleState))
                 stateMachine.ChangeState(stateMachine.IdleState);
             return;
         }
+
+
             Move();
     }
 
