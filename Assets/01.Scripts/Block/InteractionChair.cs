@@ -17,7 +17,17 @@ public class InteractionChair : MonoBehaviour, IInteractable
     private string interactionText_SitDown = "앉기 [E]";
     private string interactionText_StandUp = "일어서기 [E]";
     private bool isSit = false;
+    private Collider chairCollider;
 
+    public Transform SeatPoint => seatPoint;
+    public float SitDownDuration => sitDownDuration;
+    public float StandUpDuration => standUpDuration;
+
+
+    private void Awake()
+    {
+        chairCollider = GetComponent<Collider>();
+    }
 
     public void Deactive()
     {
@@ -26,6 +36,7 @@ public class InteractionChair : MonoBehaviour, IInteractable
 
     public string GetInteractComponent()
     {
+        isSit = GameManager.Instance.Player.isSit;
         return isSit ? interactionText_StandUp : interactionText_SitDown;
     }
 
@@ -35,12 +46,16 @@ public class InteractionChair : MonoBehaviour, IInteractable
         if (playerState.CurrentState() is PlayerInterationSitState sit && !sit.isStandUp)
             return;
 
-        playerState.ChangeState(new PlayerInterationSitState(playerState, seatPoint, sitDownDuration, standUpDuration));
+        playerState.ChangeState(new PlayerInterationSitState(playerState, this, seatPoint, sitDownDuration, standUpDuration, false));
     }
 
     public void SetInteractComponenet(string newText)
     {
         throw new System.NotImplementedException();
     }
+
+    public void EnableTrigger() => chairCollider.isTrigger = true;
+
+    public void DisableTrigger() => chairCollider.isTrigger = false;
 
 }

@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
-public class PlayerInterationSitState : PlayerGroundState
+public class PlayerInterationSitState : PlayerBaseState
 {
     private InputAction interactAction;
+    private readonly InteractionChair chair;
 
     private readonly Transform seatPoint;
     private readonly float sitdownDuration;
@@ -14,23 +17,31 @@ public class PlayerInterationSitState : PlayerGroundState
     private readonly float standupAniDuration = 2.14f;
     private readonly float sitdownAniDuration = 2.14f;
 
+    private readonly bool isSkipSitDown;
+
     private readonly int sitHash;
+    private readonly int skipHash;
 
     private float sitTimer;
-    private bool sitFinished = false;
+    private bool isSitFinished = false;
     public bool isStandUp = false;
 
+    private bool hasSubStart = false;
 
-    public PlayerInterationSitState(PlayerStateMachine stateMachine, Transform seatPoint, 
-        float sitDownDuration, float standupDuration)
+
+    public PlayerInterationSitState(PlayerStateMachine stateMachine, InteractionChair chair,
+        Transform seatPoint, float sitDownDuration, float standupDuration, bool isSkipSitDown)
         : base(stateMachine)
     {
         this.seatPoint = seatPoint;
+        this.chair = chair;
         this.sitdownDuration = sitDownDuration;
         this.standupDuration = standupDuration;
         sitHash = stateMachine.Player.AnimationData.SitParameterHash;
+        skipHash = stateMachine.Player.AnimationData.SkipSitDownParameterHash;
 
         interactAction = stateMachine.Player.Input.playerActions.Interection;
+        this.isSkipSitDown = isSkipSitDown;
     }
 
     public override void Enter()
@@ -40,7 +51,9 @@ public class PlayerInterationSitState : PlayerGroundState
         stateMachine.Player.Input.UnsubscribeAllInputs(stateMachine.Player.Interaction);
 
         sitTimer = 0f;
-        sitFinished = false;
+        isSitFinished = false;
+        isStandUp = false;
+
 
         // 플레이어 위치, 회전 맞추기
         Transform playerTrans = stateMachine.Player.transform;
@@ -48,19 +61,60 @@ public class PlayerInterationSitState : PlayerGroundState
         playerTrans.rotation = seatPoint.rotation;
 
         Animator ani = stateMachine.Player.Animator;
-        ani.speed = sitdownAniDuration / sitdownDuration;
 
-        GameManager.Instance.Player.isSit = true;
-        // 앉기 애니메이션 시작
-        Debug.Log($"[SitState] sitHash = {sitHash} = true");
-        StartAnimation(sitHash);
+        if (SceneManager.GetActiveScene().name == "Lobby_Scene" && !GameManager.Instance.gameStarted)
+        {
+            ani.speed = 1f;
+            StartAnimation(skipHash);
+            SubscribeToStart();
+            GameManager.Instance.Player.isSit = true;
+            StartAnimation(sitHash);
+        }
+        else
+        {
+            ani.speed = sitdownAniDuration / sitdownDuration;
+            isSitFinished = false;
+            GameManager.Instance.Player.isSit = true;
+            Debug.Log($"[SitState] sitHash = {sitHash} = true");
+            StartAnimation(sitHash);
 
+        }
+
+
+    }
+
+    private void SubscribeToStart()
+    {
+        if (hasSubStart) return;
+        hasSubStart = true;
+
+        sitTimer = 0f;
+        isSitFinished = true;
+        isStandUp = false;
+
+        UI_Start.OnStartButtonPressed += HandleStartPressed;
+    }
+
+    private void HandleStartPressed()
+    {
+        if (!isSitFinished) return;
+
+        UI_Start.OnStartButtonPressed -= HandleStartPressed;
+
+        sitTimer = 0f;
+        isStandUp = true;
+
+        Animator ani = stateMachine.Player.Animator;
+        ani.speed = standupAniDuration / standupDuration;
+
+        StopAnimation(sitHash);
+        StopAnimation(skipHash);
     }
 
     public override void HandleInput()
     {
 
-        if (!isStandUp && sitFinished && interactAction.triggered)
+        if (!isStandUp && isSitFinished && interactAction.triggered)
         {
             isStandUp = true;
 
@@ -73,13 +127,13 @@ public class PlayerInterationSitState : PlayerGroundState
 
     public override void Update()
     {
-        if (!sitFinished)
+        if (!isSitFinished && !isSkipSitDown)
         {
             sitTimer += Time.deltaTime;
             if (sitTimer >= sitdownDuration)
             {
                 // 앉는모션 끝
-                sitFinished = true;
+                isSitFinished = true;
                 sitTimer = 0f;
             }
         }
@@ -96,6 +150,11 @@ public class PlayerInterationSitState : PlayerGroundState
         Animator ani = stateMachine.Player.Animator;
         ani.speed = 1f;
         GameManager.Instance.Player.isSit = false;
+
+        if (hasSubStart)
+            UI_Start.OnStartButtonPressed -= HandleStartPressed;
+
+        chair.EnableTrigger();
 
         stateMachine.Player.Input.SubscribeAllInputs();
 
