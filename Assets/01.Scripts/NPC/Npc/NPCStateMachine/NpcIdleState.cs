@@ -29,9 +29,7 @@ public class NpcIdleState : NpcBaseState
         }
         else if (stateMachine.npc.behaviorType == BaseBehaviorType.Idle)
         {
-            stateMachine.npc.Agent.isStopped = true;
-            StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
-            StartAnimation(stateMachine.npc.AnimationData.TalkingParameterHash);
+            TalkingIdle();
         }
         else base.Update();
 

@@ -16,6 +16,12 @@ public class NpcBaseState : IState
     protected float waitTimer = 0f;
     protected bool isWaiting = false;
     protected float cooldownTimer = 0f;
+
+    //Talking
+    protected float talkCoolDown = 0f;
+    protected float talkInterval = 0.5f;
+    protected bool isTalking = false;
+    protected bool talkIndexInitialized = false;
     public NpcBaseState(NpcStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -226,6 +232,33 @@ public class NpcBaseState : IState
                 }
             }
             agent.updateRotation = true;
+        }
+    }
+
+    public void TalkingIdle()
+    {
+        stateMachine.npc.Agent.isStopped = true;
+        StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
+        StartAnimation(stateMachine.npc.AnimationData.TalkingParameterHash);
+
+        if (!talkIndexInitialized)
+        {
+            int initIndex = Random.Range(1, 5);
+            stateMachine.npc.Animator.SetInteger("TalkIndex", initIndex);
+            talkIndexInitialized = true;
+        }
+        talkCoolDown += Time.deltaTime;
+
+        if(talkCoolDown >= talkInterval) 
+        {
+            talkCoolDown = 0f;
+            AnimatorStateInfo stateInfo = stateMachine.npc.Animator.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsTag("Talk") && stateInfo.normalizedTime >= 1f)
+            {
+                StopAnimation(stateMachine.npc.AnimationData.TalkingParameterHash);
+                int randomIndex = Random.Range(1, 5);
+                stateMachine.npc.Animator.SetInteger("TalkIndex", randomIndex);
+            }
         }
     }
 }

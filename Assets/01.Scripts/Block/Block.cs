@@ -72,7 +72,7 @@ public class Block : TimelineElement
 
         DataToGhost();
 
-        animator = transform.GetChild(0).GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         clone = transform.GetChild(1).gameObject;
         if (animator.transform.childCount > 0)
         {
