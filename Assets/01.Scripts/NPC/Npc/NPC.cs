@@ -79,7 +79,7 @@ public class NPC : MonoBehaviour
     private void Awake()
     {
         AnimationData.Initialize();
-        RhythmManager.Instance.OnStart += Destroy;
+        //RhythmManager.Instance.OnStart += Destroy;
     }
     private void Start()
     {
