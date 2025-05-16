@@ -19,7 +19,14 @@ public class Player : MonoBehaviour
     public PlayerStateMachine stateMachine;
     public CinemachineComposer composer;
 
+    public bool isSit = false;
     public bool isLockpick = false; // true == 락픽 애니메이션 재생 중
+
+    [Header("첫 앉기 설정")]
+    [SerializeField] private bool startSittingOnLoad = false;
+    [SerializeField] private InteractionChair initalChair = null;
+
+    private bool _hasAppliedStartSit;
 
 
 
@@ -56,7 +63,21 @@ public class Player : MonoBehaviour
     {
         // 초기 상태 세팅
         // 현재 초기 세팅은 Idle
-        stateMachine.ChangeState(stateMachine.IdleState);
+
+        if (startSittingOnLoad && !_hasAppliedStartSit && initalChair != null)
+        {
+            _hasAppliedStartSit = true;
+            startSittingOnLoad = false;
+
+            stateMachine.ChangeState(new PlayerInterationSitState
+                (stateMachine, initalChair, initalChair.SeatPoint, initalChair.SitDownDuration, initalChair.StandUpDuration, true));
+        }
+        else
+        {
+            stateMachine.ChangeState(stateMachine.IdleState);
+
+        }
+
     }
 
     // Update is called once per frame

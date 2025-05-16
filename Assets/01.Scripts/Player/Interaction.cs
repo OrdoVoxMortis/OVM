@@ -158,6 +158,10 @@ public class Interaction : MonoBehaviour
     // 리스트에서 제거, 현재 대상이 사라지면 UI를 숨깁니다.
     private void OnTriggerExit(Collider other)
     {
+        var chair = other.GetComponent<InteractionChair>();
+        if (chair != null)
+            chair.DisableTrigger();
+
         var interactable = other.GetComponent<IInteractable>();
 
         if (interactable != null)
