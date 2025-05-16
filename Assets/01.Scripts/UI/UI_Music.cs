@@ -1,63 +1,120 @@
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 public class UI_Music : BaseUI
 {
     [SerializeField] private Button backBtn;
-    [SerializeField] private Music_Button musicBtn;
-    [SerializeField] private Transform buttonParent;
+    [SerializeField] private Button nextMusic;
+    [SerializeField] private Button prevMusic;
+    [SerializeField] private Button playMusic;
+    [SerializeField] private Button volMusic;
     [SerializeField] private Music_Image musicImage;
-    [SerializeField] private Transform imageParent;
+    [SerializeField] private Timer_Text timerText;
+    [SerializeField] private TextMeshProUGUI currentMusicText;
+    [SerializeField] private TextMeshProUGUI musicNameText;
+    [SerializeField] private TextMeshProUGUI musicBpmText;
+    [SerializeField] private GameObject mp3Model;
+    private float currentVolume = 1.0f;
+    public List<AudioClip> mp3BgmList = new List<AudioClip>();
+    public int currentBGM;
 
-    private Music_Image currentImage;
+   
     protected override void Awake()
     {
         base.Awake();
+        mp3BgmList = ResourceManager.Instance.InGameBGMDict.Values.ToList();
+        currentBGM = 0;
        
         if (backBtn != null)
             backBtn.onClick.AddListener(OnClickBack);
+        if (playMusic != null)
+            playMusic.onClick.AddListener(OnClickMusicButton);
+        if (nextMusic != null)
+            nextMusic.onClick.AddListener(OnclickNextMusic);
+        if(prevMusic != null)
+            prevMusic.onClick.AddListener(OnclickPrevMusic);
+        if (volMusic != null)
+            volMusic.onClick.AddListener(VolumeUp);
+    }
+    private void OnEnable()
+    {
+        PlayBGM();
     }
     private void Start()
     {
-        CreateMusicButtons();
+        UIManager.Instance.UIActive();
+        SoundManager.Instance.PlaySfx("Effect_Dummy");
     }
+
     private void OnClickBack()
     {
         Hide();
+        UIManager.Instance.DeactivateStandaloneUI("MP3");
+        mp3Model.SetActive(false);
     }
 
-    private void CreateMusicButtons()
+    private void OnClickMusicButton()
     {
-        foreach (var bgmEntry in ResourceManager.Instance.BgmList) // 리소스 매니저에 있는 딕셔너리 에서 키값을 참조해서 bgmName으로 저장
-        {
-            string bgmName = bgmEntry.Key;
-
-           
-            Music_Button newButton = Instantiate(musicBtn, buttonParent);
-            newButton.SetMusicButton(bgmName,( ) => OnClickMusicButton(bgmName));
-        }
+        SoundManager.Instance.PlaySfx("Effect_Dummy");
+        PlayBGM();
+        SoundManager.Instance.SetSelectedBGM(mp3BgmList[currentBGM].name);
     }
 
-    private void OnClickMusicButton(string bgmName)
+    private void OnclickNextMusic()
     {
-        SoundManager.Instance.PlayBGM(bgmName);
-        Debug.Log($"Playing BGM: {bgmName}");
-        SoundManager.Instance.SetSelectedBGM(bgmName);
-        if(currentImage!=null)
-            currentImage.gameObject.SetActive(false);
+        SoundManager.Instance.PlaySfx("Effect_Dummy");
+        currentBGM++;
+        PlayBGM();
+        SoundManager.Instance.SetSelectedBGM(mp3BgmList[currentBGM].name);
+    }
 
-        currentImage = Instantiate(musicImage, imageParent);
+    private void OnclickPrevMusic()
+    {
+        SoundManager.Instance.PlaySfx("Effect_Dummy");
+        currentBGM--;
+        PlayBGM();
+        SoundManager.Instance.SetSelectedBGM(mp3BgmList[currentBGM].name);
+    }
 
-        string imagePath = $"MusicImages/{bgmName}";
+    private void VolumeUp()
+    {
+        SoundManager.Instance.PlaySfx("Effect_Dummy");
+        currentVolume += 0.1f;
+
+        if (currentVolume > 1f) 
+            currentVolume = 0f;
+
+        SoundManager.Instance.SetBGMVolume(currentVolume);
+    }
+
+    private void PlayBGM()
+    {
+        SoundManager.Instance.PlayBGM(mp3BgmList[currentBGM].name);
+
+        if (timerText != null)
+            timerText.ResetTimer(61f);
+
+        string imagePath = $"MusicImages/{mp3BgmList[currentBGM].name}";
         Sprite musicSprite = Resources.Load<Sprite>(imagePath);
+        musicImage.SetImage(musicSprite);
 
-        if (musicSprite == null)
+        UpdateMusicUI();
+    }
+
+    private void UpdateMusicUI()
+    {
+        if(currentMusicText != null)
         {
-            Debug.LogWarning($"[Warning] Sprite not found for {bgmName} at {imagePath}");
+            currentMusicText.text = $"{currentBGM + 1} / {mp3BgmList.Count}";
         }
-        else
+
+        if(musicNameText != null)
         {
-            currentImage.SetImage(musicSprite);
+            musicNameText.text = $"{mp3BgmList[currentBGM].name}";
         }
     }
+
 
 }

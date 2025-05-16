@@ -58,7 +58,7 @@ public class Event : TimelineElement
             IsCollect = false;
             Debug.Log("이벤트 데이터 삭제!");
         }
-       
+        TimelineManager.Instance.OnBlockUpdate?.Invoke();
     }
 
     public override void Deactive()

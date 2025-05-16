@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler,IPointerEnterHandler,IPointerExitHandler 
 {
     public UI_Sequence currentItem; // 슬롯 안에 들어있는 아이템 (프리팹 인스턴스)
 
@@ -32,6 +32,8 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         {
             currentItem.transform.position = eventData.position; // 마우스 따라다니게
         }
+        if (currentItem != null)
+            currentItem.SetOutline(true);
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -42,6 +44,8 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
             currentItem.transform.localPosition = Vector3.zero;
             currentItem.GetComponent<CanvasGroup>().blocksRaycasts = true;
         }
+        if (currentItem != null)
+            currentItem.SetOutline(false);
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -57,7 +61,19 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
                     Debug.Log($"[정렬후] slot {i} = {(TimelineManager.Instance.PlacedBlocks[i] != null ? TimelineManager.Instance.PlacedBlocks[i].Name : "null")}");
                 }
             }
-            BlockManager.Instance.OnBlockUpdate?.Invoke();
+            TimelineManager.Instance.OnBlockUpdate?.Invoke();
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (currentItem != null)
+            currentItem.SetOutline(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (currentItem != null)
+            currentItem.SetOutline(false);
     }
 }

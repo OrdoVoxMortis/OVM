@@ -59,6 +59,7 @@ public class Block : TimelineElement
     protected GameObject clone; // 클론 위치
     protected Animator animator;
     protected MeshRenderer blockMesh;
+    protected SkinnedMeshRenderer skinnedMeshRenderer;
     protected Material ghostOutline;
 
     protected virtual void Awake()
@@ -71,9 +72,13 @@ public class Block : TimelineElement
 
         DataToGhost();
 
-        clone = transform.GetChild(1).gameObject;
         animator = transform.GetChild(0).GetComponent<Animator>();
-        blockMesh = transform.GetChild(2).GetComponent<MeshRenderer>();
+        clone = transform.GetChild(1).gameObject;
+        if (animator.transform.childCount > 0)
+        {
+            skinnedMeshRenderer = transform.GetChild(0).GetChild(1).GetComponent<SkinnedMeshRenderer>();
+        }
+        else blockMesh = transform.GetChild(2).GetComponent<MeshRenderer>();
 
         GameManager.Instance.OnSimulationMode += ToggleGhost;
 
@@ -100,7 +105,7 @@ public class Block : TimelineElement
 
         FixedSequence = ResourceManager.Instance.LoadAnimationClip(data.fixedSequence);
         AfterFlexSequence = ResourceManager.Instance.LoadAnimationClip(data.afterFlexSequence);
-        if (!string.IsNullOrEmpty(data.blockSound) && ResourceManager.Instance.SfxList.TryGetValue(data.blockSound, out var clip))
+        if (!string.IsNullOrEmpty(data.blockSound) && ResourceManager.Instance.SfxDict.TryGetValue(data.blockSound, out var clip))
         {
             BlockSound = clip;
         }
@@ -110,19 +115,19 @@ public class Block : TimelineElement
     {
         if (!IsActive)
         {
+            AddOutlineMaterial();
             FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
             TimelineManager.Instance.AddBlock(this);
-            AddOutlineMaterial();
         }
         else
         {
+            RemoveOutlineMaterial();
             TimelineManager.Instance.DestroyBlock(this);
             ghostManager.RemoveGhost();
             Debug.Log("블럭 데이터 삭제!");
-            RemoveOutlineMaterial();
         }
 
-        BlockManager.Instance.OnBlockUpdate?.Invoke();
+        TimelineManager.Instance.OnBlockUpdate?.Invoke();
       
     }
 
@@ -188,19 +193,41 @@ public class Block : TimelineElement
 
     private void AddOutlineMaterial()
     {
-        var curMaterials = blockMesh.materials.ToList();
-        bool exists = curMaterials.Any(m => m.name.StartsWith(ghostOutline.name));
-        if (!exists)
+        if (blockMesh != null)
         {
-            curMaterials.Add(ghostOutline);
-            blockMesh.materials = curMaterials.ToArray();
+            var curMaterials = blockMesh.materials.ToList();
+            bool exists = curMaterials.Any(m => m.name.StartsWith(ghostOutline.name));
+            if (!exists)
+            {
+                curMaterials.Add(ghostOutline);
+                blockMesh.materials = curMaterials.ToArray();
+            }
+        }
+        else
+        {
+            var curMaterials = skinnedMeshRenderer.materials.ToList();
+            bool exists = curMaterials.Any(m => m.name.StartsWith(ghostOutline.name));
+            if (!exists)
+            {
+                curMaterials.Add(ghostOutline);
+                skinnedMeshRenderer.materials = curMaterials.ToArray();
+            }
         }
     }
 
     private void RemoveOutlineMaterial()
     {
-        var curMaterials = blockMesh.materials.ToList();
-        curMaterials.RemoveAll(m => m.name.StartsWith(ghostOutline.name));
-        blockMesh.materials = curMaterials.ToArray();
+        if (blockMesh != null)
+        {
+            var curMaterials = blockMesh.materials.ToList();
+            curMaterials.RemoveAll(m => m.name.StartsWith(ghostOutline.name));
+            blockMesh.materials = curMaterials.ToArray();
+        }
+        else
+        {
+            var curMaterials = skinnedMeshRenderer.materials.ToList();
+            curMaterials.RemoveAll(m => m.name.StartsWith(ghostOutline.name));
+            skinnedMeshRenderer.materials = curMaterials.ToArray();
+        }
     }
 }
