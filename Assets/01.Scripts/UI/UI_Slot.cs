@@ -61,7 +61,7 @@ public class UI_Slot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
                     Debug.Log($"[정렬후] slot {i} = {(TimelineManager.Instance.PlacedBlocks[i] != null ? TimelineManager.Instance.PlacedBlocks[i].Name : "null")}");
                 }
             }
-            BlockManager.Instance.OnBlockUpdate?.Invoke();
+            TimelineManager.Instance.OnBlockUpdate?.Invoke();
         }
     }
 
