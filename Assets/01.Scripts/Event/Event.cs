@@ -28,10 +28,7 @@ public class Event : TimelineElement
         var data = DataManager.Instance.eventDict[id];
         Name = data.name;
         Description = data.description;
-        if (DataManager.Instance.musicDict.TryGetValue(data.bgmId, out var bgm))
-        {
-            BgmName = bgm.name;
-        }
+        BgmName = data.bgmName;
     }
     public override string GetInteractComponent()
     {

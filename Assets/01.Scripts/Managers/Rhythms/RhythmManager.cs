@@ -42,8 +42,6 @@ public class RhythmManager : SingleTon<RhythmManager>
     private TimelineCamera timelineCamera;
     private int tlCIndex;
 
-    public Action OnStart;
-
     protected override void Awake()
     {
         base.Awake();

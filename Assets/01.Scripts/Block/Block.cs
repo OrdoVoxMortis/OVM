@@ -149,7 +149,7 @@ public class Block : TimelineElement
         ghostManager.playerTrans = transform.GetChild(1);
         ghostManager.ghostClip = FixedSequence;
         ghostManager.ghostPrefabs = transform.GetChild(0).gameObject;
-        ghostManager.bpm = GameManager.Instance.Bpm;
+        ghostManager.bpm = GameManager.Instance.bpm;
         ghostManager.blockSound = DataManager.Instance.blockDict[id].blockSound;
     }
 

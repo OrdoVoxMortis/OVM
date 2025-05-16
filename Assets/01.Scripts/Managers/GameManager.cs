@@ -7,10 +7,11 @@ using System.Linq;
 public class GameManager : SingleTon<GameManager>
 {
     public Player Player { get; private set; }
-    public int Bpm { get; private set; }
+    public int bpm = 120;
     public AudioClip SelectedBGM {  get; private set; }
     public string BgmId {  get; private set; }
     public static event Action OnSelectedBGMSet; // 추가
+    public Action OnStart;
     public Action OnGameOver;
     public Action OnGameClear;
     public bool gameStarted = false;
@@ -38,8 +39,6 @@ public class GameManager : SingleTon<GameManager>
 
     public void SetSelectedBGM(AudioClip clip)
     {
-        Bpm = DataManager.Instance.musicDict[clip.name].BPM;
-        BgmId = clip.name;
         SelectedBGM = clip;
         OnSelectedBGMSet?.Invoke(); // 이벤트 발동!!
     }
