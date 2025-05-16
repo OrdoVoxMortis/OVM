@@ -11,6 +11,7 @@ public class UI_Start: BaseUI
     [SerializeField] private Button closeBtn; // 연결할 버튼
     [SerializeField] private GameObject lobbyCam; // 로비캠
     [SerializeField] private LobbyScene lobbyScene;
+    [SerializeField] private Canvas canvas;
     public bool isEnabled = true;
     public Volume volume;
     private Player player;
@@ -33,6 +34,7 @@ public class UI_Start: BaseUI
         if (GameManager.Instance.gameStarted == true)
         {
             // 이미 시작된 상태라면 UI 끄고 조작만 활성화
+            Camera.main.cullingMask = -1;
             gameObject.SetActive(false);
             UIManager.Instance.UIDeactive();
             lobbyCam.SetActive(false);
@@ -60,6 +62,7 @@ public class UI_Start: BaseUI
         playerTimeline.stopped += OnTimelineEnd;
         Cursor.lockState = CursorLockMode.Locked;
         playerTimeline.Play();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         GameManager.Instance.gameStarted = true;
         if (inputProvider != null)
             inputProvider.enabled = false;

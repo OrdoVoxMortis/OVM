@@ -178,6 +178,7 @@ public class NPC : MonoBehaviour
 
     private void FindArea()
     {
+        if (behaviorType == BaseBehaviorType.Idle) return;
         Area[] allAreas = GameObject.FindObjectsOfType<Area>();
         float minDist = float.MaxValue;
         Area selectedArea = null;

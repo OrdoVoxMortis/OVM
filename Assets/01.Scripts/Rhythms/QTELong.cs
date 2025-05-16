@@ -1,5 +1,5 @@
 using System.Collections;
-
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,18 +11,24 @@ public class QTELong : QTE
     public float holdingTime;
     private float holdingDelta;
 
-    private bool isHolding;
+    public bool isHolding;
+    public List<float> holdingCheckTime;
+    private int curTimeIndex;
+    private float checkTime;
 
     void Start()
     {
+        curTimeIndex = 0;
         outerLineSize = 2.0f;
         outerLine.localScale = new Vector2(2.0f, 2.0f);
 
         if (holdingTime == 0f)
             holdingTime = 1f;
-
+        innerCircleSize = 0f;
+        innerCircle.localScale = new Vector2(0f, 0f);
         holdingDelta = 1f / holdingTime;
         isHolding = false;
+        
     }
 
     void Update()
@@ -30,10 +36,30 @@ public class QTELong : QTE
         if (isChecked)
             return;
 
-        if (outerLineSize <= 1 - judges[2]) //누르는 거 자체를 놓친 경우
+        if (isHolding)
+        {
+            checkTime += Time.deltaTime;
+            if(curTimeIndex < holdingCheckTime.Count &&checkTime > holdingCheckTime[curTimeIndex])
+            {
+                if (manager.qteList.Count > 0 && manager.qteList[0] == this)
+                    manager.CheckQTE();
+                curTimeIndex++;
+            }
+        }
+
+        if (!isHolding && outerLineSize <= 1 - judges[2]) //누르는 거 자체를 놓친 경우
         {
             manager.CheckQTE();
-            //CheckJudge();
+        }
+
+        if(isHolding && innerCircleSize >= 1f)
+        {
+            //삭제
+            isHolding = false;
+            manager.isHolding = false;
+            if (manager.qteList.Count > 0 && manager.qteList[0] == this)
+                manager.qteList.RemoveAt(0);
+            Destroy(gameObject);
         }
 
         if (!isHolding) //바깥원 줄어듦
@@ -46,9 +72,9 @@ public class QTELong : QTE
         {
             innerCircleSize += holdingDelta * Time.deltaTime;
             innerCircle.localScale = new Vector2(innerCircleSize, innerCircleSize);
+            innerImage.color = gradient.Evaluate(Mathf.Abs(innerCircleSize));
         }
 
-        innerImage.color = gradient.Evaluate(1 - Mathf.Abs(1 - outerLineSize));
     }
 
     public override void CheckJudge()
@@ -62,71 +88,61 @@ public class QTELong : QTE
             {
                 RhythmManager.Instance.checkJudgeText.text = "<b> Miss </b>";
                 RhythmManager.Instance.checkJudgeText.color = Color.yellow;
-                isOverGood = false;
+                manager.isOverGood = false;
                 StageManager.Instance.StageResult.QteCheck = false;
             }
             else
             {
                 RhythmManager.Instance.checkJudgeText.text = "<b> Fail </b>";
                 RhythmManager.Instance.checkJudgeText.color = Color.red;
-                isOverGood = false;
+                manager.isOverGood = false;
                 StageManager.Instance.StageResult.QteCheck = false;
             }
+            innerImage.gameObject.SetActive(false);
+            outerLine.gameObject.SetActive(false);
+            innerCircle.gameObject.SetActive(false);
+            isChecked = true;
+            isHolding = false;
+            manager.isHolding = false;
+            Invoke("DestroyObject", 0.5f);
+        } 
+        else //성공시
+        {
+            if (timing < judges[0])
+            {
+                Debug.Log("Perfect!");
+                RhythmManager.Instance.checkJudgeText.text = "<b> Perfect </b>";
+                RhythmManager.Instance.checkJudgeText.color = Color.blue;
+            } 
+            else
+            {
+                Debug.Log("Good!");
+                RhythmManager.Instance.checkJudgeText.text = "<b> Good </b>";
+                RhythmManager.Instance.checkJudgeText.color = Color.green;
+                StageManager.Instance.StageResult.QteCheck = true;
+            }
+            manager.isOverGood = true;
+            outerLine.localScale = new Vector2(1f, 1f);
+            isHolding = true;
+            manager.isHolding = true;
+            manager.isLongNoteDoing = true;
+            checkTime = 0f;
         }
 
-        isHolding = true;
     }
 
-    /*
-    public void CheckJudge()
+    public void ReleaseNote()
     {
-        StageManager.Instance.StageResult.QteCheck = true;
-        float timing = Mathf.Abs(1f - outerLineSize);
-        if (timing < judges[0])
-        {
-            Debug.Log("Perfect!");
-            RhythmManager.Instance.checkJudgeText.text = "<b> Perfect </b>";
-            RhythmManager.Instance.checkJudgeText.color = Color.blue;
-            isOverGood = true;
-        }
-        else if (timing < judges[1])
-        {
-            Debug.Log("Good!");
-            RhythmManager.Instance.checkJudgeText.text = "<b> Good </b>";
-            RhythmManager.Instance.checkJudgeText.color = Color.green;
-            isOverGood = true;
-            StageManager.Instance.StageResult.QteCheck = false;
-        }
-        else if (timing < judges[2])
-        {
-            Debug.Log("Miss!");
-            RhythmManager.Instance.checkJudgeText.text = "<b> Miss </b>";
-            RhythmManager.Instance.checkJudgeText.color = Color.yellow;
-            isOverGood = false;
-            StageManager.Instance.StageResult.QteCheck = false;
-        }
-        else
-        {
-            Debug.Log("Fail!");
-            RhythmManager.Instance.checkJudgeText.text = "<b> Fail </b>";
-            RhythmManager.Instance.checkJudgeText.color = Color.red;
-            isOverGood = false;
-            StageManager.Instance.StageResult.QteCheck = false;
-        }
-        StopAllCoroutines();
-        StartCoroutine(HideJudgeTextAfterDelay(0.2f));
+        isHolding = false;
         isChecked = true;
-
-        if (timing < judges[1]) //Good 이상인 경우 파티클
-            particle.SetActive(true);
-
-        //innerImage.gameObject.SetActive(false);
-        outerLine.gameObject.SetActive(false);
-
-        Invoke("DestroyObject", 0.5f);
-
+        manager.isHolding = false;
+        manager.isOverGood = false;
+        if(manager.qteList.Count > 0 &&  manager.qteList[0] == this)
+            manager.qteList.RemoveAt(0);
+        Destroy(gameObject);
+        //manager.CheckQTE();
     }
-    */
+    
 
     IEnumerator HideJudgeTextAfterDelay(float delay)
     {

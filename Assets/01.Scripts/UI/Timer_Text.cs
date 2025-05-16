@@ -7,6 +7,7 @@ public class Timer_Text : MonoBehaviour
     public TextMeshProUGUI timer;
     private float sec = 60f;
     private float currentTime;
+    private bool isRunning = false;
 
     private void Start()
     {
@@ -25,6 +26,10 @@ public class Timer_Text : MonoBehaviour
 
             Timer();
         }
+        else
+        {
+            isRunning = false ;
+        }
     }
     void Timer()
     {
@@ -33,5 +38,12 @@ public class Timer_Text : MonoBehaviour
 
         timer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
-    
+
+    public void ResetTimer(float sec)
+    {
+        currentTime = sec;
+        isRunning = true;
+        Timer();
+    }
+
 }
