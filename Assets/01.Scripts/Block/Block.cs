@@ -74,11 +74,17 @@ public class Block : TimelineElement
 
         animator = GetComponentInChildren<Animator>();
         clone = transform.GetChild(1).gameObject;
-        if (animator.transform.childCount == 2)
+
+        if (!transform.GetChild(2).TryGetComponent<MeshRenderer>(out MeshRenderer _blockMesh))
         {
-            skinnedMeshRenderer = transform.GetChild(0).GetChild(1).GetComponent<SkinnedMeshRenderer>();
+            skinnedMeshRenderer = transform.GetChild(2).GetComponentInChildren<SkinnedMeshRenderer>();
         }
-        else blockMesh = transform.GetChild(2).GetComponent<MeshRenderer>();
+        else
+        {
+            blockMesh = _blockMesh;
+        }
+
+
 
         GameManager.Instance.OnSimulationMode += ToggleGhost;
 
