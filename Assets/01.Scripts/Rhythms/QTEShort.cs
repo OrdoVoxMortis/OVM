@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class QTEShort : QTE
 {
-
     void Start()
     {
         outerLineSize = 2.0f;
@@ -22,6 +21,7 @@ public class QTEShort : QTE
 
         if(outerLineSize <= 1 - judges[2])
         {
+            if (manager.qteList.Count > 0 && manager.qteList[0] == this)
             manager.CheckQTE();
         }
 
@@ -39,14 +39,14 @@ public class QTEShort : QTE
             //Debug.Log("Perfect!");
             RhythmManager.Instance.checkJudgeText.text = "<b> Perfect </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.blue;
-            isOverGood = true;
+            manager.isOverGood = true;
         }
         else if (timing < judges[1])
         {
             //Debug.Log("Good!");
             RhythmManager.Instance.checkJudgeText.text = "<b> Good </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.green;
-            isOverGood = true;
+            manager.isOverGood = true;
             StageManager.Instance.StageResult.QteCheck = true;
         }
         else if (timing < judges[2])
@@ -54,7 +54,7 @@ public class QTEShort : QTE
             //Debug.Log("Miss!");
             RhythmManager.Instance.checkJudgeText.text = "<b> Miss </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.yellow;
-            isOverGood = false;
+            manager.isOverGood = false;
             StageManager.Instance.StageResult.QteCheck = false;
         } 
         else
@@ -62,7 +62,7 @@ public class QTEShort : QTE
             //Debug.Log("Fail!");
             RhythmManager.Instance.checkJudgeText.text = "<b> Fail </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.red;
-            isOverGood = false;
+            manager.isOverGood = false;
             StageManager.Instance.StageResult.QteCheck = false;
         }
         StopAllCoroutines();
