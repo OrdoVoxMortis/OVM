@@ -9,6 +9,7 @@ public class UIManager : SingleTon<UIManager>
     [SerializeField] private Stack <BaseUI> uiStack = new();
     private Canvas canvas;
     public static event System.Action popupSetting;
+    private Dictionary<string, BaseUI> standaloneUIs = new();
 
     protected override void Awake()
     {
@@ -72,6 +73,17 @@ public class UIManager : SingleTon<UIManager>
 
     public T SpawnStandaloneUI<T>(string name) where T : BaseUI
     {
+        string key = typeof(T).Name;
+        if (standaloneUIs.TryGetValue(key, out var existingUI))
+        {
+            if(existingUI != null)
+            {
+                Debug.LogWarning($"Standalone UI {key} 은(는) 이미 존재합니다.");
+                Destroy(existingUI.gameObject);
+            }
+          
+            standaloneUIs.Remove(key);
+        }
         T prefab = ResourceManager.Instance.LoadUI<T>(name);
         if (prefab == null)
         {
@@ -109,6 +121,19 @@ public class UIManager : SingleTon<UIManager>
 
         isUIActive = uiStack.Count > 0;
 
+    }
+
+    public void DeactivateStandaloneUI(string name)
+    {
+        if (standaloneUIs.TryGetValue(name, out var ui))
+        {
+            ui.gameObject.SetActive(false);
+            Debug.Log($"Standalone UI {name} 비활성화됨.");
+        }
+        else
+        {
+            Debug.LogWarning($"Standalone UI {name} 을(를) 찾을 수 없습니다.");
+        }
     }
 
     public void ClearUI()

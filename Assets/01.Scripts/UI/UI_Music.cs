@@ -45,22 +45,26 @@ public class UI_Music : BaseUI
     private void Start()
     {
         UIManager.Instance.UIActive();
+        SoundManager.Instance.PlaySfx("Effect_Dummy");
     }
 
     private void OnClickBack()
     {
         Hide();
+        UIManager.Instance.DeactivateStandaloneUI("MP3");
         mp3Model.SetActive(false);
     }
 
     private void OnClickMusicButton()
     {
+        SoundManager.Instance.PlaySfx("Effect_Dummy");
         PlayBGM();
         SoundManager.Instance.SetSelectedBGM(mp3BgmList[currentBGM].name);
     }
 
     private void OnclickNextMusic()
     {
+        SoundManager.Instance.PlaySfx("Effect_Dummy");
         currentBGM++;
         PlayBGM();
         SoundManager.Instance.SetSelectedBGM(mp3BgmList[currentBGM].name);
@@ -68,6 +72,7 @@ public class UI_Music : BaseUI
 
     private void OnclickPrevMusic()
     {
+        SoundManager.Instance.PlaySfx("Effect_Dummy");
         currentBGM--;
         PlayBGM();
         SoundManager.Instance.SetSelectedBGM(mp3BgmList[currentBGM].name);
@@ -75,6 +80,7 @@ public class UI_Music : BaseUI
 
     private void VolumeUp()
     {
+        SoundManager.Instance.PlaySfx("Effect_Dummy");
         currentVolume += 0.1f;
 
         if (currentVolume > 1f) 

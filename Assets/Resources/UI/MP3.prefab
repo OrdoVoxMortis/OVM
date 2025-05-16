@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3398213807655050898}
   - component: {fileID: 2881719318363688472}
   - component: {fileID: 7539358683359426376}
+  - component: {fileID: 8816889946702663884}
   m_Layer: 0
   m_Name: MP3
   m_TagString: Untagged
@@ -110,6 +111,20 @@ MonoBehaviour:
   mp3Model: {fileID: 26491423655289385}
   mp3BgmList: []
   currentBGM: 0
+--- !u!114 &8816889946702663884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26491423655289385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe0cf9e49c27924aa782c8356cf9aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 5
+  mouseButton: 0
 --- !u!1 &5888943611865763944
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +267,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1403117622719087968}
     m_Modifications:
+    - target: {fileID: 2747799146109474127, guid: 5b9fdfb09694c6644a27196a88e9895c,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2747799146109474127, guid: 5b9fdfb09694c6644a27196a88e9895c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.014
+      objectReference: {fileID: 0}
     - target: {fileID: 3571805794789767215, guid: 5b9fdfb09694c6644a27196a88e9895c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -312,8 +337,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Music_UI
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4538566653814775530, guid: 5b9fdfb09694c6644a27196a88e9895c, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
