@@ -68,7 +68,6 @@ public class UI_PlayRhythm : BaseUI
             StartCoroutine(WaitUntilShow());
         }
     }
-
     IEnumerator WaitUntilShow()
     {
         playCancle.gameObject.SetActive(true);

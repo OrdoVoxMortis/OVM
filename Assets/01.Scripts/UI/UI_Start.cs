@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -20,14 +21,14 @@ public class UI_Start: BaseUI
     private CinemachineInputProvider inputProvider;
     private ColorAdjustments colorAdjustments; // 볼륨의 color adjustment 값 가져오기
 
+    public static event Action OnStartButtonPressed;        // Start 버튼이 눌린것을 알려줄 이벤트
+
     protected override void Awake()
     {
         base.Awake();
 
         if(closeBtn != null)
             closeBtn.onClick.AddListener(OnStartClick);
-
-
     }
     private void Start()
     {
@@ -48,7 +49,7 @@ public class UI_Start: BaseUI
         player = GameManager.Instance.Player;
         playerTimeline = player.gameObject.GetComponent<PlayableDirector>();
         inputProvider = GameManager.Instance.Player.Input.playerCamera.GetComponent<CinemachineInputProvider>();
-        Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
+        //Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
         if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
         {
             colorAdjustments.saturation.value = -100f;
@@ -62,6 +63,9 @@ public class UI_Start: BaseUI
         playerTimeline.stopped += OnTimelineEnd;
         Cursor.lockState = CursorLockMode.Locked;
         playerTimeline.Play();
+
+        OnStartButtonPressed?.Invoke();     // 이벤트 발행
+
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         GameManager.Instance.gameStarted = true;
         if (inputProvider != null)

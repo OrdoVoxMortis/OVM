@@ -62,7 +62,7 @@ public class RhythmManager : SingleTon<RhythmManager>
         isPlaying = true;
 
         checkJudgeText.transform.SetAsLastSibling();
-        checkJudgeText.gameObject.SetActive(true);
+        //checkJudgeText.gameObject.SetActive(true);
     }
 
     private void Update()

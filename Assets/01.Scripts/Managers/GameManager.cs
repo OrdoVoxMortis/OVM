@@ -18,10 +18,12 @@ public class GameManager : SingleTon<GameManager>
     public bool SimulationMode { get; set; }
     public Action OnSimulationMode;
     public bool isEnd = false;
+    public StageStartPoint stageStartPoint;
     protected override void Awake()
     {
         base.Awake();
         Player = FindObjectOfType<Player>();
+        stageStartPoint = FindObjectOfType<StageStartPoint>();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -39,6 +41,7 @@ public class GameManager : SingleTon<GameManager>
 
     public void SetSelectedBGM(AudioClip clip)
     {
+
         SelectedBGM = clip;
         OnSelectedBGMSet?.Invoke(); // 이벤트 발동!!
     }
