@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 6755638832376384955}
   - component: {fileID: 2984743433523862374}
   - component: {fileID: 2272241200334280138}
-  - component: {fileID: 4895758462304423122}
-  - component: {fileID: 2913221789740718026}
+  - component: {fileID: 2472422472164139499}
+  - component: {fileID: 4769750234128497030}
+  - component: {fileID: 5258615435563330605}
   m_Layer: 3
   m_Name: 'Event_Invitation '
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2793815688587607739}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.042, y: 1.3260002, z: 39.385}
   m_LocalScale: {x: 0.02, y: 0.05, z: 0.03}
   m_ConstrainProportionsScale: 0
@@ -85,8 +86,75 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4895758462304423122
-MeshCollider:
+--- !u!114 &2472422472164139499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2793815688587607739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c7e289404a1b40488fe6e9028b79d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bpm: 120
+  beats:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  pointNoteList: 0000000000000000000001000000000000000100000000000000010000000000
+  isLongNote: 
+  qteList: []
+  qtePrefabs: {fileID: 8792027279673050329, guid: 6f5cebf92c044d9408dbb5c330dac8f4,
+    type: 3}
+  qteLongPrefabs: {fileID: 0}
+  canvas: {fileID: 0}
+  eventSound: 
+  hitSound:
+  - 
+  - 
+  eventBgm: 
+  rootPositionX: 0
+  rootPositionY: 0
+  gapX: 0
+  gapY: 0
+  row: 0
+  col: 0
+  isOverGood: 0
+  isHolding: 0
+  isLongNoteDoing: 0
+--- !u!135 &4769750234128497030
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,11 +171,10 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &2913221789740718026
+  serializedVersion: 3
+  m_Radius: 7
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5258615435563330605
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,3 +186,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30a29e9e60fdb33449acad8a1afa14a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
