@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -16,6 +17,7 @@ public class UI_Music : BaseUI
     [SerializeField] private TextMeshProUGUI musicNameText;
     [SerializeField] private TextMeshProUGUI musicBpmText;
     [SerializeField] private GameObject mp3Model;
+    private CinemachineBrain _cinemachineBrain;
     private float currentVolume = 1.0f;
     public List<AudioClip> mp3BgmList = new List<AudioClip>();
     public int currentBGM;
@@ -46,6 +48,11 @@ public class UI_Music : BaseUI
     {
         UIManager.Instance.UIActive();
         SoundManager.Instance.PlaySfx("Effect_Dummy");
+        _cinemachineBrain = GetComponent<CinemachineBrain>();
+        if (_cinemachineBrain != null)
+        {
+            _cinemachineBrain.enabled = false;
+        }
     }
 
     private void OnClickBack()
@@ -53,6 +60,12 @@ public class UI_Music : BaseUI
         Hide();
         UIManager.Instance.DeactivateStandaloneUI("Mp3_Player");
         mp3Model.SetActive(false);
+        {
+            if (_cinemachineBrain != null)
+            {
+                _cinemachineBrain.enabled = true;
+            }
+        }
     }
 
     private void OnClickMusicButton()
