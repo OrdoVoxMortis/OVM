@@ -74,7 +74,7 @@ public class Block : TimelineElement
 
         animator = GetComponentInChildren<Animator>();
         clone = transform.GetChild(1).gameObject;
-        if (animator.transform.childCount > 0)
+        if (animator.transform.childCount == 2)
         {
             skinnedMeshRenderer = transform.GetChild(0).GetChild(1).GetComponent<SkinnedMeshRenderer>();
         }
