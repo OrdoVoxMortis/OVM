@@ -130,9 +130,9 @@ public class NpcActionState : NpcBaseState
         if (stateMachine.npc.target.IsNotified) return;
         var agent = stateMachine.npc.Agent;
         
-        if (agent.remainingDistance <= agent.stoppingDistance) //도착시
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance) //도착시
         {
-            StartAnimation(stateMachine.npc.AnimationData.NofityParameterHash);
+            StartAnimation(stateMachine.npc.AnimationData.NotifyParameterHash);
             StopAnimation(stateMachine.npc.AnimationData.RunParameterHash);
             Vector3 lookDir = (stateMachine.npc.target.transform.position - stateMachine.npc.transform.position);
             lookDir.y = 0;
@@ -150,13 +150,14 @@ public class NpcActionState : NpcBaseState
                 if (friend.IsNotifying) return;
                 friend.NotifyTarget(stateMachine.npc.target, () =>
                 {
-                    StopAnimation(stateMachine.npc.AnimationData.NofityParameterHash);
+                    StopAnimation(stateMachine.npc.AnimationData.NotifyParameterHash);
                 });
 
             }
         }
         else
         {
+            agent.isStopped = false;
             agent.SetDestination(stateMachine.npc.target.transform.position);
         }
     }
@@ -208,7 +209,7 @@ public class NpcActionState : NpcBaseState
         stateMachine.npc.Agent.isStopped = false;
         StartAnimation(stateMachine.npc.AnimationData.RunParameterHash);
         stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
-        if (stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
+        if (!stateMachine.npc.Agent.pathPending && stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
         {
             StopAnimation(stateMachine.npc.AnimationData.RunParameterHash);
             GameManager.Instance.GameOver();

@@ -2753,8 +2753,8 @@ GameObject:
   - component: {fileID: 1595563702419810227}
   - component: {fileID: 2335987559751972422}
   - component: {fileID: 2921913558666334907}
-  - component: {fileID: 4264958676006053625}
   - component: {fileID: 7712676295424824512}
+  - component: {fileID: 5465554651327406503}
   - component: {fileID: 1314961205559556847}
   m_Layer: 0
   m_Name: Woman
@@ -3042,39 +3042,6 @@ MonoBehaviour:
       m_RotationOrder: 4
     CurveXRangeDegree: 90
     CurveYRangeDegree: 10
---- !u!114 &4264958676006053625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4686316196746172673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ad2553287282be4aa530b5b2536718e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: NPC_F001
-  <Data>k__BackingField: {fileID: 11400000, guid: 4f09a92c775b9534c94aed6da60abdc5,
-    type: 2}
-  <AnimationData>k__BackingField:
-    groundParameterName: '@Ground'
-    idleParameterName: Idle
-    interactionParameterName: Interaction
-    walkParameterName: Walk
-    runParameterName: Run
-    sitParameterName: Sit
-    airParameterName: '@Air'
-    jumpParameterName: Jump
-    fallParameterName: Fall
-  player: {fileID: 0}
-  playerCollider: {fileID: 0}
-  isColliding: 0
-  isWalking: 1
-  layer:
-    serializedVersion: 2
-    m_Bits: 512
-  target: {fileID: 0}
 --- !u!195 &7712676295424824512
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3097,6 +3064,43 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5465554651327406503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686316196746172673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c274f9a594b314893b11e344ad18aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: NPC_F001
+  <Data>k__BackingField: {fileID: 11400000, guid: 4f09a92c775b9534c94aed6da60abdc5,
+    type: 2}
+  <AnimationData>k__BackingField:
+    groundParameterName: '@Ground'
+    idleParameterName: Idle
+    interactionParameterName: Interaction
+    walkParameterName: Walk
+    runParameterName: Run
+    triggerParameterName: Trigger
+    lookAroundParameterName: LookAround
+    notifyParameterName: Notify
+    turnLeftParameterName: TurnLeft
+    turnRightParameterName: TurnRight
+    talkingParameterName: Talking
+  player: {fileID: 0}
+  playerCollider: {fileID: 0}
+  isColliding: 0
+  isWalking: 1
+  layer:
+    serializedVersion: 2
+    m_Bits: 512
+  target: {fileID: 0}
+  moveDelay: 2
+  behaviorType: 1
 --- !u!136 &1314961205559556847
 CapsuleCollider:
   m_ObjectHideFlags: 0
