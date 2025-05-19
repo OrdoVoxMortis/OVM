@@ -26,9 +26,12 @@ public class UI_Quest : BaseUI
     private void Start()
     {
         gameObject.SetActive(false);
-        textBox.SetActive(false); // 대화창도 기본적으로 비활성화
     }
 
+    private void OnEnable()
+    {
+        textBox.SetActive(false); // 대화창도 기본적으로 비활성화
+    }
     private void Update()
     {
         acceptBtn.interactable = true;
@@ -52,11 +55,15 @@ public class UI_Quest : BaseUI
         }
         else if (!isDialogShown)
         {
-            
             textBox.SetActive(true);
             dialogText.text = fullDialog;
             isDialogShown = true;
             acceptBtn.interactable = false;
+        }
+        else if (isDialogShown) 
+        {
+            textBox.SetActive(false);
+            isDialogShown= false;
         }
     }
 

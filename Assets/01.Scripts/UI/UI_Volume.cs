@@ -36,7 +36,7 @@ public class UI_Volume : PopupUI
             if(lobbyBtn != null) lobbyBtn.gameObject.SetActive(false);
         }
 
-        if(currentScene == "Stage_Scene")
+        if(currentScene == "Stage01_Scene")
         {
             if (quitBtn != null) quitBtn.gameObject.SetActive(false);
             if (lobbyBtn != null) lobbyBtn.gameObject.SetActive(true);
