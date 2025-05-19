@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,16 +13,21 @@ public class Event : TimelineElement
 
     private PostProcessingToggle postProcessingToggle; // 추후 수정
     private QTEManager qteManager;
+    private MeshRenderer meshRenderer;
+    private Material ghostOutline;
     public bool IsCollect { get; set; } // 해금
+
     private void Awake()
     {
         postProcessingToggle = FindObjectOfType<PostProcessingToggle>(); // 추후수정
         qteManager = GetComponent<QTEManager>();
+        meshRenderer = GetComponent<MeshRenderer>();
     }
     private void Start()
     {
         LoadData();
         qteManager.eventBgm = BgmName;
+        ghostOutline = ResourceManager.Instance.LoadMaterial("OutlineGhost");
     }
     protected virtual void LoadData()
     {
@@ -45,6 +51,7 @@ public class Event : TimelineElement
             //RhythmManager.Instance.rhythmActions.Add(qteManager);
             IsActive = true;
             IsCollect = true;
+            AddOutlineMaterial();
             Debug.Log("이벤트 데이터 추가!");
         }
         else
@@ -53,6 +60,7 @@ public class Event : TimelineElement
             TimelineManager.Instance.DestroyBlock(this);
             IsActive = false;
             IsCollect = false;
+            RemoveOutlineMaterial();
             Debug.Log("이벤트 데이터 삭제!");
         }
         TimelineManager.Instance.OnBlockUpdate?.Invoke();
@@ -66,6 +74,30 @@ public class Event : TimelineElement
     public override void SetInteractComponenet(string newText)
     {
         throw new System.NotImplementedException();
+    }
+
+    private void AddOutlineMaterial()
+    {
+        if (meshRenderer != null)
+        {
+            var curMaterials = meshRenderer.materials.ToList();
+            bool exists = curMaterials.Any(m => m.name.StartsWith(ghostOutline.name));
+            if (!exists)
+            {
+                curMaterials.Add(ghostOutline);
+                meshRenderer.materials = curMaterials.ToArray();
+            }
+        }
+    }
+
+    private void RemoveOutlineMaterial()
+    {
+        if (meshRenderer != null)
+        {
+            var curMaterials = meshRenderer.materials.ToList();
+            curMaterials.RemoveAll(m => m.name.StartsWith(ghostOutline.name));
+            meshRenderer.materials = curMaterials.ToArray();
+        }
     }
 }
 
