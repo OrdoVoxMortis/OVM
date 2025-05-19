@@ -31,7 +31,6 @@ public class NpcActionState : NpcBaseState
         base.Exit();
         var npc = stateMachine.npc;
         npc.Agent.isStopped = true;
-        npc.Agent.velocity = Vector3.zero;
         StopAnimation(npc.AnimationData.RunParameterHash);
         StopAnimation(npc.AnimationData.WalkParameterHash);
         npc.isWalking = false;

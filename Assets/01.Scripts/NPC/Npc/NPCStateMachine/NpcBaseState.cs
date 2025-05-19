@@ -265,18 +265,30 @@ public class NpcBaseState : IState
 
     public void GuardIdle()
     {
-        var npc = stateMachine.npc;
-        if (npc is Guard guard)
+        if (stateMachine.npc is Guard guard)
         {
-            if (guard.Agent.remainingDistance > guard.Agent.stoppingDistance)
+            var agent = guard.Agent;
+
+            if (agent.pathPending) return;
+
+
+            if (agent.remainingDistance > agent.stoppingDistance)
+            {
+                Debug.Log("이동 중");
+                RotateVelocity();
+                if (Vector3.Distance(agent.destination, guard.startPosition.position) > 0.1f)
+                {
+                    agent.SetDestination(guard.startPosition.position);
+                }
+                StopAnimation(guard.AnimationData.RunParameterHash);
+                StartAnimation(guard.AnimationData.WalkParameterHash);
+                agent.isStopped = false;
+            }
+            else 
             {
                 StopAnimation(guard.AnimationData.RunParameterHash);
                 StopAnimation(guard.AnimationData.WalkParameterHash);
-            }
-            else
-            {
-                StartAnimation(guard.AnimationData.WalkParameterHash);
-                guard.Agent.SetDestination(guard.startPosition.position);
+                agent.isStopped = true;
             }
         }
 
