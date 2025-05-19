@@ -77,10 +77,6 @@ public class NPC : MonoBehaviour
     [Header("기본 행동")]
     public BaseBehaviorType behaviorType;
 
-    private void Awake()
-    {
-        AnimationData.Initialize();
-    }
     private void Start()
     {
         Init();
@@ -97,6 +93,7 @@ public class NPC : MonoBehaviour
     {
         LoadData();
         Animator = GetComponentInChildren<Animator>();
+        AnimationData.Initialize();
         Agent = GetComponent<NavMeshAgent>();
         FindArea();
 

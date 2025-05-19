@@ -100,6 +100,7 @@ public class UIManager : SingleTon<UIManager>
 
         T instance = GameObject.Instantiate(prefab, mainCameraTransform, false);
         instance.Show();
+        standaloneUIs[name] = instance; // 딕셔너리에서 등록을 해주어야 한다
         Debug.Log($"Standalone UI {name} 생성 완료!");
         return instance;
     }
@@ -127,7 +128,6 @@ public class UIManager : SingleTon<UIManager>
     {
         if (standaloneUIs.TryGetValue(name, out var ui))
         {
-            ui.gameObject.SetActive(false);
             Destroy(ui.gameObject);
             Debug.Log($"Standalone UI {name} 비활성화됨.");
         }
@@ -238,15 +238,17 @@ public class UIManager : SingleTon<UIManager>
 
     public void OnEscPressed()
     {
-        if(uiStack.Count > 0)
+        GameManager.Instance.Player.Input.playerCamera.enabled = true;
+        DeactivateStandaloneUI("Mp3_Player");
+        if (uiStack.Count > 0)
         {
-            CloseTopPopup();
+           CloseTopPopup();
         }
         else if(currentUI != null)
         {
             currentUI.Hide();
+           
             currentUI = null;
         }
     }
-
 }

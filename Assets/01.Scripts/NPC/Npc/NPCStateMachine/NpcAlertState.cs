@@ -23,7 +23,7 @@ public class NpcAlertState : NpcBaseState
 
     public override void Update()
     {
-        base.Update();
+        
         if (stateMachine.npc is Guard)
         {
             GuardWait();
@@ -32,6 +32,7 @@ public class NpcAlertState : NpcBaseState
         {
             TalkingIdle();
         }
+        else base.Update();
         if (IsPlayerInSight())
         {
             IncreaseSuspicion();

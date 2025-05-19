@@ -32,9 +32,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5692257016151346388}
   - {fileID: 8444251915400098385}
   - {fileID: 7357242090078771984}
+  - {fileID: 5692257016151346388}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4809099494073245775
@@ -355,6 +355,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TestPlayerGhost
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780211118841858251, guid: 61abac5002f1e634e8900325678c7225,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6196047043442941649, guid: 61abac5002f1e634e8900325678c7225,
         type: 3}

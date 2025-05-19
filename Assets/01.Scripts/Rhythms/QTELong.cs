@@ -128,7 +128,8 @@ public class QTELong : QTE
             manager.isLongNoteDoing = true;
             checkTime = 0f;
         }
-
+        StopAllCoroutines();
+        StartCoroutine(HideJudgeTextAfterDelay(0.2f));
     }
 
     public void ReleaseNote()

@@ -29,6 +29,10 @@ public class UI_Start: BaseUI
 
         if(closeBtn != null)
             closeBtn.onClick.AddListener(OnStartClick);
+        if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
+        {
+            colorAdjustments.saturation.value = -100f;
+        }
     }
     private void Start()
     {
@@ -36,15 +40,12 @@ public class UI_Start: BaseUI
         {
             // 이미 시작된 상태라면 UI 끄고 조작만 활성화
             Camera.main.cullingMask = -1;
+            gameObject.SetActive(false);
             UIManager.Instance.UIDeactive();
             lobbyCam.SetActive(false);
             playerController = GameManager.Instance.Player.Input;
             playerController.playerActions.Enable();
-            playerController.SubscribeAllInputs();
-            var camInput = GameManager.Instance.Player.Input.playerCamera.GetComponent<CinemachineInputProvider>();
-            if (camInput != null)
-                camInput.enabled = true;
-            gameObject.SetActive(false);
+            colorAdjustments.saturation.value = 0f;
             return;
         }
         playerController = GameManager.Instance.Player.Input;
@@ -53,11 +54,8 @@ public class UI_Start: BaseUI
         player = GameManager.Instance.Player;
         playerTimeline = player.gameObject.GetComponent<PlayableDirector>();
         inputProvider = GameManager.Instance.Player.Input.playerCamera.GetComponent<CinemachineInputProvider>();
-        Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
-        if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
-        {
-            colorAdjustments.saturation.value = -100f;
-        }
+        //Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
+    
     }
 
     void OnStartClick()

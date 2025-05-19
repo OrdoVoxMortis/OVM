@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem.Android;
 
 public class NpcActionState : NpcBaseState
 {
@@ -12,6 +13,10 @@ public class NpcActionState : NpcBaseState
     private float lostSightTimer = 0f;
 
     private bool isMovingToTarget = false;
+    private Vector3 lastDestination = Vector3.positiveInfinity;
+    private bool hasOpenDoor = false;
+    private bool hasNotified = false;
+
     public NpcActionState(NpcStateMachine stateMachine) : base(stateMachine)
     {
     }
@@ -30,6 +35,7 @@ public class NpcActionState : NpcBaseState
     {
         if (isMovingToTarget)
         {
+            RotateVelocity();
             MoveToTarget();
             return;
         }
@@ -127,12 +133,30 @@ public class NpcActionState : NpcBaseState
 
     private void MoveToTarget()
     {
-        if (stateMachine.npc.target.IsNotified) return;
+        if (stateMachine.npc.target.IsNotified || hasNotified) return;
         var agent = stateMachine.npc.Agent;
+        agent.speed = 4f;
         
-        if (agent.remainingDistance <= agent.stoppingDistance) //도착시
+
+        Vector3 curTargetPos = stateMachine.npc.target.transform.position;
+
+        if(!agent.pathPending && Vector3.Distance(lastDestination, curTargetPos) > 0.5f)
         {
-            StartAnimation(stateMachine.npc.AnimationData.NofityParameterHash);
+            agent.SetDestination(curTargetPos);
+            lastDestination = curTargetPos;
+        }
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance) //도착시
+        {
+            if (!hasOpenDoor && stateMachine.npc is Friend friend)
+            {
+                hasOpenDoor = true;
+                agent.isStopped = true;
+                friend.door.OpenDoor();
+                agent.isStopped = false;
+                agent.SetDestination(stateMachine.npc.target.transform.position);
+                return;
+            }
+            StartAnimation(stateMachine.npc.AnimationData.NotifyParameterHash);
             StopAnimation(stateMachine.npc.AnimationData.RunParameterHash);
             Vector3 lookDir = (stateMachine.npc.target.transform.position - stateMachine.npc.transform.position);
             lookDir.y = 0;
@@ -145,19 +169,20 @@ public class NpcActionState : NpcBaseState
             agent.isStopped = true;
             isMovingToTarget = false;
 
-            if (stateMachine.npc is Friend friend)
+            if (stateMachine.npc is Friend f)
             {
-                if (friend.IsNotifying) return;
-                friend.NotifyTarget(stateMachine.npc.target, () =>
+                if (f.IsNotifying) return;
+                f.NotifyTarget(stateMachine.npc.target, () =>
                 {
-                    StopAnimation(stateMachine.npc.AnimationData.NofityParameterHash);
+                    StopAnimation(stateMachine.npc.AnimationData.NotifyParameterHash);
                 });
 
             }
         }
         else
         {
-            agent.SetDestination(stateMachine.npc.target.transform.position);
+            agent.isStopped = false;
+            //agent.SetDestination(stateMachine.npc.target.transform.position);
         }
     }
     private void LookAtTarget()
@@ -208,7 +233,7 @@ public class NpcActionState : NpcBaseState
         stateMachine.npc.Agent.isStopped = false;
         StartAnimation(stateMachine.npc.AnimationData.RunParameterHash);
         stateMachine.npc.Agent.SetDestination(stateMachine.Target.transform.position);
-        if (stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
+        if (!stateMachine.npc.Agent.pathPending && stateMachine.npc.Agent.remainingDistance <= stateMachine.npc.Agent.stoppingDistance)
         {
             StopAnimation(stateMachine.npc.AnimationData.RunParameterHash);
             GameManager.Instance.GameOver();

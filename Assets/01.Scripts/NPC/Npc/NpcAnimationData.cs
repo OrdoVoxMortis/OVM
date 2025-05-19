@@ -14,7 +14,7 @@ public class NpcAnimationData
     [SerializeField] private string runParameterName = "Run";
     [SerializeField] private string triggerParameterName = "Trigger";
     [SerializeField] private string lookAroundParameterName = "LookAround";
-    [SerializeField] private string notifyParameterName = "Noifty";
+    [SerializeField] private string notifyParameterName = "Notify";
     [SerializeField] private string turnLeftParameterName = "TurnLeft";
     [SerializeField] private string turnRightParameterName = "TurnRight";
     [SerializeField] private string talkingParameterName = "Talking";
@@ -29,7 +29,7 @@ public class NpcAnimationData
     public int RunParameterHash { get; private set; }
     public int TriggerParameterHash {  get; private set; }
     public int LookAroundParameterHash { get; private set; }
-    public int NofityParameterHash { get; private set; }
+    public int NotifyParameterHash { get; private set; }
     public int TurnLeftParameterHash { get; private set; }
     public int TurnRightParameterHash { get; private set; }
     public int TalkingParameterHash { get; private set; }
@@ -44,7 +44,7 @@ public class NpcAnimationData
         RunParameterHash = Animator.StringToHash(runParameterName);
         TriggerParameterHash = Animator.StringToHash(triggerParameterName);
         LookAroundParameterHash = Animator.StringToHash(lookAroundParameterName);
-        NofityParameterHash = Animator.StringToHash(notifyParameterName);
+        NotifyParameterHash = Animator.StringToHash(notifyParameterName);
         TurnLeftParameterHash = Animator.StringToHash(turnLeftParameterName);
         TurnRightParameterHash = Animator.StringToHash(turnRightParameterName);
         TalkingParameterHash = Animator.StringToHash(talkingParameterName); 
