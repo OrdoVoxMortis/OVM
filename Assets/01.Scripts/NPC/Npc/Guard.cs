@@ -5,6 +5,13 @@ using UnityEngine;
 public class Guard : NPC
 {
     public GameObject[] waitPositions;
+    public Transform startPosition;
+
+    protected override void Start()
+    {
+        base.Start();
+        startPosition = transform;
+    }
 
     public GameObject GetWaitPosition()
     {

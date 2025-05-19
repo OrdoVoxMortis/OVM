@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class NpcAlertState : NpcBaseState
 {
@@ -14,6 +15,8 @@ public class NpcAlertState : NpcBaseState
         base.Enter();
         Debug.Log("alert");
         stateMachine.npc.CurAlertTime = 0f;
+        stateMachine.npc.Agent.isStopped = false;
+
     }
     public override void Exit() 
     { 
@@ -26,7 +29,14 @@ public class NpcAlertState : NpcBaseState
         
         if (stateMachine.npc is Guard)
         {
-            GuardWait();
+            if (stateMachine.npc.behaviorType != BaseBehaviorType.Idle)
+            {
+                GuardWait();
+            }
+            else
+            {
+                GuardIdle();
+            }
         }
         else if (stateMachine.npc.behaviorType == BaseBehaviorType.Idle)
         {

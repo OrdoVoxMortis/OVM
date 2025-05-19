@@ -171,6 +171,7 @@ public class NpcBaseState : IState
     public void GuardWait()
     {
         var agent = stateMachine.npc.Agent;
+
         bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
         if (GameManager.Instance.SelectedBGM != null)
         {
@@ -260,5 +261,36 @@ public class NpcBaseState : IState
                 stateMachine.npc.Animator.SetInteger("TalkIndex", randomIndex);
             }
         }
+    }
+
+    public void GuardIdle()
+    {
+        if (stateMachine.npc is Guard guard)
+        {
+            var agent = guard.Agent;
+
+            if (agent.pathPending) return;
+
+
+            if (agent.remainingDistance > agent.stoppingDistance)
+            {
+                Debug.Log("이동 중");
+                RotateVelocity();
+                if (Vector3.Distance(agent.destination, guard.startPosition.position) > 0.1f)
+                {
+                    agent.SetDestination(guard.startPosition.position);
+                }
+                StopAnimation(guard.AnimationData.RunParameterHash);
+                StartAnimation(guard.AnimationData.WalkParameterHash);
+                agent.isStopped = false;
+            }
+            else 
+            {
+                StopAnimation(guard.AnimationData.RunParameterHash);
+                StopAnimation(guard.AnimationData.WalkParameterHash);
+                agent.isStopped = true;
+            }
+        }
+
     }
 }
