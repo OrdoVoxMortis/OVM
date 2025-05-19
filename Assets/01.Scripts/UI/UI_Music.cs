@@ -17,7 +17,6 @@ public class UI_Music : BaseUI
     [SerializeField] private TextMeshProUGUI musicNameText;
     [SerializeField] private TextMeshProUGUI musicBpmText;
     [SerializeField] private GameObject mp3Model;
-    private CinemachineBrain _cinemachineBrain;
     private float currentVolume = 1.0f;
     public List<AudioClip> mp3BgmList = new List<AudioClip>();
     public int currentBGM;
@@ -40,32 +39,20 @@ public class UI_Music : BaseUI
         if (volMusic != null)
             volMusic.onClick.AddListener(VolumeUp);
     }
-    private void OnEnable()
-    {
-        PlayBGM();
-    }
     private void Start()
     {
         UIManager.Instance.UIActive();
+        GameManager.Instance.Player.Input.playerCamera.enabled = false;
         SoundManager.Instance.PlaySfx("Effect_Dummy");
-        _cinemachineBrain = GetComponent<CinemachineBrain>();
-        if (_cinemachineBrain != null)
-        {
-            _cinemachineBrain.enabled = false;
-        }
+       
     }
 
     private void OnClickBack()
     {
         Hide();
         UIManager.Instance.DeactivateStandaloneUI("Mp3_Player");
+        GameManager.Instance.Player.Input.playerCamera.enabled = true;
         mp3Model.SetActive(false);
-        {
-            if (_cinemachineBrain != null)
-            {
-                _cinemachineBrain.enabled = true;
-            }
-        }
     }
 
     private void OnClickMusicButton()
