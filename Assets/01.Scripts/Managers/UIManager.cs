@@ -74,15 +74,15 @@ public class UIManager : SingleTon<UIManager>
     public T SpawnStandaloneUI<T>(string name) where T : BaseUI
     {
         string key = typeof(T).Name;
-        if (standaloneUIs.TryGetValue(key, out var existingUI))
+        if (standaloneUIs.TryGetValue(name, out var existingUI))
         {
             if(existingUI != null)
             {
-                Debug.LogWarning($"Standalone UI {key} 은(는) 이미 존재합니다.");
+                Debug.LogWarning($"Standalone UI {name} 은(는) 이미 존재합니다.");
                 Destroy(existingUI.gameObject);
             }
           
-            standaloneUIs.Remove(key);
+            standaloneUIs.Remove(name);
         }
         T prefab = ResourceManager.Instance.LoadUI<T>(name);
         if (prefab == null)
@@ -128,6 +128,7 @@ public class UIManager : SingleTon<UIManager>
         if (standaloneUIs.TryGetValue(name, out var ui))
         {
             ui.gameObject.SetActive(false);
+            Destroy(ui.gameObject);
             Debug.Log($"Standalone UI {name} 비활성화됨.");
         }
         else

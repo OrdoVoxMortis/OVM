@@ -33,22 +33,35 @@ public class ContactBlock : Block
 
     public void ConvertData()
     {
-        var data = DataManager.Instance.blockDict[id].conditionalSequence;
-        foreach (var d in data)
+        var raw = DataManager.Instance.blockDict[id].conditionalSequence;
+
+        if (raw.Count % 3 != 0)
         {
-            string[] splits = d.Split(',').Select(s=> s.Trim()).ToArray();
-            if (!int.TryParse(splits[0], out int triggerId))
+            Debug.LogWarning($"[ConditionalSequence] 3개씩 나누어 떨어지지 않음: {raw.Count}개");
+            return;
+        }
+
+        for (int i = 0; i < raw.Count; i += 3)
+        {
+            string triggerIdStr = raw[i].Replace("\"", "").Trim();
+            string successName = raw[i + 1].Replace("\"", "").Trim();
+            string failName = raw[i + 2].Replace("\"", "").Trim();
+
+            if (!int.TryParse(triggerIdStr, out int triggerId))
             {
-                Debug.LogWarning($"triggerBlockId 변환 실패: {splits[0]}");
+                Debug.LogWarning($"[ConditionalSequence] triggerBlockId 변환 실패: {triggerIdStr}");
                 continue;
             }
-            ConditionalSequence sequence = new ConditionalSequence()
+
+            var successClip = ResourceManager.Instance.LoadAnimationClip(successName);
+            var failClip = ResourceManager.Instance.LoadAnimationClip(failName);
+
+            conditionalSequences.Add(new ConditionalSequence
             {
                 triggerBlockId = triggerId,
-                successClip = ResourceManager.Instance.LoadAnimationClip(splits[1]),
-                failClip = ResourceManager.Instance.LoadAnimationClip(splits[2])
-            };
-            conditionalSequences.Add(sequence);
+                successClip = successClip,
+                failClip = failClip
+            });
         }
 
     }

@@ -42,8 +42,6 @@ public class RhythmManager : SingleTon<RhythmManager>
     private TimelineCamera timelineCamera;
     private int tlCIndex;
 
-    public Action OnStart;
-
     protected override void Awake()
     {
         base.Awake();
@@ -64,7 +62,7 @@ public class RhythmManager : SingleTon<RhythmManager>
         isPlaying = true;
 
         checkJudgeText.transform.SetAsLastSibling();
-        checkJudgeText.gameObject.SetActive(true);
+        //checkJudgeText.gameObject.SetActive(true);
     }
 
     private void Update()

@@ -220,7 +220,7 @@ public class SaveManager : SingleTon<SaveManager>
         if (scene.name == "Stage_Scene")
         {
             TimelineManager.Instance.LoadBlocks(elementIds);
-            RhythmManager.Instance.OnStart?.Invoke();
+            GameManager.Instance.OnStart?.Invoke();
 
             StartCoroutine(DelayInit());
             SceneManager.sceneLoaded -= OnStageSceneLoaded;

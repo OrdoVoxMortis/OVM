@@ -1,5 +1,6 @@
 using GoogleSheet.Core.Type;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -79,7 +80,6 @@ public class NPC : MonoBehaviour
     private void Awake()
     {
         AnimationData.Initialize();
-        RhythmManager.Instance.OnStart += Destroy;
     }
     private void Start()
     {
@@ -91,6 +91,7 @@ public class NPC : MonoBehaviour
         player = GameManager.Instance.Player.gameObject;
         playerCollider = player.GetComponent<Collider>();
         prevAnimSpeed = Agent.speed;
+        GameManager.Instance.OnStart += Destroy;
     }
     private void Init()
     {
@@ -212,7 +213,8 @@ public class NPC : MonoBehaviour
 
     private void OnDestroy()
     {
-        RhythmManager.Instance.OnStart -= Destroy;
+        if(GameManager.Instance != null)
+            GameManager.Instance.OnStart -= Destroy;
     }
 
     private void OnTriggerEnter(Collider other)

@@ -29,8 +29,6 @@ public class UI_Start: BaseUI
 
         if(closeBtn != null)
             closeBtn.onClick.AddListener(OnStartClick);
-
-
     }
     private void Start()
     {

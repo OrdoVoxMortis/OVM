@@ -72,13 +72,19 @@ public class Block : TimelineElement
 
         DataToGhost();
 
-        animator = transform.GetChild(0).GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         clone = transform.GetChild(1).gameObject;
-        if (animator.transform.childCount > 0)
+
+        if (!transform.GetChild(2).TryGetComponent<MeshRenderer>(out MeshRenderer _blockMesh))
         {
-            skinnedMeshRenderer = transform.GetChild(0).GetChild(1).GetComponent<SkinnedMeshRenderer>();
+            skinnedMeshRenderer = transform.GetChild(2).GetComponentInChildren<SkinnedMeshRenderer>();
         }
-        else blockMesh = transform.GetChild(2).GetComponent<MeshRenderer>();
+        else
+        {
+            blockMesh = _blockMesh;
+        }
+
+
 
         GameManager.Instance.OnSimulationMode += ToggleGhost;
 
@@ -143,7 +149,7 @@ public class Block : TimelineElement
         ghostManager.playerTrans = transform.GetChild(1);
         ghostManager.ghostClip = FixedSequence;
         ghostManager.ghostPrefabs = transform.GetChild(0).gameObject;
-        ghostManager.bpm = GameManager.Instance.Bpm;
+        ghostManager.bpm = GameManager.Instance.bpm;
         ghostManager.blockSound = DataManager.Instance.blockDict[id].blockSound;
     }
 

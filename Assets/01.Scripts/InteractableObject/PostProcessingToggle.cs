@@ -68,7 +68,6 @@ public class PostProcessingToggle : MonoBehaviour
         }
         else
         {
-          
             GameManager.Instance.SimulationMode = false;
             if (simulationPlayer != null)
             {
