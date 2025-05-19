@@ -77,7 +77,7 @@ public class NPC : MonoBehaviour
     [Header("기본 행동")]
     public BaseBehaviorType behaviorType;
 
-    private void Start()
+    protected virtual void Start()
     {
         Init();
         stateMachine = new NpcStateMachine(this);

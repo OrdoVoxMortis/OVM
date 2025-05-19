@@ -27,6 +27,7 @@ public class BlockConnector : MonoBehaviour
     public void DrawLines()
     {
         if(!gameObject.activeSelf) gameObject.SetActive(true);
+        lineRenderer.positionCount = 0;
         elements = TimelineManager.Instance.PlacedBlocks;
         List<Vector3> fullPathPoints = new();
         if (elements.Count <= 1) return;
