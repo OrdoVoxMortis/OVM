@@ -171,6 +171,7 @@ public class NpcBaseState : IState
     public void GuardWait()
     {
         var agent = stateMachine.npc.Agent;
+
         bool isMoving = !agent.pathPending && agent.remainingDistance > agent.stoppingDistance;
         if (GameManager.Instance.SelectedBGM != null)
         {
@@ -260,5 +261,24 @@ public class NpcBaseState : IState
                 stateMachine.npc.Animator.SetInteger("TalkIndex", randomIndex);
             }
         }
+    }
+
+    public void GuardIdle()
+    {
+        var npc = stateMachine.npc;
+        if (npc is Guard guard)
+        {
+            if (guard.Agent.remainingDistance > guard.Agent.stoppingDistance)
+            {
+                StopAnimation(guard.AnimationData.RunParameterHash);
+                StopAnimation(guard.AnimationData.WalkParameterHash);
+            }
+            else
+            {
+                StartAnimation(guard.AnimationData.WalkParameterHash);
+                guard.Agent.SetDestination(guard.startPosition.position);
+            }
+        }
+
     }
 }
