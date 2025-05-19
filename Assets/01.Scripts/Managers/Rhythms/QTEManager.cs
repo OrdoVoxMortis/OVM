@@ -10,6 +10,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
     //beat로 들어오는 값 1 = 4분음표
     public List<bool> pointNoteList; //true인 경우 point note
     public List<bool> isLongNote; //true인 경우 long note
+    public List<int> qtePosition; //qte가 생성될 위치 // row * col - 1 
 
     public List<QTE> qteList; //처리할 QTE
 
@@ -115,6 +116,13 @@ public class QTEManager : MonoBehaviour, IRhythmActions
                 isLongNote.Add(false);
         }
 
+        if (qtePosition.Count < beats.Count)
+        {
+            qtePosition = new List<int>();
+            for (int i = 0; i < beats.Count; i++)
+                qtePosition.Add(-1);
+        }
+
         for (int i = 0; i < beats.Count; i++)
         {
             float nextBeat = beats[i];
@@ -160,7 +168,13 @@ public class QTEManager : MonoBehaviour, IRhythmActions
             }
 
             qteList.Add(qte);
-            randPos = Random.Range(0, row * col);
+            if (qtePosition[i] == -1)
+                randPos = Random.Range(0, row * col);
+            else
+                randPos = qtePosition[i];
+
+            if (randPos >= row * col)
+                randPos = randPos % (row * col);
             
             qte.transform.position = new Vector2(rootPositionX + (randPos % col) * gapX, rootPositionY + (randPos / col) * gapY);
 

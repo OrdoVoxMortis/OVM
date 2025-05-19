@@ -29,6 +29,10 @@ public class UI_Start: BaseUI
 
         if(closeBtn != null)
             closeBtn.onClick.AddListener(OnStartClick);
+        if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
+        {
+            colorAdjustments.saturation.value = -100f;
+        }
     }
     private void Start()
     {
@@ -41,6 +45,7 @@ public class UI_Start: BaseUI
             lobbyCam.SetActive(false);
             playerController = GameManager.Instance.Player.Input;
             playerController.playerActions.Enable();
+            colorAdjustments.saturation.value = 0f;
             return;
         }
         playerController = GameManager.Instance.Player.Input;
@@ -50,10 +55,7 @@ public class UI_Start: BaseUI
         playerTimeline = player.gameObject.GetComponent<PlayableDirector>();
         inputProvider = GameManager.Instance.Player.Input.playerCamera.GetComponent<CinemachineInputProvider>();
         //Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
-        if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
-        {
-            colorAdjustments.saturation.value = -100f;
-        }
+    
     }
 
     void OnStartClick()

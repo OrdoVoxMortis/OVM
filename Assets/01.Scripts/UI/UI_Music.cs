@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -38,20 +39,19 @@ public class UI_Music : BaseUI
         if (volMusic != null)
             volMusic.onClick.AddListener(VolumeUp);
     }
-    private void OnEnable()
-    {
-        PlayBGM();
-    }
     private void Start()
     {
         UIManager.Instance.UIActive();
+        GameManager.Instance.Player.Input.playerCamera.enabled = false;
         SoundManager.Instance.PlaySfx("Effect_Dummy");
+       
     }
 
     private void OnClickBack()
     {
         Hide();
         UIManager.Instance.DeactivateStandaloneUI("Mp3_Player");
+        GameManager.Instance.Player.Input.playerCamera.enabled = true;
         mp3Model.SetActive(false);
     }
 
