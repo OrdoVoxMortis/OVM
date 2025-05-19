@@ -205,9 +205,34 @@ public class UIManager : SingleTon<UIManager>
 
     private void GetCanvas()
     {
-        if(canvas == null)
+        if (canvas == null)
         {
-            canvas = FindObjectOfType<Canvas>();
+            // 모든 Canvas 찾기
+            Canvas[] canvases = GameObject.FindObjectsOfType<Canvas>(true);
+
+            // sortingOrder가 가장 낮은 Canvas 가져오기
+            Canvas lowestOrderCanvas = null;
+            int lowestOrder = int.MaxValue;
+
+            foreach (Canvas c in canvases)
+            {
+                if (c.renderMode != RenderMode.WorldSpace && c.sortingOrder < lowestOrder)
+                {
+                    lowestOrder = c.sortingOrder;
+                    lowestOrderCanvas = c;
+                }
+            }
+
+            if (lowestOrderCanvas != null)
+            {
+                canvas = lowestOrderCanvas;
+                Debug.Log($"UIManager: sortingOrder {lowestOrder} Canvas 선택됨");
+            }
+            else
+            {
+                Debug.LogWarning("UIManager: sortingOrder 0 Canvas를 찾지 못했습니다. 기본 Canvas 사용.");
+                canvas = FindObjectOfType<Canvas>(); // fallback
+            }
         }
     }
 
