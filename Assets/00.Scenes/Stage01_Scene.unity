@@ -5620,6 +5620,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1153549026}
     m_Modifications:
+    - target: {fileID: 1403093700755145166, guid: d3971cae4b1b1674ea09fe784d447afe,
+        type: 3}
+      propertyPath: blockStateType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8498352897690019831, guid: d3971cae4b1b1674ea09fe784d447afe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5673,7 +5678,7 @@ PrefabInstance:
     - target: {fileID: 8679396296451332901, guid: d3971cae4b1b1674ea09fe784d447afe,
         type: 3}
       propertyPath: m_Name
-      value: MoveBlock
+      value: MoveBlock (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5683,6 +5688,12 @@ PrefabInstance:
 --- !u!4 &122194143 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8498352897690019831, guid: d3971cae4b1b1674ea09fe784d447afe,
+    type: 3}
+  m_PrefabInstance: {fileID: 122194142}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &122194144 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8679396296451332901, guid: d3971cae4b1b1674ea09fe784d447afe,
     type: 3}
   m_PrefabInstance: {fileID: 122194142}
   m_PrefabAsset: {fileID: 0}
@@ -83802,12 +83813,12 @@ PrefabInstance:
     - target: {fileID: 4080043119366722497, guid: a73447c9c5c4ffd45a49ee531045beda,
         type: 3}
       propertyPath: route.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4080043119366722497, guid: a73447c9c5c4ffd45a49ee531045beda,
         type: 3}
       propertyPath: blocks.Array.size
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4080043119366722497, guid: a73447c9c5c4ffd45a49ee531045beda,
         type: 3}
@@ -83829,6 +83840,11 @@ PrefabInstance:
       propertyPath: blocks.Array.data[1]
       value: 
       objectReference: {fileID: 2012930536}
+    - target: {fileID: 4080043119366722497, guid: a73447c9c5c4ffd45a49ee531045beda,
+        type: 3}
+      propertyPath: blocks.Array.data[2]
+      value: 
+      objectReference: {fileID: 122194144}
     - target: {fileID: 4502117071403193774, guid: a73447c9c5c4ffd45a49ee531045beda,
         type: 3}
       propertyPath: m_Name
