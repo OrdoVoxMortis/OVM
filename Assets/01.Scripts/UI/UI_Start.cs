@@ -51,7 +51,7 @@ public class UI_Start: BaseUI
         player = GameManager.Instance.Player;
         playerTimeline = player.gameObject.GetComponent<PlayableDirector>();
         inputProvider = GameManager.Instance.Player.Input.playerCamera.GetComponent<CinemachineInputProvider>();
-        //Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
+        Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
         if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
         {
             colorAdjustments.saturation.value = -100f;
