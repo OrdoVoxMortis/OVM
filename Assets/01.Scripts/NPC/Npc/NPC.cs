@@ -94,11 +94,6 @@ public class NPC : MonoBehaviour
         LoadData();
         Animator = GetComponentInChildren<Animator>();
         AnimationData.Initialize();
-        Debug.Log("Notify Hash: " + AnimationData.NotifyParameterHash);
-        foreach (var param in Animator.parameters)
-        {
-            Debug.Log($"Animator Param: {param.name} / Hash: {Animator.StringToHash(param.name)}");
-        }
         Agent = GetComponent<NavMeshAgent>();
         FindArea();
 
