@@ -24,11 +24,11 @@ public class QTEManager : MonoBehaviour, IRhythmActions
     public string eventBgm;
 
     [Header("QTE 생성 위치 조절")]
-    public int rootPositionX;
-    public int rootPositionY;
+    public int rootPositionX = 200;
+    public int rootPositionY = 50;
 
-    public int gapX;
-    public int gapY;
+    public int gapX = 100;
+    public int gapY = 100;
 
     public int row;
     public int col;

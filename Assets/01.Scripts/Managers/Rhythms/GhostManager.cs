@@ -255,7 +255,8 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public void RemoveGhost()
     {
         int idx = ghosts.Count;
-        if(ghostCurTiming != null)
+        playerTrans.rotation = Quaternion.identity;
+        if (ghostCurTiming != null)
             Destroy(ghostCurTiming);
 
         for (int i = 0; i < idx; i++)
