@@ -5,6 +5,17 @@ using UnityEngine;
 public class Guard : NPC
 {
     public GameObject[] waitPositions;
+    public Transform startPosition;
+
+    protected override void Start()
+    {
+        base.Start();
+        GameObject startObj = new GameObject("StartTransform");
+        startObj.transform.position = transform.position;
+        startObj.transform.rotation = transform.rotation;
+
+        startPosition = startObj.transform;
+    }
 
     public GameObject GetWaitPosition()
     {

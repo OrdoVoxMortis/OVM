@@ -29,6 +29,11 @@ public class NpcActionState : NpcBaseState
     public override void Exit()
     {
         base.Exit();
+        var npc = stateMachine.npc;
+        npc.Agent.isStopped = true;
+        StopAnimation(npc.AnimationData.RunParameterHash);
+        StopAnimation(npc.AnimationData.WalkParameterHash);
+
     }
 
     public override void Update()

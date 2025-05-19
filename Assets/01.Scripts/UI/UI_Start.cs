@@ -20,6 +20,9 @@ public class UI_Start: BaseUI
     private PlayerController playerController;
     private CinemachineInputProvider inputProvider;
     private ColorAdjustments colorAdjustments; // 볼륨의 color adjustment 값 가져오기
+    public CinemachineVirtualCamera dollyCam;
+
+    public GameObject playerCollider;
 
     public static event Action OnStartButtonPressed;        // Start 버튼이 눌린것을 알려줄 이벤트
 
@@ -48,6 +51,11 @@ public class UI_Start: BaseUI
             colorAdjustments.saturation.value = 0f;
             return;
         }
+
+        playerCollider.SetActive(false);
+        Interaction inter = playerCollider.GetComponent<Interaction>();
+        inter.interactText.gameObject.SetActive(false);
+
         playerController = GameManager.Instance.Player.Input;
         playerController.playerActions.Disable();
         UIManager.Instance.UIActive();
@@ -81,6 +89,9 @@ public class UI_Start: BaseUI
         SoundManager.Instance.PlayBGM("Background");
         UIManager.Instance.UIDeactive();
         playerController.playerActions.Enable();
+        dollyCam.Priority = 0;
+        dollyCam.gameObject.SetActive(false);
+        playerCollider.SetActive(true);
 
         if (inputProvider != null)
             inputProvider.enabled = true;

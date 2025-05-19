@@ -25,7 +25,12 @@ public class NpcIdleState : NpcBaseState
     {
         if (stateMachine.npc is Guard)
         {
-            GuardWait();
+            if (stateMachine.npc.behaviorType != BaseBehaviorType.Idle)
+            {
+                GuardWait();     
+            }
+            else GuardIdle();
+
         }
         else if (stateMachine.npc.behaviorType == BaseBehaviorType.Idle)
         {

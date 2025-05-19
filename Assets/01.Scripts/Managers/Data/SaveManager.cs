@@ -183,7 +183,8 @@ public class SaveManager : SingleTon<SaveManager>
             GameManager.Instance.SetSelectedBGM(clip);
         }
 
-        StageManager.Instance.SetStage("ST001");
+        StageManager.Instance.SetStage(DataManager.Instance.eventDict[targetEvent.id].stageId);
+
 
         elementIds.Clear();
         elementIds.Add(new TimelineSaveData
@@ -193,14 +194,16 @@ public class SaveManager : SingleTon<SaveManager>
         });
 
         SceneManager.sceneLoaded += OnStageSceneLoaded;
-        GameManager.Instance.LoadScene("Stage_Scene");
+        if(DataManager.Instance.eventDict.TryGetValue(targetEvent.id, out var eve))
+        {
+            GameManager.Instance.LoadScene(DataManager.Instance.stageDict[eve.stageId].stageName);
+        }
     }
     public void Retry(string id)
     {
         if (DataManager.Instance.stageDict.TryGetValue(id, out var stage))
         {
-            //임시로 스테이지 지정
-            SceneManager.LoadScene("Stage_Scene");
+            SceneManager.LoadScene(stage.stageName);
 
         }
     }
@@ -217,7 +220,7 @@ public class SaveManager : SingleTon<SaveManager>
 
     private void OnStageSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Stage_Scene")
+        if (scene.name != "Lobby_Scene")
         {
             TimelineManager.Instance.LoadBlocks(elementIds);
             GameManager.Instance.OnStart?.Invoke();
