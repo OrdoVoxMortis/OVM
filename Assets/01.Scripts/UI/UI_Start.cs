@@ -36,11 +36,15 @@ public class UI_Start: BaseUI
         {
             // 이미 시작된 상태라면 UI 끄고 조작만 활성화
             Camera.main.cullingMask = -1;
-            gameObject.SetActive(false);
             UIManager.Instance.UIDeactive();
             lobbyCam.SetActive(false);
             playerController = GameManager.Instance.Player.Input;
             playerController.playerActions.Enable();
+            playerController.SubscribeAllInputs();
+            var camInput = GameManager.Instance.Player.Input.playerCamera.GetComponent<CinemachineInputProvider>();
+            if (camInput != null)
+                camInput.enabled = true;
+            gameObject.SetActive(false);
             return;
         }
         playerController = GameManager.Instance.Player.Input;

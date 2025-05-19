@@ -1,7 +1,9 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
@@ -48,7 +50,8 @@ public class PlayerInterationSitState : PlayerBaseState
     {
         base.Enter();
 
-        stateMachine.Player.Input.UnsubscribeAllInputs(stateMachine.Player.Interaction);
+        //stateMachine.Player.Input.UnsubscribeAllInputs(stateMachine.Player.Interaction);
+        stateMachine.Player.Input.playerActions.Interection.Disable();
 
         sitTimer = 0f;
         isSitFinished = false;
@@ -69,8 +72,26 @@ public class PlayerInterationSitState : PlayerBaseState
             SubscribeToStart();
             GameManager.Instance.Player.isSit = true;
             StartAnimation(sitHash);
+            return;
         }
-        else
+
+        if (SceneManager.GetActiveScene().name == "Lobby_Scene" && GameManager.Instance.gameStarted)
+        {
+            GameManager.Instance.Player.isSit = false;
+
+            PlayerController input = stateMachine.Player.Input;
+            input.playerActions.Enable();
+            input.SubscribeAllInputs();
+
+            var camInput = input.playerCamera.GetComponent<CinemachineInputProvider>();
+            if (camInput != null)
+                camInput.enabled = true;
+
+            stateMachine.ChangeState(stateMachine.IdleState);
+            return;
+        }
+
+
         {
             ani.speed = sitdownAniDuration / sitdownDuration;
             isSitFinished = false;
@@ -156,6 +177,7 @@ public class PlayerInterationSitState : PlayerBaseState
 
         chair.EnableTrigger();
 
+        stateMachine.Player.Input.playerActions.Enable();
         stateMachine.Player.Input.SubscribeAllInputs();
 
         base.Exit();
