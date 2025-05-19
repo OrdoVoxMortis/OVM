@@ -44,7 +44,8 @@ public class UI_Music : BaseUI
         UIManager.Instance.UIActive();
         GameManager.Instance.Player.Input.playerCamera.enabled = false;
         SoundManager.Instance.PlaySfx("Effect_Dummy");
-       
+        PlayBGM();
+
     }
 
     private void OnClickBack()
