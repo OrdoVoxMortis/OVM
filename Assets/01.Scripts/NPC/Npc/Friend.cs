@@ -5,6 +5,7 @@ using UnityEngine;
 public class Friend : NPC
 {
     public bool IsNotifying { get; private set; } = false;
+    public DoorController door;
     public void NotifyTarget(Target target, System.Action onComplete)
     {
         if (IsNotifying) return;
