@@ -16,6 +16,7 @@ public class NpcAlertState : NpcBaseState
         Debug.Log("alert");
         stateMachine.npc.CurAlertTime = 0f;
         stateMachine.npc.Agent.isStopped = false;
+
     }
     public override void Exit() 
     { 
@@ -34,7 +35,6 @@ public class NpcAlertState : NpcBaseState
             }
             else
             {
-                Debug.Log("guard idle");
                 GuardIdle();
             }
         }
