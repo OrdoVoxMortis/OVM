@@ -269,26 +269,24 @@ public class NpcBaseState : IState
         {
             var agent = guard.Agent;
 
-            if (agent.pathPending) return;
-
-
             if (agent.remainingDistance > agent.stoppingDistance)
             {
-                Debug.Log("이동 중");
+                isWaiting = true;
                 RotateVelocity();
                 if (Vector3.Distance(agent.destination, guard.startPosition.position) > 0.1f)
                 {
                     agent.SetDestination(guard.startPosition.position);
                 }
+
                 StopAnimation(guard.AnimationData.RunParameterHash);
                 StartAnimation(guard.AnimationData.WalkParameterHash);
                 agent.isStopped = false;
             }
             else 
             {
+                guard.transform.rotation = guard.startPosition.rotation;
                 StopAnimation(guard.AnimationData.RunParameterHash);
                 StopAnimation(guard.AnimationData.WalkParameterHash);
-                agent.isStopped = true;
             }
         }
 

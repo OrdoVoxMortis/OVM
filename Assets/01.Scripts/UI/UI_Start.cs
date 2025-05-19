@@ -90,6 +90,7 @@ public class UI_Start: BaseUI
         UIManager.Instance.UIDeactive();
         playerController.playerActions.Enable();
         dollyCam.Priority = 0;
+        dollyCam.gameObject.SetActive(false);
         playerCollider.SetActive(true);
 
         if (inputProvider != null)
