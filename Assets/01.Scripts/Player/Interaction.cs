@@ -14,7 +14,7 @@ public class Interaction : MonoBehaviour
 
     [Header("UI")]
     public GameObject settingMenu;
-    [SerializeField] private TextMeshProUGUI interactText;
+    public TextMeshProUGUI interactText;
 
     private IInteractable curInteractable;
     private readonly List<IInteractable> curInterdatas = new List<IInteractable>();
