@@ -148,7 +148,7 @@ public class Block : TimelineElement
         if (ghostManager == null) return;
         ghostManager.playerTrans = transform.GetChild(1);
         ghostManager.ghostClip = FixedSequence;
-        ghostManager.ghostPrefabs = transform.GetChild(0).gameObject;
+        ghostManager.ghostOriginal = transform.GetChild(0).gameObject;
         ghostManager.bpm = GameManager.Instance.bpm;
         ghostManager.blockSound = DataManager.Instance.blockDict[id].blockSound;
     }
