@@ -6,11 +6,13 @@ using UnityEngine;
 
 public class RhythmManager : SingleTon<RhythmManager>
 {
-    //public AudioSource audioSource;
+    [HideInInspector]
     public string bgmName;
     private double musicStartTime;
     private double musicNowTime;
     public double syncTime; //싱크 맞추는 용도
+
+    [HideInInspector]
     public float bpm;
     private double measure; //한 마디 
     public bool isDelayed;  //delay 필요 여부
@@ -25,7 +27,9 @@ public class RhythmManager : SingleTon<RhythmManager>
     private AudioSource beepAudioSource;
 
     public AnimationCurve curve; //사운드 커브 
+    [HideInInspector]
     public float totalMusicTime;
+    [HideInInspector] 
     public float curMusicTime;
 
     private bool isQTE;

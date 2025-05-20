@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QTEManager : MonoBehaviour, IRhythmActions
 {
-
+    [HideInInspector]
     public float bpm = 120.0f; //120 bpm
     public List<float> beats;    //입력 받을 패턴 리스트
     //beat로 들어오는 값 1 = 4분음표
@@ -19,6 +19,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
     public Canvas canvas;
     public string eventSound;
 
+    [HideInInspector]
     public string[] hitSound = new string[2]; //0은 일반 노트 //1은 포인트 노트
 
     public string eventBgm;
@@ -35,11 +36,15 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
     private int randPos; //0 ~ row * col - 1
 
+    [HideInInspector]
     public bool isOverGood;
 
+    [HideInInspector]
     private bool isAllNoteEnd;
 
+    [HideInInspector]
     public bool isHolding; //롱노트 누르고 있는지의 여부
+    [HideInInspector]
     public bool isLongNoteDoing; //롱노트 자체가 처리 중인지 확인
 
     // Start is called before the first frame update
