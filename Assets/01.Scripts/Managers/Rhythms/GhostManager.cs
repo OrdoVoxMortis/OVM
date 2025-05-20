@@ -57,7 +57,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         if (curIndex >= ghosts.Count)
         {
             isPlaying = false;
-            ghostPrefabs.GetComponent<GhostAnimation>().StopAnimation();
+            ghostOriginal.GetComponent<GhostAnimation>().StopAnimation();
             RhythmManager.Instance.isPlaying = false;
             return;
         }
@@ -89,12 +89,12 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             else return;
         }
 
-        ghostPrefabs.AddComponent<GhostAnimation>().PlayAnimation();
+        ghostOriginal.AddComponent<GhostAnimation>().PlayAnimation();
         SoundManager.Instance.PlaySfx(blockSound);
-        ghostPrefabs.GetComponent<GhostAnimation>().moving = direction.normalized * ghostGaps;
-        ghostPrefabs.transform.position = playerTrans.position;
-        ghostPrefabs.transform.rotation = Quaternion.Euler(rotateAngle);
-        ghostPrefabs.transform.forward = direction;
+        ghostOriginal.GetComponent<GhostAnimation>().moving = direction.normalized * ghostGaps;
+        ghostOriginal.transform.position = playerTrans.position;
+        ghostOriginal.transform.rotation = Quaternion.Euler(rotateAngle);
+        ghostOriginal.transform.forward = direction;
         curIndex = 0;
         isPlaying = true;
         curTime = Time.time;
@@ -174,7 +174,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             }
 
 
-            GameObject go = Instantiate(ghostPrefabs, playerTrans);
+            GameObject go = Instantiate(ghostOriginal, playerTrans);
             Ghost ghost = go.AddComponent<Ghost>();
             if(go.TryGetComponent<Animator>(out Animator animator))
             {
@@ -231,7 +231,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
         if (outlineMat != null) //아웃라인 머테리얼 여부
         {
-            ghostCurTiming = Instantiate(ghostPrefabs, playerTrans);
+            ghostCurTiming = Instantiate(ghostOriginal, playerTrans);
 
             if (ghostCurTiming.TryGetComponent<Animator>(out Animator animator))
             {
