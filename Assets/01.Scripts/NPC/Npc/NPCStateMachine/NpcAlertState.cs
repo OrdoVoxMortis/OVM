@@ -75,6 +75,7 @@ public class NpcAlertState : NpcBaseState
         if (suspicionTimer >= 1f)
         {
             suspicionTimer = 0f;
+            Debug.Log(stateMachine.npc.CurSuspicion);
             stateMachine.npc.CurSuspicion = Mathf.Max(0, stateMachine.npc.CurSuspicion - stateMachine.npc.SuspicionParams.decreasePerSec);
         }
     }

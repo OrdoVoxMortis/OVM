@@ -2,7 +2,6 @@ using System.Collections;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Linq;
 
 public class GameManager : SingleTon<GameManager>
 {

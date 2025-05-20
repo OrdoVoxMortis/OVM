@@ -33,7 +33,7 @@ public class NpcActionState : NpcBaseState
         npc.Agent.isStopped = true;
         StopAnimation(npc.AnimationData.RunParameterHash);
         StopAnimation(npc.AnimationData.WalkParameterHash);
-        npc.isWalking = false;
+
     }
 
     public override void Update()

@@ -11,12 +11,15 @@ public class Trashcan : MonoBehaviour, IInteractable
     }
     public string GetInteractComponent()
     {
-        return "E키를 눌러 상호작용";
+        if (GameManager.Instance.isEnd)
+            return "E키를 눌러 상호작용";
+        else
+            return " ";
     }
 
     public void OnInteract()
     {
-        if (!UIManager.Instance.isUIActive)
+        if (!UIManager.Instance.isUIActive && GameManager.Instance.isEnd)
         {
             UIManager.Instance.ShowUI<UI_SaveLoad>("UI_SaveLoad");
             UIManager.Instance.UIActive();

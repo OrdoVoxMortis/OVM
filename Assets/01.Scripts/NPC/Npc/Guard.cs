@@ -10,7 +10,11 @@ public class Guard : NPC
     protected override void Start()
     {
         base.Start();
-        startPosition = transform;
+        GameObject startObj = new GameObject("StartTransform");
+        startObj.transform.position = transform.position;
+        startObj.transform.rotation = transform.rotation;
+
+        startPosition = startObj.transform;
     }
 
     public GameObject GetWaitPosition()
