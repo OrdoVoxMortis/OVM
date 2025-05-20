@@ -8,10 +8,15 @@ public class QTELong : QTE
     public float innerCircleSize;
     public RectTransform innerCircle;
 
+    [HideInInspector]
     public float holdingTime;
+
     private float holdingDelta;
 
+    [HideInInspector]
     public bool isHolding;
+
+    [HideInInspector]
     public List<float> holdingCheckTime;
     private int curTimeIndex;
     private float checkTime;

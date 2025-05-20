@@ -11,7 +11,9 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
     public float ghostGaps;
 
+    [HideInInspector]
     public float bpm;
+
     public List<float> beats;    //입력 받을 패턴 리스트
     public List<bool> pointNoteList; //true인 경우 point note
 
@@ -21,10 +23,13 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public GameObject ghostOriginal; //하이러키에 있는 오브젝트를 넣을 것
     public AnimationClip ghostClip;
 
+    [HideInInspector]
     public float curTime;
+    [HideInInspector]
     public bool isPlaying;
     private int curIndex = 0;
 
+    [HideInInspector]
     public string[] hitSound = new string[2]; //0은 일반 노트 //1은 포인트 노트
     public string blockSound;
 
