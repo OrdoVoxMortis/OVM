@@ -116,6 +116,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""fde73552-32fc-4351-b847-6db70ec59664"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -272,6 +281,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Accept"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8590a938-9c0f-4183-aba7-3d581efee674"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -318,6 +338,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Simulate = m_Player.FindAction("Simulate", throwIfNotFound: true);
         m_Player_Accept = m_Player.FindAction("Accept", throwIfNotFound: true);
         m_Player_CancelUI = m_Player.FindAction("CancelUI", throwIfNotFound: true);
+        m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
         // RhythmMode
         m_RhythmMode = asset.FindActionMap("RhythmMode", throwIfNotFound: true);
         m_RhythmMode_RhythmInput = m_RhythmMode.FindAction("RhythmInput", throwIfNotFound: true);
@@ -392,6 +413,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Simulate;
     private readonly InputAction m_Player_Accept;
     private readonly InputAction m_Player_CancelUI;
+    private readonly InputAction m_Player_Zoom;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -406,6 +428,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Simulate => m_Wrapper.m_Player_Simulate;
         public InputAction @Accept => m_Wrapper.m_Player_Accept;
         public InputAction @CancelUI => m_Wrapper.m_Player_CancelUI;
+        public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -445,6 +468,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @CancelUI.started += instance.OnCancelUI;
             @CancelUI.performed += instance.OnCancelUI;
             @CancelUI.canceled += instance.OnCancelUI;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -479,6 +505,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @CancelUI.started -= instance.OnCancelUI;
             @CancelUI.performed -= instance.OnCancelUI;
             @CancelUI.canceled -= instance.OnCancelUI;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -554,6 +583,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnSimulate(InputAction.CallbackContext context);
         void OnAccept(InputAction.CallbackContext context);
         void OnCancelUI(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
     }
     public interface IRhythmModeActions
     {

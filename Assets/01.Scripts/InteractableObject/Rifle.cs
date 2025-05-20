@@ -6,15 +6,36 @@ using UnityEngine.UI;
 
 public class Rifle : MonoBehaviour, IInteractable
 {
+    [Header("카메라")]
     [SerializeField] private CinemachineVirtualCamera aimCamera;
+    [SerializeField] private float zoomSpeed = 2f;
+    [SerializeField] private float minFov = 1f;
+    [SerializeField] private float maxFov = 20f;
+
+    [Header("Ray")]
     [SerializeField] private float maxDistance = 100f;
     [SerializeField] private LayerMask interactionLayer;
+
+    [Header("UI")]
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private Image crosshair;
 
     private Camera mainCam;
     private bool isAiming = false;
     private IInteractable curInteract;
+    private PlayerInputs inputActions;
+
+    private void OnEnable()
+    {
+        if(inputActions == null) inputActions = new PlayerInputs();
+        inputActions.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
     private void Start()
     {
         mainCam = Camera.main;
@@ -30,6 +51,8 @@ public class Rifle : MonoBehaviour, IInteractable
         else aimCamera.enabled = true;
         if (isAiming)
         {
+            ZoomFOV();
+
             Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f);
             Ray ray = mainCam.ScreenPointToRay(screenCenter);
 
@@ -69,22 +92,37 @@ public class Rifle : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        if (aimCamera != null && !isAiming)
+        if (!GameManager.Instance.SimulationMode)
         {
-            crosshair.gameObject.SetActive(true);
-            aimCamera.Priority = 20;
-            isAiming = true;
+            if (aimCamera != null && !isAiming)
+            {
+                crosshair.gameObject.SetActive(true);
+                aimCamera.Priority = 20;
+                isAiming = true;
+            }
+            else if (isAiming)
+            {
+                crosshair.gameObject.SetActive(false);
+                interactText.gameObject.SetActive(false);
+                aimCamera.Priority = 0;
+                isAiming = false;
+                if (curInteract != null)
+                    curInteract.OnInteract();
+            }
         }
-        else if (isAiming)
-        {
-            crosshair.gameObject.SetActive(false);
-            interactText.gameObject.SetActive(false);
-            aimCamera.Priority = 0;
-            isAiming = false;
-            if(curInteract != null) 
-                curInteract.OnInteract();
-        }
+    }
     
+    private void ZoomFOV()
+    {
+        float scrollInput = inputActions.Player.Zoom.ReadValue<float>();
+
+        if(Mathf.Abs(scrollInput) > 0.01f)
+        {
+            float fov = aimCamera.m_Lens.FieldOfView;
+            fov -= scrollInput * zoomSpeed;
+            fov = Mathf.Clamp(fov, minFov, maxFov);
+            aimCamera.m_Lens.FieldOfView = fov;
+        }
     }
 
     public void SetInteractComponenet(string newText)

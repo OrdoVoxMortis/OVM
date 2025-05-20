@@ -865,8 +865,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerIndex: -1
   AutoEnableInputs: 1
-  XYAxis: {fileID: -5630151704836100654, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  ZAxis: {fileID: -5630151704836100654, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  XYAxis: {fileID: 2597225382371571079, guid: cb2bf7255d8525c4d86f7ac92fd0090c, type: 3}
+  ZAxis: {fileID: 2597225382371571079, guid: cb2bf7255d8525c4d86f7ac92fd0090c, type: 3}
 --- !u!114 &116183755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5413,6 +5413,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2472422472164139499, guid: d5720b40ab7c75946a0f3dd5aa0e9457,
+        type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1373267450}
     - target: {fileID: 2793815688587607739, guid: d5720b40ab7c75946a0f3dd5aa0e9457,
         type: 3}
       propertyPath: m_Name
@@ -5516,6 +5521,12 @@ PrefabInstance:
 --- !u!224 &1373267447 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 265427334444175694, guid: ec4cee6e7ae21c74d9ae8cf75b885477,
+    type: 3}
+  m_PrefabInstance: {fileID: 862983490}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &1373267450 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 265427334444175695, guid: ec4cee6e7ae21c74d9ae8cf75b885477,
     type: 3}
   m_PrefabInstance: {fileID: 862983490}
   m_PrefabAsset: {fileID: 0}
@@ -10189,6 +10200,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimCamera: {fileID: 116183755}
+  zoomSpeed: 0.05
+  minFov: 1
+  maxFov: 20
   maxDistance: 100
   interactionLayer:
     serializedVersion: 2
