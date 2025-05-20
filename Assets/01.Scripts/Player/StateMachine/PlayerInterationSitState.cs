@@ -51,7 +51,7 @@ public class PlayerInterationSitState : PlayerBaseState
         base.Enter();
 
         //stateMachine.Player.Input.UnsubscribeAllInputs(stateMachine.Player.Interaction);
-        stateMachine.Player.Input.playerActions.Interection.Disable();
+        //stateMachine.Player.Input.playerActions.Interection.Disable();
 
         sitTimer = 0f;
         isSitFinished = false;
@@ -75,21 +75,21 @@ public class PlayerInterationSitState : PlayerBaseState
             return;
         }
 
-        if (SceneManager.GetActiveScene().name == "Lobby_Scene" && GameManager.Instance.gameStarted)
-        {
-            GameManager.Instance.Player.isSit = false;
+        //if (SceneManager.GetActiveScene().name == "Lobby_Scene" && GameManager.Instance.gameStarted)
+        //{
+        //    GameManager.Instance.Player.isSit = false;
 
-            PlayerController input = stateMachine.Player.Input;
-            input.playerActions.Enable();
-            input.SubscribeAllInputs();
+        //    PlayerController input = stateMachine.Player.Input;
+        //    input.playerActions.Enable();
+        //    input.SubscribeAllInputs();
 
-            var camInput = input.playerCamera.GetComponent<CinemachineInputProvider>();
-            if (camInput != null)
-                camInput.enabled = true;
+        //    var camInput = input.playerCamera.GetComponent<CinemachineInputProvider>();
+        //    if (camInput != null)
+        //        camInput.enabled = true;
 
-            stateMachine.ChangeState(stateMachine.IdleState);
-            return;
-        }
+        //    stateMachine.ChangeState(stateMachine.IdleState);
+        //    return;
+        //}
 
 
         {
@@ -128,6 +128,8 @@ public class PlayerInterationSitState : PlayerBaseState
         Animator ani = stateMachine.Player.Animator;
         ani.speed = standupAniDuration / standupDuration;
 
+        interactAction.Enable();
+
         StopAnimation(sitHash);
         StopAnimation(skipHash);
     }
@@ -137,6 +139,7 @@ public class PlayerInterationSitState : PlayerBaseState
 
         if (!isStandUp && isSitFinished && interactAction.triggered)
         {
+            interactAction.Disable();
             isStandUp = true;
 
             Animator ani = stateMachine.Player.Animator;
@@ -177,7 +180,7 @@ public class PlayerInterationSitState : PlayerBaseState
 
         chair.EnableTrigger();
 
-        stateMachine.Player.Input.playerActions.Enable();
+        interactAction.Enable();
         stateMachine.Player.Input.SubscribeAllInputs();
 
         base.Exit();

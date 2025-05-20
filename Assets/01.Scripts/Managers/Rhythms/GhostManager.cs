@@ -11,7 +11,9 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
     public float ghostGaps;
 
+    [HideInInspector]
     public float bpm;
+
     public List<float> beats;    //입력 받을 패턴 리스트
     public List<bool> pointNoteList; //true인 경우 point note
 
@@ -21,10 +23,13 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public GameObject ghostOriginal; //하이러키에 있는 오브젝트를 넣을 것
     public AnimationClip ghostClip;
 
+    [HideInInspector]
     public float curTime;
+    [HideInInspector]
     public bool isPlaying;
     private int curIndex = 0;
 
+    [HideInInspector]
     public string[] hitSound = new string[2]; //0은 일반 노트 //1은 포인트 노트
     public string blockSound;
 
@@ -93,7 +98,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         SoundManager.Instance.PlaySfx(blockSound);
         ghostOriginal.GetComponent<GhostAnimation>().moving = direction.normalized * ghostGaps;
         ghostOriginal.transform.position = playerTrans.position;
-        ghostOriginal.transform.rotation = Quaternion.Euler(rotateAngle);
+        ghostOriginal.transform.localRotation = Quaternion.Euler(rotateAngle);
         ghostOriginal.transform.forward = direction;
         curIndex = 0;
         isPlaying = true;
@@ -185,9 +190,9 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
             if (ghostGaps != 0f)
             {
-                createPos += playerTrans.forward.normalized * (ghostGaps * (60f / bpm) / nextBeat);
+                createPos += playerTrans.forward.normalized * (ghostGaps * (60f / bpm) / nextBeat); 
                 ghost.transform.position = createPos;
-                ghost.transform.rotation = Quaternion.Euler(rotateAngle);
+                ghost.transform.localRotation = Quaternion.Euler(rotateAngle);
             }
 
             if (ghostClip != null)
@@ -243,7 +248,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             }
 
             ghostCurTiming.transform.position = ghosts[0].transform.position;
-            ghostCurTiming.transform.rotation = Quaternion.Euler(rotateAngle);
+            ghostCurTiming.transform.localRotation = Quaternion.Euler(rotateAngle);
             /*
             render = ghostCurTiming.GetComponent<Renderer>();
             if (render == null)
@@ -284,7 +289,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public void RemoveGhost()
     {
         int idx = ghosts.Count;
-        playerTrans.rotation = Quaternion.identity;
+        playerTrans.localRotation = Quaternion.identity;
         if (ghostCurTiming != null)
             Destroy(ghostCurTiming);
 

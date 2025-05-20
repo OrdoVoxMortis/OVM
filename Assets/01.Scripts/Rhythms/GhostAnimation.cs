@@ -7,6 +7,7 @@ public class GhostAnimation : MonoBehaviour
     Animator anim;
     bool isMoving = false;
 
+    [HideInInspector]
     public Vector3 moving;
 
     private void Awake()

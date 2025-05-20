@@ -69,8 +69,17 @@ public class Player : MonoBehaviour
             _hasAppliedStartSit = true;
             startSittingOnLoad = false;
 
-            stateMachine.ChangeState(new PlayerInterationSitState
+            if (!GameManager.Instance.gameStarted)
+            {
+                stateMachine.ChangeState(new PlayerInterationSitState
                 (stateMachine, initalChair, initalChair.SeatPoint, initalChair.SitDownDuration, initalChair.StandUpDuration, true));
+            }
+            else
+            {
+                stateMachine.ChangeState(stateMachine.IdleState);
+            }
+
+            
         }
         else
         {

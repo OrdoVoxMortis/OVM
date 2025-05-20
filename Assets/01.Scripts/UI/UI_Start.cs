@@ -48,6 +48,18 @@ public class UI_Start: BaseUI
             lobbyCam.SetActive(false);
             playerController = GameManager.Instance.Player.Input;
             playerController.playerActions.Enable();
+
+            if (inputProvider == null)
+                inputProvider = GameManager.Instance.Player.Input.playerCamera.GetComponent<CinemachineInputProvider>();
+
+            if (inputProvider != null)
+                inputProvider.enabled = true;
+
+            dollyCam.gameObject.SetActive(false);
+            dollyCam.Priority = 0;
+
+            playerCollider.SetActive(true);
+
             colorAdjustments.saturation.value = 0f;
             return;
         }

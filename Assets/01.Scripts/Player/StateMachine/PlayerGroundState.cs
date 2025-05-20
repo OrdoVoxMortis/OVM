@@ -66,15 +66,15 @@ public class PlayerGroundState : PlayerBaseState
         base.OnMovementCanceled(context);
     }
 
-    protected override void OnJumpStarted(InputAction.CallbackContext context)
-    {
-        if (UIManager.Instance.isUIActive) return;
-        if (stateMachine.Player.Controller.isGrounded)
-        {
+    //protected override void OnJumpStarted(InputAction.CallbackContext context)
+    //{
+    //    if (UIManager.Instance.isUIActive) return;
+    //    if (stateMachine.Player.Controller.isGrounded)
+    //    {
 
-            base.OnJumpStarted(context);
-            stateMachine.ChangeState(stateMachine.JumpState);
-        }
-    }
+    //        base.OnJumpStarted(context);
+    //        stateMachine.ChangeState(stateMachine.JumpState);
+    //    }
+    //}
 
 }

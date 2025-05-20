@@ -34,14 +34,14 @@ public class DoorController : MonoBehaviour, IInteractable
     private string lockedInteractText = "락픽 사용하기 [E]";
 
 
-    private NavMeshObstacle obstacle;
+    //private NavMeshObstacle obstacle;
     private Collider doorCollider;
 
     private Quaternion closeRot;
     private Quaternion openRot;
     private Coroutine routine;
 
-    private string interactText = "E키를 눌러 상호작용";
+    private string interactText = "문 열기 [E]";
 
     private bool isClose;   // 문이 닫혔는지 확인
 
@@ -51,18 +51,18 @@ public class DoorController : MonoBehaviour, IInteractable
         closeRot = this.transform.localRotation;
         openRot = closeRot * Quaternion.Euler(0f, openAngle, 0f);
 
-        if (obstacle == null)
-            obstacle = GetComponent<NavMeshObstacle>();
+        //if (obstacle == null)
+        //    obstacle = GetComponent<NavMeshObstacle>();
         if (doorCollider == null)
             doorCollider = GetComponent<Collider>();
 
-        if (obstacle != null)
-            obstacle.carving = true;
+        //if (obstacle != null)
+        //    obstacle.carving = true;
         if (doorCollider != null)
             doorCollider.isTrigger = false;
 
-        if (obstacle == null)
-            Debug.LogWarning("Door 에 Nav Mesh Obstacle이 존재하지 않습니다.");
+        //if (obstacle == null)
+        //    Debug.LogWarning("Door 에 Nav Mesh Obstacle이 존재하지 않습니다.");
         if (doorCollider == null)
             Debug.LogWarning("Door 에 Collider가 존재하지 않습니다.");
 
@@ -71,6 +71,10 @@ public class DoorController : MonoBehaviour, IInteractable
 
     public void OpenDoor()
     {
+        if (!isClose) return;
+
+        isClose = false;
+
         if (routine != null)
             StopCoroutine(routine);
 
@@ -81,8 +85,8 @@ public class DoorController : MonoBehaviour, IInteractable
     {
         isClose = false;
 
-        if (obstacle != null)
-            obstacle.carving = false;
+        //if (obstacle != null)
+        //    obstacle.carving = false;
         if (doorCollider != null)
             doorCollider.isTrigger = true;
 
@@ -95,8 +99,8 @@ public class DoorController : MonoBehaviour, IInteractable
 
         yield return RotateDoor(openRot, closeRot, closeDuration);
 
-        if (obstacle != null)
-            obstacle.carving = true;
+        //if (obstacle != null)
+        //    obstacle.carving = true;
 
         isClose = true;
 
@@ -136,8 +140,6 @@ public class DoorController : MonoBehaviour, IInteractable
 
         if (isLocked)
         {
-            isClose = false;
-
             float duration = lockPickDuration;
             PlayerStateMachine sm = GameManager.Instance.Player.stateMachine;
             PlayerInteractionLockpick lockState = new PlayerInteractionLockpick(sm, this, duration);
@@ -145,7 +147,6 @@ public class DoorController : MonoBehaviour, IInteractable
         }
         else
         {
-            isClose = false;
             OpenDoor();
         }
 
