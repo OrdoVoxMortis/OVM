@@ -26,6 +26,8 @@ public class PlayerBaseState : IState
 
     public virtual void AddInputActionCallbacks()
     {
+        RemoveInputActionCallbacks();
+
         PlayerController input = stateMachine.Player.Input;
         input.playerActions.Movement.started += OnMovementStarted;
         input.playerActions.Movement.canceled += OnMovementCanceled;
@@ -33,7 +35,7 @@ public class PlayerBaseState : IState
         input.playerActions.Run.canceled += OnRunCanceled;
         input.playerActions.Sit.started += OnSitStarted;
         input.playerActions.Sit.canceled += OnSitCanceled;
-        input.playerActions.Jump.started += OnJumpStarted;
+        //input.playerActions.Jump.started += OnJumpStarted;
     }
 
     public virtual void RemoveInputActionCallbacks()
@@ -45,7 +47,7 @@ public class PlayerBaseState : IState
         input.playerActions.Run.canceled -= OnRunCanceled;
         input.playerActions.Sit.started -= OnSitStarted;
         input.playerActions.Sit.canceled -= OnSitCanceled;
-        input.playerActions.Jump.started -= OnJumpStarted;
+        //input.playerActions.Jump.started -= OnJumpStarted;
     }
 
     public virtual void HandleInput()
@@ -114,10 +116,10 @@ public class PlayerBaseState : IState
         }
     }
 
-    protected virtual void OnJumpStarted(InputAction.CallbackContext context)
-    {
+    //protected virtual void OnJumpStarted(InputAction.CallbackContext context)
+    //{
 
-    }
+    //}
 
     protected void StartAnimation(int animatorHash)
     {

@@ -140,7 +140,6 @@ public class DoorController : MonoBehaviour, IInteractable
 
         if (isLocked)
         {
-
             float duration = lockPickDuration;
             PlayerStateMachine sm = GameManager.Instance.Player.stateMachine;
             PlayerInteractionLockpick lockState = new PlayerInteractionLockpick(sm, this, duration);

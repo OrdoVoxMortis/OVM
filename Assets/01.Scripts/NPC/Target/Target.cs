@@ -13,7 +13,7 @@ public class Target : MonoBehaviour
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
 
     public Animator Animator { get; private set; }
-    public List<AnimationClip> newClip;
+    //public List<AnimationClip> newClip;
 
 
     public NavMeshAgent Agent { get; private set; }
