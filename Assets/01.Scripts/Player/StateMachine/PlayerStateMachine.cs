@@ -42,7 +42,7 @@ public class PlayerStateMachine : StateMachine
         RunState = new PlayerRunState(this);
         SquatState = new PlayerSquatState(this);
 
-        JumpState = new PlayerJumpState(this);
+        //JumpState = new PlayerJumpState(this);
         FallState = new PlayerFallState(this);
 
         MovementSpeed = player.Data.GroundData.BaseSpeed;
@@ -59,7 +59,7 @@ public class PlayerStateMachine : StateMachine
         RunState = new PlayerRunState(this);
         SquatState = new PlayerSquatState(this);
 
-        JumpState = new PlayerJumpState(this);
+        //JumpState = new PlayerJumpState(this);
         FallState = new PlayerFallState(this);
     }
 

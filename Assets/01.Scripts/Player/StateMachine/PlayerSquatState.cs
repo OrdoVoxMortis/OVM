@@ -40,11 +40,11 @@ public class PlayerSquatState : PlayerGroundState
         stateMachine.ChangeState(stateMachine.IdleState);
     }
 
-    protected override void OnJumpStarted(InputAction.CallbackContext context)
-    {
-        if (stateMachine.Player.Controller.isGrounded)
-            stateMachine.ChangeState(stateMachine.JumpState);
-    }
+    //protected override void OnJumpStarted(InputAction.CallbackContext context)
+    //{
+    //    if (stateMachine.Player.Controller.isGrounded)
+    //        stateMachine.ChangeState(stateMachine.JumpState);
+    //}
 
     protected override void OnMovementCanceled(InputAction.CallbackContext context)
     {
