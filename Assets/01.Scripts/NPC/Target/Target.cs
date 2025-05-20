@@ -13,6 +13,9 @@ public class Target : MonoBehaviour
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
 
     public Animator Animator { get; private set; }
+    public List<AnimationClip> newClip;
+
+
     public NavMeshAgent Agent { get; private set; }
     private TargetStateMachine stateMachine;
 
@@ -68,6 +71,7 @@ public class Target : MonoBehaviour
 
         stateMachine = new TargetStateMachine(this);
         Agent.updateRotation = false;
+
     }
 
 
@@ -91,6 +95,14 @@ public class Target : MonoBehaviour
 
         player = GameManager.Instance.Player.gameObject;
         playerCollider = player.GetComponent<Collider>();
+
+        var overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
+
+        overrideController["Interaction"] = newClip[0];
+
+        Animator.runtimeAnimatorController = overrideController;
+
+
 
     }
 
