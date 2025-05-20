@@ -5,7 +5,7 @@ OcclusionCullingSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_OcclusionBakeSettings:
-    smallestOccluder: 5
+    smallestOccluder: 3
     smallestHole: 0.25
     backfaceThreshold: 100
   m_SceneGUID: 00000000000000000000000000000000
@@ -3233,7 +3233,7 @@ PrefabInstance:
     - target: {fileID: 6502592965647921486, guid: 70174a6874b912e488660d71eab2173c,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.3174167
+      value: -0.31741673
       objectReference: {fileID: 0}
     - target: {fileID: 6502592965647921486, guid: 70174a6874b912e488660d71eab2173c,
         type: 3}
@@ -5935,5 +5935,5 @@ SceneRoots:
   - {fileID: 573054363}
   - {fileID: 780691037}
   - {fileID: 1181376073}
-  - {fileID: 1717151119}
   - {fileID: 16712537}
+  - {fileID: 1717151119}
