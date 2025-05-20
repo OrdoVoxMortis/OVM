@@ -41,7 +41,7 @@ public class DoorController : MonoBehaviour, IInteractable
     private Quaternion openRot;
     private Coroutine routine;
 
-    private string interactText = "E키를 눌러 상호작용";
+    private string interactText = "문 열기 [E]";
 
     private bool isClose;   // 문이 닫혔는지 확인
 
@@ -72,6 +72,8 @@ public class DoorController : MonoBehaviour, IInteractable
     public void OpenDoor()
     {
         if (!isClose) return;
+
+        isClose = false;
 
         if (routine != null)
             StopCoroutine(routine);
@@ -138,7 +140,6 @@ public class DoorController : MonoBehaviour, IInteractable
 
         if (isLocked)
         {
-            isClose = false;
 
             float duration = lockPickDuration;
             PlayerStateMachine sm = GameManager.Instance.Player.stateMachine;
@@ -147,7 +148,6 @@ public class DoorController : MonoBehaviour, IInteractable
         }
         else
         {
-            isClose = false;
             OpenDoor();
         }
 

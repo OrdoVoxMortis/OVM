@@ -98,7 +98,7 @@ public class Target : MonoBehaviour
 
         var overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
 
-        overrideController["Interaction"] = newClip[0];
+        //overrideController["Interaction"] = newClip[0];
 
         Animator.runtimeAnimatorController = overrideController;
 
