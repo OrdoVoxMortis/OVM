@@ -93,7 +93,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         SoundManager.Instance.PlaySfx(blockSound);
         ghostOriginal.GetComponent<GhostAnimation>().moving = direction.normalized * ghostGaps;
         ghostOriginal.transform.position = playerTrans.position;
-        ghostOriginal.transform.rotation = Quaternion.Euler(rotateAngle);
+        ghostOriginal.transform.localRotation = Quaternion.Euler(rotateAngle);
         ghostOriginal.transform.forward = direction;
         curIndex = 0;
         isPlaying = true;
@@ -185,9 +185,9 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
             if (ghostGaps != 0f)
             {
-                createPos += playerTrans.forward.normalized * (ghostGaps * (60f / bpm) / nextBeat);
+                createPos += playerTrans.forward.normalized * (ghostGaps * (60f / bpm) / nextBeat); 
                 ghost.transform.position = createPos;
-                ghost.transform.rotation = Quaternion.Euler(rotateAngle);
+                ghost.transform.localRotation = Quaternion.Euler(rotateAngle);
             }
 
             if (ghostClip != null)
@@ -243,7 +243,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             }
 
             ghostCurTiming.transform.position = ghosts[0].transform.position;
-            ghostCurTiming.transform.rotation = Quaternion.Euler(rotateAngle);
+            ghostCurTiming.transform.localRotation = Quaternion.Euler(rotateAngle);
             /*
             render = ghostCurTiming.GetComponent<Renderer>();
             if (render == null)
@@ -284,7 +284,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public void RemoveGhost()
     {
         int idx = ghosts.Count;
-        playerTrans.rotation = Quaternion.identity;
+        playerTrans.localRotation = Quaternion.identity;
         if (ghostCurTiming != null)
             Destroy(ghostCurTiming);
 
