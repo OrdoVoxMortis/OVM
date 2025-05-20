@@ -18,7 +18,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public List<Ghost> ghosts;
     public List<float> checkTimes; //나중에 ghost로 이동 
 
-    public GameObject ghostPrefabs;
+    public GameObject ghostOriginal; //하이러키에 있는 오브젝트를 넣을 것
     public AnimationClip ghostClip;
 
     public float curTime;
@@ -176,6 +176,10 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
             GameObject go = Instantiate(ghostPrefabs, playerTrans);
             Ghost ghost = go.AddComponent<Ghost>();
+            if(go.TryGetComponent<Animator>(out Animator animator))
+            {
+                animator.enabled = false;
+            }
             
             ghost.isPointNotes = pointNoteList[i];
 
@@ -229,7 +233,10 @@ public class GhostManager : MonoBehaviour, IRhythmActions
         {
             ghostCurTiming = Instantiate(ghostPrefabs, playerTrans);
 
-
+            if (ghostCurTiming.TryGetComponent<Animator>(out Animator animator))
+            {
+                animator.enabled = false;
+            }
             if (ghostClip != null)
             {
                 ghostClip.SampleAnimation(ghostCurTiming, ghosts[0].animTime);
