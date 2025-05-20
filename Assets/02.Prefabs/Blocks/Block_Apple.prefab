@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 501996154179762875}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -185,8 +185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff2b9aee9a56c25469453736f645fcca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTrans: {fileID: 0}
-  direction: {x: 0, y: 0, z: 0}
+  playerTrans: {fileID: 5117027710929919363}
+  direction: {x: -1, y: 0, z: 0}
   rotateAngle: {x: 0, y: 0, z: 0}
   ghostGaps: 1
   bpm: 120
@@ -210,16 +210,16 @@ MonoBehaviour:
   pointNoteList: 00000000000000000000000000000000
   ghosts: []
   checkTimes: []
-  ghostPrefabs: {fileID: 0}
-  ghostClip: {fileID: 0}
+  ghostOriginal: {fileID: 1194609955543183695}
+  ghostClip: {fileID: 7400000, guid: bb28cd976d8644203abcd18f48c702ad, type: 2}
   curTime: 0
   isPlaying: 0
   hitSound:
   - 
   - 
   blockSound: 
-  ghostMat: {fileID: 0}
-  outlineMat: {fileID: 0}
+  ghostMat: {fileID: 2100000, guid: 6b14edf5fd24947bb9dde92c4860581d, type: 2}
+  outlineMat: {fileID: 2100000, guid: b3ee7482f606c7241a83821e616a0b99, type: 2}
 --- !u!114 &5092695096949634260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 8527675010429001411}
   - component: {fileID: 4144721840472952116}
   m_Layer: 3
-  m_Name: Block_Apple
+  m_Name: Apple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
