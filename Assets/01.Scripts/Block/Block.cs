@@ -56,7 +56,7 @@ public class Block : TimelineElement
     protected GameObject clone; // 클론 위치
     protected Animator animator;
     protected Renderer blockMesh;
-
+    protected GameObject third;
     protected Material ghostOutline;
 
     protected virtual void Awake()
@@ -86,6 +86,11 @@ public class Block : TimelineElement
         GameManager.Instance.OnSimulationMode += ToggleGhost;
 
         ghostOutline = ResourceManager.Instance.LoadMaterial("OutlineGhost");
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.OnStart += DeactiveMesh;
     }
 
     public virtual void LoadData()
@@ -216,5 +221,11 @@ public class Block : TimelineElement
             curMaterials.RemoveAll(m => m.name.StartsWith(ghostOutline.name));
             blockMesh.materials = curMaterials.ToArray();
         }
+    }
+
+    private void DeactiveMesh()
+    {
+        third = transform.GetChild(2).gameObject;
+        third.gameObject.SetActive(false);
     }
 }
