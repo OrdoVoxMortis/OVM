@@ -4506,6 +4506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moving: {x: -1, y: 0, z: 0}
+  animationSpeed: 0
 --- !u!1001 &99621424
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10640,6 +10641,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4726361521012488512, guid: 0be49a1543cab044f929e8b68d90815d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.03
       objectReference: {fileID: 0}
     - target: {fileID: 6181753789090514740, guid: 0be49a1543cab044f929e8b68d90815d,
         type: 3}
@@ -36497,6 +36503,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011907539315319314, guid: fe34860b713c07d468f615d856269d84,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067596484724485069, guid: fe34860b713c07d468f615d856269d84,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.1747437
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067596484724485069, guid: fe34860b713c07d468f615d856269d84,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.5873718
+      objectReference: {fileID: 0}
+    - target: {fileID: 5121037928865616825, guid: fe34860b713c07d468f615d856269d84,
+        type: 3}
+      propertyPath: m_Height
+      value: 1.3717468
+      objectReference: {fileID: 0}
+    - target: {fileID: 5121037928865616825, guid: fe34860b713c07d468f615d856269d84,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.6858734
+      objectReference: {fileID: 0}
+    - target: {fileID: 5121037928865616825, guid: fe34860b713c07d468f615d856269d84,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.38587344
       objectReference: {fileID: 0}
     - target: {fileID: 7935670539877456502, guid: fe34860b713c07d468f615d856269d84,
         type: 3}
@@ -85639,6 +85675,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_FollowOffset.z
       value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7890364326601684414, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
