@@ -31,6 +31,7 @@ public class PostProcessingToggle : MonoBehaviour
     public void TogglePostProcessing()
     {
         isEnabled = !isEnabled;
+        GameManager.Instance.Player.isSimulMode = isEnabled;
         GameManager.Instance.OnSimulationMode?.Invoke();
         Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
 
@@ -86,6 +87,7 @@ public class PostProcessingToggle : MonoBehaviour
     public void EnablePostProcessing()
     {
         isEnabled = true;
+        GameManager.Instance.Player.isSimulMode = isEnabled;
         Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
 
         if (timeLine_UI != null)

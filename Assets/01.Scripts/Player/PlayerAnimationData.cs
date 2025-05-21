@@ -12,9 +12,9 @@ public class PlayerAnimationData
     [SerializeField] private string interactionParameterName = "Interaction";
     [SerializeField] private string walkParameterName = "Walk";
     [SerializeField] private string runParameterName = "Run";
-    [SerializeField] private string sitParameterName = "Sit";
+    [SerializeField] private string sitParameterName = "Sit";                   //의자에 앉기
     [SerializeField] private string skipSitDownParameterName = "SkipSitDown";
-    [SerializeField] private string squatParameterName = "Squat";
+    [SerializeField] private string squatParameterName = "Squat";               // 앉아서 움직이기
 
     [SerializeField] private string lockpickParameterName = "LockPick";
 

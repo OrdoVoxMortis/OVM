@@ -19,7 +19,9 @@ public class Player : MonoBehaviour
     public PlayerStateMachine stateMachine;
     public CinemachineComposer composer;
 
+    public bool isSimulMode = false;
     public bool isSit = false;
+    public bool isSquat = false;
     public bool isLockpick = false; // true == 락픽 애니메이션 재생 중
 
     [Header("첫 앉기 설정")]
