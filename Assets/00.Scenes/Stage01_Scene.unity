@@ -4506,6 +4506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moving: {x: -1, y: 0, z: 0}
+  animationSpeed: 0
 --- !u!1001 &99621424
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68680,6 +68681,11 @@ PrefabInstance:
       propertyPath: playCancle
       value: 
       objectReference: {fileID: 107959270}
+    - target: {fileID: 5495147305753673194, guid: 676073c57d8502d408ec2076d1fdb820,
+        type: 3}
+      propertyPath: interactText
+      value: 
+      objectReference: {fileID: 1979768903}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
