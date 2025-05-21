@@ -68,9 +68,9 @@ public class QTEShort : QTE
         StopAllCoroutines();
         StartCoroutine(HideJudgeTextAfterDelay(0.2f));
         isChecked = true;
-        
+
         if (timing < judges[1]) //Good 이상인 경우 파티클
-            particle.SetActive(true);
+            ParticlePlay();
 
         innerImage.gameObject.SetActive(false);
         outerLine.gameObject.SetActive(false);
@@ -85,6 +85,13 @@ public class QTEShort : QTE
         RhythmManager.Instance.checkJudgeText.text = "";
     }
 
+    private void ParticlePlay()
+    {
+        if(!particle.activeSelf)
+            particle.SetActive(true);
+
+        particle.GetComponent<ParticleSystem>().Play();
+    }
 
     private void DestroyObject()
     {

@@ -84,6 +84,9 @@ public class QTELong : QTE
 
     public override void CheckJudge()
     {
+        if (manager.isOverGood)
+            ParticlePlay();
+
         if (isHolding)
             return;
         float timing = Mathf.Abs(1f - outerLineSize);
@@ -132,6 +135,7 @@ public class QTELong : QTE
             manager.isHolding = true;
             manager.isLongNoteDoing = true;
             checkTime = 0f;
+            ParticlePlay();
         }
         StopAllCoroutines();
         StartCoroutine(HideJudgeTextAfterDelay(0.2f));
@@ -156,6 +160,13 @@ public class QTELong : QTE
         RhythmManager.Instance.checkJudgeText.text = "";
     }
 
+    private void ParticlePlay()
+    {
+        if (!particle.activeSelf)
+            particle.SetActive(true);
+
+        particle.GetComponent<ParticleSystem>().Play();
+    }
 
     private void DestroyObject()
     {
