@@ -50,7 +50,7 @@ public class UI_PlayRhythm : BaseUI
             // 여기 암살 시작하는 코드 넣으면 됨
             Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
             GameManager.Instance.OnStart?.Invoke();
-
+            GameManager.Instance.isEnd = false;
             // GameManager.Instance.Player.Input.PlayerActionUnsubscribe(); 입력이 된 부분이 없어서 null 오류 발생!
             GameManager.Instance.Player.gameObject.SetActive(false);
             TimelineManager.Instance.gameObject.SetActive(false);
