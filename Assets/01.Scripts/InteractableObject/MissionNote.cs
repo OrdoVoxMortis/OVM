@@ -56,6 +56,7 @@ public class MissionNote : MonoBehaviour, IInteractable
             }
             questUI.SetQuest(id,Description, image, DialogText, StageName);
             UIManager.Instance.UIActive();
+            questUI.gameObject.SetActive(true);
             UIManager.Instance.ShowUI<UI_Quest>("UI_Quest");
             return;
         }
