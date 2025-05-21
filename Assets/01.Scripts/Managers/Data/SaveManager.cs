@@ -53,8 +53,8 @@ public class EventUnlockData
 public class SaveManager : SingleTon<SaveManager>
 {
     private string SavePath => $"{Application.persistentDataPath}/save.json";
-    private string UnlockPath => $"{Application.persistentDataPath}/Event/event_Unlock.json";
-    private string HiddenPath => $"{Application.persistentDataPath}/Hidden/hidden_save.json";
+    private string UnlockPath => $"{Application.persistentDataPath}/event_Unlock.json";
+    private string HiddenPath => $"{Application.persistentDataPath}/hidden_save.json";
 
     private List<TimelineSaveData> elementIds = new();
     private EventUnlockData unlockData;
