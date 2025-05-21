@@ -1834,7 +1834,7 @@ PrefabInstance:
     - target: {fileID: 6506109010496286476, guid: 5a92e1a7d28ca874d916bd2ee7bd8c2e,
         type: 3}
       propertyPath: slotCount
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10636,6 +10636,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 609842892}
     m_Modifications:
+    - target: {fileID: 3317240093688721957, guid: 0be49a1543cab044f929e8b68d90815d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6181753789090514740, guid: 0be49a1543cab044f929e8b68d90815d,
         type: 3}
       propertyPath: checkTimes.Array.size
@@ -74371,7 +74376,7 @@ MonoBehaviour:
   isEnabled: 0
   timeLine_UI: {fileID: 33137697}
   playRhythm_UI: {fileID: 1800493980}
-  playerPrefab: {fileID: 8994080444928254586, guid: f6c962b39fc656046be1aeef54784fa0,
+  playerPrefab: {fileID: 4904228346319408586, guid: 79d80ebab31890f4892cb97943c5bd92,
     type: 3}
   volume: {fileID: 2036877224}
   saturationValue: 0.5
@@ -84437,6 +84442,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 88866872394836833, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_FollowOffset.y
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 88866872394836833, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_FollowOffset.z
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 649873949191343833, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.36027145
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666325461307633320, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_FollowOffset.y
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666325461307633320, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_FollowOffset.z
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 4681147893655198449, guid: 70174a6874b912e488660d71eab2173c,
         type: 3}
       propertyPath: interactText
@@ -84496,6 +84526,51 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502592965647921486, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502592965647921486, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502592965647921486, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502592965647921486, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.000000029802322
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502592965647921486, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502592965647921486, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9191451
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502592965647921486, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.39391935
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904247476183320715, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_FollowOffset.y
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904247476183320715, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_FollowOffset.z
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
