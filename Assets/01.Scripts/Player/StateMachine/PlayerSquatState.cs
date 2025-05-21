@@ -16,28 +16,36 @@ public class PlayerSquatState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
+        stateMachine.Player.isSquat = true;
         stateMachine.MovementSpeedModifier = groundData.SitSpeedModifier;
         stateMachine.Player.Controller.height = 0.85f;
         stateMachine.Player.Controller.center = sitCenter;
+
         StartAnimation(stateMachine.Player.AnimationData.SquatParameterHash);
     }
 
     public override void Exit()
     {
+        stateMachine.Player.isSquat = false;
         stateMachine.Player.Controller.height = originHeight;
         stateMachine.Player.Controller.center = originCenter;
+
         StopAnimation(stateMachine.Player.AnimationData.SquatParameterHash);
         base.Exit();
     }
 
     protected override void OnRunStarted(InputAction.CallbackContext context)
     {
-        stateMachine.ChangeState(stateMachine.RunState);
+        if (stateMachine.Player.isSquat) 
+            stateMachine.ChangeState(stateMachine.RunState);
     }
+
 
     protected override void OnSitStarted(InputAction.CallbackContext context)
     {
-        stateMachine.ChangeState(stateMachine.IdleState);
+        if (stateMachine.Player.isSquat) 
+            stateMachine.ChangeState(stateMachine.IdleState);
+
     }
 
     //protected override void OnJumpStarted(InputAction.CallbackContext context)
@@ -45,6 +53,11 @@ public class PlayerSquatState : PlayerGroundState
     //    if (stateMachine.Player.Controller.isGrounded)
     //        stateMachine.ChangeState(stateMachine.JumpState);
     //}
+
+    protected override void OnMovementStarted(InputAction.CallbackContext context)
+    {
+        
+    }
 
     protected override void OnMovementCanceled(InputAction.CallbackContext context)
     {

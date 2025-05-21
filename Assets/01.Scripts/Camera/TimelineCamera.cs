@@ -27,6 +27,8 @@ public class TimelineCamera : MonoBehaviour
 
     }
 
+    private int number = 0;
+
     [Header("VirtualCamera Setting")]
     public List<CameraEntry> cameraEntries = new List<CameraEntry>();
 
@@ -50,6 +52,8 @@ public class TimelineCamera : MonoBehaviour
                 entry.failureTimeline.gameObject.SetActive(false);
 
         }
+
+        number = 0;
     }
 
     private void Start()
@@ -69,7 +73,8 @@ public class TimelineCamera : MonoBehaviour
         if (entry.useTimeline)
         {
             List<Block> blocks = TimelineManager.Instance.ReturnBlocks();
-            bool isSuccess = blocks[id].IsSuccess;// 성공 여부
+            bool isSuccess = blocks[number].IsSuccess;// 성공 여부
+            number++;
             PlayTimeline(entry, isSuccess, action);
         }
         else
