@@ -26,8 +26,8 @@ public class StageResult : MonoBehaviour
         GameManager.Instance.OnGameClear += GameClear;
         StageManager.Instance.SetStage(id);
         StageManager.Instance.SetStageResult(this);
-        GhostCheck = true;
-        QteCheck = true;
+        if(blocks.Count != 0) GhostCheck = true;
+        if(events.Count != 0) QteCheck = true;
     }
 
     public void GameClear()
