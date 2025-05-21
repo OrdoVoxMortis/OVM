@@ -127,7 +127,7 @@ public class QTELong : QTE
                 Debug.Log("Good!");
                 RhythmManager.Instance.checkJudgeText.text = "<b> Good </b>";
                 RhythmManager.Instance.checkJudgeText.color = Color.green;
-                StageManager.Instance.StageResult.QteCheck = true;
+                StageManager.Instance.StageResult.QteCheck = false;
             }
             manager.isOverGood = true;
             outerLine.localScale = new Vector2(1f, 1f);
