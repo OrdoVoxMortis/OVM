@@ -33,8 +33,8 @@ public class PlayerBaseState : IState
         input.playerActions.Movement.canceled += OnMovementCanceled;
         input.playerActions.Run.started += OnRunStarted;
         input.playerActions.Run.canceled += OnRunCanceled;
-        input.playerActions.Sit.started += OnSitStarted;
-        input.playerActions.Sit.canceled += OnSitCanceled;
+        input.playerActions.Squat.started += OnSitStarted;
+        input.playerActions.Squat.canceled += OnSitCanceled;
         //input.playerActions.Jump.started += OnJumpStarted;
     }
 
@@ -45,8 +45,8 @@ public class PlayerBaseState : IState
         input.playerActions.Movement.canceled -= OnMovementCanceled;
         input.playerActions.Run.started -= OnRunStarted;
         input.playerActions.Run.canceled -= OnRunCanceled;
-        input.playerActions.Sit.started -= OnSitStarted;
-        input.playerActions.Sit.canceled -= OnSitCanceled;
+        input.playerActions.Squat.started -= OnSitStarted;
+        input.playerActions.Squat.canceled -= OnSitCanceled;
         //input.playerActions.Jump.started -= OnJumpStarted;
     }
 

@@ -132,7 +132,7 @@ public class DoorController : MonoBehaviour, IInteractable
         if (GameManager.Instance.Player.stateMachine.CurrentState() is PlayerAirState)
             return;
 
-        if (GameManager.Instance.Player.stateMachine.CurrentState() is PlayerInteractionLockpick)
+        if (GameManager.Instance.Player.stateMachine.CurrentState() is PlayerInteractionLockpick || GameManager.Instance.Player.isSimulMode)
             return;
 
         if (!isClose)
@@ -161,6 +161,9 @@ public class DoorController : MonoBehaviour, IInteractable
     {
         if (!isClose)
             return string.Empty;
+
+        if (GameManager.Instance.Player.isSimulMode)
+            return "";
 
         return isLocked ? lockedInteractText : interactText;
     }

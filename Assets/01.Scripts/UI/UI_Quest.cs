@@ -6,6 +6,8 @@ public class UI_Quest : BaseUI
 {
     [SerializeField] private Button backBtn;
     [SerializeField] private Button acceptBtn;
+    [SerializeField] private string currentQuestId;
+    [SerializeField] private string sceneNameToLoad;
     [SerializeField] private TextMeshProUGUI questText;
     [SerializeField] private Image targetImage;
     [SerializeField] private TextMeshProUGUI dialogText;
@@ -42,7 +44,7 @@ public class UI_Quest : BaseUI
         {
             Debug.Log("퀘스트 수락!"); // TODO 실제로 넘어가는 암살의뢰 UI 연결해주기
             Hide();
-            LoadSceneManager.Instance.LoadSceneWithLoading("Stage01_Scene");
+            LoadSceneManager.Instance.LoadSceneWithLoading(sceneNameToLoad);
         }
     }
 
@@ -67,9 +69,12 @@ public class UI_Quest : BaseUI
         }
     }
 
-    public void SetQuest(string questDescription, Sprite targetSprite, string dialog)
+    public void SetQuest(string id, string questDescription, Sprite targetSprite, string dialog, string sceneName)
     {
         // 해당 함수를 통하여, 퀘스트 UI의 필드요소들을 동적으로 만들어준다
+        currentQuestId = id; // 스테이지 id
+        sceneNameToLoad = sceneName; // 씬 이름 값
+
         if (questText != null)
             questText.text = questDescription;
 

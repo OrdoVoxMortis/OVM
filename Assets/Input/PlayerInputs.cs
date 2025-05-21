@@ -64,7 +64,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Sit"",
+                    ""name"": ""Squat"",
                     ""type"": ""Button"",
                     ""id"": ""2628fed5-caa8-41fb-99da-4c3c5e48ef93"",
                     ""expectedControlType"": ""Button"",
@@ -223,7 +223,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Sit"",
+                    ""action"": ""Squat"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -332,7 +332,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Sit = m_Player.FindAction("Sit", throwIfNotFound: true);
+        m_Player_Squat = m_Player.FindAction("Squat", throwIfNotFound: true);
         m_Player_Interection = m_Player.FindAction("Interection", throwIfNotFound: true);
         m_Player_Setting = m_Player.FindAction("Setting", throwIfNotFound: true);
         m_Player_Simulate = m_Player.FindAction("Simulate", throwIfNotFound: true);
@@ -407,7 +407,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Sit;
+    private readonly InputAction m_Player_Squat;
     private readonly InputAction m_Player_Interection;
     private readonly InputAction m_Player_Setting;
     private readonly InputAction m_Player_Simulate;
@@ -422,7 +422,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @Sit => m_Wrapper.m_Player_Sit;
+        public InputAction @Squat => m_Wrapper.m_Player_Squat;
         public InputAction @Interection => m_Wrapper.m_Player_Interection;
         public InputAction @Setting => m_Wrapper.m_Player_Setting;
         public InputAction @Simulate => m_Wrapper.m_Player_Simulate;
@@ -450,9 +450,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Sit.started += instance.OnSit;
-            @Sit.performed += instance.OnSit;
-            @Sit.canceled += instance.OnSit;
+            @Squat.started += instance.OnSquat;
+            @Squat.performed += instance.OnSquat;
+            @Squat.canceled += instance.OnSquat;
             @Interection.started += instance.OnInterection;
             @Interection.performed += instance.OnInterection;
             @Interection.canceled += instance.OnInterection;
@@ -487,9 +487,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Sit.started -= instance.OnSit;
-            @Sit.performed -= instance.OnSit;
-            @Sit.canceled -= instance.OnSit;
+            @Squat.started -= instance.OnSquat;
+            @Squat.performed -= instance.OnSquat;
+            @Squat.canceled -= instance.OnSquat;
             @Interection.started -= instance.OnInterection;
             @Interection.performed -= instance.OnInterection;
             @Interection.canceled -= instance.OnInterection;
@@ -577,7 +577,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnSit(InputAction.CallbackContext context);
+        void OnSquat(InputAction.CallbackContext context);
         void OnInterection(InputAction.CallbackContext context);
         void OnSetting(InputAction.CallbackContext context);
         void OnSimulate(InputAction.CallbackContext context);
