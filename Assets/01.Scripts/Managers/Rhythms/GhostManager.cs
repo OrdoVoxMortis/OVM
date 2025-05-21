@@ -127,7 +127,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             hitSound[0] = "Note_N" + level;
             hitSound[1] = "Note_P" + level;
 
-            Debug.Log(hitSound[0]);
+            //Debug.Log(hitSound[0]);
 
             if (hitSound[0] != null && hitSound[1] != null)
             {
