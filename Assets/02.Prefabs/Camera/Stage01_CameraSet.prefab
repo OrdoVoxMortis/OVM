@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9077596160227595654}
   - component: {fileID: 1502013363452997533}
   m_Layer: 0
-  m_Name: Success
+  m_Name: Fail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1289,7 +1289,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2120263374432128398}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.052526306, y: -0.72395355, z: 0.0554642, w: 0.68560636}
+  m_LocalRotation: {x: 0.5757732, y: -0.35216066, z: 0.3009665, w: 0.67371166}
   m_LocalPosition: {x: -36.973846, y: 4.5367813, z: -5.3092346}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2109,7 +2109,7 @@ GameObject:
   - component: {fileID: 5449306237971038167}
   - component: {fileID: 2991104358471805788}
   m_Layer: 0
-  m_Name: Fail
+  m_Name: Success
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4208,8 +4208,8 @@ MonoBehaviour:
   - id: 1
     virtualCamera: {fileID: 7062684807971267698}
     useTimeline: 1
-    successTimeline: {fileID: 1502013363452997533}
-    failureTimeline: {fileID: 2991104358471805788}
+    successTimeline: {fileID: 2991104358471805788}
+    failureTimeline: {fileID: 1502013363452997533}
   - id: 2
     virtualCamera: {fileID: 8454686393074132421}
     useTimeline: 1
@@ -4826,7 +4826,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8381434311263549789}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.13439786, y: -0.13095239, z: -0.017920986, w: 0.98207307}
+  m_LocalRotation: {x: -0.56311977, y: 0.25047937, z: 0.18422267, w: 0.76564896}
   m_LocalPosition: {x: -36.475616, y: 4.3708725, z: -5.582184}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
