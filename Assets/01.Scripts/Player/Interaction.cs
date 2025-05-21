@@ -40,8 +40,8 @@ public class Interaction : MonoBehaviour
 
         input.playerActions.Interection.started -= OnInteractInput;
         input.playerActions.Interection.started += OnInteractInput;
-        input.playerActions.Setting.started -= OnSettingInput;
-        input.playerActions.Setting.started += OnSettingInput;
+        //input.playerActions.Setting.started -= OnSettingInput;
+        //input.playerActions.Setting.started += OnSettingInput;
 
         interactText.gameObject.SetActive(false);
     }
@@ -57,8 +57,8 @@ public class Interaction : MonoBehaviour
 
         input.playerActions.Interection.started -= OnInteractInput;
         input.playerActions.Interection.started += OnInteractInput;
-        input.playerActions.Setting.started -= OnSettingInput;
-        input.playerActions.Setting.started += OnSettingInput;
+        //input.playerActions.Setting.started -= OnSettingInput;
+        //input.playerActions.Setting.started += OnSettingInput;
 
         input.SubscribeAllInputs();
 
@@ -76,7 +76,7 @@ public class Interaction : MonoBehaviour
             }
 
             input.playerActions.Interection.started -= OnInteractInput;
-            input.playerActions.Setting.started -= OnSettingInput;
+            //input.playerActions.Setting.started -= OnSettingInput;
         }
 
         SceneManager.sceneLoaded -= OnLoadInteract;
@@ -188,24 +188,24 @@ public class Interaction : MonoBehaviour
         }
     }
 
-    public void OnSettingInput(InputAction.CallbackContext context)
-    {
-        if(context.phase == InputActionPhase.Started)
-        {
-            // UI가 비활성화 상태라면 → 세팅창 열기
-            if (!UIManager.Instance.isUIActive)
-            {
-                UIManager.Instance.ShowUI<UI_Volume>("UI_Volume");
-                UIManager.Instance.UIActive(); // 커서 unlock, playerCamera 끄기 등
-            }
-            // UI가 이미 켜져 있으면 → 세팅창 닫기
-            else
-            {
-                UIManager.Instance.HideUI<UI_Volume>();
-                UIManager.Instance.UIDeactive(); // 커서 lock, camera 다시 켜기
-            }
-        }
-    }
+    //public void OnSettingInput(InputAction.CallbackContext context)
+    //{
+    //    if(context.phase == InputActionPhase.Started)
+    //    {
+    //        // UI가 비활성화 상태라면 → 세팅창 열기
+    //        if (!UIManager.Instance.isUIActive)
+    //        {
+    //            UIManager.Instance.ShowUI<UI_Volume>("UI_Volume");
+    //            UIManager.Instance.UIActive(); // 커서 unlock, playerCamera 끄기 등
+    //        }
+    //        // UI가 이미 켜져 있으면 → 세팅창 닫기
+    //        else
+    //        {
+    //            UIManager.Instance.HideUI<UI_Volume>();
+    //            UIManager.Instance.UIDeactive(); // 커서 lock, camera 다시 켜기
+    //        }
+    //    }
+    //}
 
     public void OnCancelInput(InputAction.CallbackContext context)
     {
