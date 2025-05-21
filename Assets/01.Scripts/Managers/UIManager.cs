@@ -238,9 +238,7 @@ public class UIManager : SingleTon<UIManager>
 
     public void OnEscPressed()
     {
-        GameManager.Instance.Player.Input.playerCamera.enabled = true;
         DeactivateStandaloneUI("Mp3_Player");
-        currentUI.Hide();
         UIDeactive();
         if (uiStack.Count > 0)
         {
