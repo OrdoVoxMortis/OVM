@@ -42,9 +42,6 @@ public class Block : TimelineElement
     public CombineRule NextCombineRule { get; private set; } // 후속 조합 규칙
     public CombineRule PreCombineRule { get; private set; } // 선행 조합 규칙
 
-    public Block NextBlock { get; set; } // 다음 블럭
-    public Block PrevBlock { get; set; } // 이전 블럭
-
     public bool IsDeathTrigger {  get; private set; } // 사망 트리거
 
     public AnimationClip SuccessSequence {  get; private set; } // 성공 노트 시퀀스

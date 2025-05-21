@@ -148,10 +148,10 @@ public class NpcBaseState : IState
                 return false;
             }
         }
-        //if (GameManager.Instance.Player.unlocking)
-        //{
-        //    stateMachine.ChangeState(stateMachine.ActionState);
-        //}
+        if (GameManager.Instance.Player.isLockpick)
+        {
+            stateMachine.ChangeState(stateMachine.ActionState);
+        }
         return true;
     }
 
