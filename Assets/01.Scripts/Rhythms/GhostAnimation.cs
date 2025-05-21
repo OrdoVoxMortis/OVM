@@ -10,6 +10,8 @@ public class GhostAnimation : MonoBehaviour
     [HideInInspector]
     public Vector3 moving;
 
+    public float animationSpeed;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -25,6 +27,7 @@ public class GhostAnimation : MonoBehaviour
 
     public void PlayAnimation()
     {
+        anim.speed = animationSpeed;
         isMoving = true;
         if (anim != null)
         {
