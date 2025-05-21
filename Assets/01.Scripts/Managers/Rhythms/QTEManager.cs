@@ -17,7 +17,6 @@ public class QTEManager : MonoBehaviour, IRhythmActions
     public GameObject qtePrefabs;
     public GameObject qteLongPrefabs;
     public Canvas canvas;
-    public string eventSound;
 
     [HideInInspector]
     public string[] hitSound = new string[2]; //0은 일반 노트 //1은 포인트 노트
@@ -110,7 +109,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         qteUI.transform.SetAsFirstSibling();
         RhythmManager.Instance.checkJudgeText.transform.SetAsLastSibling();
 
-        SoundManager.Instance.PlaySfx("eventBgm");
+        SoundManager.Instance.PlaySfx(eventBgm);
         isAllNoteEnd = false;
 
         if (pointNoteList.Count < beats.Count)
