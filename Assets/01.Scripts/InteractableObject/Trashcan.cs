@@ -5,6 +5,7 @@ using UnityEngine;
 public class Trashcan : MonoBehaviour, IInteractable
 {
     private UI_SaveLoad saveUI;
+    float duration = 5f;
     private void Start()
     {
         saveUI = FindObjectOfType<UI_SaveLoad>();
@@ -24,6 +25,10 @@ public class Trashcan : MonoBehaviour, IInteractable
             UIManager.Instance.ShowUI<UI_SaveLoad>("UI_SaveLoad");
             UIManager.Instance.UIActive();
         }
+        
+        PlayerStateMachine sm = GameManager.Instance.Player.stateMachine;
+        PlayerInteractionLockpick lockState = new PlayerInteractionLockpick(sm, this, duration);
+        sm.ChangeState(lockState);
     }
 
     public void Deactive()
