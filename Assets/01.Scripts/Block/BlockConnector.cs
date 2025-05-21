@@ -54,8 +54,8 @@ public class BlockConnector : MonoBehaviour
 
     private void ToggleLine()
     {
-        if (GameManager.Instance.SimulationMode) gameObject.SetActive(true);
-        else gameObject.SetActive(false);
+        gameObject.SetActive(!GameManager.Instance.SimulationMode);
+
     }
 
 }
