@@ -58,8 +58,8 @@ public class Block : TimelineElement
     protected PostProcessingToggle postProcessingToggle; // 추후 수정
     protected GameObject clone; // 클론 위치
     protected Animator animator;
-    protected MeshRenderer blockMesh;
-    protected SkinnedMeshRenderer skinnedMeshRenderer;
+    protected Renderer blockMesh;
+
     protected Material ghostOutline;
 
     protected virtual void Awake()
@@ -75,9 +75,9 @@ public class Block : TimelineElement
         animator = GetComponentInChildren<Animator>();
         clone = transform.GetChild(1).gameObject;
 
-        if (!transform.GetChild(2).TryGetComponent<MeshRenderer>(out MeshRenderer _blockMesh))
+        if (!transform.GetChild(0).TryGetComponent<MeshRenderer>(out MeshRenderer _blockMesh))
         {
-            skinnedMeshRenderer = transform.GetChild(2).GetComponentInChildren<SkinnedMeshRenderer>();
+            blockMesh = transform.GetChild(0).GetComponentInChildren<SkinnedMeshRenderer>();
         }
         else
         {
@@ -209,16 +209,6 @@ public class Block : TimelineElement
                 blockMesh.materials = curMaterials.ToArray();
             }
         }
-        else
-        {
-            var curMaterials = skinnedMeshRenderer.materials.ToList();
-            bool exists = curMaterials.Any(m => m.name.StartsWith(ghostOutline.name));
-            if (!exists)
-            {
-                curMaterials.Add(ghostOutline);
-                skinnedMeshRenderer.materials = curMaterials.ToArray();
-            }
-        }
     }
 
     private void RemoveOutlineMaterial()
@@ -228,12 +218,6 @@ public class Block : TimelineElement
             var curMaterials = blockMesh.materials.ToList();
             curMaterials.RemoveAll(m => m.name.StartsWith(ghostOutline.name));
             blockMesh.materials = curMaterials.ToArray();
-        }
-        else
-        {
-            var curMaterials = skinnedMeshRenderer.materials.ToList();
-            curMaterials.RemoveAll(m => m.name.StartsWith(ghostOutline.name));
-            skinnedMeshRenderer.materials = curMaterials.ToArray();
         }
     }
 }
