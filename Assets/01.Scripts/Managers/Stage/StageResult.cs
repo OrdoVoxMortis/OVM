@@ -26,6 +26,8 @@ public class StageResult : MonoBehaviour
         GameManager.Instance.OnGameClear += GameClear;
         StageManager.Instance.SetStage(id);
         StageManager.Instance.SetStageResult(this);
+        GhostCheck = true;
+        QteCheck = true;
     }
 
     public void GameClear()
@@ -95,12 +97,12 @@ public class StageResult : MonoBehaviour
             }
             return "R001";
         }
-        return "R002";
+        return "R001";
     }
 
     public string PlanResult()
     {
-        if (useBlocks.TrueForAll(b => b.IsSuccess)) // 실패 판정 없음
+        if (blocks.Count != 0 && useBlocks.TrueForAll(b => b.IsSuccess)) // 실패 판정 없음
         {
             if (useBlocks.Count == blocks.Count) // 모든 블럭 사용
             {
