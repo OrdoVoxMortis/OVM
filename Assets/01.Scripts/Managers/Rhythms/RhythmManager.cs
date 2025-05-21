@@ -177,11 +177,12 @@ public class RhythmManager : SingleTon<RhythmManager>
         if (tlCIndex >= 0)
             timelineCamera.DisableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id, rhythmActions[index]);
 
-        index++;
         tlCIndex++;
         if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
             tlCIndex = 0; 
         timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id, rhythmActions[index >= rhythmActions.Count?0:index]);
+
+        index++;
     }
 
     void PlayBeep()

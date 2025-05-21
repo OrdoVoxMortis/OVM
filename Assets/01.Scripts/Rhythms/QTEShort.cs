@@ -47,7 +47,7 @@ public class QTEShort : QTE
             RhythmManager.Instance.checkJudgeText.text = "<b> Good </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.green;
             manager.isOverGood = true;
-            StageManager.Instance.StageResult.QteCheck = true;
+            StageManager.Instance.StageResult.QteCheck = false;
         }
         else if (timing < judges[2])
         {
