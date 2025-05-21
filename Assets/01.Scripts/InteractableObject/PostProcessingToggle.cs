@@ -95,6 +95,12 @@ public class PostProcessingToggle : MonoBehaviour
             GameManager.Instance.SimulationMode = true;
             savedPlayerPosition = GameManager.Instance.Player.transform.position;
             Debug.Log("플레이어 위치 저장!" + savedPlayerPosition);
+            simulationPlayer = Instantiate(playerPrefab, savedPlayerPosition, Quaternion.identity);
+            if (simulationPlayer != null)
+            {
+                Player_Ghost player_Ghost = simulationPlayer.gameObject.GetComponent<Player_Ghost>();
+                player_Ghost.Initialize(GameManager.Instance.Player);
+            }
             GameManager.Instance.Player.Input.UnsubscribeCancleUI();
             timeLine_UI.SetActive(true);
             playRhythm_UI.SetActive(true);
@@ -106,7 +112,7 @@ public class PostProcessingToggle : MonoBehaviour
     private void OnSimulateInput(InputAction.CallbackContext context)
     {
         //TODO : 테스트를 위해 GameManager.Instance.SelectedBGM != null 를 주석처리함
-        if (context.phase == InputActionPhase.Started && GameManager.Instance.SelectedBGM != null)
+        if (context.phase == InputActionPhase.Started && GameManager.Instance.SelectedBGM != null && !GameManager.Instance.Player.isLockpick == true)
         {
             TogglePostProcessing();
         }
