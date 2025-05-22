@@ -73,8 +73,9 @@ public class TimelineCamera : MonoBehaviour
         if (entry.useTimeline)
         {
             List<Block> blocks = TimelineManager.Instance.ReturnBlocks();
-            bool isSuccess = blocks[number].IsSuccess;// 성공 여부
-            number++;
+            bool isSuccess = (number < blocks.Count) ? blocks[number].IsSuccess : true;// 성공 여부
+            if(action is GhostManager)
+                number++;
             PlayTimeline(entry, isSuccess, action);
         }
         else
