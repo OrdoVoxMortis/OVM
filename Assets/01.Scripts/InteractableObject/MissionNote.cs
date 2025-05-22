@@ -21,7 +21,7 @@ public class MissionNote : MonoBehaviour, IInteractable
     private void Start()
     {
         LoadData();
-        if (DataManager.Instance.IsMissionNoteOnInteract(id) && GameManager.Instance.isClear)
+        if (DataManager.Instance.IsMissionNoteOnInteract(id) && GameManager.Instance.isClear == true)
         {
             Deactive();
             return;
