@@ -33581,6 +33581,12 @@ PrefabInstance:
       addedObject: {fileID: 1489522284}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec4cee6e7ae21c74d9ae8cf75b885477, type: 3}
+--- !u!223 &862983491 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 265427334444175695, guid: ec4cee6e7ae21c74d9ae8cf75b885477,
+    type: 3}
+  m_PrefabInstance: {fileID: 862983490}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &864675249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51628,6 +51634,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 609842892}
     m_Modifications:
+    - target: {fileID: 2472422472164139499, guid: d5720b40ab7c75946a0f3dd5aa0e9457,
+        type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 862983491}
+    - target: {fileID: 2472422472164139499, guid: d5720b40ab7c75946a0f3dd5aa0e9457,
+        type: 3}
+      propertyPath: qteLongPrefabs
+      value: 
+      objectReference: {fileID: 8792027279673050329, guid: 761c2fea36fa54547bf61635dd007953,
+        type: 3}
     - target: {fileID: 2793815688587607739, guid: d5720b40ab7c75946a0f3dd5aa0e9457,
         type: 3}
       propertyPath: m_Name

@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class RhythmManager : SingleTon<RhythmManager>
+public class RhythmManager : MonoBehaviour
 {
+    private static RhythmManager _instance;
+    public static RhythmManager Instance { get { return _instance; } }
     [HideInInspector]
     public string bgmName;
     private double musicStartTime;
@@ -46,12 +48,19 @@ public class RhythmManager : SingleTon<RhythmManager>
     private TimelineCamera timelineCamera;
     private int tlCIndex;
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        _instance = this;
 
         rhythmActions = new List<IRhythmActions>();
         checkJudgeText.gameObject.SetActive(false);
+       
     }
 
     public void Start()
@@ -62,7 +71,6 @@ public class RhythmManager : SingleTon<RhythmManager>
         beepClip = CreateBeepClip();
         beepAudioSource = gameObject.AddComponent<AudioSource>();
         beepAudioSource.clip = beepClip;
-
         isPlaying = true;
 
         checkJudgeText.transform.SetAsLastSibling();
@@ -215,6 +223,7 @@ public class RhythmManager : SingleTon<RhythmManager>
         UIManager.Instance.CurrentUIHide();
         isFinished = true;
         GameManager.Instance.GameClear();
+        Destroy(this.gameObject);
     }
 
     public void RegisterTimelineCamera(TimelineCamera camera)
