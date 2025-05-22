@@ -224,7 +224,6 @@ public class RhythmManager : MonoBehaviour
         UIManager.Instance.CurrentUIHide();
         isFinished = true;
         GameManager.Instance.GameClear();
-        Destroy(this.gameObject);
     }
 
     public void RegisterTimelineCamera(TimelineCamera camera)
