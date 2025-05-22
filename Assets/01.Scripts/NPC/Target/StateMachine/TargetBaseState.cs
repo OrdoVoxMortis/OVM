@@ -158,11 +158,14 @@ public class TargetBaseState : IState
             return false;
         }
 
-        Vector3 headPosition = stateMachine.Target.transform.position + new Vector3(0, 1.5f, 0); // y값은 머리 위치
+        // y값은 머리 위치
+        Vector3 headPosition = stateMachine.Target.transform.position + new Vector3(0, 1.5f, 0);
 
-        Vector3 playerClosetPoint = stateMachine.Target.playerCollider.ClosestPoint(headPosition); // Target의 머리위치에서 부터 플레이어 콜라이더의 가장 가까운 위치를 구합니다.
+        // Target의 머리위치에서 부터 플레이어 콜라이더의 가장 가까운 위치를 구합니다.
+        Vector3 playerClosetPoint = stateMachine.Target.playerCollider.ClosestPoint(headPosition);
+        Vector3 toPlayer = playerClosetPoint - headPosition;
 
-        float sqrDistance = (playerClosetPoint - headPosition).sqrMagnitude;
+        float sqrDistance = toPlayer.sqrMagnitude;
         float maxDistance = stateMachine.ViewDistance * stateMachine.ViewDistance;      //TODO : 두개의 값 다 Target의 시야 길이를 넣어야 합니다.
 
         if (sqrDistance > maxDistance)
@@ -171,27 +174,42 @@ public class TargetBaseState : IState
             return false;
         }
 
-        Vector3 directionToPlayer = (playerClosetPoint - headPosition).normalized;
-        float angle = Vector3.Angle(stateMachine.Target.transform.forward, directionToPlayer);
-        if (angle > stateMachine.ViewAngle / 2)
+        float horizontaolFov = stateMachine.ViewAngle;
+        float verticalFov = stateMachine.ViewAngle;
+
+        // 수평 시야각 검사
+        Vector3 forward = stateMachine.Target.transform.forward;
+        Vector3 forwardXZ = Vector3.ProjectOnPlane(forward, Vector3.up).normalized;
+        Vector3 toPlayerXZ = Vector3.ProjectOnPlane(toPlayer, Vector3.up).normalized;
+        float horizontalAngle = Vector3.Angle(forwardXZ, toPlayerXZ);
+        if (horizontalAngle > horizontaolFov * 0.5f)
         {
-            Debug.Log("시야 각도에 들어오지 않음");
+            Debug.Log("수평 시야각 벗어남 Target");
             return false;
         }
 
-        //Raycast를 통해서 머리 위치에서 closetPoint 까지의 장애물을 확인합니다
-        float distance = Mathf.Sqrt(sqrDistance);
-        int targetLayerMask = 1 << stateMachine.Target.targetLayer;
-        if (Physics.Raycast(headPosition, directionToPlayer, out RaycastHit hit, distance))
+        // 수직 시야각 검사
+        float verticalAngle = Vector3.Angle(toPlayer, toPlayerXZ);
+        if (verticalAngle > verticalFov * 0.5f)
         {
-            // 시야 범위내에 물건이 있다면 확인 불가능
-            int hitLayer = hit.collider.gameObject.layer;
-            if ((targetLayerMask & (1 << hitLayer)) == 0)
+            Debug.Log("수직 시야각 벗어남 Target");
+            return false;
+        }
+
+        float dist = Mathf.Sqrt(sqrDistance);
+        int layerInteraciontColl = LayerMask.NameToLayer("InteractionCollider");
+
+        int excludeMask = (1 << layerInteraciontColl);
+        int occlusionMask = ~excludeMask;
+        if (Physics.Raycast(headPosition, toPlayer.normalized, out RaycastHit hit, dist, occlusionMask, QueryTriggerInteraction.Ignore))
+        {
+            if (hit.collider.gameObject != stateMachine.Target.player)
             {
-                Debug.Log("플레이어가 오브젝트 뒤에 있음");
+                Debug.Log($"시야가 가려짐 by {hit.collider.name}");
                 return false;
             }
         }
+
 
         return true;
 
