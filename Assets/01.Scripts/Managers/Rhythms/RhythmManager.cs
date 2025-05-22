@@ -118,7 +118,8 @@ public class RhythmManager : MonoBehaviour
         
         isPlaying = false;
         InitTime();
-        SoundManager.Instance.PlayBGM(bgmName);
+
+        SoundManager.Instance.PlayBGM(GameManager.Instance.SelectedBGM.name);
     }
 
     public void StartBeep()
@@ -126,7 +127,7 @@ public class RhythmManager : MonoBehaviour
         musicStartTime = AudioSettings.dspTime;
 
         isPlaying = false;
-        SoundManager.Instance.PlayBGM(bgmName);
+        SoundManager.Instance.PlayBGM(GameManager.Instance.SelectedBGM.name);
         InvokeRepeating("PlayBeep", (float)syncTime, 60f / bpm);
     }
 
