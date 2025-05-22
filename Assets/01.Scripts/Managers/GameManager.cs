@@ -8,7 +8,6 @@ public class GameManager : SingleTon<GameManager>
     public Player Player { get; private set; }
     public int bpm = 120;
     public AudioClip SelectedBGM {  get; private set; }
-    public string BgmId {  get; private set; }
     public static event Action OnSelectedBGMSet; // 추가
     public Action OnStart;
     public Action OnGameOver;
