@@ -46,6 +46,13 @@ public class TargetBaseState : IState
     {
         if (IsPlayerInSight())
         {
+            // 플레이어가 시야 안에 락픽 애니메이션이 진행 중 이라면 바로 도주
+            if (GameManager.Instance.Player.isLockpick)
+            {
+                stateMachine.ChangeState(stateMachine.RunAwayState);
+                return;
+            }
+
             // 플레이어가 시야 범위 안에 들어왔다면 초당 경계수치 증가
             stateMachine.AlertValue += stateMachine.SuspicionParams.increasePerSec * Time.deltaTime;
             stateMachine.AlertValue = Mathf.Min(stateMachine.AlertValue, stateMachine.SuspicionParams.maxValue);     //경계수치의 최댓값은 100(고정)
