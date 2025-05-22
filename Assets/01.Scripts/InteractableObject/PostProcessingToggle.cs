@@ -95,7 +95,7 @@ public class PostProcessingToggle : MonoBehaviour
     }
     public void EnablePostProcessing()
     {
-        if (isEnabled)
+        if (isEnabled && timeLine_UI != null)
         {
             if (simulationPlayer != null)
             {
