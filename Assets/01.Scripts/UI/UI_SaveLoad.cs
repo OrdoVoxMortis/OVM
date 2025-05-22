@@ -78,7 +78,7 @@ public class UI_SaveLoad : BaseUI
     private void LoadSaveData()
     {
         string path = Application.persistentDataPath;
-        string[] saveFiles = Directory.GetFiles(path, "*.json");
+        string[] saveFiles = Directory.GetFiles(path, "save.json");
 
         foreach (string file in saveFiles)
         {
@@ -95,8 +95,8 @@ public class UI_SaveLoad : BaseUI
     }
     private void LoadHidddenData()
     {
-        string path = $"{Application.persistentDataPath}/Hidden";
-        string[] saveFiles = Directory.GetFiles(path, "*.json");
+        string path = $"{Application.persistentDataPath}";
+        string[] saveFiles = Directory.GetFiles(path, "hidden_save.json");
 
         foreach (string file in saveFiles)
         {

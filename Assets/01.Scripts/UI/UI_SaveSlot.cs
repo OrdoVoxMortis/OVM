@@ -33,7 +33,7 @@ public class UI_SaveSlot : MonoBehaviour
         }
         else stageName.text = "Unknown Stage";
 
-        musicName.text = data.musicId;
+        musicName.text = data.musicName;
         playTime.text = $"{(int)(data.playTime / 60)}분 {(int)data.playTime % 60}초";
 
         if(data.timeline != null && data.timeline.Count > 0)

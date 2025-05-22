@@ -160,6 +160,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             RemoveGhost();
         }
 
+
         this.beats = beats;
         this.bpm = bpm;
         this.pointNoteList = pointNoteList;

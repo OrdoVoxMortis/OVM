@@ -84,4 +84,8 @@ public class BlockConnector : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnSimulationMode -= ToggleLine;
+    }
 }

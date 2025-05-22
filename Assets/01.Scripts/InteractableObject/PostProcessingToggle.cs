@@ -19,6 +19,7 @@ public class PostProcessingToggle : MonoBehaviour
   
     void Start()
     {
+        GameManager.Instance.SimulationMode = false;
         Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
         if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
         {
@@ -86,16 +87,17 @@ public class PostProcessingToggle : MonoBehaviour
         }
         GameManager.Instance.OnSimulationMode?.Invoke();
 
-        foreach(var block in TimelineManager.Instance.GetActiveBlock())
+        foreach(var block in TimelineManager.Instance.GetActiveElements())
         {
-            block.ToggleGhost();
+            if (block is Block b) b.ToggleGhost();
+            else if (block is Event e) e.ToggleOutline();
         }
 
         Debug.Log("시뮬레이션 모드: " + GameManager.Instance.SimulationMode);
     }
     public void EnablePostProcessing()
     {
-        if (isEnabled)
+        if (isEnabled && timeLine_UI != null)
         {
             if (simulationPlayer != null)
             {

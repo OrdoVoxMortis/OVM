@@ -24,11 +24,10 @@ public class Trashcan : MonoBehaviour, IInteractable
         {
             UIManager.Instance.ShowUI<UI_SaveLoad>("UI_SaveLoad");
             UIManager.Instance.UIActive();
+            PlayerStateMachine sm = GameManager.Instance.Player.stateMachine;
+            PlayerInteractionLockpick lockState = new PlayerInteractionLockpick(sm, this, duration);
+            sm.ChangeState(lockState);
         }
-        
-        PlayerStateMachine sm = GameManager.Instance.Player.stateMachine;
-        PlayerInteractionLockpick lockState = new PlayerInteractionLockpick(sm, this, duration);
-        sm.ChangeState(lockState);
     }
 
     public void Deactive()
