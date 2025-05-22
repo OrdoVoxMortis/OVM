@@ -316,6 +316,7 @@ public class TimelineManager : SingleTon<TimelineManager>
 
     public void LoadBlocks(List<TimelineSaveData> elementIds)
     {
+        PlacedBlocks.Clear();
         Block[] allBlocks = FindObjectsOfType<Block>();
         Event[] allEvents = FindObjectsOfType<Event>();
 
