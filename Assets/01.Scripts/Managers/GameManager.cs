@@ -16,6 +16,7 @@ public class GameManager : SingleTon<GameManager>
     public bool SimulationMode { get; set; }
     public Action OnSimulationMode;
     public bool isEnd = false;
+    public bool isClear = false;
     public StageStartPoint stageStartPoint;
     protected override void Awake()
     {
@@ -73,6 +74,7 @@ public class GameManager : SingleTon<GameManager>
             }
             SelectedBGM = null;
             isEnd = true;
+            isClear = true;
         }
     }
     public void GameOver()
