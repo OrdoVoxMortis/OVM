@@ -87,9 +87,10 @@ public class PostProcessingToggle : MonoBehaviour
         }
         GameManager.Instance.OnSimulationMode?.Invoke();
 
-        foreach(var block in TimelineManager.Instance.GetActiveBlock())
+        foreach(var block in TimelineManager.Instance.GetActiveElements())
         {
-            block.ToggleGhost();
+            if (block is Block b) b.ToggleGhost();
+            else if (block is Event e) e.ToggleOutline();
         }
 
         Debug.Log("시뮬레이션 모드: " + GameManager.Instance.SimulationMode);
