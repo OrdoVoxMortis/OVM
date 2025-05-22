@@ -148,6 +148,7 @@ public class UIManager : SingleTon<UIManager>
             }
         }
 
+        standaloneUIs.Clear();
         activeUIs.Clear();
         uiStack.Clear();
         isUIActive = false;
@@ -239,7 +240,10 @@ public class UIManager : SingleTon<UIManager>
     public void OnEscPressed()
     {
         UIDeactive();
-        DeactivateStandaloneUI("Mp3_Player");
+        if (standaloneUIs.ContainsKey("Mp3_Player"))
+        {
+            DeactivateStandaloneUI("Mp3_Player"); // 추가작업 필요
+        }
         if (uiStack.Count > 0)
         {
            CloseTopPopup();
