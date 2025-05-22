@@ -189,6 +189,7 @@ public class TimelineManager : SingleTon<TimelineManager>
                 success = false;
                 for (int j = i + 1; j < PlacedBlocks.Count; j++)
                 {
+                    if (j == PlacedBlocks.Count - 1) break;
                     Block other = blockList[j];
                     if (!availableBlocks.Contains(other)) continue;
 

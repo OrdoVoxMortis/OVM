@@ -94,7 +94,6 @@ public class Event : TimelineElement
     {
         if (meshRenderer != null)
         {
-            Debug.Log("outline flase");
             var curMaterials = meshRenderer.materials.ToList();
             curMaterials.RemoveAll(m => m.name.StartsWith(ghostOutline.name));
             meshRenderer.materials = curMaterials.ToArray();
