@@ -238,8 +238,8 @@ public class UIManager : SingleTon<UIManager>
 
     public void OnEscPressed()
     {
-        DeactivateStandaloneUI("Mp3_Player");
         UIDeactive();
+        DeactivateStandaloneUI("Mp3_Player");
         if (uiStack.Count > 0)
         {
            CloseTopPopup();
