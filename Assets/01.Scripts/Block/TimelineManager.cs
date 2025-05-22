@@ -373,4 +373,9 @@ public class TimelineManager : SingleTon<TimelineManager>
     {
         blockConnector = con;
     }
+
+    public List<Block> GetActiveBlock()
+    {
+        return ReturnBlocks().Where(b => b.IsActive).ToList();
+    }
 }

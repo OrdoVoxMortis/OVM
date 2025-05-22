@@ -26,13 +26,14 @@ public class PostProcessingToggle : MonoBehaviour
         }
         input = GameManager.Instance.Player.Input;
         input.playerActions.Simulate.started += OnSimulateInput;
+
     }
 
     public void TogglePostProcessing()
     {
         isEnabled = !isEnabled;
         GameManager.Instance.Player.isSimulMode = isEnabled;
-        GameManager.Instance.OnSimulationMode?.Invoke();
+
         Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
 
         //if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
@@ -83,6 +84,14 @@ public class PostProcessingToggle : MonoBehaviour
             playRhythm_UI.SetActive(false);
             UIManager.Instance.UIDeactive();
         }
+        GameManager.Instance.OnSimulationMode?.Invoke();
+
+        foreach(var block in TimelineManager.Instance.GetActiveBlock())
+        {
+            block.ToggleGhost();
+        }
+
+        Debug.Log("시뮬레이션 모드: " + GameManager.Instance.SimulationMode);
     }
     public void EnablePostProcessing()
     {
