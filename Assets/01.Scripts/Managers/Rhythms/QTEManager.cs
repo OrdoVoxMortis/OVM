@@ -17,7 +17,6 @@ public class QTEManager : MonoBehaviour, IRhythmActions
     public GameObject qtePrefabs;
     public GameObject qteLongPrefabs;
     public Canvas canvas;
-    public string eventSound;
 
     [HideInInspector]
     public string[] hitSound = new string[2]; //0은 일반 노트 //1은 포인트 노트
@@ -25,11 +24,11 @@ public class QTEManager : MonoBehaviour, IRhythmActions
     public string eventBgm;
 
     [Header("QTE 생성 위치 조절")]
-    public int rootPositionX = 200;
-    public int rootPositionY = 50;
+    public int rootPositionX;
+    public int rootPositionY;
 
-    public int gapX = 100;
-    public int gapY = 100;
+    public int gapX;
+    public int gapY;
 
     public int row;
     public int col;
@@ -54,10 +53,16 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         hitSound[0] = "Note_N1";
         hitSound[1] = "Note_P1";
         
-        if (row == 0)
-            row = 8;
-        if (col == 0)
-            col = 6;
+        row = 8;
+        col = 6;
+
+        int canvas_x = Screen.width;
+        int canvas_y = Screen.height;
+
+
+        gapX = gapY = canvas_y / col;
+        rootPositionX = (Screen.width / 2) - (gapX * (row / 2)) + (gapX / 2);
+        rootPositionY = gapY / 2;
 
         isLongNoteDoing = false;
         //RhythmManager.Instance.rhythmActions.Add(this);
@@ -104,7 +109,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         qteUI.transform.SetAsFirstSibling();
         RhythmManager.Instance.checkJudgeText.transform.SetAsLastSibling();
 
-        SoundManager.Instance.PlaySfx("eventBgm");
+        SoundManager.Instance.PlaySfx(eventBgm);
         isAllNoteEnd = false;
 
         if (pointNoteList.Count < beats.Count)
@@ -181,7 +186,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
             if (randPos >= row * col)
                 randPos = randPos % (row * col);
             
-            qte.transform.position = new Vector2(rootPositionX + (randPos % col) * gapX, rootPositionY + (randPos / col) * gapY);
+            qte.transform.position = new Vector2(rootPositionX + (randPos % row) * gapX, rootPositionY + (randPos / row) * gapY);
 
             qte.manager = this;
             qte.isPointNotes = pointNoteList[i];

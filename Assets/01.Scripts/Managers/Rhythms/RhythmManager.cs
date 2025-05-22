@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class RhythmManager : SingleTon<RhythmManager>
+public class RhythmManager : MonoBehaviour
 {
+    private static RhythmManager _instance;
+    public static RhythmManager Instance { get { return _instance; } }
     [HideInInspector]
     public string bgmName;
     private double musicStartTime;
@@ -46,12 +48,19 @@ public class RhythmManager : SingleTon<RhythmManager>
     private TimelineCamera timelineCamera;
     private int tlCIndex;
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        _instance = this;
 
         rhythmActions = new List<IRhythmActions>();
         checkJudgeText.gameObject.SetActive(false);
+       
     }
 
     public void Start()
@@ -62,11 +71,10 @@ public class RhythmManager : SingleTon<RhythmManager>
         beepClip = CreateBeepClip();
         beepAudioSource = gameObject.AddComponent<AudioSource>();
         beepAudioSource.clip = beepClip;
-
         isPlaying = true;
 
         checkJudgeText.transform.SetAsLastSibling();
-        //checkJudgeText.gameObject.SetActive(true);
+        
     }
 
     private void Update()
@@ -104,11 +112,14 @@ public class RhythmManager : SingleTon<RhythmManager>
     
     public void StartMusic()
     {
+        checkJudgeText.gameObject.SetActive(true);
+        checkJudgeText.text = "";
         musicStartTime = AudioSettings.dspTime;
         
         isPlaying = false;
         InitTime();
-        SoundManager.Instance.PlayBGM(bgmName);
+
+        SoundManager.Instance.PlayBGM(GameManager.Instance.SelectedBGM.name);
     }
 
     public void StartBeep()
@@ -116,7 +127,7 @@ public class RhythmManager : SingleTon<RhythmManager>
         musicStartTime = AudioSettings.dspTime;
 
         isPlaying = false;
-        SoundManager.Instance.PlayBGM(bgmName);
+        SoundManager.Instance.PlayBGM(GameManager.Instance.SelectedBGM.name);
         InvokeRepeating("PlayBeep", (float)syncTime, 60f / bpm);
     }
 
@@ -170,16 +181,21 @@ public class RhythmManager : SingleTon<RhythmManager>
             SoundManager.Instance.UnPauseBGM();
         }
 
-
+        
         //카메라 타인라인
         if (tlCIndex >= 0)
             timelineCamera.DisableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id, rhythmActions[index]);
-
-        index++;
+        
         tlCIndex++;
         if (tlCIndex >= TimelineManager.Instance.PlacedBlocks.Count)
-            tlCIndex = 0; 
+            tlCIndex = 0;
+
         timelineCamera.EnableCamera(TimelineManager.Instance.PlacedBlocks[tlCIndex].id, rhythmActions[index >= rhythmActions.Count?0:index]);
+        /*
+        if (rhythmActions[index] is QTEManager)
+            tlCIndex--;
+        */
+        index++;
     }
 
     void PlayBeep()
@@ -207,6 +223,7 @@ public class RhythmManager : SingleTon<RhythmManager>
     {
         UIManager.Instance.CurrentUIHide();
         isFinished = true;
+        if (SaveManager.Instance.eventReplay) GameManager.Instance.LoadScene("Lobby_Scene");
         GameManager.Instance.GameClear();
     }
 

@@ -92,7 +92,7 @@ public class SoundManager : SingleTon<SoundManager>
             bgmPlayer.clip = clip;
             bgmPlayer.Play();
         }
-        else Debug.Log("bgm not found");
+        else Debug.Log($"{bgm}: bgm not found");
     }
 
     public void PlaySfx(string sfx)

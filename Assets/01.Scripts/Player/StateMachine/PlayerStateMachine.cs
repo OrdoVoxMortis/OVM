@@ -8,7 +8,7 @@ public class PlayerStateMachine : StateMachine
     public Player Player { get; }
     public Vector2 MovementInput { get; set; }
     public float MovementSpeed { get; private set; }
-    public float SitSpeed { get; private set; }
+    public float SquatSpeed { get; private set; }
     public float RotationDamping { get; private set; }
     public float MovementSpeedModifier { get;  set; } = 1f;
     public float MaxRotationSpeed { get; private set; } = 720f;
@@ -46,7 +46,7 @@ public class PlayerStateMachine : StateMachine
         FallState = new PlayerFallState(this);
 
         MovementSpeed = player.Data.GroundData.BaseSpeed;
-        SitSpeed = Player.Data.GroundData.BaseSitSpeed;
+        SquatSpeed = Player.Data.GroundData.BaseSitSpeed;
         RotationDamping = Player.Data.GroundData.BaseRotationDamping;
     }
 

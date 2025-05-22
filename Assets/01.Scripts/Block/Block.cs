@@ -2,7 +2,6 @@
 using GoogleSheet.Core.Type;
 using UnityEngine;
 using Hamster.ZG.Type;
-using System.Collections.Generic;
 using System.Linq;
 
 [UGS(typeof(BlockType))]
@@ -35,19 +34,19 @@ public class Block : TimelineElement
     public BlockType Type { get; private set; } // 유형
     public BlockAction Action { get; private set; } // 행동
 
-    public float FixedTime {  get; private set; } // 필수 시간
-    public float AfterFlexibleMarginTime {  get; private set; } // 최대 뒤 유동 시간
+    public float FixedTime { get; private set; } // 필수 시간
+    public float AfterFlexibleMarginTime { get; private set; } // 최대 뒤 유동 시간
     public float CurrentAfterFlexTime { get; private set; } // 현재 뒤 유동 시간
 
     public CombineRule NextCombineRule { get; private set; } // 후속 조합 규칙
     public CombineRule PreCombineRule { get; private set; } // 선행 조합 규칙
 
-    public bool IsDeathTrigger {  get; private set; } // 사망 트리거
+    public bool IsDeathTrigger { get; private set; } // 사망 트리거
 
-    public AnimationClip SuccessSequence {  get; private set; } // 성공 노트 시퀀스
-    public AnimationClip FailSequence {  get; private set; } // 실패 노트 시퀀스
-    public AnimationClip FixedSequence {get; private set;} // 고정 시간 노트 시퀀스
-    public AnimationClip AfterFlexSequence {get; private set;} // 뒤 유동 시간 노트 시퀀스
+    public AnimationClip SuccessSequence { get; private set; } // 성공 노트 시퀀스
+    public AnimationClip FailSequence { get; private set; } // 실패 노트 시퀀스
+    public AnimationClip FixedSequence { get; private set; } // 고정 시간 노트 시퀀스
+    public AnimationClip AfterFlexSequence { get; private set; } // 뒤 유동 시간 노트 시퀀스
     public AudioClip BlockSound { get; private set; } // 블럭 사운드
 
     protected GhostManager ghostManager;
@@ -56,7 +55,7 @@ public class Block : TimelineElement
     protected GameObject clone; // 클론 위치
     protected Animator animator;
     protected Renderer blockMesh;
-
+    protected GameObject third;
     protected Material ghostOutline;
 
     protected virtual void Awake()
@@ -80,12 +79,15 @@ public class Block : TimelineElement
         {
             blockMesh = _blockMesh;
         }
-
-
-
-        GameManager.Instance.OnSimulationMode += ToggleGhost;
+        third = transform.GetChild(2).gameObject;
 
         ghostOutline = ResourceManager.Instance.LoadMaterial("OutlineGhost");
+
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.OnStart += DeactiveMesh;
     }
 
     public virtual void LoadData()
@@ -104,7 +106,7 @@ public class Block : TimelineElement
 
         SuccessSequence = ResourceManager.Instance.LoadAnimationClip(data.successSequence);
         FailSequence = ResourceManager.Instance.LoadAnimationClip(data.failSequence);
-        
+
 
         FixedSequence = ResourceManager.Instance.LoadAnimationClip(data.fixedSequence);
         AfterFlexSequence = ResourceManager.Instance.LoadAnimationClip(data.afterFlexSequence);
@@ -119,7 +121,9 @@ public class Block : TimelineElement
         if (!IsActive)
         {
             AddOutlineMaterial();
-            FindObjectOfType<PostProcessingToggle>().EnablePostProcessing();
+            if (!GameManager.Instance.SimulationMode)
+                FindObjectOfType<PostProcessingToggle>().TogglePostProcessing();
+
             TimelineManager.Instance.AddBlock(this);
         }
         else
@@ -129,15 +133,15 @@ public class Block : TimelineElement
             ghostManager.RemoveGhost();
             Debug.Log("블럭 데이터 삭제!");
         }
-
+        ToggleGhost();
         TimelineManager.Instance.OnBlockUpdate?.Invoke();
-      
+
     }
 
     public override string GetInteractComponent()
     {
         if (!IsActive) return "E키를 눌러 활성화";
-        else return "X키를 눌러 비활성화";
+        else return "E키를 눌러 비활성화";
     }
 
     public void DataToGhost()
@@ -152,12 +156,12 @@ public class Block : TimelineElement
 
     public virtual void SetGhost()
     {
-        if(ghostManager == null) return;    
+        if (ghostManager == null) return;
         var animatorController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         if (IsSuccess)
         {
             ghostManager.ghostClip = SuccessSequence;
-    
+
         }
         else
         {
@@ -177,17 +181,13 @@ public class Block : TimelineElement
         gameObject.SetActive(false);
     }
 
-    private void ToggleGhost()
+    public void ToggleGhost()
     {
-        foreach (Transform child in clone.transform)
-        {
-            Debug.Log(GameManager.Instance.SimulationMode);
-            child.gameObject.SetActive(!GameManager.Instance.SimulationMode);
-            if (GameManager.Instance.SimulationMode) RemoveOutlineMaterial();
-            else AddOutlineMaterial();
-
-        }
+        clone.gameObject.SetActive(GameManager.Instance.SimulationMode);
+        if (!GameManager.Instance.SimulationMode) RemoveOutlineMaterial();
+        else AddOutlineMaterial();
     }
+
 
     public override void SetInteractComponenet(string newText)
     {
@@ -216,5 +216,16 @@ public class Block : TimelineElement
             curMaterials.RemoveAll(m => m.name.StartsWith(ghostOutline.name));
             blockMesh.materials = curMaterials.ToArray();
         }
+    }
+
+    private void DeactiveMesh()
+    {
+
+        third.gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnStart -= DeactiveMesh;
     }
 }

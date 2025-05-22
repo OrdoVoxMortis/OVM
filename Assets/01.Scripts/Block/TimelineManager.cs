@@ -316,6 +316,7 @@ public class TimelineManager : SingleTon<TimelineManager>
 
     public void LoadBlocks(List<TimelineSaveData> elementIds)
     {
+        PlacedBlocks.Clear();
         Block[] allBlocks = FindObjectsOfType<Block>();
         Event[] allEvents = FindObjectsOfType<Event>();
 
@@ -372,5 +373,10 @@ public class TimelineManager : SingleTon<TimelineManager>
     public void SetBlockConnector(BlockConnector con)
     {
         blockConnector = con;
+    }
+
+    public List<TimelineElement> GetActiveElements()
+    {
+        return PlacedBlocks.Where(b => b.IsActive).ToList();
     }
 }

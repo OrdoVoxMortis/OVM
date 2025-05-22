@@ -38,11 +38,11 @@ public class PlayerGroundState : PlayerBaseState
 
     }
 
-    protected override void OnSitStarted(InputAction.CallbackContext context)
+    protected override void OnSquatStarted(InputAction.CallbackContext context)
     {
         if (UIManager.Instance.isUIActive) return;
         stateMachine.ChangeState(stateMachine.SquatState);
-        base.OnSitStarted(context);
+        base.OnSquatStarted(context);
     }
 
     protected override void OnMovementStarted(InputAction.CallbackContext context)

@@ -11,6 +11,7 @@ public class MissionNote : MonoBehaviour, IInteractable
 {
     [SerializeField] private string id; // 의뢰서 고유 id
     public string StageId {  get; private set; } // 스테이지 id
+    public string StageName { get; private set; } // 씬 이름 (씬 로드 될때 사용함)
     public string Description {  get; private set; } // 의뢰 내용
     public string ImageName {  get; private set; } // 의뢰 이미지
     public string DialogText { get; private set; } // 의로 대사 이미지
@@ -19,10 +20,7 @@ public class MissionNote : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        //questUI = FindObjectOfType<UI_Quest>();
         LoadData();
-        if(GameManager.Instance.isEnd)
-            gameObject.SetActive(false);
     }
 
     public void LoadData()
@@ -32,6 +30,10 @@ public class MissionNote : MonoBehaviour, IInteractable
         Description = data.description;
         ImageName = data.filePath;
         DialogText = data.dialog;
+        if (DataManager.Instance.stageDict.TryGetValue(StageId, out var stageData))
+        {
+            StageName = stageData.stageName;
+        }
     }
 
     public void OnInteract()
@@ -49,8 +51,9 @@ public class MissionNote : MonoBehaviour, IInteractable
             {
                 Debug.Log("대사 없음: textBox는 비활성화 상태로 설정된다");
             }
-            questUI.SetQuest(Description, image, DialogText);
+            questUI.SetQuest(id,Description, image, DialogText, StageName);
             UIManager.Instance.UIActive();
+            questUI.gameObject.SetActive(true);
             UIManager.Instance.ShowUI<UI_Quest>("UI_Quest");
             return;
         }

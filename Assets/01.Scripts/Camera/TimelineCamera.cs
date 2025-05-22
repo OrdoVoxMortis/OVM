@@ -27,6 +27,8 @@ public class TimelineCamera : MonoBehaviour
 
     }
 
+    private int number = 0;
+
     [Header("VirtualCamera Setting")]
     public List<CameraEntry> cameraEntries = new List<CameraEntry>();
 
@@ -50,6 +52,8 @@ public class TimelineCamera : MonoBehaviour
                 entry.failureTimeline.gameObject.SetActive(false);
 
         }
+
+        number = 0;
     }
 
     private void Start()
@@ -69,7 +73,9 @@ public class TimelineCamera : MonoBehaviour
         if (entry.useTimeline)
         {
             List<Block> blocks = TimelineManager.Instance.ReturnBlocks();
-            bool isSuccess = blocks[id].IsSuccess;// 성공 여부
+            bool isSuccess = (number < blocks.Count) ? blocks[number].IsSuccess : true;// 성공 여부
+            if(action is GhostManager)
+                number++;
             PlayTimeline(entry, isSuccess, action);
         }
         else
@@ -164,8 +170,15 @@ public class TimelineCamera : MonoBehaviour
         //이벤트 해제
         director.stopped -= OnTimelineStopped;
         // 속도 리셋
-        var rootPlable = director.playableGraph.GetRootPlayable(0);
-        rootPlable.SetSpeed(1f);
+        var graph = director.playableGraph;
+        if (graph.IsValid() && graph.GetRootPlayableCount() > 0)
+        {
+            graph.GetRootPlayable(0).SetSpeed(1f);
+        }
+        else
+        {
+            Debug.Log($"{name} 속도리셋을 건너뜁니다.");
+        }
         // 오브젝트 비활성화
         director.gameObject.SetActive(false);
         

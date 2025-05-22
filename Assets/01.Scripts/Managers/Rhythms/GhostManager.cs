@@ -40,6 +40,9 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     public Material ghostMat;
     public Material outlineMat;
 
+    public bool isAnimMatch;
+    private float animMatch;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -93,10 +96,14 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             }
             else return;
         }
-
-        ghostOriginal.AddComponent<GhostAnimation>().PlayAnimation();
         SoundManager.Instance.PlaySfx(blockSound);
+
+        ghostOriginal.AddComponent<GhostAnimation>();
+        ghostOriginal.GetComponent<GhostAnimation>().animationSpeed = animMatch;
+
         ghostOriginal.GetComponent<GhostAnimation>().moving = direction.normalized * ghostGaps;
+        ghostOriginal.GetComponent<GhostAnimation>().PlayAnimation();
+        
         ghostOriginal.transform.position = playerTrans.position;
         ghostOriginal.transform.localRotation = Quaternion.Euler(rotateAngle);
         ghostOriginal.transform.forward = direction;
@@ -127,7 +134,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             hitSound[0] = "Note_N" + level;
             hitSound[1] = "Note_P" + level;
 
-            Debug.Log(hitSound[0]);
+            //Debug.Log(hitSound[0]);
 
             if (hitSound[0] != null && hitSound[1] != null)
             {
@@ -153,6 +160,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             RemoveGhost();
         }
 
+
         this.beats = beats;
         this.bpm = bpm;
         this.pointNoteList = pointNoteList;
@@ -162,23 +170,36 @@ public class GhostManager : MonoBehaviour, IRhythmActions
     void MakeGhost()
     {
         Vector3 createPos = playerTrans.position;
-        float time = 0f;
+        
         float realTime = 0f;
         Renderer[] render;
-        for (int i = 0; i < beats.Count; i++)
+
+        for (int i = 0; i < beats.Count; i++) //시간 계산
         {
             float nextBeat = beats[i];
             if (nextBeat <= 0)
             {
                 nextBeat = 1;
             }
-            
-            if(bpm <= 0)
+
+            if (bpm <= 0)
             {
                 bpm = 120f; //default
             }
 
+            realTime += (60f / bpm) / nextBeat;
 
+            checkTimes.Add(realTime);
+        }
+
+        if (isAnimMatch)
+            animMatch = ghostClip.length / checkTimes[checkTimes.Count - 1];
+        else
+            animMatch = 1f;
+
+        for (int i = 0; i < beats.Count; i++) //고스트 생성
+        {
+            float nextBeat = beats[i];
             GameObject go = Instantiate(ghostOriginal, playerTrans);
             Ghost ghost = go.AddComponent<Ghost>();
             if(go.TryGetComponent<Animator>(out Animator animator))
@@ -197,22 +218,27 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
             if (ghostClip != null)
             {
-                time += (60f / bpm) / nextBeat;
-                realTime += (60f / bpm) / nextBeat;
-                while (true)
+                if (isAnimMatch)
                 {
-                    if (time < ghostClip.length)
-                        break;
-                    time -= ghostClip.length;
+                    realTime = checkTimes[i] * animMatch;
                 }
-                ghostClip.SampleAnimation(ghost.gameObject, time);
-                ghost.animTime = time;
+                else
+                {
+                    realTime = checkTimes[i];
+                    while(true)
+                    {
+                        if (realTime < ghostClip.length)
+                            break;
+                        realTime -= ghostClip.length;
+                    }
+                }
+                ghostClip.SampleAnimation(ghost.gameObject, realTime);
+                ghost.animTime = realTime;
                 
             }
 
             if (ghostMat != null) //고스트 머테리얼이 여부
             {
-                //render = ghost.GetComponent<Renderer>();
                 render = ghost.GetComponentsInChildren<Renderer>(includeInactive: true);
                 if (render != null)
                 {
@@ -230,9 +256,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             }
 
             ghosts.Add(ghost);
-            checkTimes.Add(realTime);
         }
-
 
         if (outlineMat != null) //아웃라인 머테리얼 여부
         {
@@ -249,22 +273,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
 
             ghostCurTiming.transform.position = ghosts[0].transform.position;
             ghostCurTiming.transform.localRotation = Quaternion.Euler(rotateAngle);
-            /*
-            render = ghostCurTiming.GetComponent<Renderer>();
-            if (render == null)
-                render = ghostCurTiming.GetComponentInChildren<Renderer>(includeInactive: true);
-
-            Material[] mats;
-            if (render != null)
-            {
-                mats = render.materials;
-
-                for (int i = 0; i < mats.Length; i++)
-                    mats[i] = outlineMat;
-
-                render.materials = mats;
-            }
-            */
+            
             render = ghostCurTiming.GetComponentsInChildren<Renderer>(includeInactive: true);
             if (render != null)
             {

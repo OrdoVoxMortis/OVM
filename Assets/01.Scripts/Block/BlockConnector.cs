@@ -40,7 +40,11 @@ public class BlockConnector : MonoBehaviour
 
             if (NavMesh.CalculatePath(start, end, NavMesh.AllAreas, path))
             {
-                fullPathPoints.AddRange(path.corners);
+                for (int j = 0; j < path.corners.Length - 1; j++)
+                {
+                    var preciseSegment = GetPreciseNavMeshLine(path.corners[j], path.corners[j + 1], 0.2f); // NavMesh 위 경로 추출
+                    fullPathPoints.AddRange(preciseSegment);
+                }
             }
             else Debug.LogWarning($"[PATH FAIL] from {start} to {end}");
         }
@@ -52,10 +56,36 @@ public class BlockConnector : MonoBehaviour
 
     }
 
+    List<Vector3> GetPreciseNavMeshLine(Vector3 from, Vector3 to, float step = 0.2f)
+    {
+        List<Vector3> pathPoints = new();
+
+        float dist = Vector3.Distance(from, to);
+        int steps = Mathf.CeilToInt(dist / step);
+
+        for (int i = 0; i <= steps; i++)
+        {
+            float t = i / (float)steps;
+            Vector3 rawPoint = Vector3.Lerp(from, to, t);
+
+            // NavMesh 위 위치 찾기
+            if (NavMesh.SamplePosition(rawPoint, out var hit, 1.0f, NavMesh.AllAreas))
+            {
+                pathPoints.Add(hit.position); // 정확히 NavMesh 위
+            }
+        }
+
+        return pathPoints;
+    }
+
     private void ToggleLine()
     {
-        gameObject.SetActive(!GameManager.Instance.SimulationMode);
+        gameObject.SetActive(GameManager.Instance.SimulationMode);
 
     }
 
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnSimulationMode -= ToggleLine;
+    }
 }

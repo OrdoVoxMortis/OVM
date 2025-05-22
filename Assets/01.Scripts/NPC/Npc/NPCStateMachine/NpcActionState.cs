@@ -1,7 +1,5 @@
-
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.InputSystem.Android;
 
 public class NpcActionState : NpcBaseState
 {
@@ -14,7 +12,6 @@ public class NpcActionState : NpcBaseState
 
     private bool isMovingToTarget = false;
     private Vector3 lastDestination = Vector3.positiveInfinity;
-    private bool hasOpenDoor = false;
     private bool hasNotified = false;
 
     public NpcActionState(NpcStateMachine stateMachine) : base(stateMachine)
@@ -25,6 +22,7 @@ public class NpcActionState : NpcBaseState
     {
         base.Enter();
         Debug.Log("action");
+        StopAnimation(stateMachine.npc.AnimationData.TalkingParameterHash);
     }
     public override void Exit()
     {
@@ -141,7 +139,6 @@ public class NpcActionState : NpcBaseState
         if (stateMachine.npc.target.IsNotified || hasNotified) return;
         var agent = stateMachine.npc.Agent;
         agent.speed = 4f;
-        
 
         Vector3 curTargetPos = stateMachine.npc.target.transform.position;
 
@@ -152,17 +149,13 @@ public class NpcActionState : NpcBaseState
         }
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance) //도착시
         {
-            if (!hasOpenDoor && stateMachine.npc is Friend friend)
-            {
-                hasOpenDoor = true;
-                agent.isStopped = true;
-                friend.door.OpenDoor();
-                agent.isStopped = false;
-                agent.SetDestination(stateMachine.npc.target.transform.position);
-                return;
-            }
-            StartAnimation(stateMachine.npc.AnimationData.NotifyParameterHash);
+
             StopAnimation(stateMachine.npc.AnimationData.RunParameterHash);
+            agent.isStopped = true;
+            isMovingToTarget = false;
+
+            StartAnimation(stateMachine.npc.AnimationData.NotifyParameterHash);
+
             Vector3 lookDir = (stateMachine.npc.target.transform.position - stateMachine.npc.transform.position);
             lookDir.y = 0;
             if (lookDir.sqrMagnitude > 0.01f)
@@ -171,8 +164,6 @@ public class NpcActionState : NpcBaseState
                 Quaternion rotated = lookRot * Quaternion.Euler(0, -90f, 0);
                 stateMachine.npc.transform.rotation = rotated;
             }
-            agent.isStopped = true;
-            isMovingToTarget = false;
 
             if (stateMachine.npc is Friend f)
             {
@@ -180,14 +171,15 @@ public class NpcActionState : NpcBaseState
                 f.NotifyTarget(stateMachine.npc.target, () =>
                 {
                     StopAnimation(stateMachine.npc.AnimationData.NotifyParameterHash);
+                    f.Agent.isStopped = false;
+                    f.Agent.SetDestination(f.startPosition.position);
                 });
 
             }
         }
         else
         {
-            agent.isStopped = false;
-            //agent.SetDestination(stateMachine.npc.target.transform.position);
+                agent.isStopped = false;
         }
     }
     private void LookAtTarget()
@@ -246,4 +238,5 @@ public class NpcActionState : NpcBaseState
             stateMachine.ChangeState(stateMachine.IdleState);
         }
     }
+
 }

@@ -34,6 +34,7 @@ public class NpcIdleState : NpcBaseState
         }
         else if (stateMachine.npc.behaviorType == BaseBehaviorType.Idle)
         {
+            FriendIdle();
             TalkingIdle();
         }
         else base.Update();

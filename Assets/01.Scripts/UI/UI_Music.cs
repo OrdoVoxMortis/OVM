@@ -44,6 +44,7 @@ public class UI_Music : BaseUI
         GameManager.Instance.Player.Input.playerCamera.enabled = false;
         SoundManager.Instance.PlaySfx("Effect_Dummy");
         PlayBGM();
+        SoundManager.Instance.SetSelectedBGM(mp3BgmList[currentBGM].name);
 
     }
 

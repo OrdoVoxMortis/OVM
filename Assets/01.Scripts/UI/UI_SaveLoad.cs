@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
+using UniGLTF;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,28 +45,45 @@ public class UI_SaveLoad : BaseUI
     }
     private void SetNormalStage()
     {
+        if (stageWindow.childCount != 0)
+        {
+            foreach (var child in stageWindow.GetChildren())
+            {
+                Destroy(child.gameObject);
+            }
+        }
         LoadSaveData();
-        //ShowStageData(normalStagePrefab);
     }
 
     private void SetHiddenStage()
     {
+        if (stageWindow.childCount != 0)
+        {
+            foreach (var child in stageWindow.GetChildren())
+            {
+                Destroy(child.gameObject);
+            }
+        }
         //ShowStageData(hiddenStagePrefab);
         LoadHidddenData();
     }
 
     private void SetEventData()
     {
+        if (stageWindow.childCount != 0)
+        {
+            foreach (var child in stageWindow.GetChildren())
+            {
+                Destroy(child.gameObject);
+            }
+        }
         //ShowStageData(eventStagePrefab);
         LoadEventData();
     }
 
     private void ShowStageData(GameObject go)
     {
-        if (currentInstance != null)
-        {
-            Destroy(currentInstance);
-        }
+
 
         if (go != null)
         {
@@ -77,8 +95,9 @@ public class UI_SaveLoad : BaseUI
 
     private void LoadSaveData()
     {
+
         string path = Application.persistentDataPath;
-        string[] saveFiles = Directory.GetFiles(path, "*.json");
+        string[] saveFiles = Directory.GetFiles(path, "save.json");
 
         foreach (string file in saveFiles)
         {
@@ -95,8 +114,12 @@ public class UI_SaveLoad : BaseUI
     }
     private void LoadHidddenData()
     {
-        string path = $"{Application.persistentDataPath}/Hidden";
-        string[] saveFiles = Directory.GetFiles(path, "*.json");
+        if (currentInstance != null)
+        {
+            Destroy(currentInstance);
+        }
+        string path = $"{Application.persistentDataPath}";
+        string[] saveFiles = Directory.GetFiles(path, "hidden_save.json");
 
         foreach (string file in saveFiles)
         {
@@ -113,6 +136,10 @@ public class UI_SaveLoad : BaseUI
     }
     private void LoadEventData()
     {
+        if (currentInstance != null)
+        {
+            Destroy(currentInstance);
+        }
         var unlockedEvents = SaveManager.Instance.GetUnlockEvents();
         if (unlockedEvents == null || unlockedEvents.Count == 0) return;
 
@@ -120,13 +147,13 @@ public class UI_SaveLoad : BaseUI
         {
             if (eventData == null || !eventData.isCollect) continue;
 
-            currentInstance = Instantiate(eventStagePrefab, stageWindow);
-            currentInstance.transform.localScale = Vector3.one;
+            GameObject instance = Instantiate(eventStagePrefab, stageWindow);
+            instance.transform.localScale = Vector3.one;
 
-            var slotUI = currentInstance.GetComponent<UI_EventSlot>();
+            var slotUI = instance.GetComponent<UI_EventSlot>();
             if (slotUI != null) slotUI.SetSlot(eventData);
 
-            loadedSlots.Add(currentInstance);
+            loadedSlots.Add(instance);
         }
     }
     public void DeleteStageData()
