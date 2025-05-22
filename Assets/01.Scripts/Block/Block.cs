@@ -2,7 +2,6 @@
 using GoogleSheet.Core.Type;
 using UnityEngine;
 using Hamster.ZG.Type;
-using System.Collections.Generic;
 using System.Linq;
 
 [UGS(typeof(BlockType))]
@@ -80,8 +79,10 @@ public class Block : TimelineElement
         {
             blockMesh = _blockMesh;
         }
+        third = transform.GetChild(2).gameObject;
 
         ghostOutline = ResourceManager.Instance.LoadMaterial("OutlineGhost");
+
     }
 
     private void Start()
@@ -219,7 +220,12 @@ public class Block : TimelineElement
 
     private void DeactiveMesh()
     {
-        third = transform.GetChild(2).gameObject;
+
         third.gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnStart -= DeactiveMesh;
     }
 }
