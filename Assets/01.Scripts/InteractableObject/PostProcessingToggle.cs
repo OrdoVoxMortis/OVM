@@ -19,6 +19,7 @@ public class PostProcessingToggle : MonoBehaviour
   
     void Start()
     {
+        GameManager.Instance.SimulationMode = false;
         Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
         if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
         {
