@@ -223,7 +223,7 @@ public class NPC : MonoBehaviour
             Animator.SetBool(AnimationData.RunParameterHash, false);
             Animator.SetBool(AnimationData.TriggerParameterHash, true);
             if (stopCoroutine != null) StopCoroutine(stopCoroutine);
-            stopCoroutine = StartCoroutine(StopDelay(3f, isWalking));
+            stopCoroutine = StartCoroutine(StopDelay(0f, isWalking));
 
         }
     }

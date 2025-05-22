@@ -26,13 +26,14 @@ public class PostProcessingToggle : MonoBehaviour
         }
         input = GameManager.Instance.Player.Input;
         input.playerActions.Simulate.started += OnSimulateInput;
+
     }
 
     public void TogglePostProcessing()
     {
         isEnabled = !isEnabled;
         GameManager.Instance.Player.isSimulMode = isEnabled;
-        GameManager.Instance.OnSimulationMode?.Invoke();
+
         Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
 
         //if (volume.profile.TryGet<ColorAdjustments>(out colorAdjustments))
@@ -83,9 +84,30 @@ public class PostProcessingToggle : MonoBehaviour
             playRhythm_UI.SetActive(false);
             UIManager.Instance.UIDeactive();
         }
+        GameManager.Instance.OnSimulationMode?.Invoke();
+
+        foreach(var block in TimelineManager.Instance.GetActiveBlock())
+        {
+            block.ToggleGhost();
+        }
+
+        Debug.Log("시뮬레이션 모드: " + GameManager.Instance.SimulationMode);
     }
     public void EnablePostProcessing()
     {
+        if (isEnabled)
+        {
+            if (simulationPlayer != null)
+            {
+                Destroy(simulationPlayer);
+                Debug.Log("기존 시뮬레이션 플레이어 제거됨");
+            }
+            StartCoroutine(RestorePlayerPosition());
+            GameManager.Instance.Player.Input.SubscribeCancleUI();
+            timeLine_UI.SetActive(false);
+            playRhythm_UI.SetActive(false);
+            UIManager.Instance.UIDeactive();
+        }
         isEnabled = true;
         GameManager.Instance.Player.isSimulMode = isEnabled;
         Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
@@ -95,6 +117,12 @@ public class PostProcessingToggle : MonoBehaviour
             GameManager.Instance.SimulationMode = true;
             savedPlayerPosition = GameManager.Instance.Player.transform.position;
             Debug.Log("플레이어 위치 저장!" + savedPlayerPosition);
+            simulationPlayer = Instantiate(playerPrefab, savedPlayerPosition, Quaternion.identity);
+            if (simulationPlayer != null)
+            {
+                Player_Ghost player_Ghost = simulationPlayer.gameObject.GetComponent<Player_Ghost>();
+                player_Ghost.Initialize(GameManager.Instance.Player);
+            }
             GameManager.Instance.Player.Input.UnsubscribeCancleUI();
             timeLine_UI.SetActive(true);
             playRhythm_UI.SetActive(true);
@@ -106,7 +134,7 @@ public class PostProcessingToggle : MonoBehaviour
     private void OnSimulateInput(InputAction.CallbackContext context)
     {
         //TODO : 테스트를 위해 GameManager.Instance.SelectedBGM != null 를 주석처리함
-        if (context.phase == InputActionPhase.Started && GameManager.Instance.SelectedBGM != null)
+        if (context.phase == InputActionPhase.Started && GameManager.Instance.SelectedBGM != null && !GameManager.Instance.Player.isLockpick == true)
         {
             TogglePostProcessing();
         }

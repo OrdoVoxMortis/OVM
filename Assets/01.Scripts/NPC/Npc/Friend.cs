@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class Friend : NPC
 {
-    public bool IsNotifying { get; private set; } = false;
-    public DoorController door;
+    public bool IsNotifying { get; private set; } = false; 
+    public Transform startPosition;
+
+    protected override void Start()
+    {
+        base.Start();
+        GameObject startObj = new GameObject("StartTransform");
+        startObj.transform.position = transform.position;
+        startObj.transform.rotation = transform.rotation;
+
+        startPosition = startObj.transform;
+    }
     public void NotifyTarget(Target target, System.Action onComplete)
     {
         if (IsNotifying) return;
