@@ -20,7 +20,6 @@ public class MissionNote : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        //questUI = FindObjectOfType<UI_Quest>();
         LoadData();
     }
 

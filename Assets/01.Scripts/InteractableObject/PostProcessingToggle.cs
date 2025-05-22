@@ -86,6 +86,19 @@ public class PostProcessingToggle : MonoBehaviour
     }
     public void EnablePostProcessing()
     {
+        if (isEnabled)
+        {
+            if (simulationPlayer != null)
+            {
+                Destroy(simulationPlayer);
+                Debug.Log("기존 시뮬레이션 플레이어 제거됨");
+            }
+            StartCoroutine(RestorePlayerPosition());
+            GameManager.Instance.Player.Input.SubscribeCancleUI();
+            timeLine_UI.SetActive(false);
+            playRhythm_UI.SetActive(false);
+            UIManager.Instance.UIDeactive();
+        }
         isEnabled = true;
         GameManager.Instance.Player.isSimulMode = isEnabled;
         Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;

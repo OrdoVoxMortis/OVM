@@ -19,6 +19,7 @@ public class Restart : MonoBehaviour
 
     public void RestartTest()
     {
+        UIManager.Instance.ClearUI();
         GameManager.Instance.LoadScene("Lobby_Scene");
     }
    
