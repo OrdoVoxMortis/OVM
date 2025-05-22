@@ -71692,6 +71692,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlockConnector
       objectReference: {fileID: 0}
+    - target: {fileID: 7706920124392896190, guid: 8dc8ba327b69d9449b495af61fb6d16f,
+        type: 3}
+      propertyPath: m_Parameters.numCornerVertices
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8981815066764248946, guid: 8dc8ba327b69d9449b495af61fb6d16f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -79085,6 +79090,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Interaction_Door (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808755204304866110, guid: b873a0f1b4b909a44b47dd1498e73e2e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808755204304866110, guid: b873a0f1b4b909a44b47dd1498e73e2e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6808755204304866110, guid: b873a0f1b4b909a44b47dd1498e73e2e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8763954968891055606, guid: b873a0f1b4b909a44b47dd1498e73e2e,
         type: 3}
