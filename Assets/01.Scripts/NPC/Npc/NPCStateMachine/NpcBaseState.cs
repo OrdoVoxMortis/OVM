@@ -247,6 +247,12 @@ public class NpcBaseState : IState
 
     public void TalkingIdle()
     {
+        if (stateMachine.npc is Friend friend) 
+        {
+            FriendIdle();
+            return;
+        }
+        FriendIdle();
         stateMachine.npc.Agent.isStopped = true;
         StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
         StartAnimation(stateMachine.npc.AnimationData.TalkingParameterHash);
@@ -299,5 +305,32 @@ public class NpcBaseState : IState
             }
         }
 
+    }
+
+    public void FriendIdle()
+    {
+        if (stateMachine.npc is Friend friend)
+        {
+            var agent = friend.Agent;
+
+            bool isAtPosition = !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
+            if (!isAtPosition)
+            {
+                RotateVelocity();
+                if (!agent.hasPath || Vector3.Distance(agent.destination, friend.startPosition.position) > 0.1f)
+                {
+                    agent.SetDestination(friend.startPosition.position);
+                }
+                StopAnimation(friend.AnimationData.TalkingParameterHash);
+                StopAnimation(friend.AnimationData.RunParameterHash) ;
+                StartAnimation(friend.AnimationData.WalkParameterHash);
+                agent.isStopped = false;
+            }
+            else
+            {
+                friend.transform.rotation = friend.startPosition.rotation;
+                StopAnimation(friend.AnimationData.WalkParameterHash);
+            }
+        }
     }
 }
