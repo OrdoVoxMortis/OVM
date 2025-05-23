@@ -22,6 +22,7 @@ public class BlockConnector : MonoBehaviour
     {
         TimelineManager.Instance.OnBlockUpdate += DrawLines;
         GameManager.Instance.OnSimulationMode += ToggleLine;
+        GameManager.Instance.OnStart += DeactiveLine;
         gameObject.SetActive(false);
     }
     public void DrawLines()
@@ -84,8 +85,14 @@ public class BlockConnector : MonoBehaviour
 
     }
 
+    private void DeactiveLine()
+    {
+        gameObject.SetActive(false);
+    }
     private void OnDestroy()
     {
+        TimelineManager.Instance.OnBlockUpdate -= DrawLines;
         GameManager.Instance.OnSimulationMode -= ToggleLine;
+        GameManager.Instance.OnStart -= DeactiveLine;
     }
 }
