@@ -17,6 +17,7 @@ public class DataManager : SingleTon<DataManager>
     public Dictionary<string, NpcTypeData> npcTypeDict { get; private set; } = new();
     public Dictionary<string, ResultData> resultDict { get; private set; } = new();
     public Dictionary<string, DialogData> dialogDict { get; private set; } = new();
+    public HashSet<string> interactMissionNoteIds { get; private set; } = new(); // 상호작용한 편지 오브젝트 
     protected override void Awake()
     {
         base.Awake();
@@ -37,6 +38,16 @@ public class DataManager : SingleTon<DataManager>
         suspicionDict = SuspicionData.GetDictionary();
         resultDict = ResultData.GetDictionary();
         dialogDict = DialogData.GetDictionary();
+    }
+
+    public void OnInteractMissionNote(string id)
+    {
+        interactMissionNoteIds.Add(id);
+    }
+
+    public bool IsMissionNoteOnInteract(string id)
+    {
+        return interactMissionNoteIds.Contains(id);
     }
 
 }
