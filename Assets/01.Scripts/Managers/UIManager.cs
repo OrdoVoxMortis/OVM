@@ -148,6 +148,7 @@ public class UIManager : SingleTon<UIManager>
             }
         }
 
+        standaloneUIs.Clear();
         activeUIs.Clear();
         uiStack.Clear();
         isUIActive = false;
@@ -238,8 +239,11 @@ public class UIManager : SingleTon<UIManager>
 
     public void OnEscPressed()
     {
-        GameManager.Instance.Player.Input.playerCamera.enabled = true;
-        DeactivateStandaloneUI("Mp3_Player");
+        UIDeactive();
+        if (standaloneUIs.ContainsKey("Mp3_Player"))
+        {
+            DeactivateStandaloneUI("Mp3_Player"); // 추가작업 필요
+        }
         if (uiStack.Count > 0)
         {
            CloseTopPopup();

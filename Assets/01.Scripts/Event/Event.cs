@@ -99,6 +99,12 @@ public class Event : TimelineElement
             meshRenderer.materials = curMaterials.ToArray();
         }
     }
+
+    public void ToggleOutline()
+    {
+        if (!GameManager.Instance.SimulationMode) RemoveOutlineMaterial();
+        else AddOutlineMaterial();
+    }
 }
 
    

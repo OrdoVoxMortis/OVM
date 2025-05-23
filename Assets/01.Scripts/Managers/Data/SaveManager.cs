@@ -11,7 +11,7 @@ public class SaveData
 {
     public string stageId;
     public float playTime;
-    public string musicId; //(이름)
+    public string musicName; //(이름)
     public List<BlockSaveData> blocks;
     public List<EventSaveData> events;
     public List<TimelineSaveData> timeline;
@@ -110,7 +110,7 @@ public class SaveManager : SingleTon<SaveManager>
             }
         }
 
-        data.musicId = GameManager.Instance.BgmId;
+        data.musicName = GameManager.Instance.SelectedBGM.name;
 
         string path = SavePath;
         if(DataManager.Instance.stageDict.TryGetValue(data.stageId, out var stage))
@@ -129,6 +129,7 @@ public class SaveManager : SingleTon<SaveManager>
 
     public void Replay(bool isHidden)
     {
+        GameManager.Instance.isEnd = false;
         eventReplay = false;
         isReplay = true;
         string path = isHidden ? HiddenPath : SavePath;
@@ -143,7 +144,7 @@ public class SaveManager : SingleTon<SaveManager>
         SaveData data = JsonUtility.FromJson<SaveData>(json);
         
 
-        if (ResourceManager.Instance.InGameBGMDict.TryGetValue(data.musicId, out var clip))
+        if (ResourceManager.Instance.InGameBGMDict.TryGetValue(data.musicName, out var clip))
         {
             GameManager.Instance.SetSelectedBGM(clip);
         }
@@ -162,7 +163,7 @@ public class SaveManager : SingleTon<SaveManager>
         GameManager.Instance.LoadScene(DataManager.Instance.stageDict[data.stageId].stageName);
 
     }
-    public void ReplayEvent()
+    public void ReplayEvent(int id)
     {
         eventReplay = true;
         isReplay = true;
@@ -176,7 +177,7 @@ public class SaveManager : SingleTon<SaveManager>
 
         EventUnlockData data = JsonUtility.FromJson<EventUnlockData>(json);
 
-        var targetEvent = data.unlockedEvents[0];
+        var targetEvent = data.unlockedEvents[id];
 
         if (ResourceManager.Instance.SfxDict.TryGetValue(targetEvent.bgmName, out var clip))
         {
@@ -222,7 +223,6 @@ public class SaveManager : SingleTon<SaveManager>
     {
         if (scene.name != "Lobby_Scene")
         {
-            TimelineManager.Instance.LoadBlocks(elementIds);
             GameManager.Instance.OnStart?.Invoke();
 
             StartCoroutine(DelayInit());
@@ -233,6 +233,7 @@ public class SaveManager : SingleTon<SaveManager>
     private IEnumerator DelayInit()
     {
         yield return null;
+        TimelineManager.Instance.LoadBlocks(elementIds);
 
         for (int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
         {

@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 
 public class ResourceManager : SingleTon<ResourceManager>
@@ -14,6 +15,7 @@ public class ResourceManager : SingleTon<ResourceManager>
     public Dictionary<string, Sprite> ImageDict = new(); 
     public Dictionary<string, AnimationClip> AnimationClipDict = new(); 
     public Dictionary<string, Material> MaterialDict = new(); 
+    public Dictionary<string, VideoClip> VideoClipDict = new();
     public AudioMixer audioMixer;
     protected override void Awake()
     {
@@ -113,5 +115,17 @@ public class ResourceManager : SingleTon<ResourceManager>
         var mat = Resources.Load<Material>($"Material/{name}");
         MaterialDict[name] = mat;
         return mat;
+    }
+
+    public VideoClip LoadVideoClip(string name)
+    {
+        if(VideoClipDict.TryGetValue(name, out var cache))
+        {
+            return cache;
+        }
+
+        var clip = Resources.Load<VideoClip>($"Video/{name}");
+        VideoClipDict[name] = clip;
+        return clip;
     }
 }

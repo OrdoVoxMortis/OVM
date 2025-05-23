@@ -85,7 +85,7 @@ public class Rifle : MonoBehaviour, IInteractable
     public string GetInteractComponent()
     {
         if (!isAiming) return "E키를 눌러 조준 모드 진입";
-        else if (isAiming && !interactText.gameObject.activeSelf) return "E키를 눌러 조준 모드 해제";
+        else if (isAiming && !interactText.gameObject.activeSelf) return "E키를 눌러 조준 모드 해제\n\n마우스 휠로 줌 조절";
         else return string.Empty;
     }
 

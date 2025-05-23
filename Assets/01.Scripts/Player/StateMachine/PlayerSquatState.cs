@@ -41,7 +41,7 @@ public class PlayerSquatState : PlayerGroundState
     }
 
 
-    protected override void OnSitStarted(InputAction.CallbackContext context)
+    protected override void OnSquatStarted(InputAction.CallbackContext context)
     {
         if (stateMachine.Player.isSquat) 
             stateMachine.ChangeState(stateMachine.IdleState);

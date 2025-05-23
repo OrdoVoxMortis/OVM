@@ -41,6 +41,12 @@ public class UI_Volume : PopupUI
             if (quitBtn != null) quitBtn.gameObject.SetActive(false);
             if (lobbyBtn != null) lobbyBtn.gameObject.SetActive(true);
         }
+
+        if (currentScene == "StageH_Scene")
+        {
+            if (quitBtn != null) quitBtn.gameObject.SetActive(false);
+            if (lobbyBtn != null) lobbyBtn.gameObject.SetActive(true);
+        }
     }
     public void SetMasterVolume(float value)
     {

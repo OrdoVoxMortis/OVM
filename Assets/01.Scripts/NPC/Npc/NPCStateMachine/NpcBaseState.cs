@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 
 public class NpcBaseState : IState
@@ -139,18 +141,27 @@ public class NpcBaseState : IState
 
         float sqrDistance = (playerClosetPoint - headPosition).sqrMagnitude;
 
-        if (Physics.Raycast(headPosition, directionPlayer, out RaycastHit hit, stateMachine.npc.ViewDistance, stateMachine.npc.layer))
+        Ray ray = new Ray(headPosition, directionPlayer);
+        RaycastHit[] hits = Physics.RaycastAll(ray, stateMachine.npc.ViewDistance, stateMachine.npc.layer);
+
+        if (hits.Length == 0)
         {
-            if (hit.collider.gameObject != stateMachine.npc.player.transform.gameObject)
+            return false;
+        }
+
+        Array.Sort(hits, (a,b) => a.distance.CompareTo(b.distance));
+
+        RaycastHit firstHit = hits[0];
+        if(firstHit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            if (GameManager.Instance.Player.isLockpick)
             {
-                return false;
+                stateMachine.ChangeState(stateMachine.ActionState);
             }
+            return true;
         }
-        if (GameManager.Instance.Player.isLockpick)
-        {
-            stateMachine.ChangeState(stateMachine.ActionState);
-        }
-        return true;
+
+        return false;
     }
 
     protected void RotateVelocity()
@@ -236,6 +247,12 @@ public class NpcBaseState : IState
 
     public void TalkingIdle()
     {
+        if (stateMachine.npc is Friend friend) 
+        {
+            FriendIdle();
+            return;
+        }
+        FriendIdle();
         stateMachine.npc.Agent.isStopped = true;
         StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
         StartAnimation(stateMachine.npc.AnimationData.TalkingParameterHash);
@@ -288,5 +305,32 @@ public class NpcBaseState : IState
             }
         }
 
+    }
+
+    public void FriendIdle()
+    {
+        if (stateMachine.npc is Friend friend)
+        {
+            var agent = friend.Agent;
+
+            bool isAtPosition = !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
+            if (!isAtPosition)
+            {
+                RotateVelocity();
+                if (!agent.hasPath || Vector3.Distance(agent.destination, friend.startPosition.position) > 0.1f)
+                {
+                    agent.SetDestination(friend.startPosition.position);
+                }
+                StopAnimation(friend.AnimationData.TalkingParameterHash);
+                StopAnimation(friend.AnimationData.RunParameterHash) ;
+                StartAnimation(friend.AnimationData.WalkParameterHash);
+                agent.isStopped = false;
+            }
+            else
+            {
+                friend.transform.rotation = friend.startPosition.rotation;
+                StopAnimation(friend.AnimationData.WalkParameterHash);
+            }
+        }
     }
 }

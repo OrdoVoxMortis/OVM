@@ -3174,7 +3174,9 @@ MonoBehaviour:
     jumpParameterName: Jump
     fallParameterName: Fall
   composer: {fileID: 0}
+  isSimulMode: 0
   isSit: 0
+  isSquat: 0
   isLockpick: 0
   startSittingOnLoad: 0
   initalChair: {fileID: 0}
@@ -3255,7 +3257,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4964959720252142229}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9191451, z: 0.39391935, w: 0.000000029802322}
+  m_LocalRotation: {x: -0.27854303, y: -0.6499337, z: 0.27854303, w: 0.64993376}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3557,7 +3559,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5770868762220706569}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.93284756, z: 0.36027145, w: 0.000000059604638}
+  m_LocalRotation: {x: -0.30196798, y: -0.6596228, z: 0.25475037, w: 0.6393867}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4322,7 +4324,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6440355376038576125}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9261582, z: 0.37713537, w: 0.000000029802319}
+  m_LocalRotation: {x: -0.2903189, y: -0.65489274, z: 0.266675, w: 0.64475965}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5160,7 +5162,7 @@ Transform:
   m_GameObject: {fileID: 7564133717164666157}
   serializedVersion: 2
   m_LocalRotation: {x: 0.27854303, y: 0.6499337, z: -0.27854303, w: 0.64993376}
-  m_LocalPosition: {x: 2.0000002, y: -0.30000305, z: 0.00000023841858}
+  m_LocalPosition: {x: 0, y: -0.29999995, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

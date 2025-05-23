@@ -20,10 +20,7 @@ public class MissionNote : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        //questUI = FindObjectOfType<UI_Quest>();
         LoadData();
-        if(GameManager.Instance.isEnd)
-            gameObject.SetActive(false);
     }
 
     public void LoadData()
@@ -57,6 +54,7 @@ public class MissionNote : MonoBehaviour, IInteractable
             questUI.SetQuest(id,Description, image, DialogText, StageName);
             UIManager.Instance.UIActive();
             questUI.gameObject.SetActive(true);
+            UIManager.Instance.ShowUI<UI_Quest>("UI_Quest");
             return;
         }
         Debug.Log("UI가 이미 켜져있음");
