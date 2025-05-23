@@ -156,11 +156,6 @@ public class Target : MonoBehaviour
         {
 
             GameManager.Instance.GameOver();
-
-            if (gameOverUI != null)
-            {
-                gameOverUI.SetActive(true);
-            }
         }
     }
 
