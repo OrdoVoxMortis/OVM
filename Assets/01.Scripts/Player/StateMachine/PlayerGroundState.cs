@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerGroundState : PlayerBaseState
 {
+    float timeSinceGround;
+
     public PlayerGroundState(PlayerStateMachine stateMachine) : base(stateMachine)
     {
 
@@ -31,10 +33,19 @@ public class PlayerGroundState : PlayerBaseState
     {
         base.PhysicsUpdate();
 
-        if (!stateMachine.Player.Controller.isGrounded && stateMachine.Player.Controller.velocity.y < Physics.gravity.y * Time.fixedDeltaTime)
-        {
+        if (stateMachine.Player.Controller.isGrounded)
+            timeSinceGround = 0f;
+        else
+            timeSinceGround += Time.fixedDeltaTime;
+
+        if (timeSinceGround > coyoteTime)
             stateMachine.ChangeState(stateMachine.FallState);
-        }
+
+        //if (!stateMachine.Player.Controller.isGrounded 
+        //    && stateMachine.Player.Controller.velocity.y < Physics.gravity.y * Time.fixedDeltaTime)
+        //{
+        //    stateMachine.ChangeState(stateMachine.FallState);
+        //}
 
     }
 
