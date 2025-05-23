@@ -163,7 +163,7 @@ public class SaveManager : SingleTon<SaveManager>
         GameManager.Instance.LoadScene(DataManager.Instance.stageDict[data.stageId].stageName);
 
     }
-    public void ReplayEvent()
+    public void ReplayEvent(int id)
     {
         eventReplay = true;
         isReplay = true;
@@ -177,7 +177,7 @@ public class SaveManager : SingleTon<SaveManager>
 
         EventUnlockData data = JsonUtility.FromJson<EventUnlockData>(json);
 
-        var targetEvent = data.unlockedEvents[0];
+        var targetEvent = data.unlockedEvents[id];
 
         if (ResourceManager.Instance.SfxDict.TryGetValue(targetEvent.bgmName, out var clip))
         {

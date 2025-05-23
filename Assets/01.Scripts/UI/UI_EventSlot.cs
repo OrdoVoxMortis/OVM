@@ -16,20 +16,21 @@ public class UI_EventSlot : MonoBehaviour
     public TextMeshProUGUI eventText;
     public Image eventImage;
 
+    private int eventId;
     public void SetSlot(EventSaveData data)
     {
         id = data.stageId;
-
+        eventId = data.id;
         var unlockedEvents = SaveManager.Instance.GetUnlockEvents();
-        if (unlockedEvents != null && unlockedEvents.Count > 0)
+        if (data != null)
         {
-            foreach (var e in unlockedEvents)
-            {
-                if (e == null || !e.isCollect) continue;
 
-                eventText.text = $"{e.eventName}";
-                eventImage.sprite = ResourceManager.Instance.LoadImage(e.imageName);
-            }
+            if (data == null || !data.isCollect) return;
+
+            eventText.text = data.eventName;
+            Debug.Log(gameObject.GetHashCode() + eventText.text.ToString());
+            eventImage.sprite = ResourceManager.Instance.LoadImage(data.imageName);
+
         }
 
         replayBtn.onClick.AddListener(Replay);
@@ -38,6 +39,6 @@ public class UI_EventSlot : MonoBehaviour
 
     private void Replay()
     {
-        SaveManager.Instance.ReplayEvent();
+        SaveManager.Instance.ReplayEvent(eventId);
     }
 }

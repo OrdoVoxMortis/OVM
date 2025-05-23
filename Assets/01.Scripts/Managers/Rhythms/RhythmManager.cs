@@ -223,6 +223,7 @@ public class RhythmManager : MonoBehaviour
     {
         UIManager.Instance.CurrentUIHide();
         isFinished = true;
+        if (SaveManager.Instance.eventReplay) GameManager.Instance.LoadScene("Lobby_Scene");
         GameManager.Instance.GameClear();
     }
 
