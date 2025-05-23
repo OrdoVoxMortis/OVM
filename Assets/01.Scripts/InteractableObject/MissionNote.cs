@@ -37,10 +37,10 @@ public class MissionNote : MonoBehaviour, IInteractable
     }
 
     public void OnInteract()
-    {  
-        if(!UIManager.Instance.isUIActive)
+    {
+        if (!UIManager.Instance.isUIActive)
         {
-            
+            Debug.Log("missionNoteId : " + id);
             Sprite image = null;
             if (!string.IsNullOrEmpty(ImageName))
             {
@@ -51,14 +51,14 @@ public class MissionNote : MonoBehaviour, IInteractable
             {
                 Debug.Log("대사 없음: textBox는 비활성화 상태로 설정된다");
             }
-            questUI.SetQuest(id,Description, image, DialogText, StageName);
+            //questUI.gameObject.SetActive(true);
+            var ui = UIManager.Instance.ShowUI<UI_Quest>("UI_Quest");
+            ui.SetQuest(id, Description, image, DialogText, StageName);
             UIManager.Instance.UIActive();
-            questUI.gameObject.SetActive(true);
-            UIManager.Instance.ShowUI<UI_Quest>("UI_Quest");
             return;
         }
         Debug.Log("UI가 이미 켜져있음");
-        
+
     }
 
     public string GetInteractComponent()
