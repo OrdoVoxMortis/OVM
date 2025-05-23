@@ -7,6 +7,9 @@ public class PlayerBaseState : IState
     protected readonly PlayerGroundData groundData;
     private float timer;
 
+    //공중판정을 유예할 시간
+    protected float coyoteTime = 0.2f;
+
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
