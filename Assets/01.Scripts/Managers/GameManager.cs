@@ -7,7 +7,7 @@ public class GameManager : SingleTon<GameManager>
 {
     public Player Player { get; private set; }
     public int bpm = 120;
-    public AudioClip SelectedBGM {  get; private set; }
+    public AudioClip SelectedBGM {  get; set; }
     public static event Action OnSelectedBGMSet; // 추가
     public Action OnStart;
     public Action OnGameOver;
@@ -16,6 +16,7 @@ public class GameManager : SingleTon<GameManager>
     public bool SimulationMode { get; set; }
     public Action OnSimulationMode;
     public bool isEnd = false;
+    public bool isClear = false;
     public StageStartPoint stageStartPoint;
     protected override void Awake()
     {
@@ -48,6 +49,7 @@ public class GameManager : SingleTon<GameManager>
     {
         UIManager.Instance.ClearUI();
         SceneManager.LoadScene(sceneName);
+        isEnd = false;
     }
     
     public void GameClear()
@@ -73,6 +75,7 @@ public class GameManager : SingleTon<GameManager>
             }
             SelectedBGM = null;
             isEnd = true;
+            isClear = true;
         }
     }
     public void GameOver()
