@@ -80,6 +80,7 @@ public class GameManager : SingleTon<GameManager>
             SelectedBGM = null;
             isEnd = true;
             isClear = true;
+            SimulationMode = false;
         }
     }
     public void GameOver()
@@ -92,6 +93,7 @@ public class GameManager : SingleTon<GameManager>
             OnGameOver?.Invoke();
             SelectedBGM = null;
             isEnd = true;
+            SimulationMode = false;
         }
     }
 
