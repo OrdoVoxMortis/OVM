@@ -46,6 +46,10 @@ public class QTELong : QTE
             checkTime += Time.deltaTime;
             if(curTimeIndex < holdingCheckTime.Count &&checkTime > holdingCheckTime[curTimeIndex])
             {
+                if (curTimeIndex == holdingCheckTime.Count - 1)
+                {
+                    manager.isHolding = false;
+                }
                 if (manager.qteList.Count > 0 && manager.qteList[0] == this)
                     manager.CheckQTE();
                 curTimeIndex++;
@@ -64,7 +68,7 @@ public class QTELong : QTE
             manager.isHolding = false;
             if (manager.qteList.Count > 0 && manager.qteList[0] == this)
                 manager.qteList.RemoveAt(0);
-            Destroy(gameObject);
+            Destroy(gameObject, 0.01f);
         }
 
         if (!isHolding) //바깥원 줄어듦
@@ -149,8 +153,8 @@ public class QTELong : QTE
         manager.isOverGood = false;
         if(manager.qteList.Count > 0 &&  manager.qteList[0] == this)
             manager.qteList.RemoveAt(0);
-        Destroy(gameObject);
         //manager.CheckQTE();
+        Destroy(gameObject);
     }
     
 
