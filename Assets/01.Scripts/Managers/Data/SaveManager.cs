@@ -130,6 +130,8 @@ public class SaveManager : SingleTon<SaveManager>
     public void Replay(bool isHidden)
     {
         GameManager.Instance.isEnd = false;
+
+        Debug.Log(GameManager.Instance.Player.gameObject.activeSelf);
         eventReplay = false;
         isReplay = true;
         string path = isHidden ? HiddenPath : SavePath;
@@ -165,6 +167,7 @@ public class SaveManager : SingleTon<SaveManager>
     }
     public void ReplayEvent(int id)
     {
+
         eventReplay = true;
         isReplay = true;
         if (!File.Exists(UnlockPath))

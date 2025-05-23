@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class TimelineManager : SingleTon<TimelineManager>
+public class TimelineManager : MonoBehaviour
 {
+    private static TimelineManager _instance;
+    public static TimelineManager Instance { get { return _instance; } }
+
     public GameObject slotPrefab;
     public int slotCount;
     public Transform slotParent;
@@ -18,9 +21,16 @@ public class TimelineManager : SingleTon<TimelineManager>
     public Action OnBlockUpdate;
 
     public float blockTime = 0f;
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        _instance = this;
+
         CreateSlots();
         InitSlots();
         PlacedBlocks.Clear();
@@ -38,6 +48,10 @@ public class TimelineManager : SingleTon<TimelineManager>
         blockTime += block.FixedTime;
     }
 
+    private void OnDestroy()
+    {
+        OnBlockUpdate -= ValidateCombinations;  
+    }
     public void InitSlots()
     {
         slots.Clear();
