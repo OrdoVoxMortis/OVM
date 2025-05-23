@@ -12,7 +12,7 @@ public class Trashcan : MonoBehaviour, IInteractable
     }
     public string GetInteractComponent()
     {
-        if (GameManager.Instance.isEnd)
+        if (GameManager.Instance.isClear)
             return "E키를 눌러 상호작용";
         else
             return " ";
@@ -20,7 +20,7 @@ public class Trashcan : MonoBehaviour, IInteractable
 
     public void OnInteract()
     {
-        if (!UIManager.Instance.isUIActive && GameManager.Instance.isEnd)
+        if (!UIManager.Instance.isUIActive && GameManager.Instance.isClear)
         {
             UIManager.Instance.ShowUI<UI_SaveLoad>("UI_SaveLoad");
             UIManager.Instance.UIActive();

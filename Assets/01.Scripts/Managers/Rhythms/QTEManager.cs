@@ -35,6 +35,9 @@ public class QTEManager : MonoBehaviour, IRhythmActions
 
     private int randPos; //0 ~ row * col - 1
 
+    [Header("QTE이벤트 음악 시간 딜레이 (추천 1초)")]
+    public float delayTime;
+
     [HideInInspector]
     public bool isOverGood;
 
@@ -109,7 +112,15 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         qteUI.transform.SetAsFirstSibling();
         RhythmManager.Instance.checkJudgeText.transform.SetAsLastSibling();
 
-        SoundManager.Instance.PlaySfx(eventBgm);
+        if (delayTime < 0) //delayTime이 설정 되어있는 경우 그만큼 딜레이 주고 재생
+        {
+            PlayQTEMusic();
+        }
+        else
+        {
+            Invoke("PlayQTEMusic", delayTime);
+        }
+
         isAllNoteEnd = false;
 
         if (pointNoteList.Count < beats.Count)
@@ -165,8 +176,12 @@ public class QTEManager : MonoBehaviour, IRhythmActions
                 {
                     holdingTime += (60f / bpm) / beats[j];
                     ((QTELong)qte).holdingCheckTime.Add(holdingTime);
-                    if (isLongNote[j]) 
+                    if (isLongNote[j])
+                    {
+                        if(j ==  beats.Count - 1)
+                            isAllNoteEnd = true;
                         break;
+                    }
                 }
 
                 ((QTELong)qte).holdingTime = holdingTime;
@@ -178,7 +193,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
             }
 
             qteList.Add(qte);
-            if (qtePosition[i] == -1)
+            if (qtePosition[i] < 0)
                 randPos = Random.Range(0, row * col);
             else
                 randPos = qtePosition[i];
@@ -197,12 +212,18 @@ public class QTEManager : MonoBehaviour, IRhythmActions
             }
         }
         isAllNoteEnd = true;
+        if (qteList.Count == 0)
+        {
+            RhythmManager.Instance.isPlaying = false;
+        }
     }
 
     public void CheckQTE()
     {
         if (qteList.Count <= 0)
         {
+            if (qteList.Count == 0 && isAllNoteEnd)
+                RhythmManager.Instance.isPlaying = false;
             return;
         }
 
@@ -235,6 +256,11 @@ public class QTEManager : MonoBehaviour, IRhythmActions
         {
             qte.ReleaseNote();
         }
+    }
+
+    private void PlayQTEMusic()
+    {
+        SoundManager.Instance.PlaySfx(eventBgm);
     }
 
 }

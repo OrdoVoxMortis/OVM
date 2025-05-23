@@ -21,6 +21,11 @@ public class MissionNote : MonoBehaviour, IInteractable
     private void Start()
     {
         LoadData();
+        if (DataManager.Instance.IsMissionNoteOnInteract(id) && GameManager.Instance.isClear == true)
+        {
+            Deactive();
+            return;
+        }
     }
 
     public void LoadData()
@@ -37,7 +42,8 @@ public class MissionNote : MonoBehaviour, IInteractable
     }
 
     public void OnInteract()
-    {
+    {  
+
         if (!UIManager.Instance.isUIActive)
         {
             Debug.Log("missionNoteId : " + id);
@@ -54,10 +60,10 @@ public class MissionNote : MonoBehaviour, IInteractable
             //questUI.gameObject.SetActive(true);
             var ui = UIManager.Instance.ShowUI<UI_Quest>("UI_Quest");
             ui.SetQuest(id, Description, image, DialogText, StageName);
+            DataManager.Instance.OnInteractMissionNote(id);
             UIManager.Instance.UIActive();
-            return;
         }
-        Debug.Log("UI가 이미 켜져있음");
+        else Debug.Log("UI가 이미 켜져있음");
 
     }
 

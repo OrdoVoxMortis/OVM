@@ -72,6 +72,7 @@ public class UI_Volume : PopupUI
     }
     public void BackToLobby()
     {
+        GameManager.Instance.SelectedBGM = null;
         GameManager.Instance.LoadScene("Lobby_Scene");
     }
 
