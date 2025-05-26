@@ -61,6 +61,7 @@ namespace DataTable
 		public System.String description;
 		public System.String bgmName;
 		public System.String stageId;
+		public System.String background;
   
 
 #region fuctions

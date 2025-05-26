@@ -25,7 +25,10 @@ public class GameManager : SingleTon<GameManager>
         stageStartPoint = FindObjectOfType<StageStartPoint>();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-
+    private void Start()
+    {
+        OnStart += DeactivePlayer;
+    }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Player = FindObjectOfType<Player>();
@@ -35,6 +38,7 @@ public class GameManager : SingleTon<GameManager>
 
     private void OnDestroy()
     {
+        OnStart -= DeactivePlayer;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -76,6 +80,7 @@ public class GameManager : SingleTon<GameManager>
             SelectedBGM = null;
             isEnd = true;
             isClear = true;
+            SimulationMode = false;
         }
     }
     public void GameOver()
@@ -88,7 +93,12 @@ public class GameManager : SingleTon<GameManager>
             OnGameOver?.Invoke();
             SelectedBGM = null;
             isEnd = true;
+            SimulationMode = false;
         }
     }
 
+    private void DeactivePlayer()
+    {
+        Player.gameObject.SetActive(false);
+    }
 }
