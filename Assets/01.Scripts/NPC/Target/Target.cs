@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,8 +14,6 @@ public class Target : MonoBehaviour
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
 
     public Animator Animator { get; private set; }
-    //public List<AnimationClip> newClip;
-
 
     public NavMeshAgent Agent { get; private set; }
     private TargetStateMachine stateMachine;
@@ -98,11 +97,9 @@ public class Target : MonoBehaviour
 
         var overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
 
-        //overrideController["Interaction"] = newClip[0];
-
         Animator.runtimeAnimatorController = overrideController;
 
-
+        GameManager.Instance.OnStart += DisableTarget;
 
     }
 
@@ -185,6 +182,11 @@ public class Target : MonoBehaviour
             Gizmos.DrawLine(pos, nextPos);
         }
 
+    }
+
+    private void DisableTarget()
+    {
+        this.gameObject.SetActive(false);
     }
 
 }
