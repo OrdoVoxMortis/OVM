@@ -33,7 +33,9 @@ public class TimelineManager : MonoBehaviour
 
         CreateSlots();
         InitSlots();
+        
         PlacedBlocks.Clear();
+        Debug.Log("!!" + PlacedBlocks.Count);
     }
 
     private void Start()
@@ -344,7 +346,7 @@ public class TimelineManager : MonoBehaviour
                 {
                     AddBlock(block);
                 }
-                else Debug.Log($"Block: {element.id} not found");
+                else if (block == null) Debug.Log($"Block: {element.id} not found");
             }
             else
             {
@@ -363,6 +365,7 @@ public class TimelineManager : MonoBehaviour
             }
             ValidateCombinations();
         }
+        Debug.Log(PlacedBlocks.Count);
     }
 
     public List<Block> ReturnBlocks()
