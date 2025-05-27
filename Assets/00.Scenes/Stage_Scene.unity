@@ -6869,6 +6869,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_play
       objectReference: {fileID: 0}
+    - target: {fileID: 4904228346319408586, guid: 70174a6874b912e488660d71eab2173c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5632596932354601111, guid: 70174a6874b912e488660d71eab2173c,
         type: 3}
       propertyPath: m_SceneBindings.Array.size
@@ -23453,6 +23458,7 @@ MonoBehaviour:
   blockSound: 
   ghostMat: {fileID: 0}
   outlineMat: {fileID: 0}
+  isAnimMatch: 0
 --- !u!4 &2043510373
 Transform:
   m_ObjectHideFlags: 0
