@@ -89,6 +89,7 @@ public class Player : MonoBehaviour
             stateMachine.ChangeState(stateMachine.IdleState);
 
         }
+
         GameManager.Instance.OnStart += DisablePlayer;
     }
 
@@ -107,6 +108,7 @@ public class Player : MonoBehaviour
 
     private void DisablePlayer()
     {
-        gameObject.SetActive(false);
+        GameManager.Instance.OnStart -= DisablePlayer;
+        this.gameObject.SetActive(false);
     }
 }
