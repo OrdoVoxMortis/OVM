@@ -8,12 +8,14 @@ public class TargetBaseState : IState
 {
     protected TargetStateMachine stateMachine;
     protected readonly PlayerGroundData groundData;
+    protected Target target;
 
 
     public TargetBaseState(TargetStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
         groundData = stateMachine.Target.Data.GroundData;
+        target = stateMachine.Target;
     }
 
     public virtual void Enter()
@@ -46,6 +48,9 @@ public class TargetBaseState : IState
     {
         if (IsPlayerInSight())
         {
+            if (target.isAction)
+                return;
+
             // 플레이어가 시야 안에 락픽 애니메이션이 진행 중 이라면 바로 도주
             if (GameManager.Instance.Player.isLockpick)
             {
@@ -146,6 +151,9 @@ public class TargetBaseState : IState
     // Target의 시야 범위를 구하기 
     protected bool IsPlayerInSight()
     {
+        if (target.isAction)
+            return false;
+
         if (stateMachine.Target.player == null)
         {
             Debug.LogError("Player가 등록되있지 않습니다.");
