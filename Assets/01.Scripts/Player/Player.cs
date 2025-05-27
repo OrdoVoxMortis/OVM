@@ -107,6 +107,7 @@ public class Player : MonoBehaviour
 
     private void DisablePlayer()
     {
+        GameManager.Instance.OnStart -= DisablePlayer;
         gameObject.SetActive(false);
     }
 }
