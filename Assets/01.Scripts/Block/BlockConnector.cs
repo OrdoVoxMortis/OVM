@@ -12,8 +12,8 @@ public class BlockConnector : MonoBehaviour
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        TimelineManager.Instance.SetBlockConnector(this);
     }
+
     private void LateUpdate()
     {
         lineRenderer.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
@@ -23,6 +23,7 @@ public class BlockConnector : MonoBehaviour
         TimelineManager.Instance.OnBlockUpdate += DrawLines;
         GameManager.Instance.OnSimulationMode += ToggleLine;
         GameManager.Instance.OnStart += DeactiveLine;
+        TimelineManager.Instance.SetBlockConnector(this);
         gameObject.SetActive(false);
     }
     public void DrawLines()

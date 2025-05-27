@@ -41,7 +41,7 @@ public class UI_SaveLoad : BaseUI
             hiddenBtn.onClick.AddListener(SetHiddenStage);
         if (eventBtn != null)
             eventBtn.onClick.AddListener(SetEventData);
-        deleteBtn.onClick.AddListener(DeleteStageData);
+
     }
     private void SetNormalStage()
     {

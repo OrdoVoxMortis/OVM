@@ -25,12 +25,11 @@ public class GameManager : SingleTon<GameManager>
         stageStartPoint = FindObjectOfType<StageStartPoint>();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Player = FindObjectOfType<Player>();
-
         SoundManager.Instance.StopBGM();
+        if(scene.name == "Lobby_Scene") SelectedBGM = null;
     }
 
     private void OnDestroy()
@@ -40,7 +39,6 @@ public class GameManager : SingleTon<GameManager>
 
     public void SetSelectedBGM(AudioClip clip)
     {
-
         SelectedBGM = clip;
         OnSelectedBGMSet?.Invoke(); // 이벤트 발동!!
     }
@@ -76,6 +74,9 @@ public class GameManager : SingleTon<GameManager>
             SelectedBGM = null;
             isEnd = true;
             isClear = true;
+            SimulationMode = false;
+            SaveManager.Instance.isReplay = false;
+            SaveManager.Instance.eventReplay = false;
         }
     }
     public void GameOver()
@@ -88,6 +89,9 @@ public class GameManager : SingleTon<GameManager>
             OnGameOver?.Invoke();
             SelectedBGM = null;
             isEnd = true;
+            SimulationMode = false;
+            SaveManager.Instance.isReplay = false;
+            SaveManager.Instance.eventReplay = false;
         }
     }
 

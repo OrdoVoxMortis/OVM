@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
 
     private void OnDisable()
     {
+        GameManager.Instance.OnStart -= DisablePlayer;
         var cur = stateMachine.CurrentState();
         cur?.Exit();
     }
@@ -88,7 +89,7 @@ public class Player : MonoBehaviour
             stateMachine.ChangeState(stateMachine.IdleState);
 
         }
-
+        GameManager.Instance.OnStart += DisablePlayer;
     }
 
     // Update is called once per frame
@@ -102,5 +103,11 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         stateMachine.PhysicsUpdate();
+    }
+
+    private void DisablePlayer()
+    {
+        GameManager.Instance.OnStart -= DisablePlayer;
+        gameObject.SetActive(false);
     }
 }
