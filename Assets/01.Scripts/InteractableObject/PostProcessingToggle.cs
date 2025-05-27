@@ -16,7 +16,8 @@ public class PostProcessingToggle : MonoBehaviour
     public float saturationValue = 0.5f;
     PlayerController input;
     private Vector3 savedPlayerPosition;
-  
+    public GameObject SimulationPlayer => simulationPlayer;
+
     void Start()
     {
         GameManager.Instance.SimulationMode = false;
