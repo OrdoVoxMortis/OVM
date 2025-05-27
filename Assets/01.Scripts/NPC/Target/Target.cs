@@ -186,6 +186,7 @@ public class Target : MonoBehaviour
 
     private void DisableTarget()
     {
+        GameManager.Instance.OnStart -= DisableTarget;
         this.gameObject.SetActive(false);
     }
 
