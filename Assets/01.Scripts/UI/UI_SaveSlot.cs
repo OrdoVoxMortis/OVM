@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -71,16 +72,28 @@ public class UI_SaveSlot : MonoBehaviour
     private void Retry()
     {
         SaveManager.Instance.Retry(id);
+
+        var sendEvent = new CustomEvent("interact_savepoint")
+        {
+            ["object_id"] = "TrashCan",
+            ["stage_id"] = id,
+            ["replay_button_click"] = false,
+            ["retry_button_click"] = true
+        };
+        AnalyticsService.Instance.RecordEvent(sendEvent);
     }
 
     private void Replay()
     {
         SaveManager.Instance.Replay(isHidden);
-    }
 
-    private void ReplayHidden()
-    {
-        SaveManager.Instance.Replay(isHidden);
+        var sendEvent = new CustomEvent("interact_savepoint")
+        {
+            ["object_id"] = "TrashCan",
+            ["stage_id"] = id,
+            ["replay_button_click"] = true,
+            ["retry_button_click"] = false
+        };
+        AnalyticsService.Instance.RecordEvent(sendEvent);
     }
-
 }

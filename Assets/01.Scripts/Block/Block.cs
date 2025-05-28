@@ -3,6 +3,7 @@ using GoogleSheet.Core.Type;
 using UnityEngine;
 using Hamster.ZG.Type;
 using System.Linq;
+using Unity.Services.Analytics;
 
 [UGS(typeof(BlockType))]
 public enum BlockType
@@ -125,6 +126,14 @@ public class Block : TimelineElement
                 FindObjectOfType<PostProcessingToggle>().TogglePostProcessing();
 
             TimelineManager.Instance.AddBlock(this);
+
+            var sendBlockEvent = new CustomEvent("block_clicked")
+            {
+                ["block_id"] = id
+            };
+            AnalyticsService.Instance.RecordEvent(sendBlockEvent);
+
+
         }
         else
         {

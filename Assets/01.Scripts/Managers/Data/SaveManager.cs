@@ -61,11 +61,13 @@ public class SaveManager : SingleTon<SaveManager>
     private EventUnlockData unlockData;
     public bool isReplay;
     public bool eventReplay;
+    List<string> saveBlockList = new();
+
     //TODO. 스테이지 정보 저장&로드
     public void SaveGame()
     {
         SaveData data = new SaveData();
-
+        saveBlockList.Clear();
         data.blocks = new List<BlockSaveData>();
         data.events = new List<EventSaveData>();
         data.timeline = new List<TimelineSaveData>();
@@ -88,6 +90,7 @@ public class SaveManager : SingleTon<SaveManager>
                     isBlock = true,
                     id = block.id
                 });
+                saveBlockList.Add(block.id.ToString());
             }
             else if (element is Event e)
             {
@@ -106,7 +109,7 @@ public class SaveManager : SingleTon<SaveManager>
                     isBlock = false,
                     id = e.id,
                 });
-
+                saveBlockList.Add("E" + e.id.ToString());
                 UnlockEvent(evt);
             }
         }
@@ -132,9 +135,13 @@ public class SaveManager : SingleTon<SaveManager>
             ["stage_id"] = data.stageId,
             ["clear_time"] = data.playTime
         };
-
         AnalyticsService.Instance.RecordEvent(sendEvent);
 
+        var sendBlockIds = new CustomEvent("block_sequence_set")
+        {
+            ["block_sequence"] = string.Join(", ", saveBlockList)
+        };
+        AnalyticsService.Instance.RecordEvent(sendBlockIds);
 
         TimelineManager.Instance.PlacedBlocks.Clear();
     }
