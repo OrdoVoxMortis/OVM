@@ -47,13 +47,13 @@ public class UI_Quest : BaseUI
             Hide();
             var sendEvent = new CustomEvent("mission_accepted")
             {
-                ["stage_id"] = "M001"
+                ["stage_id"] = StageManager.Instance.StageResult.id
             };
             AnalyticsService.Instance.RecordEvent(sendEvent);
             LoadSceneManager.Instance.LoadSceneWithLoading(sceneNameToLoad);
             var sendEventstage = new CustomEvent("stage_entered")
             {
-                ["stage_id"] = DataManager.Instance.stageDict[name]
+                ["stage_id"] = StageManager.Instance.StageResult.id
             };
             AnalyticsService.Instance.RecordEvent(sendEventstage);
         }
