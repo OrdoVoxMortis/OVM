@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Unity.VisualScripting;
+using Unity.Services.Analytics;
+//using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -126,6 +127,15 @@ public class SaveManager : SingleTon<SaveManager>
 
         Debug.Log($"게임 저장 완료 - {path}");
 
+        var sendEvent = new CustomEvent("stage_cleared")
+        {
+            ["stage_id"] = data.stageId,
+            ["clear_time"] = data.playTime
+        };
+
+        AnalyticsService.Instance.RecordEvent(sendEvent);
+
+
         TimelineManager.Instance.PlacedBlocks.Clear();
     }
 
@@ -201,7 +211,8 @@ public class SaveManager : SingleTon<SaveManager>
         //SceneManager.sceneLoaded += OnStageSceneLoaded;
         if(DataManager.Instance.eventDict.TryGetValue(targetEvent.id, out var eve))
         {
-            GameManager.Instance.LoadScene(DataManager.Instance.stageDict[eve.stageId].stageName);
+            //GameManager.Instance.LoadScene(DataManager.Instance.stageDict[eve.stageId].stageName);
+            LoadSceneManager.Instance.LoadSceneWithLoading(DataManager.Instance.stageDict[eve.stageId].stageName);
         }
     }
     public void Retry(string id)
