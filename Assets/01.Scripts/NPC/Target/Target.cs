@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Properties;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.Services.Analytics;
 
 public class Target : MonoBehaviour
 {
@@ -165,6 +165,11 @@ public class Target : MonoBehaviour
         if (other.gameObject == safeZone)
         {
             GameManager.Instance.GameOver();
+            var sendEvent = new CustomEvent("game_over")
+            {
+                ["target_escaped"] = true
+            };
+            AnalyticsService.Instance.RecordEvent(sendEvent);
         }
     }
 

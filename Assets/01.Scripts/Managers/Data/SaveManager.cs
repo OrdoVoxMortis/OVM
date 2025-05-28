@@ -181,7 +181,7 @@ public class SaveManager : SingleTon<SaveManager>
         //SceneManager.sceneLoaded += OnStageSceneLoaded;
 
         //GameManager.Instance.LoadScene(DataManager.Instance.stageDict[data.stageId].stageName);
-        LoadSceneManager.Instance.LoadSceneWithLoading(DataManager.Instance.stageDict[data.stageId].stageName); 
+        LoadSceneManager.Instance.LoadSceneWithLoading(DataManager.Instance.stageDict[data.stageId].stageName);
     }
     public void ReplayEvent(int id)
     {
