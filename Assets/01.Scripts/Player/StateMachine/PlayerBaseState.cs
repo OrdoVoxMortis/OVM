@@ -7,6 +7,9 @@ public class PlayerBaseState : IState
     protected readonly PlayerGroundData groundData;
     private float timer;
 
+    //공중판정을 유예할 시간
+    protected float coyoteTime = 0.2f;
+
     public PlayerBaseState(PlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
@@ -33,8 +36,8 @@ public class PlayerBaseState : IState
         input.playerActions.Movement.canceled += OnMovementCanceled;
         input.playerActions.Run.started += OnRunStarted;
         input.playerActions.Run.canceled += OnRunCanceled;
-        input.playerActions.Squat.started += OnSquatStarted;
-        input.playerActions.Squat.canceled += OnSquatCanceled;
+        //input.playerActions.Squat.started += OnSquatStarted;
+        //input.playerActions.Squat.canceled += OnSquatCanceled;
         //input.playerActions.Jump.started += OnJumpStarted;
     }
 
@@ -45,8 +48,8 @@ public class PlayerBaseState : IState
         input.playerActions.Movement.canceled -= OnMovementCanceled;
         input.playerActions.Run.started -= OnRunStarted;
         input.playerActions.Run.canceled -= OnRunCanceled;
-        input.playerActions.Squat.started -= OnSquatStarted;
-        input.playerActions.Squat.canceled -= OnSquatCanceled;
+        //input.playerActions.Squat.started -= OnSquatStarted;
+        //input.playerActions.Squat.canceled -= OnSquatCanceled;
         //input.playerActions.Jump.started -= OnJumpStarted;
     }
 

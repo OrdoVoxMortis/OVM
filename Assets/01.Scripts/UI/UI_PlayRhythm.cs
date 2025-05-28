@@ -9,6 +9,7 @@ public class UI_PlayRhythm : BaseUI
     public Button playBtn;
     public Image playCancle;
     public TextMeshProUGUI interactText;
+    public PostProcessingToggle postProcessingToggle;
     TimelineCamera timelineCam;
 
     public bool isEnabled = false;
@@ -50,6 +51,11 @@ public class UI_PlayRhythm : BaseUI
         {
             Debug.Log("암살 시작!");
             // 여기 암살 시작하는 코드 넣으면 됨
+            if (postProcessingToggle != null && postProcessingToggle.SimulationPlayer != null)
+            {
+                postProcessingToggle.SimulationPlayer.SetActive(false);
+                Debug.Log("시뮬레이션 플레이어 꺼짐");
+            }
             Camera.main.GetComponent<UniversalAdditionalCameraData>().renderPostProcessing = isEnabled;
             interactText.gameObject.SetActive(false);  
             GameManager.Instance.OnStart?.Invoke();

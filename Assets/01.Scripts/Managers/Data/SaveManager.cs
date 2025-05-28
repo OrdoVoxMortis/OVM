@@ -125,11 +125,14 @@ public class SaveManager : SingleTon<SaveManager>
         File.WriteAllText(path, json);
 
         Debug.Log($"게임 저장 완료 - {path}");
+
+        TimelineManager.Instance.PlacedBlocks.Clear();
     }
 
     public void Replay(bool isHidden)
     {
         GameManager.Instance.isEnd = false;
+
         eventReplay = false;
         isReplay = true;
         string path = isHidden ? HiddenPath : SavePath;
@@ -154,17 +157,18 @@ public class SaveManager : SingleTon<SaveManager>
         foreach (var b in data.timeline)
         {
             elementIds.Add(b);
-        } 
-        
+        }
 
 
-        SceneManager.sceneLoaded += OnStageSceneLoaded;
 
-        GameManager.Instance.LoadScene(DataManager.Instance.stageDict[data.stageId].stageName);
+        //SceneManager.sceneLoaded += OnStageSceneLoaded;
 
+        //GameManager.Instance.LoadScene(DataManager.Instance.stageDict[data.stageId].stageName);
+        LoadSceneManager.Instance.LoadSceneWithLoading(DataManager.Instance.stageDict[data.stageId].stageName); 
     }
     public void ReplayEvent(int id)
     {
+
         eventReplay = true;
         isReplay = true;
         if (!File.Exists(UnlockPath))
@@ -194,10 +198,11 @@ public class SaveManager : SingleTon<SaveManager>
             id = targetEvent.id
         });
 
-        SceneManager.sceneLoaded += OnStageSceneLoaded;
+        //SceneManager.sceneLoaded += OnStageSceneLoaded;
         if(DataManager.Instance.eventDict.TryGetValue(targetEvent.id, out var eve))
         {
-            GameManager.Instance.LoadScene(DataManager.Instance.stageDict[eve.stageId].stageName);
+            //GameManager.Instance.LoadScene(DataManager.Instance.stageDict[eve.stageId].stageName);
+            LoadSceneManager.Instance.LoadSceneWithLoading(DataManager.Instance.stageDict[eve.stageId].stageName);
         }
     }
     public void Retry(string id)
@@ -225,21 +230,24 @@ public class SaveManager : SingleTon<SaveManager>
         {
             GameManager.Instance.OnStart?.Invoke();
 
-            StartCoroutine(DelayInit());
+            //StartCoroutine(DelayInit());
             SceneManager.sceneLoaded -= OnStageSceneLoaded;
         }
     }
 
-    private IEnumerator DelayInit()
+    public IEnumerator DelayInit()
     {
         yield return null;
+        Debug.Log("delayInit");
+
+        GameManager.Instance.OnStart?.Invoke();
         TimelineManager.Instance.LoadBlocks(elementIds);
 
         for (int i = 0; i < TimelineManager.Instance.PlacedBlocks.Count; i++)
         {
             RhythmManager.Instance.rhythmActions.Add(TimelineManager.Instance.PlacedBlocks[i].GetComponent<IRhythmActions>());
-
         }
+        Debug.Log(TimelineManager.Instance.PlacedBlocks.Count);
         RhythmManager.Instance.StartMusic();
     }
 

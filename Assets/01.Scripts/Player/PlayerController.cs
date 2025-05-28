@@ -1,6 +1,7 @@
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class PlayerController :MonoBehaviour
 {
@@ -126,7 +127,6 @@ public class PlayerController :MonoBehaviour
     // 플레이어의 모든 입력 콜백을 구독
     public void SubscribeAllInputs()
     {
-
         var interaction = player.Interaction;
 
         var current = player.stateMachine.CurrentState();

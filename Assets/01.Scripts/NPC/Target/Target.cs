@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Properties;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,8 +15,6 @@ public class Target : MonoBehaviour
     [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
 
     public Animator Animator { get; private set; }
-    //public List<AnimationClip> newClip;
-
 
     public NavMeshAgent Agent { get; private set; }
     private TargetStateMachine stateMachine;
@@ -37,6 +37,10 @@ public class Target : MonoBehaviour
     bool isPause = false;
     bool prevAgentStopped;
     float prevAnimSpeed;
+
+    public bool isAction = false;
+
+    private bool isLayer;
 
     [Header("Game Over UI")]
     [SerializeField] private GameObject gameOverUI;
@@ -98,11 +102,17 @@ public class Target : MonoBehaviour
 
         var overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
 
-        //overrideController["Interaction"] = newClip[0];
-
         Animator.runtimeAnimatorController = overrideController;
 
+        GameManager.Instance.OnStart += DisableTarget;
+        isAction = false;
 
+        isLayer = (Camera.main.cullingMask & (1 << LayerMask.NameToLayer("NPC"))) != 0;
+
+        if (!isLayer)
+        {
+            Camera.main.cullingMask |= (1 << LayerMask.NameToLayer("NPC"));
+        }
 
     }
 
@@ -113,7 +123,7 @@ public class Target : MonoBehaviour
         {
             if (!isPause)
             {
-                //일시정지 하기 전의 상태를 저장
+                //일시정지 하기 전의 상태를 저
                 prevAgentStopped = Agent.isStopped;
                 prevAnimSpeed = Animator.speed;
 
@@ -185,6 +195,16 @@ public class Target : MonoBehaviour
             Gizmos.DrawLine(pos, nextPos);
         }
 
+    }
+
+    private void DisableTarget()
+    {
+        GameManager.Instance.OnStart -= DisableTarget;
+        isAction = true;
+        if (isLayer)
+        {
+            Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("NPC"));
+        }
     }
 
 }
