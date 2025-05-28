@@ -2,6 +2,8 @@ using System.Collections;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Services.Core;
+using Unity.Services.Analytics;
 
 public class GameManager : SingleTon<GameManager>
 {
@@ -23,13 +25,21 @@ public class GameManager : SingleTon<GameManager>
         base.Awake();
         Player = FindObjectOfType<Player>();
         stageStartPoint = FindObjectOfType<StageStartPoint>();
+        InitialAnalytics();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Player = FindObjectOfType<Player>();
         SoundManager.Instance.StopBGM();
         if(scene.name == "Lobby_Scene") SelectedBGM = null;
+    }
+
+    private async void InitialAnalytics()
+    {
+        await UnityServices.InitializeAsync();
+        AnalyticsService.Instance.StartDataCollection();
     }
 
     private void OnDestroy()
