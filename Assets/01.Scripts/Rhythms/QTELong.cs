@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -94,10 +95,13 @@ public class QTELong : QTE
         if (isHolding)
             return;
         float timing = Mathf.Abs(1f - outerLineSize);
+        string judgeText;
+
         if (timing > judges[1]) //실패시
         {
             if (timing < judges[2])
             {
+                judgeText = "miss";
                 RhythmManager.Instance.checkJudgeText.text = "<b> Miss </b>";
                 RhythmManager.Instance.checkJudgeText.color = Color.yellow;
                 manager.isOverGood = false;
@@ -105,6 +109,7 @@ public class QTELong : QTE
             }
             else
             {
+                judgeText = "fail";
                 RhythmManager.Instance.checkJudgeText.text = "<b> Fail </b>";
                 RhythmManager.Instance.checkJudgeText.color = Color.red;
                 manager.isOverGood = false;
@@ -122,13 +127,15 @@ public class QTELong : QTE
         {
             if (timing < judges[0])
             {
-                Debug.Log("Perfect!");
+                judgeText = "perfect";
+                //Debug.Log("Perfect!");
                 RhythmManager.Instance.checkJudgeText.text = "<b> Perfect </b>";
                 RhythmManager.Instance.checkJudgeText.color = Color.blue;
             } 
             else
             {
-                Debug.Log("Good!");
+                judgeText = "good";
+                //Debug.Log("Good!");
                 RhythmManager.Instance.checkJudgeText.text = "<b> Good </b>";
                 RhythmManager.Instance.checkJudgeText.color = Color.green;
                 StageManager.Instance.StageResult.QteCheck = false;
@@ -141,6 +148,15 @@ public class QTELong : QTE
             checkTime = 0f;
             ParticlePlay();
         }
+
+        var sendEvent = new CustomEvent("rhythm_judged")
+        {
+            ["judgment_result"] = judgeText,
+            ["judgment_result_index"] = qteIndex
+        };
+
+        AnalyticsService.Instance.RecordEvent(sendEvent);
+
         StopAllCoroutines();
         StartCoroutine(HideJudgeTextAfterDelay(0.2f));
     }

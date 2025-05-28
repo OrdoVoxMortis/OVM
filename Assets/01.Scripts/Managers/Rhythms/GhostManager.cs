@@ -202,6 +202,7 @@ public class GhostManager : MonoBehaviour, IRhythmActions
             float nextBeat = beats[i];
             GameObject go = Instantiate(ghostOriginal, playerTrans);
             Ghost ghost = go.AddComponent<Ghost>();
+            ghost.ghostIndex = i;
             if(go.TryGetComponent<Animator>(out Animator animator))
             {
                 animator.enabled = false;
