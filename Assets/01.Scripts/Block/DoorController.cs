@@ -141,9 +141,10 @@ public class DoorController : MonoBehaviour, IInteractable
         var doorEvent = new CustomEvent("interact_door")
         {
             ["object_id"] = gameObject.name,
-            ["is_locked"] = isLocked.ToString()          // 잠겨있는지 여부
+            //["is_locked"] = isLocked.ToString()          // 잠겨있는지 여부(나중에 파라미터 추가하면 이름 맞춰서 추가)
         };
         AnalyticsService.Instance.RecordEvent(doorEvent);
+
 
         if (isLocked)
         {
