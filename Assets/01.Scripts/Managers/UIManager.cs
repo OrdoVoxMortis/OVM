@@ -20,7 +20,7 @@ public class UIManager : SingleTon<UIManager>
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
-           ShowUI<UI_Volume>("UI_Volume", allowDuplicate: true);
+           ShowUI<UI_Volume>("UI_Volume", allowDuplicate: false);
            UIActive();
         }
         if (Input.GetKeyUp(KeyCode.Escape))
