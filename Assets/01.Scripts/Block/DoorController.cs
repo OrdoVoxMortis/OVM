@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -137,6 +137,13 @@ public class DoorController : MonoBehaviour, IInteractable
 
         if (!isClose)
             return;
+
+        var doorEvent = new CustomEvent("interact_door")
+        {
+            ["object_id"] = gameObject.name,
+            ["is_locked"] = isLocked.ToString()          // 잠겨있는지 여부
+        };
+        AnalyticsService.Instance.RecordEvent(doorEvent);
 
         if (isLocked)
         {
