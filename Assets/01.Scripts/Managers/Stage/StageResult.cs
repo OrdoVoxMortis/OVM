@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Services.Analytics;
 using UnityEngine;
 
 
@@ -28,6 +29,16 @@ public class StageResult : MonoBehaviour
         StageManager.Instance.SetStageResult(this);
         if(blocks.Count != 0) GhostCheck = true;
         if(events.Count != 0) QteCheck = true;
+
+        if (DataManager.Instance.stageDict[id].stageType == StageType.Hidden) 
+        {
+            var sendEvent = new CustomEvent("hidden_stage_entered")
+            {
+                ["stage_id"] = id
+            };
+            AnalyticsService.Instance.RecordEvent(sendEvent);
+        }
+
     }
 
     public void GameClear()

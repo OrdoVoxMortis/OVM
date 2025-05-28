@@ -34,6 +34,7 @@ public class StageManager : SingleTon<StageManager>
         {
             CurrentStageData = stage;
         }
+        PlayTime = 0f;
     }
 
     public void SetStageResult(StageResult result)
