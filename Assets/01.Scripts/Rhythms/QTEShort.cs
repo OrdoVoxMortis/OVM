@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,10 +34,13 @@ public class QTEShort : QTE
     {
         StageManager.Instance.StageResult.QteCheck = true;
         float timing = Mathf.Abs(1f - outerLineSize);
-        
+
+        string judgeText;
+
         if (timing < judges[0])
         {
             //Debug.Log("Perfect!");
+            judgeText = "perfect";
             RhythmManager.Instance.checkJudgeText.text = "<b> Perfect </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.blue;
             manager.isOverGood = true;
@@ -44,6 +48,7 @@ public class QTEShort : QTE
         else if (timing < judges[1])
         {
             //Debug.Log("Good!");
+            judgeText = "good";
             RhythmManager.Instance.checkJudgeText.text = "<b> Good </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.green;
             manager.isOverGood = true;
@@ -52,6 +57,7 @@ public class QTEShort : QTE
         else if (timing < judges[2])
         {
             //Debug.Log("Miss!");
+            judgeText = "miss";
             RhythmManager.Instance.checkJudgeText.text = "<b> Miss </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.yellow;
             manager.isOverGood = false;
@@ -60,6 +66,7 @@ public class QTEShort : QTE
         else
         {
             //Debug.Log("Fail!");
+            judgeText = "fail";
             RhythmManager.Instance.checkJudgeText.text = "<b> Fail </b>";
             RhythmManager.Instance.checkJudgeText.color = Color.red;
             manager.isOverGood = false;
@@ -74,6 +81,14 @@ public class QTEShort : QTE
 
         innerImage.gameObject.SetActive(false);
         outerLine.gameObject.SetActive(false);
+
+        var sendEvent = new CustomEvent("rhythm_judged")
+        {
+            ["judgment_result"] = judgeText,
+            ["judgment_result_index"] = qteIndex
+        };
+
+        AnalyticsService.Instance.RecordEvent(sendEvent);
 
         Invoke("DestroyObject", 0.5f);
 

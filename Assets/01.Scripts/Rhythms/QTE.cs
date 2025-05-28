@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public abstract class QTE: MonoBehaviour
 {
     [HideInInspector]
+    public int qteIndex;
+    [HideInInspector]
     public QTEManager manager;
 
     public float outerLineSize;

@@ -191,7 +191,7 @@ public class QTEManager : MonoBehaviour, IRhythmActions
             {
                 qte = Instantiate(qtePrefabs, canvas.transform).GetComponent<QTEShort>();
             }
-
+            qte.qteIndex = i;
             qteList.Add(qte);
             if (qtePosition[i] < 0)
                 randPos = Random.Range(0, row * col);
