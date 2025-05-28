@@ -201,7 +201,8 @@ public class SaveManager : SingleTon<SaveManager>
         //SceneManager.sceneLoaded += OnStageSceneLoaded;
         if(DataManager.Instance.eventDict.TryGetValue(targetEvent.id, out var eve))
         {
-            GameManager.Instance.LoadScene(DataManager.Instance.stageDict[eve.stageId].stageName);
+            //GameManager.Instance.LoadScene(DataManager.Instance.stageDict[eve.stageId].stageName);
+            LoadSceneManager.Instance.LoadSceneWithLoading(DataManager.Instance.stageDict[eve.stageId].stageName);
         }
     }
     public void Retry(string id)
