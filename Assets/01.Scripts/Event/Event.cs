@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
+using Unity.Services.Analytics;
 using UnityEngine;
 
 public class Event : TimelineElement
@@ -53,6 +53,12 @@ public class Event : TimelineElement
             IsCollect = true;
             AddOutlineMaterial();
             Debug.Log("이벤트 데이터 추가!");
+
+            var sendBlockEvent = new CustomEvent("block_clicked")
+            {
+                ["block_id"] = "E" + id
+            };
+            AnalyticsService.Instance.RecordEvent(sendBlockEvent);
         }
         else
         {
