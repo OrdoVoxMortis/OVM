@@ -25,7 +25,7 @@ public class UIManager : SingleTon<UIManager>
         }
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            CloseTopPopup();
+            OnEscPressed();
         }
     }
 
@@ -34,18 +34,27 @@ public class UIManager : SingleTon<UIManager>
         GetCanvas();
 
         BaseUI ui = null;
-        if(!allowDuplicate && activeUIs.TryGetValue(name, out ui))
+        if (!allowDuplicate && activeUIs.TryGetValue(name, out ui))
         {
-            ui.Show();
+            if (ui == null || ui.Equals(null)) // Unity 특유의 Destroy 체크 방식
+            {
+                Debug.LogWarning($"[UIManager] UI \"{name}\"는 Destroy 되었지만 딕셔너리에 남아 있음. 제거 후 재생성.");
+                activeUIs.Remove(name);
+            }
+            else
+            {
+                ui.Show();
+                return (T)ui;
+            }
         }
-        else
-        {
-            ui = ResourceManager.Instance.LoadUI<T>(name);
-            if (ui == null) return null;
-            ui = Instantiate(ui, canvas.transform);
-            if (!allowDuplicate) 
-                activeUIs[name] = ui;
-        }
+
+        // 새로 생성
+        ui = ResourceManager.Instance.LoadUI<T>(name);
+        if (ui == null) return null;
+
+        ui = Instantiate(ui, canvas.transform);
+        if (!allowDuplicate)
+            activeUIs[name] = ui;
 
         if (ui.IsPopup)
         {
@@ -55,19 +64,12 @@ public class UIManager : SingleTon<UIManager>
         {
             currentUI = ui;
         }
+
         ui.Show();
         isUIActive = true;
-        Debug.Log("현재Ui창 스택됨!");
+        Debug.Log("현재 UI창 스택됨!");
+
         return (T)ui;
-        //else
-        //{
-        //    ui = ResourceManager.Instance.LoadUI<T>(name);
-        //    if (ui == null) return null;
-        //    var inst = Instantiate(ui, canvas.transform);
-        //    activeUIs[typeof(T).Name] = inst;
-        //    currentUI = inst;
-        //    return (T)inst;
-        //}
 
     }
 
