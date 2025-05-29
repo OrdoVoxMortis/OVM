@@ -176,7 +176,7 @@ public class QTELong : QTE
         {
             if (holdingCheckTime[holdingCheckTime.Count - 1] - checkTime < 1.0f)
                 manager.CheckQTE();
-            if(manager.qteList[0] == this)
+            if(manager.qteList.Count > 0 && manager.qteList[0] == this)
                 manager.qteList.RemoveAt(0);
         }
 
