@@ -30,14 +30,14 @@ public class StageResult : MonoBehaviour
         if(blocks.Count != 0) GhostCheck = true;
         if(events.Count != 0) QteCheck = true;
 
-        if (DataManager.Instance.stageDict[id].stageType == StageType.Hidden) 
-        {
-            var sendEvent = new CustomEvent("hidden_stage_entered")
-            {
-                ["stage_id"] = id
-            };
-            AnalyticsService.Instance.RecordEvent(sendEvent);
-        }
+        //if (DataManager.Instance.stageDict[id].stageType == StageType.Hidden) 
+        //{
+        //    var sendEvent = new CustomEvent("hidden_stage_entered")
+        //    {
+        //        ["stage_id"] = id
+        //    };
+        //    AnalyticsService.Instance.RecordEvent(sendEvent);
+        //}
 
     }
 

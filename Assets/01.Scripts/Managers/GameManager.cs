@@ -57,6 +57,12 @@ public class GameManager : SingleTon<GameManager>
     {
         UIManager.Instance.ClearUI();
         SceneManager.LoadScene(sceneName);
+        SimulationMode = false;
+        SaveManager.Instance.isReplay = false;
+        SaveManager.Instance.eventReplay = false;
+        SelectedBGM = null;
+        isClear = true;
+        SimulationMode = false;
         isEnd = false;
     }
     
@@ -68,7 +74,7 @@ public class GameManager : SingleTon<GameManager>
 
             OnGameClear?.Invoke();
 
-            if (!SaveManager.Instance.eventReplay)
+            if (!SaveManager.Instance.eventReplay && !SaveManager.Instance.isReplay)
             {
                 SaveManager.Instance.SaveGame();
 

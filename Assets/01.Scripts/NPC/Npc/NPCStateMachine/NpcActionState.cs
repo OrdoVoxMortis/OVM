@@ -244,11 +244,11 @@ public class NpcActionState : NpcBaseState
             GameManager.Instance.GameOver();
             Debug.Log("가드");
             stateMachine.ChangeState(stateMachine.IdleState);
-            var sendEvent = new CustomEvent("game_over")
-            {
-                ["caught_by_guard"] = true
-            };
-            AnalyticsService.Instance.RecordEvent(sendEvent);
+            //var sendEvent = new CustomEvent("game_over")
+            //{
+            //    ["caught_by_guard"] = true
+            //};
+            //AnalyticsService.Instance.RecordEvent(sendEvent);
         }
     }
 

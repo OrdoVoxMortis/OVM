@@ -54,11 +54,11 @@ public class Event : TimelineElement
             AddOutlineMaterial();
             Debug.Log("이벤트 데이터 추가!");
 
-            var sendBlockEvent = new CustomEvent("block_clicked")
-            {
-                ["block_id"] = "E" + id
-            };
-            AnalyticsService.Instance.RecordEvent(sendBlockEvent);
+            //var sendBlockEvent = new CustomEvent("block_clicked")
+            //{
+            //    ["block_id"] = "E" + id
+            //};
+            //AnalyticsService.Instance.RecordEvent(sendBlockEvent);
         }
         else
         {

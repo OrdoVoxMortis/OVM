@@ -117,14 +117,14 @@ public class TargetBaseState : IState
     }
     protected void RotateVelocity()
     {
-        // NavMeshAgent에서 현재 움직이고 있는 방향
+        // NavMeshAgent에서 현재 속도(방향 + 크기) 벡터를 가져옵니다.
         NavMeshAgent agent = stateMachine.Target.Agent;
         Vector3 vel = agent.velocity;
 
         // 속도가 0에 가깝다면 회전처리를 중단합니다.
         if (vel.sqrMagnitude < 0.01f) return;
 
-        // Target이 움직이는 방향
+        // 속도 방향을 바라보는 회전값 계산
         Quaternion targetRot = Quaternion.LookRotation(vel.normalized);
 
         // 현재 회전에서 Target이 움직이는 방향으로 부드럽게 회전
@@ -133,6 +133,7 @@ public class TargetBaseState : IState
 
     }
 
+    // 이동할 위치를 가져온다.
     private Vector3 GetMovementDirection()
     {
         if (stateMachine.Blocks == null || stateMachine.Blocks.Length == 0)
@@ -143,7 +144,7 @@ public class TargetBaseState : IState
 
         int blockNumber = stateMachine.Target.BlockNumber;
 
-
+        // Blocks : 타겟이 이동할 곳에 대한 정보가 담겨있음
         return stateMachine.Blocks[blockNumber].transform.position;
     }
 

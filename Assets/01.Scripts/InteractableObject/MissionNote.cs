@@ -62,11 +62,11 @@ public class MissionNote : MonoBehaviour, IInteractable
             ui.SetQuest(id, Description, image, DialogText, StageName);
             DataManager.Instance.OnInteractMissionNote(id);
             UIManager.Instance.UIActive();
-            var sendEvent = new CustomEvent("mission_clicked")
-            {
-                ["stage_id"] = id
-            };
-            AnalyticsService.Instance.RecordEvent(sendEvent);
+            //var sendEvent = new CustomEvent("mission_clicked")
+            //{
+            //    ["stage_id"] = id
+            //};
+            //AnalyticsService.Instance.RecordEvent(sendEvent);
         }
         else Debug.Log("UI가 이미 켜져있음");
 
