@@ -6,6 +6,7 @@ using UnityEngine.Playables;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
+using Unity.Services.Analytics;
 
 public class UI_Start: BaseUI
 {
@@ -62,6 +63,8 @@ public class UI_Start: BaseUI
 
             colorAdjustments.saturation.value = 0f;
             return;
+
+       
         }
 
         playerCollider.SetActive(false);
@@ -87,7 +90,11 @@ public class UI_Start: BaseUI
         playerTimeline.Play();
 
         OnStartButtonPressed?.Invoke();     // 이벤트 발행
-
+        var sendEvent = new CustomEvent("lobby_entered")
+        {
+            ["game_Start"] = true
+        };
+        AnalyticsService.Instance.RecordEvent(sendEvent);
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         GameManager.Instance.gameStarted = true;
         if (inputProvider != null)

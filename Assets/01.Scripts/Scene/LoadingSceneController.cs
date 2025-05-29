@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Services.Analytics;
 
 public class LoadingSceneController : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class LoadingSceneController : MonoBehaviour
 
         float waitTime = 5f; // 로딩씬을 보여줄 시간 (필요 시 조정)
         float timer = 0f;
+        bool hasSentTimeoutEvent = false;
 
         while (!asyncOp.isDone)
         {
@@ -31,10 +33,17 @@ public class LoadingSceneController : MonoBehaviour
 
             if (timer >= waitTime)
             {
-                Debug.Log($"progress = {asyncOp.progress}");
+                if (!hasSentTimeoutEvent)
+                {
+                    var sendEvent = new CustomEvent("stage_loading")
+                    {
+                        ["loading_time_exceeded"] = true
+                    };
+                    AnalyticsService.Instance.RecordEvent(sendEvent);
+                    hasSentTimeoutEvent = true; // 한 번만 보내도록 설정
+                }
                 asyncOp.allowSceneActivation = true;
             }
-
             yield return null;
         }
 

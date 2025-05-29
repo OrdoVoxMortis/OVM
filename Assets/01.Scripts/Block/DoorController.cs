@@ -30,6 +30,10 @@ public class DoorController : MonoBehaviour, IInteractable
     [Tooltip("문 손잡이 위치")]
     [SerializeField] private Transform doorHandle;
 
+    // 부모의 오브젝트
+    [SerializeField] private GameObject obj;
+    private int doorOpenCount = 0;          //문을 연 횟수
+
 
     private string lockedInteractText = "락픽 사용하기 [E]";
 
@@ -138,12 +142,16 @@ public class DoorController : MonoBehaviour, IInteractable
         if (!isClose)
             return;
 
+        doorOpenCount++;
+
         var doorEvent = new CustomEvent("interact_door")
         {
-            ["object_id"] = gameObject.name,
-            ["is_locked"] = isLocked.ToString()          // 잠겨있는지 여부
+            ["object_id"] = obj.name,
+            ["stage_id"] = StageManager.Instance.StageResult.id,
+            ["door_isOpen"] = doorOpenCount      
         };
         AnalyticsService.Instance.RecordEvent(doorEvent);
+
 
         if (isLocked)
         {

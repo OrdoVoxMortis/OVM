@@ -174,7 +174,7 @@ public class TargetBaseState : IState
         Vector3 toPlayer = playerClosetPoint - headPosition;
 
         float sqrDistance = toPlayer.sqrMagnitude;
-        float maxDistance = stateMachine.ViewDistance * stateMachine.ViewDistance;      //TODO : 두개의 값 다 Target의 시야 길이를 넣어야 합니다.
+        float maxDistance = stateMachine.ViewDistance * stateMachine.ViewDistance; 
 
         if (sqrDistance > maxDistance)
         {

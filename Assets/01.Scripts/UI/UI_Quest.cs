@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,7 +45,17 @@ public class UI_Quest : BaseUI
         {
             Debug.Log("퀘스트 수락!"); // TODO 실제로 넘어가는 암살의뢰 UI 연결해주기
             Hide();
+            var sendEvent = new CustomEvent("mission_accepted")
+            {
+                ["stage_id"] = currentQuestId
+            };
+            AnalyticsService.Instance.RecordEvent(sendEvent);
             LoadSceneManager.Instance.LoadSceneWithLoading(sceneNameToLoad);
+            var sendEventstage = new CustomEvent("stage_entered")
+            {
+                ["stage_id"] = currentQuestId
+            };
+            AnalyticsService.Instance.RecordEvent(sendEventstage);
         }
     }
 
