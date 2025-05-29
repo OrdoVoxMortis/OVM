@@ -160,7 +160,7 @@ public class QTELong : QTE
             ["judgment_result_index"] = qteIndex
         };
 
-        AnalyticsService.Instance.RecordEvent(sendEvent);
+        //AnalyticsService.Instance.RecordEvent(sendEvent);
 
         StopAllCoroutines();
         StartCoroutine(HideJudgeTextAfterDelay(0.2f));
