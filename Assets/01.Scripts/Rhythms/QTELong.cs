@@ -181,7 +181,9 @@ public class QTELong : QTE
         outerLine.gameObject.SetActive(false);
         innerCircle.gameObject.SetActive(false);
         judgeCircle.SetActive(false);
-        //manager.CheckQTE();
+
+        if (holdingCheckTime[holdingCheckTime.Count - 1] - checkTime < 1.0f)
+            manager.CheckQTE();
         Destroy(gameObject, 0.5f);
     }
     
