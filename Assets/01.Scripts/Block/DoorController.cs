@@ -148,7 +148,7 @@ public class DoorController : MonoBehaviour, IInteractable
         {
             ["object_id"] = obj.name,
             ["stage_id"] = StageManager.Instance.StageResult.id,
-            ["door_isOpen"] = doorOpenCount      
+            ["door_open_count"] = doorOpenCount      
         };
         AnalyticsService.Instance.RecordEvent(doorEvent);
 
