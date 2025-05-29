@@ -42,6 +42,7 @@ public class DataManager : SingleTon<DataManager>
 
     public void OnInteractMissionNote(string id)
     {
+        if (interactMissionNoteIds.Count != 0) interactMissionNoteIds.Clear();
         interactMissionNoteIds.Add(id);
     }
 
