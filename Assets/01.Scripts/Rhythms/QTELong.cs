@@ -124,8 +124,8 @@ public class QTELong : QTE
             innerCircle.gameObject.SetActive(false);
             judgeCircle.SetActive(false);
             isChecked = true;
-            isHolding = true;
-            manager.isHolding = true;
+            isHolding = false;
+            manager.isHolding = false;
             Invoke("DestroyObject", 0.5f);
         } 
         else //성공시
@@ -172,16 +172,24 @@ public class QTELong : QTE
             || holdingCheckTime[holdingCheckTime.Count - 1] - checkTime < -0.2f)
             manager.isOverGood = false;
 
+        if (manager.qteList.Count > 0 && manager.qteList[0] == this)
+        {
+            if (holdingCheckTime[holdingCheckTime.Count - 1] - checkTime < 1.0f)
+                manager.CheckQTE();
+            if(manager.qteList.Count > 0 && manager.qteList[0] == this)
+                manager.qteList.RemoveAt(0);
+        }
+
         isHolding = false;
         isChecked = true;
         manager.isHolding = false;
-        if(manager.qteList.Count > 0 &&  manager.qteList[0] == this)
-            manager.qteList.RemoveAt(0);
+
         innerImage.gameObject.SetActive(false);
         outerLine.gameObject.SetActive(false);
         innerCircle.gameObject.SetActive(false);
         judgeCircle.SetActive(false);
-        //manager.CheckQTE();
+
+        
         Destroy(gameObject, 0.5f);
     }
     
