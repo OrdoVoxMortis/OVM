@@ -73,6 +73,8 @@ public class UI_Volume : PopupUI
     public void BackToLobby()
     {
         GameManager.Instance.SelectedBGM = null;
+        SoundManager.Instance.StopBGM();
+        SoundManager.Instance.StopAllSfx();
         GameManager.Instance.LoadScene("Lobby_Scene");
     }
 
