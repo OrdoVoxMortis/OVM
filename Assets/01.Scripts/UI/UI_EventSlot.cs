@@ -42,13 +42,13 @@ public class UI_EventSlot : MonoBehaviour
     {
         SaveManager.Instance.ReplayEvent(eventId);
 
-        var sendEvent = new CustomEvent("interact_savepoint")
-        {
-            ["object_id"] = "TrashCan",
-            ["stage_id"] = id,
-            ["replay_button_click"] = true,
-            ["retry_button_click"] = false
-        };
-        AnalyticsService.Instance.RecordEvent(sendEvent);
+        //var sendEvent = new CustomEvent("interact_savepoint")
+        //{
+        //    ["object_id"] = "TrashCan",
+        //    ["stage_id"] = id,
+        //    ["replay_button_click"] = true,
+        //    ["retry_button_click"] = false
+        //};
+        //AnalyticsService.Instance.RecordEvent(sendEvent);
     }
 }

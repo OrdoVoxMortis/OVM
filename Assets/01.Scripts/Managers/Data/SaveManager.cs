@@ -130,18 +130,18 @@ public class SaveManager : SingleTon<SaveManager>
 
         Debug.Log($"게임 저장 완료 - {path}");
 
-        var sendEvent = new CustomEvent("stage_cleared")
-        {
-            ["stage_id"] = data.stageId,
-            ["clear_time"] = data.playTime
-        };
-        AnalyticsService.Instance.RecordEvent(sendEvent);
+        //var sendEvent = new CustomEvent("stage_cleared")
+        //{
+        //    ["stage_id"] = data.stageId,
+        //    ["clear_time"] = data.playTime
+        //};
+        //AnalyticsService.Instance.RecordEvent(sendEvent);
 
-        var sendBlockIds = new CustomEvent("block_sequence_set")
-        {
-            ["block_sequence"] = string.Join(", ", saveBlockList)
-        };
-        AnalyticsService.Instance.RecordEvent(sendBlockIds);
+        //var sendBlockIds = new CustomEvent("block_sequence_set")
+        //{
+        //    ["block_sequence"] = string.Join(", ", saveBlockList)
+        //};
+        //AnalyticsService.Instance.RecordEvent(sendBlockIds);
 
         TimelineManager.Instance.PlacedBlocks.Clear();
     }

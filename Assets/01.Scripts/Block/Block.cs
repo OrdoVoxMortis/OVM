@@ -127,11 +127,11 @@ public class Block : TimelineElement
 
             TimelineManager.Instance.AddBlock(this);
 
-            var sendBlockEvent = new CustomEvent("block_clicked")
-            {
-                ["block_id"] = id
-            };
-            AnalyticsService.Instance.RecordEvent(sendBlockEvent);
+            //var sendBlockEvent = new CustomEvent("block_clicked")
+            //{
+            //    ["block_id"] = id
+            //};
+            //AnalyticsService.Instance.RecordEvent(sendBlockEvent);
 
 
         }
