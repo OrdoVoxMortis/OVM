@@ -233,11 +233,12 @@ public class SaveManager : SingleTon<SaveManager>
 
     public void DeleteData()
     {
-        if (!string.IsNullOrEmpty(SavePath) && File.Exists(SavePath))
-        {
-            File.Delete(SavePath);
-            Debug.Log("세이브 파일 삭제");
-        }
+
+        File.Delete(SavePath);
+        File.Delete(UnlockPath);
+        File.Delete(HiddenPath);
+        Debug.Log("세이브 파일 삭제");
+
 
     }
 
