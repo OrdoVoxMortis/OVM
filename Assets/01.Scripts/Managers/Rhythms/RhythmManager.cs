@@ -223,8 +223,8 @@ public class RhythmManager : MonoBehaviour
     {
         UIManager.Instance.CurrentUIHide();
         isFinished = true;
-        if (SaveManager.Instance.eventReplay) GameManager.Instance.LoadScene("Lobby_Scene");
-        GameManager.Instance.GameClear();
+        if (SaveManager.Instance.eventReplay || SaveManager.Instance.isReplay) GameManager.Instance.LoadScene("Lobby_Scene");
+        else GameManager.Instance.GameClear();
     }
 
     public void RegisterTimelineCamera(TimelineCamera camera)
