@@ -33,15 +33,15 @@ public class LoadingSceneController : MonoBehaviour
 
             if (timer >= waitTime)
             {
-                if (!hasSentTimeoutEvent)
-                {
-                    var sendEvent = new CustomEvent("stage_loading")
-                    {
-                        ["loading_time_exceeded"] = true
-                    };
-                    AnalyticsService.Instance.RecordEvent(sendEvent);
-                    hasSentTimeoutEvent = true; // 한 번만 보내도록 설정
-                }
+                //if (!hasSentTimeoutEvent)
+                //{
+                //    var sendEvent = new CustomEvent("stage_loading")
+                //    {
+                //        ["loading_time_exceeded"] = true
+                //    };
+                //    AnalyticsService.Instance.RecordEvent(sendEvent);
+                //    hasSentTimeoutEvent = true; // 한 번만 보내도록 설정
+                //}
                 asyncOp.allowSceneActivation = true;
             }
             yield return null;
