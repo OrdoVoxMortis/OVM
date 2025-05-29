@@ -144,13 +144,14 @@ public class DoorController : MonoBehaviour, IInteractable
 
         doorOpenCount++;
 
-        var doorEvent = new CustomEvent("interact_door")
-        {
-            ["object_id"] = obj.name,
-            ["stage_id"] = StageManager.Instance.StageResult.id,
-            ["door_open_count"] = doorOpenCount      
-        };
-        AnalyticsService.Instance.RecordEvent(doorEvent);
+        // 애널리틱스 상호작용(문)
+        //var doorEvent = new CustomEvent("interact_door")
+        //{
+        //    ["object_id"] = obj.name,
+        //    ["stage_id"] = StageManager.Instance.StageResult.id,
+        //    ["door_open_count"] = doorOpenCount      
+        //};
+        //AnalyticsService.Instance.RecordEvent(doorEvent);
 
 
         if (isLocked)
