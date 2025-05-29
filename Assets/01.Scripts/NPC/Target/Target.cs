@@ -165,11 +165,11 @@ public class Target : MonoBehaviour
         if (other.gameObject == safeZone)
         {
             GameManager.Instance.GameOver();
-            var sendEvent = new CustomEvent("game_over")
-            {
-                ["target_escaped"] = true
-            };
-            AnalyticsService.Instance.RecordEvent(sendEvent);
+            //var sendEvent = new CustomEvent("game_over")
+            //{
+            //    ["target_escaped"] = true
+            //};
+            //AnalyticsService.Instance.RecordEvent(sendEvent);
         }
     }
 

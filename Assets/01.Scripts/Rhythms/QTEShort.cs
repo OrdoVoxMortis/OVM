@@ -88,7 +88,7 @@ public class QTEShort : QTE
             ["judgment_result_index"] = qteIndex
         };
 
-        AnalyticsService.Instance.RecordEvent(sendEvent);
+        //AnalyticsService.Instance.RecordEvent(sendEvent);
 
         Invoke("DestroyObject", 0.5f);
 

@@ -18,6 +18,8 @@ public class DataManager : SingleTon<DataManager>
     public Dictionary<string, ResultData> resultDict { get; private set; } = new();
     public Dictionary<string, DialogData> dialogDict { get; private set; } = new();
     public HashSet<string> interactMissionNoteIds { get; private set; } = new(); // 상호작용한 편지 오브젝트 
+    public HashSet<string> clearedMissionNoteIds { get; private set; } = new(); // 클리어된 편지 오브젝트
+
     protected override void Awake()
     {
         base.Awake();
@@ -49,6 +51,16 @@ public class DataManager : SingleTon<DataManager>
     public bool IsMissionNoteOnInteract(string id)
     {
         return interactMissionNoteIds.Contains(id);
+    }
+
+    public void OnClearMissionNote(string id)
+    {
+       clearedMissionNoteIds.Add(id);
+    }
+
+    public bool IsMissionNoteCleared(string id)
+    {
+        return clearedMissionNoteIds.Contains(id);
     }
 
 }

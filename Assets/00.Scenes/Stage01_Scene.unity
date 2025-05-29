@@ -873,6 +873,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1480529053}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &17827050
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 17827051}
+  - component: {fileID: 17827052}
+  m_Layer: 0
+  m_Name: ClifWall (2-1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &17827051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17827050}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.34938982, z: 0, w: 0.9369775}
+  m_LocalPosition: {x: 296.72, y: 103.29, z: 237.83}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 277162262}
+  m_LocalEulerAnglesHint: {x: 0, y: 40.9, z: 0}
+--- !u!65 &17827052
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17827050}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.5, y: 10, z: 17}
+  m_Center: {x: 0, y: 0, z: -7.6685104}
 --- !u!1001 &19539243
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6474,6 +6527,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 147859545}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &149085952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 149085953}
+  - component: {fileID: 149085954}
+  m_Layer: 0
+  m_Name: ClifWall (2-2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &149085953
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149085952}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.033155207, z: 0, w: 0.9994502}
+  m_LocalPosition: {x: 286.59, y: 103.29, z: 228.59}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 277162262}
+  m_LocalEulerAnglesHint: {x: 0, y: 3.8, z: 0}
+--- !u!65 &149085954
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149085952}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.5, y: 10, z: 17}
+  m_Center: {x: 0, y: 0, z: -7.6685104}
 --- !u!4 &150395717 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7968428755917573065, guid: 7d52a6ef968d941a9aa9c7d2d909b121,
@@ -11662,6 +11768,18 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 147732095}
+    - targetCorrespondingSourceObject: {fileID: 865525131474239462, guid: e9a3318d8fd37e44d807a16cbc48bdf1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 17827051}
+    - targetCorrespondingSourceObject: {fileID: 865525131474239462, guid: e9a3318d8fd37e44d807a16cbc48bdf1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 149085953}
+    - targetCorrespondingSourceObject: {fileID: 865525131474239462, guid: e9a3318d8fd37e44d807a16cbc48bdf1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1327992308}
     - targetCorrespondingSourceObject: {fileID: 865525131474239462, guid: e9a3318d8fd37e44d807a16cbc48bdf1,
         type: 3}
       insertIndex: -1
@@ -50767,6 +50885,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1323426016}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1327992307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1327992308}
+  - component: {fileID: 1327992309}
+  m_Layer: 0
+  m_Name: ClifWall (2-3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1327992308
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327992307}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.17020944, z: 0, w: 0.98540795}
+  m_LocalPosition: {x: 284.15, y: 103.29, z: 217.47}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 277162262}
+  m_LocalEulerAnglesHint: {x: 0, y: 19.6, z: 0}
+--- !u!65 &1327992309
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327992307}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.5, y: 10, z: 17}
+  m_Center: {x: 0, y: 0, z: -7.6685104}
 --- !u!4 &1332979800 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7968428755917573065, guid: 7d52a6ef968d941a9aa9c7d2d909b121,
@@ -75300,7 +75471,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1953532920}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30631062, y: 0.6373177, z: -0.30631068, w: 0.6373176}
+  m_LocalRotation: {x: 0.3063107, y: 0.6373176, z: -0.30631065, w: 0.6373177}
   m_LocalPosition: {x: 213.09, y: 101.84499, z: 252.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -85499,17 +85670,17 @@ PrefabInstance:
     - target: {fileID: 6502592965647921486, guid: 70174a6874b912e488660d71eab2173c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.43318862
+      value: 0.43318877
       objectReference: {fileID: 0}
     - target: {fileID: 6502592965647921486, guid: 70174a6874b912e488660d71eab2173c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.0000001490116
+      value: -0.000000059604645
       objectReference: {fileID: 0}
     - target: {fileID: 6502592965647921486, guid: 70174a6874b912e488660d71eab2173c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000000745058
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6904247476183320715, guid: 70174a6874b912e488660d71eab2173c,
         type: 3}

@@ -61,12 +61,12 @@ public class GameManager : SingleTon<GameManager>
         SaveManager.Instance.isReplay = false;
         SaveManager.Instance.eventReplay = false;
         SelectedBGM = null;
-        isClear = true;
+        //isClear = true;
         SimulationMode = false;
         isEnd = false;
     }
-    
-    public void GameClear()
+
+    public void GameClear(string noteId = null)
     {
         if (!isEnd)
         {
@@ -87,12 +87,14 @@ public class GameManager : SingleTon<GameManager>
                 UIManager.Instance.ClearUI();
                 LoadScene("Lobby_Scene");
             }
-            SelectedBGM = null;
-            isEnd = true;
-            isClear = true;
-            SimulationMode = false;
-            SaveManager.Instance.isReplay = false;
-            SaveManager.Instance.eventReplay = false;
+
+                SelectedBGM = null;
+                isEnd = true;
+                isClear = true;
+                SimulationMode = false;
+                SaveManager.Instance.isReplay = false;
+                SaveManager.Instance.eventReplay = false;
+            
         }
     }
     public void GameOver()
@@ -110,5 +112,4 @@ public class GameManager : SingleTon<GameManager>
             SaveManager.Instance.eventReplay = false;
         }
     }
-
 }
