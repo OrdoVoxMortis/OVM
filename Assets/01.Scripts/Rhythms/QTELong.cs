@@ -175,15 +175,18 @@ public class QTELong : QTE
         isHolding = false;
         isChecked = true;
         manager.isHolding = false;
-        if(manager.qteList.Count > 0 &&  manager.qteList[0] == this)
+        if (manager.qteList.Count > 0 && manager.qteList[0] == this)
+        {
+            if (holdingCheckTime[holdingCheckTime.Count - 1] - checkTime < 1.0f)
+                manager.CheckQTE();
             manager.qteList.RemoveAt(0);
+        }
         innerImage.gameObject.SetActive(false);
         outerLine.gameObject.SetActive(false);
         innerCircle.gameObject.SetActive(false);
         judgeCircle.SetActive(false);
 
-        if (holdingCheckTime[holdingCheckTime.Count - 1] - checkTime < 1.0f)
-            manager.CheckQTE();
+        
         Destroy(gameObject, 0.5f);
     }
     
