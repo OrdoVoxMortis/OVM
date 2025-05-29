@@ -28,7 +28,7 @@ public class UI_Quest : BaseUI
     }
     private void Start()
     {
-        gameObject.SetActive(false);
+        gameObject.SetActive(true);
     }
 
     private void OnEnable()

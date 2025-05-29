@@ -20,7 +20,7 @@ public class UIManager : SingleTon<UIManager>
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
-           ShowUI<UI_Volume>("UI_Volume", allowDuplicate: false);
+           ShowUI<UI_Volume>("UI_Volume", allowDuplicate: true);
            UIActive();
         }
         if (Input.GetKeyUp(KeyCode.Escape))
@@ -29,7 +29,7 @@ public class UIManager : SingleTon<UIManager>
         }
     }
 
-    public T ShowUI<T>(string name, bool allowDuplicate = false) where T : BaseUI
+    public T ShowUI<T>(string name, bool allowDuplicate = true) where T : BaseUI
     {
         GetCanvas();
 
@@ -130,7 +130,7 @@ public class UIManager : SingleTon<UIManager>
     {
         if (standaloneUIs.TryGetValue(name, out var ui))
         {
-            Destroy(ui.gameObject);
+            ui.gameObject.SetActive(false);
             Debug.Log($"Standalone UI {name} 비활성화됨.");
         }
         else
