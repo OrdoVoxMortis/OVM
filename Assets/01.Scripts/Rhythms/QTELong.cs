@@ -9,6 +9,8 @@ public class QTELong : QTE
     public float innerCircleSize;
     public RectTransform innerCircle;
 
+    public GameObject judgeCircle;
+
     [HideInInspector]
     public float holdingTime;
 
@@ -21,6 +23,7 @@ public class QTELong : QTE
     public List<float> holdingCheckTime;
     private int curTimeIndex;
     private float checkTime;
+
 
     void Start()
     {
@@ -53,6 +56,7 @@ public class QTELong : QTE
                 }
                 if (manager.qteList.Count > 0 && manager.qteList[0] == this)
                     manager.CheckQTE();
+
                 curTimeIndex++;
             }
         }
@@ -118,9 +122,10 @@ public class QTELong : QTE
             innerImage.gameObject.SetActive(false);
             outerLine.gameObject.SetActive(false);
             innerCircle.gameObject.SetActive(false);
+            judgeCircle.SetActive(false);
             isChecked = true;
-            isHolding = false;
-            manager.isHolding = false;
+            isHolding = true;
+            manager.isHolding = true;
             Invoke("DestroyObject", 0.5f);
         } 
         else //성공시
@@ -163,14 +168,21 @@ public class QTELong : QTE
 
     public void ReleaseNote()
     {
+        if (holdingCheckTime[holdingCheckTime.Count - 1] - checkTime > 0.2f 
+            || holdingCheckTime[holdingCheckTime.Count - 1] - checkTime < -0.2f)
+            manager.isOverGood = false;
+
         isHolding = false;
         isChecked = true;
         manager.isHolding = false;
-        manager.isOverGood = false;
         if(manager.qteList.Count > 0 &&  manager.qteList[0] == this)
             manager.qteList.RemoveAt(0);
+        innerImage.gameObject.SetActive(false);
+        outerLine.gameObject.SetActive(false);
+        innerCircle.gameObject.SetActive(false);
+        judgeCircle.SetActive(false);
         //manager.CheckQTE();
-        Destroy(gameObject);
+        Destroy(gameObject, 0.5f);
     }
     
 
