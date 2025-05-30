@@ -1,0 +1,84 @@
+using Unity.Services.Analytics;
+using UnityEngine;
+public interface IInteractable
+{
+    public void OnInteract();
+    public void Deactive();
+    public string GetInteractComponent();
+    public void SetInteractComponenet(string newText);
+}
+public class MissionNote : MonoBehaviour, IInteractable
+{
+    [SerializeField] private string id; // 의뢰서 고유 id
+    public string StageId {  get; private set; } // 스테이지 id
+    public string StageName { get; private set; } // 씬 이름 (씬 로드 될때 사용함)
+    public string Description {  get; private set; } // 의뢰 내용
+    public string ImageName {  get; private set; } // 의뢰 이미지
+    public string DialogText { get; private set; } // 의로 대사 이미지
+    public UI_Quest questUI;
+    private string interactText = "E키를 눌러 상호작용";
+
+    private void Start()
+    {
+        LoadData();
+    }
+
+    public void LoadData()
+    {
+        var data = DataManager.Instance.missionDict[id];
+        StageId = data.stageId;
+        Description = data.description;
+        ImageName = data.filePath;
+        DialogText = data.dialog;
+        if (DataManager.Instance.stageDict.TryGetValue(StageId, out var stageData))
+        {
+            StageName = stageData.stageName;
+        }
+    }
+
+    public void OnInteract()
+    {  
+
+        if (!UIManager.Instance.isUIActive)
+        {
+            Debug.Log("missionNoteId : " + id);
+            Sprite image = null;
+            if (!string.IsNullOrEmpty(ImageName))
+            {
+                image = ResourceManager.Instance.LoadImage(ImageName);
+            }
+
+            if (string.IsNullOrEmpty(DialogText))
+            {
+                Debug.Log("대사 없음: textBox는 비활성화 상태로 설정된다");
+            }
+            //questUI.gameObject.SetActive(true);
+            var ui = UIManager.Instance.ShowUI<UI_Quest>("UI_Quest");
+            ui.SetQuest(id, Description, image, DialogText, StageName);
+            DataManager.Instance.OnInteractMissionNote(id);
+            UIManager.Instance.UIActive();
+            //var sendEvent = new CustomEvent("mission_clicked")
+            //{
+            //    ["stage_id"] = id
+            //};
+            //AnalyticsService.Instance.RecordEvent(sendEvent);
+        }
+        else Debug.Log("UI가 이미 켜져있음");
+
+    }
+
+    public string GetInteractComponent()
+    {
+        return interactText;
+    }
+
+    public void SetInteractComponenet(string newText)
+    {
+        interactText = newText;
+    }
+
+    public void Deactive()
+    {
+        gameObject.SetActive(false);
+    }
+}
