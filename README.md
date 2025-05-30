@@ -55,55 +55,71 @@
 ---
 
 ## ▪️프로젝트 화면
+<details>
+<summary> 프로젝트 화면 </summary>
+<div markdown="1">
 
-- **프로젝트 화면**
-    
     **게임 시작 화면**
     
-    ![start.png](start.png)
-    
+   ![start](https://github.com/user-attachments/assets/a719e150-78ac-4d77-a2f1-bedcc2b88cba)
+
     **의뢰 수락 화면**
     
-    ![dmlfhl.png](dmlfhl.png)
-    
+   ![dmlfhl](https://github.com/user-attachments/assets/ee688f87-f507-4bd7-9f01-0bef84200bdf)
+
     **음악 선택 화면**
     
-    ![music.png](music.png)
-    
+   ![music](https://github.com/user-attachments/assets/e0e13ff7-ad6a-46eb-8f41-69dc54972de0)
+
     **시뮬레이션 모드 및 암살 설계 화면**
     
-    ![simul.png](simul.png)
-    
+   ![simul](https://github.com/user-attachments/assets/a14d8aef-e004-4e48-9829-80ff83461d5d)
+
     **암살 수행(리듬게임 - 3D)**
-    
-    ![3D.png](3D.png)
+
+   ![3D](https://github.com/user-attachments/assets/a2a9a2b7-c83e-4c2a-97b7-ee3553dcfdfe)
     
     **암살 수행(리듬게임 2D)**
     
-    ![2D.png](2D.png)
+   ![2D](https://github.com/user-attachments/assets/3f6325dd-86e5-4c9a-b659-4d3a5a9d8d8f)
+
+</div>
+</details>
     
+
 
 ---
 
 ## ▪️주요 기능
-
-- FSM
-    
+<details>
+<summary>FSM</summary>
+<div markdown="1">
     추상화된 클래스를 기반으로 인터페이스륻 도입하고 플레이어와 타겟(NPC)의 상태 전환 로직을 분리했습니다. 이를 바탕으로 각각의 상태를 클래스로 구현함으로써 단일 책임 원칙을 준수하고 각 상태의 동작이 작동되도록 설계하였습니다.
     
-    ![image.png](image.png)
-    
+![image](https://github.com/user-attachments/assets/1f6c7816-460b-42bb-a4eb-91eab1a05c1d)
+   
     1. 새로운 상태를 추가하거나 기존 동작을 수정할 때 관련 클래스만 변경하면 되어서 전체 코드 안정성을 유지하면서 빠르게 확장이 가능합니다.
     2. 상태별 로직이 명확하게 분리되어 있어 가독성이 좋습니다.
     3. 객체지향 설계 원칙(단일 책임, 개방/폐쇄 원칙) 준수로 코드 품질 및 테스트 용이성 확보가 됩니다.
-- 스크롤 텍스트 창 UI
+</div>
+</details>
     
+<details>
+<summary> 스크롤 텍스트 창 UI</summary>
+<div markdown="1">
     유니티의 `RectMask2D` 기능을 사용하여, 해당 컴포넌트를 가지고 있는 창을 하나 만든 뒤,
      코루틴으로 해당 창내에서, 해당 TMPro 텍스트가 세팅한 값 대로, 종료 지점에 도착하게 되면 
     다시 우측에서 좌측으로 흐르는 효과를 완성 시킬 수 있었습니다
     
     - `RectMask2D`로 UI창 위에 겹쳐 보이는 문제를 해결 할 수 있었습니다
-- 세이브 로드
+
+</div>
+</details>
+
+<details>
+<summary> 세이브 로드</summary>
+<div markdown="1">
+
     
     세이브-로드 시스템은 저장 전용 클래스를 기반으로 직렬화된 JSON 파일에 게임 상태를 기록하고, 각 상황에 맞는 데이터만을 선택적으로 불러와 복원합니다. 이벤트 해금 정보는 별도 파일로 분리되어 영구 유지되며, 일반/히든/이벤트 세이브를 유연하게 관리할 수 있도록 구성되어 있습니다.
     
@@ -111,8 +127,14 @@
         - 현재 스테이지의 정보(블록/이벤트 배치, 선택된 음악 등) 상태를 저장 구조체 `SaveData` 에 기록
     - 로드
         - 세이브 슬롯 상호 작용 시 해당하는 일반/히든/이벤트 저장 파일이 있는 지 확인 후 슬롯을 띄우고, 리플레이 시 저장 파일을 통해 스테이지를 재배치하여 상태 복원
-- 리듬 박자 계산
+
+</div>
+</details>
     
+<details>
+<summary> 리듬 박자 계산 </summary>
+<div markdown="1">
+
     기본 시간 계산 : 60 / bpm
     
     추가 리스트로 박자를 입력 받아서 박자간의 시간 계산을 함
@@ -123,105 +145,150 @@
     
     (왼쪽 사진) bpm과 박자 리스트를 입력하면 (오른쪽 사진) 실제로 노트가 입력 받는 시간이 계산 됨
     
-    ![image.png](image%201.png)
+  
+  ![image 1](https://github.com/user-attachments/assets/2971ca9f-b37d-4f95-b28c-9bbe8312fb6d)
+
+  ![image 2](https://github.com/user-attachments/assets/a57fa5dc-44f0-480a-be77-a0034947b8bf)
+
     
-    ![image.png](image%202.png)
-    
+</div>
+</details>
 
 ---
 
 ## ▪️코드 설명 및 주석
 
-- RhythmManager
-    
+<details>
+<summary> RhythmManager </summary>
+<div markdown="1">
+
     RhythmManager는 위의 두 리듬게임을 관리를 해준다
+
+<details>
+<summary>`IRythmAction`</summary>
+<div markdown="1">
+
+![image 3](https://github.com/user-attachments/assets/5cd6aad6-9633-4ad8-afda-ba941b2a7e21)
+
+ GhostManager와 QTEManager를 한번에 처리할 수 있도록 IRythmAction 인터페이스를 구현하도록 만들었다.
+
+</div>
+</details>
+
+<details>
+<summary>  `AnimationCurve` 변수의 역할 </summary>
+<div markdown="1">
+
+![image 4](https://github.com/user-attachments/assets/83d7b738-7c32-41c3-a31d-4845c1fa7f7c)
+
+![image 5](https://github.com/user-attachments/assets/7298a127-e41c-48cc-b94a-979c54b78521)
+
+![image 6](https://github.com/user-attachments/assets/fd9bf36e-9aa4-421d-9de9-e1c89897ab86)
+
+커브값을 입력 받아서 적절한 타이밍에 다른 효과음을 출력할 수 있게 만들었다. (0≤x≤1, 0≤y≤1)
+        
+이 값은 GhostManager에서 값을 읽어와서 수치에 맞게 특정 효과음을 출력할 수 있게 한다.
+                
+</div>
+</details>
+
+<details>
+<summary> 리듬 게임 시작</summary>
+<div markdown="1">
+
+![image 7](https://github.com/user-attachments/assets/c03f32e4-6391-4f80-bbc1-b3e5d3c268b3)
+
+처음 시작할 땐 isPlaying을 true로 초기값을 세팅해서 리듬게임을 시작하지 않게 만든다.
+        
+IRhythmAction 리스트에 실행할 리듬액션을 넣어준 뒤 isPlaying을 false로 바꿔주면 차례대로 재생한다.
+        
+![image 8](https://github.com/user-attachments/assets/1d85e43b-8780-422e-ba49-b3ad3b45c352)
+
+음악을 재생하면 음악이 재생되는 시간을 저장을 하고 리듬게임의 총 시간을 계산한다.
+        
+![image 9](https://github.com/user-attachments/assets/5fb109c7-43ff-44d4-a83c-a0054ceeb570)
+
+특정 조건이 있는 경우 그만큼 딜레이를 주고 시작을 한다. (ex. 노래 시작 전에 공백이 있는 경우…)
+        
+없을 경우 바로 시작하고 리듬게임이 하나가 끝나면 곧바로 다음 리듬게임을 실행한다.
+        
+ ![image 10](https://github.com/user-attachments/assets/7cf1adbc-a39b-4e66-b941-431e663c5895)
+
+순서에 맞는 리듬게임과 그에 맞게 설정된 타임라인 카메라를 실행한다.
+
+</div>
+</details>    
+
+</div>
+</details>
+
     
-    - `IRythmAction`
-        
-        ![image.png](image%203.png)
-        
-        GhostManager와 QTEManager를 한번에 처리할 수 있도록 IRythmAction 인터페이스를 구현하도록 만들었다.
-        
-    - `AnimationCurve` 변수의 역할
-        
-        ![image.png](image%204.png)
-        
-        ![image.png](image%205.png)
-        
-        ![image.png](image%206.png)
-        
-        커브값을 입력 받아서 적절한 타이밍에 다른 효과음을 출력할 수 있게 만들었다. (0≤x≤1, 0≤y≤1)
-        
-        이 값은 GhostManager에서 값을 읽어와서 수치에 맞게 특정 효과음을 출력할 수 있게 한다.
-        
-    - 리듬 게임 시작
-        
-        
-        ![image.png](image%207.png)
-        
-        처음 시작할 땐 isPlaying을 true로 초기값을 세팅해서 리듬게임을 시작하지 않게 만든다.
-        
-        IRhythmAction 리스트에 실행할 리듬액션을 넣어준 뒤 isPlaying을 false로 바꿔주면 차례대로 재생한다.
-        
-        ![image.png](image%208.png)
-        
-        음악을 재생하면 음악이 재생되는 시간을 저장을 하고 리듬게임의 총 시간을 계산한다.
-        
-        ![image.png](image%209.png)
-        
-        특정 조건이 있는 경우 그만큼 딜레이를 주고 시작을 한다. (ex. 노래 시작 전에 공백이 있는 경우…)
-        
-        없을 경우 바로 시작하고 리듬게임이 하나가 끝나면 곧바로 다음 리듬게임을 실행한다.
-        
-        ![image.png](image%2010.png)
-        
-        순서에 맞는 리듬게임과 그에 맞게 설정된 타임라인 카메라를 실행한다.
-        
-- 2D 리듬 게임 구현(QTE)
+<details>
+<summary> 2D 리듬 게임 구현(QTE) </summary>
+<div markdown="1">
+ [리듬 박자 계산]
     
-    [리듬 박자 계산](https://www.notion.so/2032dc3ef51480589a14df3f587e5b0b?pvs=21)  기반으로 추가 구현
+![image 11](https://github.com/user-attachments/assets/e45c327a-a507-4907-92a8-eca448984930)
+
+<details>
+<summary> QTE 리듬 게임 구조</summary>
+<div markdown="1">
+
+단노트와 롱노트는 QTE 클래스를 상속받는다.
+        
+![image 12](https://github.com/user-attachments/assets/c9e0b702-39e5-47cc-9540-ff3cbcee5930)
+
+</div>
+</details>
+
+<details>
+<summary>단 노트</summary>
+<div markdown="1">
+
+![image 13](https://github.com/user-attachments/assets/4f9546ad-bd8d-4e99-b74a-38dc76068599)
+
+외곽선의 scale이 1초동안 2→1로 줄어든다.
+        
+정해진 판정이내에 처리를 하지않으면 알아서 실패처리를 한다.
+        
+![image 14](https://github.com/user-attachments/assets/f510e541-40a7-4f9d-b680-3449737c3066)
+
+판정에 따라 적절한 처리를 해주고 사라진다.
+
+</div>
+</details>
+
+
+<details>
+<summary>롱노트</summary>
+<div markdown="1">
+
+![image 15](https://github.com/user-attachments/assets/f625c7dc-50e0-4e39-b9bc-eaf13c417d43)
+
+외곽선의 경우는 단노트와 비슷하고 추가로 누를 시간을 추가로 처리를 해줄 멤버변수 및 함수 추가해줬다.
+        
+
+</div>
+</details>
+
+
+<details>
+<summary>QTE Manager</summary>
+<div markdown="1">
+
+![image 16](https://github.com/user-attachments/assets/8fdc994a-c2b3-4e38-915b-dc2f1de77d6e)
+      
+QTEManager는 QTE들을 생성하고 관리를 해준다.
+        
+![image 17](https://github.com/user-attachments/assets/e5f2fae7-3aab-4a5d-a1c8-f13edd887ec4)
+   
+시작시 화면 크기를 받아서 QTE가 생성될 수 있는 위치를 알아서 계산해준다.
+        
+![image 18](https://github.com/user-attachments/assets/dcaa30b0-8146-491a-97d1-b6a723a08423)
     
-    ![image.png](image%2011.png)
-    
-    - QTE 리듬 게임 구조
+ 특정 시간마다 QTE를 생성하기 위해서 코루틴을 이용했다.
         
-        단노트와 롱노트는 QTE 클래스를 상속받는다.
-        
-        ![image.png](image%2012.png)
-        
-    - 단노트
-        
-        ![image.png](image%2013.png)
-        
-        외곽선의 scale이 1초동안 2→1로 줄어든다.
-        
-        정해진 판정이내에 처리를 하지않으면 알아서 실패처리를 한다.
-        
-        ![image.png](image%2014.png)
-        
-        판정에 따라 적절한 처리를 해주고 사라진다.
-        
-    - 롱노트
-        
-        ![image.png](image%2015.png)
-        
-        외곽선의 경우는 단노트와 비슷하고 추가로 누를 시간을 추가로 처리를 해줄 멤버변수 및 함수 추가해줬다.
-        
-    - QTE Manager
-        
-        ![image.png](image%2016.png)
-        
-        QTEManager는 QTE들을 생성하고 관리를 해준다.
-        
-        ![image.png](image%2017.png)
-        
-        시작시 화면 크기를 받아서 QTE가 생성될 수 있는 위치를 알아서 계산해준다.
-        
-        ![image.png](image%2018.png)
-        
-        특정 시간마다 QTE를 생성하기 위해서 코루틴을 이용했다.
-        
-        ```csharp
+ ```csharp
         IEnumerator MakeQTE()
         {
             QTE qte;
@@ -334,79 +401,113 @@
                 RhythmManager.Instance.isPlaying = false;
             }
         }
-        ```
+```
         
-        일반 노트인 경우는 한 번 쉬고 생성
+일반 노트인 경우는 한 번 쉬고 생성
         
-        롱노트인 경우는 롱노트가 끝나는 시간까지 쉬고 나서 생성을 해준다.
+롱노트인 경우는 롱노트가 끝나는 시간까지 쉬고 나서 생성을 해준다.
         
-        yield return new WaitForSeconds((60f / bpm) / nextBeat);
+yield return new WaitForSeconds((60f / bpm) / nextBeat);
         
-        을 통해 박자 사이마다 실행하는 시간동안 쉬게해준다.
+을 통해 박자 사이마다 실행하는 시간동안 쉬게해준다.
         
-        일반 노트인 경우는 한 번 쉬고 생성
+ 일반 노트인 경우는 한 번 쉬고 생성
         
-        롱노트인 경우는 롱노트가 끝나는 시간까지 쉬고 나서 생성을 해준다.
+롱노트인 경우는 롱노트가 끝나는 시간까지 쉬고 나서 생성을 해준다.
         
-        ![image.png](image%2019.png)
+![image 19](https://github.com/user-attachments/assets/33186127-2513-4abd-bfa3-01c4542d961e)
+
         
-        모든 노트를 생성하고 qteList에 모든 QTE를 처리를 처리를 하면 RhythManager에 끝났음을 알린다.
-        
-- 고스트 리듬게임 구현
+모든 노트를 생성하고 qteList에 모든 QTE를 처리를 처리를 하면 RhythManager에 끝났음을 알린다.
+
+</div>
+</details>
+
+</div>
+</details>
+
+<details>
+<summary> 고스트 리듬게임 구현</summary>
+<div markdown="1">
+
+[리듬 박자 계산]
+![image 20](https://github.com/user-attachments/assets/e06700b9-0d1f-4610-abf6-5587cd98a6f0)
+
     
-    [리듬 박자 계산](https://www.notion.so/2032dc3ef51480589a14df3f587e5b0b?pvs=21) 기반으로 추가 구현
+Player Trans) 고스트가 생성될 상위 오브젝트
     
-    ![](image%2020.png)
+Direction) 고스트가 생성될 방향
     
-    Player Trans) 고스트가 생성될 상위 오브젝트
+Rotate Angle) 생성된 고스트의 회전값
     
-    Direction) 고스트가 생성될 방향
+Ghost Gaps) 고스트 간의 거리 (1의 경우 1초에 1m)
     
-    Rotate Angle) 생성된 고스트의 회전값
+Ghost Original) 고스트를 만들 오리지널 오브젝트
     
-    Ghost Gaps) 고스트 간의 거리 (1의 경우 1초에 1m)
+Ghost Clip) 고스트가 특정 시간에 취할 행동을 위한 애니메이션 클립
+
     
-    Ghost Original) 고스트를 만들 오리지널 오브젝트
-    
-    Ghost Clip) 고스트가 특정 시간에 취할 행동을 위한 애니메이션 클립
-    
-    - 고스트의 생성
+<details>
+<summary>고스트의 생성</summary>
+<div markdown="1">
+
+ ![image 21](https://github.com/user-attachments/assets/4293e960-8006-4255-b933-370b8e9c76a4)
+
+비트 배열을 받아서 실제로 판정을 처리할 시간을 저장할 배열 생성
         
-        ![image.png](image%2021.png)
+![애니메이션 길이를 리듬 전체에 맞추기 위해 재생속도를 변경하는 코드]
+
+![image 22](https://github.com/user-attachments/assets/50101b95-684d-4007-8542-3783440f3611)
+
+애니메이션 길이를 리듬 전체에 맞추기 위해 재생속도를 변경하는 코드
         
-        비트 배열을 받아서 실제로 판정을 처리할 시간을 저장할 배열 생성
+애니메이션이 반복되어야 하는 경우는 false 아닌경우 true로 설정
+
+</div>
+</details>
+
+<details>
+<summary>노란 외곽선의 판정 고스트 생성</summary>
+<div markdown="1">
+
+![image 23](https://github.com/user-attachments/assets/869304a8-5baa-4182-a4e6-f996aff1c622)
+
+특정 방향으로 gap과 비트를 받아서 고스트의 위치 생성
+
+![image 24](https://github.com/user-attachments/assets/46c0cce9-1dfb-404f-87a7-69b49dbec6ad)
+
+위치 생성 후 애니메이션의 특정 시간의 동작을 적용
         
-        ![애니메이션 길이를 리듬 전체에 맞추기 위해 재생속도를 변경하는 코드](image%2022.png)
+![image 25](https://github.com/user-attachments/assets/65d1f6f9-02ec-45b3-8117-2e6207d926c8)
+
+그 후 머테리얼을 적용해서 반투명하게 설정
         
-        애니메이션 길이를 리듬 전체에 맞추기 위해 재생속도를 변경하는 코드
+- 노란 외관선의 판정 고스트 생성
         
-        애니메이션이 반복되어야 하는 경우는 false 아닌경우 true로 설정
+![image 26](https://github.com/user-attachments/assets/1d1c4d36-8817-4a8c-a571-f0eca2e7426e)
+
+처음은 0번째 고스트와 동일한 위치 및 동작
         
-        ![image.png](image%2023.png)
-        
-        특정 방향으로 gap과 비트를 받아서 고스트의 위치 생성
-        
-        ![image.png](image%2024.png)
-        
-        위치 생성 후 애니메이션의 특정 시간의 동작을 적용
-        
-        ![image.png](image%2025.png)
-        
-        그 후 머테리얼을 적용해서 반투명하게 설정
-        
-    - 노란 외관선의 판정 고스트 생성
-        
-        ![image.png](image%2026.png)
-        
-        처음은 0번째 고스트와 동일한 위치 및 동작
-        
-        머테리얼은 똑같이 적용
-        
-- 블럭 연결선
-    - 블럭 연결
-        - NavMesh를 사용하여 블럭 간 최단 거리를 LineRenderer로 연결
-            
-            ```csharp
+머테리얼은 똑같이 적용
+
+</div>
+</details>
+
+</div>
+</details>
+
+
+<details>
+<summary>블럭 연결선</summary>
+<div markdown="1">
+
+- 블럭 연결
+
+<details>
+<summary> NavMesh를 사용하여 블럭 간 최단 거리를 LineRenderer로 연결 </summary>
+<div markdown="1">
+
+```csharp
             public void DrawLines()
             {
                 if (!gameObject.activeSelf) gameObject.SetActive(true);
@@ -438,11 +539,17 @@
                 lineRenderer.SetPositions(fullPathPoints.ToArray());
             
             }
-            ```
             
-        - 경로의 꺾인 부분을 연결해주는 거라 `GetPreciseNavMeshLine()`으로 높이 차이가 있을 때 바닥을 뚫는 현상 방지
-            
-            ```csharp
+```
+
+</div>
+</details>
+
+<details>
+<summary>경로의 꺾인 부분을 연결해주는 거라, `GetPreciseNavMeshLine()`으로 높이 차이가 있을 때 바닥을 뚫는 현상 방지 </summary>
+<div markdown="1">
+
+```csharp
             List<Vector3> GetPreciseNavMeshLine(Vector3 from, Vector3 to, float step = 0.2f)
             {
                 List<Vector3> pathPoints = new();
@@ -464,25 +571,42 @@
             
                 return pathPoints;
             }
-            ```
-            
-        - 라인이 2D라 카메라를 따라 회전시켜 모든 방향에서도 잘 보이도록 설정
-            
-            ```csharp
-            lineRenderer.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward)
-            ```
-            
-- 블럭 조합
-    - 블럭 구성
+```
+
+</div>
+</details>
+
+
+<details>
+<summary>라인이 2D라 카메라를 따라 회전시켜 모든 방향에서도 잘 보이도록 설정</summary>
+<div markdown="1">
+
+```csharp
+lineRenderer.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward)
+```
+
+</div>
+</details>
+
+</div>
+</details>
+
+
+<details>
+<summary>블럭 조합</summary>
+<div markdown="1">
+
+ - 블럭 구성
         
-        ![image.png](image%2027.png)
-        
-        ![image.png](image%2028.png)
+   ![image 27](https://github.com/user-attachments/assets/90dfc6f6-4c63-45fb-9197-63d6c2202c26)
+
+   ![image 28](https://github.com/user-attachments/assets/b08942e4-93fa-41e6-981a-b99dfcd4b85d)
+
         
     - 블럭의 조합 규칙을 담는 `CombineRule` 클래스를 만들어 데이터 로드
-        - UGS(Unity Google Sheet) 오픈소스를 사용해 데이터 관리
+    - UGS(Unity Google Sheet) 오픈소스를 사용해 데이터 관리
         
-        ```csharp
+```csharp
         public class CombineRule
         {
             public CombineType RuleType;
@@ -521,15 +645,17 @@
         
         }
         
-        ```
+```
         
-    - 규칙 검사
+- 규칙 검사
         
-        블럭 상호작용 시 리스트에 넣어 조합 검사
-        
-        - `ValidatoinCombinations()`
-            
-            ```csharp
+  블럭 상호작용 시 리스트에 넣어 조합 검사
+
+<details>
+<summary>`ValidationCombinations()`</summary>
+<div markdown="1">
+
+    ```csharp
             public void ValidateCombinations()
             {
                 List<Block> blockList = new List<Block>(ReturnBlocks());
@@ -645,14 +771,18 @@
                 }
             }
             ```
-            
-    - 블럭 위치 이동
-        
-        상호작용 한 블럭의 순서에 따라 정보 변경
-        
-        - `MoveBlockAndShift()`
-            
-            ```csharp
+
+</div>
+</details>
+
+- 블럭 위치 이동
+ 상호작용 한 블럭의 순서에 따라 정보 변경
+
+<details>
+<summary>`MoveBlockAndShift()`</summary>
+<div markdown="1">
+
+ ```csharp
             public void MoveBlockAndShift(int fromIndex, int toIndex)
             {
                 if (fromIndex < 0 || fromIndex >= PlacedBlocks.Count) return;
@@ -679,12 +809,23 @@
                 }
             }
             
-            ```
-            
-- NPC FSM
-    - 기본 행동 BaseState
-        
-        ```csharp
+```
+
+</div>
+</details>
+
+</div>
+</details>
+
+<details>
+<summary>NPC FSM</summary>
+<div markdown="1">
+
+<details>
+<summary>기본 행동 BaseState</summary>
+<div markdown="1">
+
+ ```csharp
         if (GameManager.Instance.SelectedBGM != null)
         {
         
@@ -717,12 +858,19 @@
            StopAnimation(stateMachine.npc.AnimationData.WalkParameterHash);
            stateMachine.npc.Agent.isStopped = true;
         }
-        ```
-        
-        - `Move()` 에서 랜덤 이동, 방향에 따른 애니메이션 출력
-            - `Move()`
-                
-                ```csharp
+  ```
+
+</div>
+</details>
+
+</div>
+</details>
+ - `Move()` 에서 랜덤 이동, 방향에 따른 애니메이션 출력
+<details>
+<summary>`Move()`</summary>
+<div markdown="1">
+
+  ```csharp
                 public void Move()
                 {
                     Transform npc = stateMachine.npc.transform;
@@ -741,11 +889,12 @@
                     StopAnimation(stateMachine.npc.AnimationData.TurnLeftParameterHash);
                     stateMachine.npc.Agent.SetDestination(nextPosition);
                 }
-                ```
-                
-    - IdleState
-        
-        ```csharp
+   ```
+<details>
+<summary>IdleState</summary>
+<div markdown="1">
+
+```csharp
         if (stateMachine.npc is Guard)
         {
             if (stateMachine.npc.behaviorType != BaseBehaviorType.Idle)
@@ -772,12 +921,16 @@
                 stateMachine.ChangeState(stateMachine.AlertState);
             }
         }
-        ```
-        
-        - NPC 유형 별로 나눠 행동 제어
-            - Guard의 경우 일반 NPC와 특정 지점을 번갈아가며 이동한다.
-                
-                ```csharp
+ ```
+
+</div>
+</details>
+- NPC 유형 별로 나눠 행동 제어
+<details>
+<summary>Guard의 경우 일반 NPC와 특정 지점을 번갈아가며 이동한다</summary>
+<div markdown="1">
+
+```csharp
                 public void GuardWait()
                 {
                     var agent = stateMachine.npc.Agent;
@@ -845,11 +998,16 @@
                         agent.updateRotation = true;
                     }
                 }
-                ```
-                
-            - `IsPlayerInSight()` 에서 플레이어 감지 → 경계 상태로 전환
-                
-                ```csharp
+```
+
+</div>
+</details>
+
+<details>
+<summary>`IsPlayerInSight()` 에서 플레이어 감지 → 경계 상태로 전환</summary>
+<div markdown="1">
+
+   ```csharp
                 public bool IsPlayerInSight() //true -> 경계
                 {
                     Transform player = GameManager.Instance.Player.transform;
@@ -891,12 +1049,16 @@
                 
                     return false;
                 }
-                ```
-                
-    - 경계 상태 AlertState
-        - 의심 수치가 0 이상일 때 경계 상태. 최대 수치가 되면 행동 반응 상태로 전환
-            
-            ```csharp
+  ```
+
+</div>
+</details>
+
+<details>
+<summary>경계 상태 AlertState</summary>
+<div markdown="1">
+ 의심 수치가 0 이상일 때 경계 상태. 최대 수치가 되면 행동 반응 상태로 전환
+```csharp
             if (IsPlayerInSight())
             {
                 IncreaseSuspicion();
@@ -908,11 +1070,15 @@
                 DecreaseSuspicion();
                 if (stateMachine.npc.CurSuspicion == 0) stateMachine.ChangeState(stateMachine.IdleState);
             }
-            ```
-            
-    - 행동 반응 ActionState
-        
-        ```csharp
+ ```
+</div>
+</details>
+
+<details>
+<summary> 행동 반응 ActionState </summary>
+<div markdown="1">
+
+ ```csharp
         if (isMovingToTarget)
         {
             RotateVelocity();
@@ -954,13 +1120,16 @@
                 stateMachine.ChangeState(stateMachine.AlertState); // 최소 경계 시간 지나면 중단
             }
         }
-        ```
-        
-        - NPC별 지정된 행동 패턴 수행
+ ```
+
+<details>
+<summary>NPC별 지정된 행동 패턴 수행</summary>
+<div markdown="1">
+
+![image 29](https://github.com/user-attachments/assets/31928a17-517d-471a-86fa-d7456146ef35)
+
             
-            ![image.png](image%2029.png)
-            
-            ```csharp
+```csharp
             private void ContiActionByType() // 지속형
             {
                 if (isTriggered) return;
@@ -997,12 +1166,20 @@
                         break;
                 }
             }
-            ```
-            
-        - 행동 패턴에 따라 게임 오버
-            - `ChasePlayer()`에서 플레이어 추격 성공 시 게임 오버
-                
-                ```csharp
+ ```
+
+</div>
+</details>
+
+<details>
+<summary>행동 패턴에 따라 게임 오버</summary>
+<div markdown="1">
+
+<details>
+<summary>`ChasePlayer()`에서 플레이어 추격 성공 시 게임 오버</summary>
+<div markdown="1">
+
+ ```csharp
                 private void ChasePlayer()
                 {
                     stateMachine.npc.isWalking = false;
@@ -1016,11 +1193,13 @@
                         stateMachine.ChangeState(stateMachine.IdleState);
                     }
                 }
-                ```
-                
-            - `NotifyTarget()` 에서 NPC가 Target으로 이동하여 Target이 안전 구역으로 이동하면 게임 오버
-                
-                ```csharp
+ ```
+
+<details>
+<summary>`NotifyTarget()` 에서 NPC가 Target으로 이동하여 Target이 안전 구역으로 이동하면 게임 오버</summary>
+<div markdown="1">
+
+  ```csharp
                 private void NotifyTarget()
                 {
                     if (stateMachine.npc.target != null)
@@ -1086,39 +1265,70 @@
                         agent.isStopped = false;
                     }
                 }
-                ```
-                
+ ```
+
+</div>
+</details>
+</div>
+</details>
+
+</div>
+</details>
+
+</div>
+</details>
+
+</div>
+</details>
 
 ---
 
 ## ▪️최적화
 
-- 오클루젼 컬링
+<details>
+<summary>오클루젼 컬링</summary>
+<div markdown="1">
     
-    
-    ![occlusion_Culling_mask.PNG](occlusion_Culling_mask.png)
-    
-    ![ocullison_culling_mask_1.PNG](ocullison_culling_mask_1.png)
-    
-    - 레벨의 지오메트리를 나눠서 유니티의 해당 카메라의 절두체로 화면을 랜더링하는 기술인 오클루젼 컬링을 사용하였습니다,
-    - 해당 기능을 사용하여, 3D 오브젝트가 가장 집중적으로 렌더링 되는 시점에서 3D 배치 수를 크게 줄이고, FPS를 크게 향상시킬 수 있었습니다
-    - `Visualize` 기능을 사용하여, 씬에 있는 오브젝트를 조절하여 적절한 오클루젼 컬링을 적용하였습니다
-    
+![occlusion_Culling_mask](https://github.com/user-attachments/assets/e793c7ac-88e1-491e-8bee-f1717ff9a7af)
+
+![ocullison_culling_mask_1](https://github.com/user-attachments/assets/ad3ebbd9-28dd-44be-b452-08caa86a4992)
+
+
+- 레벨의 지오메트리를 나눠서 유니티의 해당 카메라의 절두체로 화면을 랜더링하는 기술인 오클루젼 컬링을 사용하였습니다
+  
+- 해당 기능을 사용하여, 3D 오브젝트가 가장 집중적으로 렌더링 되는 시점에서 3D 배치 수를 크게 줄이고, FPS를 크게 향상시킬 수 있었습니다
+- 
+- `Visualize` 기능을 사용하여, 씬에 있는 오브젝트를 조절하여 적절한 오클루젼 컬링을 적용하였습니다
+
+</div>
+</details>
 
 ---
 
 ## ▪️트러블 슈팅
+<details>
+<summary>블럭 중복 조합 현상</summary>
+<div markdown="1">
 
-- 블럭 중복 조합 현상
-    - **현상**
+- **현상**
         - 이미 성공 처리된 블럭이 뒤에 오는 블럭과 다시 조합되어 결과가 반영되고 있었다.
-    - **해결**
+- **해결**
         - 배치된 블럭의 리스트를 새로 만들어 검사한 블럭의 조합과 맞춰진 블럭은 리스트에서 제거하고 그 후에 나오는 블럭과의 조합 검사를 막아 해결
+
+</div>
+</details>
+
+<details>
+<summary>라인이 맵 뚫는 현상</summary>
+<div markdown="1">
+
 - 라인이 맵 뚫는 현상
     - **현상**
         - `NavMesh.CalculatePath()` 로 계산한 경로를 `LineRenderer`로 그렸더니 경로가 지형을 뚫고 내려가거나 공중에 떠 있는 라인이 그려졌다.
+          
     - **해결**
         - `NavMesh.CalculatePath()`로 `path.corners` 추출 한 뒤 각 `corner` 구간 사이를 일정 간격으로 촘촘하게 `Lerp` 보간
+          
         1. 보간된 위치마다 `NavMesh.SamplePosition()`으로 정확히 NavMesh 위 위치로 보정
             
             ```csharp
@@ -1142,16 +1352,23 @@
                 return result;
             }
             ```
-            
-        2. `LineRenderer.SetPositions()`에 이 결과를 사용
-- 드래그 상호작용 오브젝트가 드래그 아웃이 됐을 때, 재위치 하지 않는 현상
-    - **현상**
+ 2. `LineRenderer.SetPositions()`에 이 결과를 사용
+
+</div>
+</details>
+
+
+<details>
+<summary>드래그 상호작용 오브젝트가 드래그 아웃이 됐을 때, 재위치 하지 않는 현상</summary>
+<div markdown="1">
+
+ - **현상**
         - `OnDrop` 메서드가 드래그 하던 아이템을 원래 위치로 돌려야 하는데, 기능이 안됨
-    - **해결**
+ - **해결**
         1. `OnEndDrag`와 `OnDrop` 메서드를 따로 분리
         2. `OnDrop` 에서는 판정을 확실히 하여 슬롯 데이터와 위치를 바꿔주고, `OnEndDrag`에서는 원래 자리로 재위치 해줌 
-            
-            ```csharp
+
+```csharp
             using UnityEngine;
             using UnityEngine.EventSystems;
             
@@ -1217,57 +1434,80 @@
                         TimelineManager.Instance.OnBlockUpdate?.Invoke();
                     }
                 }
-            ```
-            
-- 애니메이션 처리
-    - **현상**
-        - 애니메이션의 포지션이 로컬포지션을 변경이 되어버리는 현상
+```
+</div>
+</details>
+
+<details>
+<summary>애니메이션 처리</summary>
+<div markdown="1">
+
+ **현상**
+- 애니메이션의 포지션이 로컬포지션을 변경이 되어버리는 현상
         
-        ![image.png](8ddb798f-a94c-416f-8eac-c089eba160c8.png)
+![8ddb798f-a94c-416f-8eac-c089eba160c8](https://github.com/user-attachments/assets/9d21edd1-aa2b-4553-88d5-61a766c81499)
+
         
-    - **해결**
+ **해결**
         
-        ![image.png](image%2030.png)
-        
-        - 로컬 포지션이 변하더라도 글로벌포지션을 유지할 수 있게 빈 오브젝트 밑에 추가를 하였다.
-- 로드 씬과 초기값
-    - **현상**
+![image 30](https://github.com/user-attachments/assets/001bf44c-1102-456c-b0af-684da37bdf1c)
+
+- 로컬 포지션이 변하더라도 글로벌포지션을 유지할 수 있게 빈 오브젝트 밑에 추가를 하였다.
+
+</div>
+</details>
+
+<details>
+<summary>로드 씬과 초기값</summary>
+<div markdown="1">
+
+**현상**
         - 값을 전부 넣은 뒤 씬이 로드가 되어 미리 계산된 값이 씬에 저장된 값으로 변경이 되어버리는 문제
         - 값이 전부 들어갔지만 씬이 로드가 되는 순간 갑자기 값이 전부 초기화가 되어버렸다.
             
-            ![image.png](image%2031.png)
+![image 31](https://github.com/user-attachments/assets/f3235e7c-bcbc-4ff4-bf6c-ac06f148d6aa)
+
             
-    - **해결**
+**해결**
         - 씬을 로드한 이후 값을 가져오는 방식으로 변경
         
-        ![image.png](image%2032.png)
-        
-- 상호작용
-    - **현상**
+![image 32](https://github.com/user-attachments/assets/5a8e05fd-38aa-460a-a89f-a657afacbe98)
+
+</div>
+</details>
+
+<details>
+<summary>상호 작용</summary>
+<div markdown="1">
+
+**현상**
         - 콜라이더 내부에 여러 상호작용 가능한 오브젝트들이 있을 때 원하는 오브젝트가 상호작용 안되는 문제
-    - **해결**
+**해결**
         - 콜라이더에 들어간 모든 상호작용 가능한 오브젝트들을 리스트에 추가 후 콜라이더에 벗어난 상호작용 가능한 오브젝트들은 리스트에서 제거
         - 콜라이더 범위 안에 들어간 상호작용 가능한 오브젝트들 중 플레이어와 가장 가까운 오브젝트를 상호작용 할 수 있게하여 해결하였습니다.
         
-        ![image.png](image%2033.png)
-        
+![image 33](https://github.com/user-attachments/assets/a92f3e75-5471-459a-befb-6648abfb9b83)
+
+</div>
+</details>
 
 ---
-
 ## ▪️에셋 링크
 
 - **캐릭터**
 https://vroid.com/en
+
 - **맵**
 https://assetstore.unity.com/packages/3d/environments/simple-modular-pillars-255707
 https://assetstore.unity.com/packages/2d/textures-materials/sky/free-stylized-skybox-212257
 https://assetstore.unity.com/packages/3d/environments/horror-mansion-254104
+
 - **애니메이션**
 https://www.mixamo.com/#/?page=1&type=Character
+
 - **이미지 및 영상 소스**
 https://www.midjourney.com/help
 https://openai.com/
-
 ---
 
 ## ▪️**외부 리소스**
