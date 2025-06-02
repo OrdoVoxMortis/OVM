@@ -1496,7 +1496,7 @@ lineRenderer.transform.rotation = Quaternion.LookRotation(Camera.main.transform.
 </details>
 
 ---
-## ▪️에셋 링크
+## ▪️에셋 출처
 
 - **캐릭터**
   
@@ -1510,12 +1510,13 @@ https://assetstore.unity.com/packages/3d/environments/horror-mansion-254104
 
 - **애니메이션**
   
-https://www.mixamo.com/#/?page=1&type=Character
+https://www.mixamo.com/
 
 - **이미지 및 영상 소스**
-  
-https://www.midjourney.com/help
+
+https://www.midjourney.com/
 https://openai.com/
+
 ---
 
 ## ▪️**외부 리소스**
