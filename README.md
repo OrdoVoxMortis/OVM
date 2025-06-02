@@ -1504,9 +1504,9 @@ https://vroid.com/en
 
 - **맵**
   
-https://assetstore.unity.com/packages/3d/environments/simple-modular-pillars-255707
-https://assetstore.unity.com/packages/2d/textures-materials/sky/free-stylized-skybox-212257
-https://assetstore.unity.com/packages/3d/environments/horror-mansion-254104
+https://assetstore.unity.com/packages/3d/environments/simple-modular-pillars-255707 </br>
+https://assetstore.unity.com/packages/2d/textures-materials/sky/free-stylized-skybox-212257 </br>
+https://assetstore.unity.com/packages/3d/environments/horror-mansion-254104 </br>
 
 - **애니메이션**
   
@@ -1514,8 +1514,8 @@ https://www.mixamo.com/
 
 - **이미지 및 영상 소스**
 
-https://www.midjourney.com/
-https://openai.com/
+https://www.midjourney.com/ </br>
+https://openai.com/ </br>
 
 ---
 
